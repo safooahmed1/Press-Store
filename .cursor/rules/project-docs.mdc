@@ -1,0 +1,6 @@
+---
+description: Follow the repository agent instructions and AI-DOCS source of truth
+alwaysApply: true
+---
+
+Read and follow `/AGENTS.md` before editing. Apply any more specific `AGENTS.md` files for the target path. Use `/AI-DOCS/` according to those instructions and do not duplicate project contracts in this rule.
