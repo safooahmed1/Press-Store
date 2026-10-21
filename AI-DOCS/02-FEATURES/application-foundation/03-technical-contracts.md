@@ -120,3 +120,13 @@ Changes to envelopes, config names, database/storage/job interfaces, or manifest
 
 > **ASSUMPTION A-002:** use explicit SQL migrations and a small parameterized query layer.  
 > **TODO A-002:** select and record the maintained MySQL driver during FND-002.
+
+### FND-001 runtime seam implementation — 2026-10-20
+
+> **ASSUMPTION A-008:** manifests are named `manifest.js` immediately inside each feature directory and expose a named `feature` export. This fills the previously unspecified file/export convention; no business feature currently consumes it. FND-003 remains the documented contract freeze point.
+
+- Client discovery: `src/features/*/manifest.js`, using Vite glob discovery. The export is `{ id, routes: [{ path, load }] }`; `load` resolves a module whose default export is a React page. IDs are unique lowercase kebab-case. The initial seam supports exact absolute paths with lowercase letters/digits/hyphens, rejects duplicate paths and the `/api` namespace, and lazy-loads matched pages. Native document navigation is sufficient for this initial seam; parameter matching and client navigation helpers are not implemented. Empty/unmatched routes render nothing until UI/feature owners provide pages. Suspense and an app error boundary provide minimal loading/failure infrastructure.
+- Server discovery: `server/src/features/*/manifest.js`. The export is `{ id, path, router }`; IDs are unique lowercase kebab-case, `path` is a unique single-segment lowercase kebab-case mount below `/api/v1`, and `router` is an Express router/middleware function. `/health` is reserved. Missing feature trees and directories without manifests are allowed; invalid/duplicate manifests and import failures prevent startup.
+- Config currently validates only `NODE_ENV` and `PORT` in `server/src/config/`. Development/test default to port 3000; production requires an explicit valid port. Environment files are not loaded. Database/session/origin/upload validation remains with the appropriate later tasks; this is not the complete CFG-FND-001 release gate.
+- Health currently reports runtime readiness, with an injectable fail-closed dependency check. No MySQL readiness exists before FND-002. A minimal request ID and sanitized runtime errors preserve the existing envelope; FND-003 still owns full HTTP/validation/transport infrastructure.
+- Production composition checks for `dist/index.html` before listening, serves built assets and HTML document routes, and reserves `/api` before fallback. Missing assets, hidden paths, unsupported methods, and non-HTML requests do not receive SPA HTML. FND-006 still owns release packaging and the Hostinger runbook.

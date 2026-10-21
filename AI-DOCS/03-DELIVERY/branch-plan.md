@@ -15,7 +15,7 @@
 
 | Branch | Type | Parent/Created From | Owner Workstream | Task IDs | Merge Target | Merge Prerequisites | Status |
 |---|---|---|---|---|---|---|---|
-| `feature/FND-application-foundation` | feature | `main` | WS-FND-01 | FND-001–FND-006 | `main` | FND full suite/build/docs validator; explicit merge instruction | planned |
+| `feature/FND-application-foundation` | feature | `main` | WS-FND-01 | FND-001–FND-006 | `main` | FND full suite/build/docs validator; explicit merge instruction | active; authorized WIP preservation checkpoint; FND-001 blocked |
 | `feature/UI-design-system-app-shell` | feature | `main` after FND | WS-UI-01 | UI-001–UI-004 | `main` | UI visual/a11y/responsive suite; explicit merge instruction | planned |
 | `feature/AUTH-identity-accounts` | feature | `main` after FND | WS-AUTH-01 | AUTH-001–AUTH-005 | `main` | AUTH security suite; explicit merge instruction | planned |
 | `feature/CAT-catalog-discovery` | feature | `main` after FND/AUTH/UI | WS-CAT-01 | CAT-001–CAT-006 | `main` | catalog suite/contracts; explicit merge instruction | planned |
@@ -99,3 +99,7 @@ Do not push, open a pull request, merge remotely, create repositories, deploy, o
 ## 6. Conflict Rules
 
 Stop when a conflict touches another owner's canonical path or contract. The owner resolves it with the consumer updates in one approved change. ORD workstreams resolve only their disjoint owned paths; order-core conflicts return to WS-ORD-01/ORD owner. Never discard user/unrelated changes.
+
+## 7. 2026-10-21 — FND-001 WIP Publication Authorization
+
+Explicit user authorization permits one preservation commit, `chore(FND-001): WIP checkpoint of application foundation`, on the existing FND branch and a non-force push of that branch only to `origin`. This is a checkpoint exception, not the planned FND-001 completion commit or remote integration. No PR, merge into `main`, deployment, task completion, or later-task work is authorized. Stop if the remote branch has unexpected commits or publication requires overwriting history. FND-001 stays `blocked`, 0/6 complete; documentation validation remains unavailable.

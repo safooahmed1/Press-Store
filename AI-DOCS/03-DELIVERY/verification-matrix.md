@@ -73,3 +73,46 @@ Run clean install, lint, all unit/component/integration/E2E tests, migrations on
 ## 4. Unavailable Checks and Required Blockers
 
 No check is assumed available until its FND task creates the command. A task requiring a missing command remains `blocked` or `in-progress`; it cannot be marked done. Hostinger deployment smoke and production backups require credentials/environment and explicit user authorization. A-001 through A-007 must be confirmed or explicitly accepted before the task that depends on each.
+
+## 5. Observed FND-001 Development Evidence — 2026-10-20
+
+| Check | Exact command/procedure | Observed result |
+|---|---|---|
+| Focused unit | `npm run test -- foundation` | 4 tests passed, 0 failed; rerun outside process sandbox for complete test output |
+| Focused HTTP integration | `npm run test:integration -- foundation` | 8 tests passed, 0 failed; loopback access required outside sandbox |
+| Lint | `npm run lint` | Exit 0 |
+| Client build | `npm run build` | Exit 0; 17 modules; generated HTML and JS in ignored `dist/`; server stays source JavaScript |
+| Runtime smoke | `node /tmp/press-fnd-smoke.mjs`; reproduction procedure in FND handoff | Dev Vite entry/discovery/API proxy and empty React render pass; actual production entry serves build/assets/SPA/health; API, missing assets and hidden paths excluded; SIGTERM shutdown exit 0 |
+| Typecheck | No typecheck script exists in approved JavaScript base | Not run; no TypeScript added |
+| Supplemental audit | `npm audit --json` | Exit 1; one moderate pre-existing Vite advisory GHSA-698v-4r3x-3vcv |
+| Documentation validator | `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .` | Exit 2: script absent; mandatory BLOCKER; command unchanged |
+
+Evidence covers FND-001 runtime development only. Database integration, complete HTTP/security/configuration infrastructure, storage, observability, feature-wide acceptance, and deployment verification remain with later tasks. A-008 records the initial manifest filename/export convention. No acceptance checkbox or task completion is inferred from these passing checks.
+
+## 6. Observed FND-001 Backend Fix Evidence — 2026-10-21
+
+| Check | Exact command/procedure | Observed result |
+|---|---|---|
+| Unit | `npm run test -- foundation` | 22/22, 3 suites, no skips; 18 new server manifest tests plus 4 existing tests; elevated rerun for individual results |
+| HTTP integration | `npm run test:integration -- foundation` | 10/10, no skips; includes invalid ID composition and encoded API/hidden/malformed/single-decoding regressions; temporary fixture teardown hooks |
+| Lint/build | `npm run lint`; `npm run build` | Both exit 0; 17 Vite modules; no server compilation step |
+| Production smoke | `node /tmp/press-fnd-backend-fix-smoke.mjs` | 17 actual production entry probes pass; graceful SIGTERM exit 0; initial sandbox EPERM followed by authorized elevated pass |
+| Whitespace/environment | `git diff --check`; untracked server source whitespace inspection; `git check-ignore server/.env`; `git ls-files -- server/.env`; `git diff --cached --name-only` | Pass; ignored and untracked environment file; empty index; no environment contents accessed |
+| Typecheck | No script | Unavailable; not run |
+| Documentation validator | `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .` | Exit 2: script absent; still mandatory blocker; command unchanged |
+
+This supersedes only runtime-fix verification counts, not prior historical evidence or feature completion status. FND-001 remains blocked, no completion commit, no frontend fixes, no later-task work. Full details and raw request reproduction guidance: FND development handoff addendum.
+
+## 7. Observed FND-001 Backend Review Round 2 Evidence — 2026-10-21
+
+| Check | Exact command/procedure | Observed result |
+|---|---|---|
+| Backend unit | `node --test --test-isolation=none server/src/app/foundation-manifests.test.js server/src/config/foundation.test.js` | 20/20, 2 suites, no skips |
+| Backend integration | `npm run test:integration -- foundation` | Before fix: 16 target/method subtests returned 200; 18 failures including parents. After fix: 28/28 including 16 nested subtests; no skips |
+| Production routing | `node /tmp/press-fnd-round2-smoke.mjs` | 36 assertions passed, all four confirmed targets GET/HEAD, valid API/SPA/assets, hidden/malformed controls, clean shutdown; authorized elevated rerun after sandbox EPERM |
+| Lint/build | `npm run lint`; `npm run build` | Both exit 0 |
+| Whitespace/preservation | `git diff --check`; source whitespace inspection; baseline hash and environment metadata comparisons; Git ignore/tracking/index checks | Pass; unrelated work preserved; ignored/untracked environment unchanged; index empty; no environment contents accessed |
+| Documentation validator | `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .` | Unavailable, exit 2; script absent; command unchanged; mandatory blocker persists |
+| Typecheck | No script | Not run |
+
+This evidence addresses only the repeated-leading-separator routing defect. FND-001 remains blocked/uncommitted and 0/6 complete. See development handoff Round 2 addendum for request targets, policy, and reproduction.
