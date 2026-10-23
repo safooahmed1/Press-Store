@@ -10,11 +10,13 @@
     "preview": "vite preview",
     "dev:server": "node --watch server/src/server.js",
     "start": "node server/src/server.js",
+    "migrate": "node scripts/migrate.js",
     "test": "node test.config.js",
     "test:integration": "node test.config.js --integration"
   },
   "dependencies": {
     "express": "^5.3.0",
+    "mysql2": "3.24.6",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },

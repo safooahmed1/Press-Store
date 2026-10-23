@@ -44,6 +44,22 @@
 | `tests/helpers/**`, `tests/e2e/**` | Shared test and release harness | FND-005 | Production credentials |
 | Root scripts/config | Build, start, lint, test, Hostinger runbook | FND-006 | Docker/VPS configuration |
 
+### FND-002 bounded integration ownership — FND-DEC-002
+
+The following exact additions supplement FND-002's existing `server/src/platform/db/**`, `scripts/migrate*`, and FND DB test ownership. They do not transfer the general app/configuration or root-tooling responsibilities assigned above. Approval records ownership only; the current user instruction permits documentation changes, not implementation.
+
+| Additional Path/File | Permitted FND-002 Change Only |
+|---|---|
+| `server/src/config/database-config.js`, `server/src/config/database-config.test.js` | Centralized database configuration validation, bounded pool/time options, and focused tests |
+| `server/src/app/start-server.js` | Create/check pool before listening, inject database readiness, clean up failed startup |
+| `server/src/server.js` | Close pool after HTTP shutdown |
+| `server/src/app/foundation-runtime.integration.test.js` | Database startup failure, readiness, and lifecycle regressions |
+| `package.json`, `package-lock.json` | Approved driver and explicit migration command only |
+| `test.config.js` | Restrict test discovery to source tests, excluding dependency tests |
+| `eslint.config.js` | Include migration CLI in Node lint coverage |
+
+No frontend, business-feature, AUTH, storage, observability, general HTTP, or release implementation is included. Shared configuration/composition/tooling paths must not be written concurrently by another developer.
+
 ## 3. API Contracts
 
 ### API-FND-001 — Health
@@ -80,6 +96,17 @@ Success response:
 Lifecycle: append once per applied migration.  
 Concurrency/transaction rule: migration runner holds a database lock and never reapplies a matching record.
 
+### DB-FND-001 — Approved migration failure/recovery semantics
+
+FND-DEC-002 approves the following behavior for future FND-002 implementation; it is not implementation evidence.
+
+- Hold a database-scoped named lock on one dedicated connection throughout migration execution. Migration names and SHA-256 checksums are immutable; matching completed records are skipped and checksum mismatches stop execution.
+- Before executing a migration, persist its name, checksum, and UTC start time in the FND-owned infrastructure table `migration_execution_state`. This interruption marker is separate from completed MigrationRecord history; no business tables are authorized.
+- After successful execution, atomically insert the completed MigrationRecord and remove the marker. Failure, connection loss, or process interruption leaves an unresolved marker that blocks subsequent migration execution and automatic retries.
+- MySQL DDL may implicitly commit. Never promise migration-wide DDL rollback, automatically retry unresolved migrations, alter completed history, or silently mark a migration applied. Application data transactions still require rollback on failure; that promise does not extend to DDL.
+- Recovery requires separate user approval, explicit inspection of actual schema/data state, and documented evidence. The approved recovery procedure must either complete the intended migration or restore a verified pre-migration state before retry. This contract authorizes no recovery operation.
+- Document and test migration ordering and recovery procedures before runner acceptance. Ordinary application startup never executes migrations.
+
 ## 5. Events and Background Jobs
 
 | Contract ID | Event/Job | Producer | Consumers | Payload | Retry/Ordering/Deduplication |
@@ -102,11 +129,17 @@ STO-FND-001 writes only within the configured Hostinger upload root, accepts dec
 
 ## 9. Configuration and Secrets
 
-`NODE_ENV`, provider `PORT`, MySQL configuration, `SESSION_SECRET`, `APP_ORIGIN`, `UPLOAD_ROOT`, and upload limits are server-only. Production values have no defaults; the concrete MySQL driver remains gated by A-002.
+`NODE_ENV`, provider `PORT`, MySQL configuration, `SESSION_SECRET`, `APP_ORIGIN`, `UPLOAD_ROOT`, and upload limits are server-only. Production values have no defaults. A-002 is confirmed by FND-DEC-002: use `mysql2/promise`, explicit parameterized SQL, and forward SQL migrations without an ORM or query builder; exact driver compatibility/version remains to be verified and recorded during authorized implementation.
+
+FND-002 uses discrete `MYSQL_HOST`, `MYSQL_PORT`, `MYSQL_DATABASE`, `MYSQL_USER`, and `MYSQL_PASSWORD` inputs with validated finite pool/time limits; production connection settings have no defaults. Only `server/src/config/` reads environment values. Do not automatically load environment files or access the existing `server/.env`. Integration tests require an explicitly designated disposable database and test-only credentials. TLS configuration must follow verified hosting requirements, not invented values. Authentication/session/upload settings remain outside FND-002.
+
+Approved lifecycle wiring checks database connectivity before listening, injects database readiness through the existing `isReady` callback, cleans up startup failures, and closes the pool after HTTP shutdown. No migration runs on application startup. Hosting MySQL engine/version, TLS requirements, connection limits, and migration privileges are open verification items under FND-DEC-002; no hosting compatibility is claimed.
 
 ## 10. Error, Retry, and Recovery Behavior
 
 HTTP-FND-001 is `{error:{code,message,fieldErrors?,requestId}}`. Unknown errors map to `INTERNAL_ERROR` without detail. Transactions roll back; file writes use compensation; safe reads may retry only bounded transient connection errors.
+
+DB-FND-001 transaction query failure is terminal for that transaction handle. Queued and later queries reject without driver execution, caught query failures still prevent commit, and rollback/connection cleanup remain mandatory. Nested `database.transaction()` calls on the same database instance are unsupported and reject before acquiring another connection; unrelated concurrent top-level transactions remain permitted. FND-002 adds no implicit savepoints or transaction retries.
 
 ## 11. Performance and Limits
 
@@ -118,8 +151,7 @@ Changes to envelopes, config names, database/storage/job interfaces, or manifest
 
 ## 13. Assumptions and TODOs
 
-> **ASSUMPTION A-002:** use explicit SQL migrations and a small parameterized query layer.  
-> **TODO A-002:** select and record the maintained MySQL driver during FND-002.
+> **CONFIRMED A-002 — 2026-10-23:** use `mysql2/promise`, explicit parameterized SQL, and forward SQL migrations with an FND-owned runner; no ORM or query builder. See FND-DEC-002 and the assumptions register. Exact driver version and hosting compatibility remain development verification items, not unresolved technology selection.
 
 ### FND-001 runtime seam implementation — 2026-10-20
 

@@ -1,6 +1,6 @@
 # Change Log — Application Foundation
 
-No implementation activity recorded.
+At initial log creation, no implementation activity had been recorded.
 
 ## 2026-10-20 — FND-001 development, completion blocked
 
@@ -23,3 +23,34 @@ No implementation activity recorded.
 - Added GET/HEAD integration groups with 16 request-target subtests covering all four confirmed examples, percent case, literal/encoded repeated separators, SPA and static targets; added controls for normal API/SPA/static/HEAD behavior, hidden paths, malformed encoding, and literal double encoding.
 - Red/green evidence: all 16 new target/method subtests returned 200 before the fix and 404 afterward. Final backend unit 20/20; integration 28/28 including parents/subtests; lint/build and 36 production routing assertions passed. Fixtures cleaned up; environment metadata unchanged, ignored and untracked.
 - Documentation validator remains unavailable; task remains blocked and uncommitted. No frontend or later-task changes. See handoff addendum.
+
+## 2026-10-23 — Approved FND-002 decisions, documentation only
+
+- Recorded FND-DEC-002 D1–D5 and the narrowly bounded root task-loop exception against independently reviewed backend checkpoint `740c22b2fb3be6d1b5bd0080bbf42109e238c515`. FND-001 remains `blocked`; frontend completion belongs to another developer; no other downstream task is authorized.
+- Confirmed A-002: `mysql2/promise`, explicit parameterized SQL, and forward SQL migrations without an ORM/query builder or additional migration framework. No dependency was installed or version selected.
+- Documented immutable migration checksums, a dedicated-connection database lock, persistent interruption markers in FND infrastructure metadata, blocked automatic retries, and separately approved recovery requiring inspection/evidence. No transactional DDL rollback is assumed.
+- Clarified only the exact approved database configuration, lifecycle integration, and tooling paths. Hosting engine/version, TLS requirements, connection limits, and migration privileges remain open verification items; no values or compatibility results are invented.
+- FND-002 remains `not-started`, completion stays 0/6, and no acceptance checkbox changes. The instruction authorizes these documentation changes only; implementation awaits a subsequent user instruction. Branch/merge strategy and all historical evidence remain unchanged.
+- During that documentation-only authorization, the unchanged mandatory validator command was attempted and exited 2 because the script was absent. Validation did not run or pass; no replacement or bypass occurred. No code, tests, build, database operations, environment access, staging, commit, or remote action occurred in that documentation-only scope.
+
+## 2026-10-23 — FND-002 Fix Round 1
+
+- Made transaction query failure terminal, serialized per-transaction query execution, cancelled queued/later driver calls after failure, and preserved rollback plus connection release. A caught query error can no longer be followed by usable work or commit.
+- Rejected same-instance nested transactions before connection acquisition using asynchronous callback context. Independent concurrent top-level transactions still use separate connections; no savepoints or retries added.
+- Reworked the disposable MySQL helper to retain only its initializer/server handles, bound initialization and shutdown waits, escalate through SIGTERM/SIGKILL, fall back after connection or `SHUTDOWN` failure, remove its private root, and make cleanup idempotent.
+- Added deadlock-shaped queued-query, caught-error, nested atomicity/concurrency, initialization/authentication/shutdown/termination/removal, and repeated-cleanup regressions. Focused tests 16/16 and full integration 43/43 passed on isolated MySQL 8.4.11; lint/build/whitespace passed with no leftover disposable process/directory.
+- Mandatory documentation validation remains unavailable and did not pass. FND-002 stays `in-progress`; no acceptance checkbox, completion commit, merge, push, deployment, or later task.
+
+## 2026-10-23 — User-observed host verification recorded
+
+- Added the canonical provenance record in verification-matrix §10: user-confirmed host command, MySQL 8.4.11 integration result (43/43, two suites, exit 0), and user-observed cleanup with system MySQL PID 1661 retained. The initial `test` command transcription was explicitly corrected by the user to `test:integration`; Codex did not execute or directly observe the host run or its cleanup.
+- Recorded Codex's prior direct 49-unit-test, lint, in-memory production-build, and PASS WITH WARNINGS review evidence separately; no application verification was rerun for this documentation update. Actual MySQL deadlock generation and Hostinger compatibility are not claimed.
+- Updated current FND-002 evidence summaries while retaining `in-progress`, FND-001 `blocked`, 0/6 completion, and unchanged acceptance checkboxes. FND-003 still depends on formal FND-001 completion and separate user authorization; its dependency is not waived by FND-DEC-002.
+- The prescribed documentation validator was attempted for this update and exited 2 because the script remains absent. No validation pass, replacement, bypass, completion commit, or downstream authorization is claimed. Backend/frontend code and prior historical evidence were preserved; no environment-file access, staging, commit, or remote action.
+
+## 2026-10-23 — Authorized backend checkpoint for frontend handoff
+
+- Recorded explicit user authorization for one descriptive backend checkpoint and non-force publication of only the existing FND feature branch; planned subject `chore(FND-002): checkpoint verified backend persistence for handoff`.
+- Preserved existing backend implementation, tests, approved dependency/tooling/configuration changes, FND-DEC-002 and its task-loop exception, and delivery evidence. No frontend source or application code was modified during this handoff operation.
+- Retained verification provenance in verification-matrix §10: 49 prior unit tests, user-host MySQL 8.4.11 integration 43/43 and cleanup, and earlier lint/in-memory build pass. No fresh test, build, cleanup, or database result is claimed for this Git-only operation.
+- FND-001 remains `blocked`, FND-002 remains `in-progress`, completion stays 0/6, and acceptance criteria are not promoted. The unchanged prescribed documentation validator remains missing and did not pass; hosting and other acceptance blockers remain unresolved. This is preservation for handoff, not formal acceptance, merge readiness, or FND-003 authorization.

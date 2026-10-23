@@ -19,7 +19,7 @@ export default defineConfig([
     },
   },
   {
-    files: ['server/**/*.js', '**/*.config.js', 'src/**/*.test.js'],
+    files: ['server/**/*.js', 'scripts/migrate*.js', '**/*.config.js', 'src/**/*.test.js'],
     extends: [js.configs.recommended],
     languageOptions: { globals: globals.node },
   },

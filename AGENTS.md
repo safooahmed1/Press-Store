@@ -25,6 +25,7 @@ Do not read the whole documentation tree unless the task genuinely spans it.
 - Implement exactly one task per user authorization.
 - After implementation, verification, documentation, and the task commit, report and stop.
 - Never start the next task automatically or move to another feature without explicit direction.
+- **FND-002-only exception (FND-DEC-002):** The user approved backend development against independently reviewed FND-001 backend baseline `740c22b2fb3be6d1b5bd0080bbf42109e238c515` without formal FND-001 completion. This satisfies only FND-002's runtime dependency for development and the corresponding §4 dependency preflight; A-002 must also be confirmed. FND-001 remains `blocked`, frontend completion remains with its developer, and no other downstream task is authorized. No completion, commit, merge, or release gate is waived. The current instruction authorizes documentation only; implementation requires a subsequent user instruction.
 
 ## 4. Preflight
 

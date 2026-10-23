@@ -10,6 +10,7 @@ import { describe, it } from 'node:test'
 import express from 'express'
 import { createApp } from './create-app.js'
 import { loadFeatureManifests } from './feature-manifests.js'
+import { startServer } from './start-server.js'
 
 async function temporaryDirectory(t, prefix) {
   const directory = await mkdtemp(path.join(tmpdir(), prefix))
@@ -41,6 +42,50 @@ async function listen(t, options) {
 }
 
 describe('foundation HTTP runtime', () => {
+  it('refuses to listen when the initial database check fails and closes the pool', async () => {
+    const calls = []
+    await assert.rejects(startServer({ config: { nodeEnv: 'test', port: 0 }, databaseConfig: {},
+      databaseFactory: () => ({ check: async () => false, close: async () => calls.push('closed') }),
+      manifestsLoader: async () => { calls.push('manifests'); return [] },
+    }), /Database unavailable/)
+    assert.deepEqual(calls, ['closed'])
+  })
+
+  it('closes the pool when manifest composition fails after successful DB readiness', async () => {
+    let closed = false
+    await assert.rejects(startServer({ config: { nodeEnv: 'test', port: 0 }, databaseConfig: {},
+      databaseFactory: () => ({ check: async () => true, close: async () => { closed = true } }),
+      manifestsLoader: async () => { throw new Error('fixture composition failure') },
+    }), /fixture composition failure/)
+    assert.equal(closed, true)
+  })
+
+  it('reflects dependency failure and recovery and closes HTTP before the database', async (t) => {
+    let ready = true
+    let closed = false
+    let server
+    server = await startServer({ config: { nodeEnv: 'test', port: 0 }, databaseConfig: {},
+      databaseFactory: () => ({ check: async () => ready, close: async () => {
+        assert.equal(server?.listening ?? false, false)
+        closed = true
+      } }), manifestsLoader: async () => [],
+    })
+    t.after(async () => {
+      if (server.listening) await new Promise((resolve) => server.close(resolve))
+      if (!closed) await server.closeDatabase()
+    })
+    const origin = `http://127.0.0.1:${server.address().port}`
+    for (const state of [true, false, true]) {
+      ready = state
+      const response = await fetch(`${origin}/api/v1/health`)
+      assert.equal(response.status, state ? 200 : 503)
+      assert.doesNotMatch(await response.text(), /mysql|password|host|schema/i)
+    }
+    await new Promise((resolve) => server.close(resolve))
+    await server.closeDatabase()
+    assert.equal(closed, true)
+  })
+
   it('returns only public health information and a generated request ID', async (t) => {
     const origin = await listen(t)
     const response = await fetch(`${origin}/api/v1/health`)

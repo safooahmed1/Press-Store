@@ -116,3 +116,60 @@ This supersedes only runtime-fix verification counts, not prior historical evide
 | Typecheck | No script | Not run |
 
 This evidence addresses only the repeated-leading-separator routing defect. FND-001 remains blocked/uncommitted and 0/6 complete. See development handoff Round 2 addendum for request targets, policy, and reproduction.
+
+## 8. FND-002 Approved Verification Obligations — 2026-10-23
+
+FND-DEC-002 approves backend early-start decisions only; the current instruction is documentation only. FND-001 remains `blocked`, FND-002 remains `not-started`, and completion stays 0/6. The checks below are future obligations, not passing evidence. AC-FND-002 is shared with later owner tasks; this exception does not authorize those tasks or mark the full criterion passed.
+
+| Check | Required Future Procedure | Current Evidence/Status |
+|---|---|---|
+| Driver/hosting compatibility | Verify exact `mysql2` version against Node and hosting MySQL engine/version, TLS requirements, connection limits, migration privileges, named locks, and InnoDB support | Open; no database connection or hosting verification performed; no values assumed |
+| Configuration/pool lifecycle | Test invalid settings, bounded pool/time options, acquisition failure, release, cleanup, and test-database isolation | Not run; use explicitly designated disposable DB/test credentials; never load existing environment files |
+| Queries/transactions | Verify parameterized values, commit/rollback, failure cleanup, and safe credential-free errors | Not run; no business schema authorized |
+| Migration execution | Empty/upgrade DB tests, deterministic ordering, checksum drift, matching-record skip, and concurrent lock ownership | Not run; ordering must be documented/tested before acceptance |
+| Migration interruption/recovery | Verify persistent marker survives failure/interruption, blocks automatic retries, and success finalization is atomic; test recovery only on disposable fixtures | Not run; actual recovery requires explicit inspection, documented evidence, and separate user approval; do not assume DDL rollback |
+| Runtime integration | Test initial DB failure before listening, injected health readiness, runtime failure/recovery, and HTTP/pool shutdown cleanup | Not run; only exact paths in FND contracts §2 approved; startup must not run migrations |
+| Regression/static checks | Existing `npm run test -- foundation`, `npm run test:integration -- foundation`, `npm run lint`, and `npm run build` during authorized implementation | Not run for this documentation-only change; historical evidence above is not a new run |
+| Mandatory documentation validation | `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .` | Attempted for this documentation change: exit 2, script absent; did not run/pass; mandatory completion blocker unchanged |
+
+Manual consistency/diff review does not replace the mandatory validator. No completion claim or completion commit is authorized. FND-003 HTTP/validation, FND-005 shared observability/performance, authentication, frontend, and feature-specific scenarios remain outside this exception.
+
+## 9. Observed FND-002 Fix Round 1 Evidence — 2026-10-23
+
+| Check | Exact command/procedure | Observed result |
+|---|---|---|
+| Focused transaction/cleanup | `node --test --test-isolation=none server/src/platform/db/foundation-database.test.js server/src/platform/db/testing/disposable-mysql.test.js` | 16 passed, 0 failed, 2 suites; terminal deadlock-shaped failure, caught failure, queued cancellation, nested/concurrent context, and cleanup failure paths |
+| Foundation unit regression | `npm run test -- foundation`; detailed rerun with `node --test --test-isolation=none` and the seven unit files | Exit 0; detailed rerun 43 passed, 0 failed, 7 suites, no skips |
+| Real DB + HTTP integration | `env FND_DISPOSABLE_MYSQL_TESTS=1 npm run test:integration -- foundation` | 43 passed, 0 failed, 2 suites, no skips; isolated MySQL 8.4.11; nested writes absent after outer rollback; caught transaction failure remains terminal |
+| Disposable cleanup inspection | Post-run `/tmp/press-fnd002-mysql-*` and owned-process inspection | No directory or matching MySQL process remained after passing unrestricted run |
+| Lint/build/whitespace | `npm run lint`; `npm run build`; `git diff --check` | Exit 0; Vite built 17 modules; whitespace clean |
+| Environment/index protection | `git check-ignore server/.env`; `git ls-files -- server/.env`; `git diff --cached --name-only` | Environment file ignored and untracked; index empty; contents never accessed or loaded |
+| Documentation validator | `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .` | Exit 2; prescribed script absent; validation did not run or pass; command unchanged |
+
+The first sandboxed integration attempt was interrupted after loopback denial and left one private test directory; after confirming no associated process, that exact directory was removed. This is failure-path evidence, not a passing run. The unrestricted rerun above is the passing integration evidence and cleaned up completely. FND-002 remains `in-progress` pending independent re-review and mandatory documentation validation; no completion or commit.
+
+## 10. FND-002 Independent Review and User-Observed Host Verification — 2026-10-23
+
+Evidence provenance is explicit below. Earlier records remain historical evidence. This entry records results already reported in this chat; no application tests, build, database connection, migration, or cleanup were executed during this documentation update.
+
+| Check | Exact command/procedure | Observer and observed result |
+|---|---|---|
+| Host disposable MySQL + HTTP integration | From project root: `env TMPDIR=/tmp FND_DISPOSABLE_MYSQL_TESTS=1 npm run test:integration -- foundation` | User executed on the Ubuntu host and reported MySQL 8.4.11; 43 passed, 0 failed, 0 skipped, 2 integration suites, exit 0. Codex did not execute or directly observe this host run. |
+| Host cleanup | User independently checked host processes, temporary directories, and integration-test workers after the run; exact inspection commands/output were not supplied | User reported system MySQL still running as PID 1661; no disposable MySQL processes, `/tmp/press-fnd002-mysql-*` directories, or integration-test Node workers remained. These are user-observed results, not a fresh Codex host inspection. |
+| Independent unit regressions | `node --test --test-isolation=none server/src/app/foundation-manifests.test.js server/src/config/database-config.test.js server/src/config/foundation.test.js server/src/platform/db/foundation-database.test.js server/src/platform/db/foundation-migrations.test.js server/src/platform/db/testing/disposable-mysql.test.js src/app/foundation.test.js` | Previously executed directly by Codex in this review chat: 49 passed, 0 failed, 0 skipped, 7 suites. Includes terminal transaction failure, queued cancellation, nested rejection, concurrent top-level transactions, and mocked cleanup/deadline regressions. Not rerun for this documentation update. |
+| Independent lint | `npm run lint` | Previously executed directly by Codex: exit 0. Not rerun for this documentation update. |
+| Independent production build | `node --input-type=module -e 'import { build } from "vite"; await build({ build: { write: false } });'` | Previously executed directly by Codex: exit 0, 17 modules; production build in memory with artifact writing disabled. This was not an execution of `npm run build`. Not rerun for this documentation update. |
+| Independent code review | FND-002 independent re-review Round 3 and mocked failure-path reproductions | Codex verdict PASS WITH WARNINGS; confirmed findings resolved. Live execution remained unavailable to Codex because loopback binding failed with EPERM. The host results above have separate provenance. |
+| Mandatory documentation validation | `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .` | Executed directly by Codex for this documentation update: exit 2, prescribed script absent. Validation did not run or pass; no replacement or bypass. |
+
+The user's initial report transcribed the host command as `env TMPDIR=/tmp FND_DISPOSABLE_MYSQL_TESTS=1 npm run test -- foundation`. Codex inspected `package.json` and `test.config.js`, identified that this selects unit files, and requested clarification. The user explicitly confirmed the successful run used `test:integration`; the confirmed command is recorded above. The opt-in variable alone does not make the unit command run integration tests.
+
+Coverage boundary: the real-MySQL suite checks transaction rollback/caught failure, nested rejection, migration locking, checksums, interruption markers, and recovery using disposable fixtures. An actual MySQL deadlock is not generated; deadlock-shaped failure is covered by the unit regression. Local MySQL 8.4.11 success does not establish Hostinger engine/version, TLS requirements, connection limits, migration privileges, named-lock/InnoDB support, or deployment compatibility.
+
+FND-002 remains `in-progress`, uncommitted, and formally incomplete. Mandatory documentation validation and the documented hosting/acceptance gates remain unresolved; shared AC-FND-002 and all feature acceptance checkboxes remain unchecked. FND-001 remains `blocked`, completion remains 0/6, and FND-DEC-002 authorizes no FND-003 work.
+
+## 11. Backend Git Handoff Checkpoint — 2026-10-23
+
+User authorization permits a checkpoint and non-force push for frontend handoff only. Section 10 remains the canonical existing verification evidence: 49 prior unit passes (the recorded seven-file suite includes the existing client manifest tests), user-host MySQL 8.4.11 integration 43/43 and cleanup pass, prior independent lint and in-memory production-build pass. No test/build/database/cleanup check is rerun during this Git handoff. Safe Git whitespace, staged-scope and sensitive-file checks are performed separately before commit.
+
+The exact mandatory command remains `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .`; its script is still absent and validation did not run or pass. No substitute, bypass, or waiver is introduced. This backend checkpoint is not formal FND-001/FND-002 acceptance: statuses remain `blocked` and `in-progress`, respectively, completed 0/6, with acceptance checkboxes and hosting/other blockers unchanged. No FND-003 implementation is authorized.
