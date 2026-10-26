@@ -173,3 +173,18 @@ FND-002 remains `in-progress`, uncommitted, and formally incomplete. Mandatory d
 User authorization permits a checkpoint and non-force push for frontend handoff only. Section 10 remains the canonical existing verification evidence: 49 prior unit passes (the recorded seven-file suite includes the existing client manifest tests), user-host MySQL 8.4.11 integration 43/43 and cleanup pass, prior independent lint and in-memory production-build pass. No test/build/database/cleanup check is rerun during this Git handoff. Safe Git whitespace, staged-scope and sensitive-file checks are performed separately before commit.
 
 The exact mandatory command remains `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .`; its script is still absent and validation did not run or pass. No substitute, bypass, or waiver is introduced. This backend checkpoint is not formal FND-001/FND-002 acceptance: statuses remain `blocked` and `in-progress`, respectively, completed 0/6, with acceptance checkboxes and hosting/other blockers unchanged. No FND-003 implementation is authorized.
+
+## 12. Observed FND-001 Client Foundation Evidence — 2026-10-26
+
+| Check | Exact command/procedure | Observed result |
+|---|---|---|
+| Foundation unit regression | `npm run test -- foundation` | 8 passed, 0 failed, 8 test files; includes FeatureActionRegistry invalid/duplicate registration, cleanup, unavailable, pending, success, and failure paths. |
+| Foundation integration | `FND_DISPOSABLE_MYSQL_TESTS=1 npm run test:integration -- foundation` with Oracle MySQL 8.4.11 `bin` on `PATH` | 43 passed, 0 failed, 2 suites; includes the real disposable database and HTTP runtime checks. Executed outside sandbox because it binds loopback. |
+| Lint/build/whitespace | `npm run lint`; `npm run build`; `git diff --check` | All passed; Vite built 21 modules. |
+| Mandatory documentation validation | `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .` | Passed. This supersedes the validator availability blocker for current completion work but does not rewrite prior historical failures. |
+| Production smoke | Build, start `server/src/server.js` in production with synthetic configuration and an isolated MySQL 8.4.11 fixture; probe health, SPA fallback, referenced asset and API 404; send SIGTERM | Passed: MySQL 8.4.11; health 200; SPA 200; asset 200; canonical JSON API 404; graceful exit 0; fixture shutdown/cleanup passed. Temporary smoke harness remained outside the repository. |
+
+FND-001 passed its required completion gate and AC-FND-001 is checked. The completion commit uses the
+planned subject `feat(FND-001): establish modular runtime seams`; its hash is reported after Git creates
+it rather than recorded through a circular documentation commit. FND-003 and UI-owned implementation
+remain outside this completed task.

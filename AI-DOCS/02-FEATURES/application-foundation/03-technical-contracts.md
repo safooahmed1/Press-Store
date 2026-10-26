@@ -119,6 +119,13 @@ FND-DEC-002 approves the following behavior for future FND-002 implementation; i
 |---|---|---|---|---|---|
 | APP-FND-001 | `FeatureActionRegistry` | stable action ID and validated payload; one registered handler per action | registered, unavailable, pending, failed, succeeded | CAT and CART | triggering control owns focus/status; unavailable actions fail visibly |
 
+`APP-FND-001` is provided by `FeatureActionProvider` at the client root. Consumers use
+`useRegisterFeatureAction(id, handler)` to register one lowercase kebab-case ID for their mounted
+lifecycle, and `useFeatureAction(id)` to read its state and dispatch a payload. Registration returns
+cleanup through the hook effect; duplicate IDs reject. The registry validates action IDs and handler
+availability only. The owning feature validates its own domain payload and receives the original
+handler error through the `failed` state. Dispatch rejects unavailable or already-pending actions.
+
 ## 7. Permissions and Security
 
 Health exposes no version, environment, schema, or credentials. HTTP hooks support same-origin cookies, CSRF, safe body limits, and owner guards. The platform does not grant permissions itself.

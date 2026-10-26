@@ -1,5 +1,27 @@
 # Change Log — Application Foundation
 
+## 2026-10-26 — FND-001 client foundation completion work
+
+- Added Zustand-backed `APP-FND-001` FeatureActionRegistry at the app root. Feature owners register
+  lowercase kebab-case actions through lifecycle-safe hooks and dispatch without feature-to-feature
+  imports; registry state is registered, unavailable, pending, succeeded, or failed.
+- The registry validates IDs, handlers, uniqueness, availability, and duplicate pending dispatches.
+  Feature handlers retain domain payload validation and their original failure values. No shared UI,
+  feature page, visual state, routing behavior, or HTTP implementation changed.
+- Added focused registry tests for invalid and duplicate registration, cleanup/unavailable behavior,
+  payload dispatch, pending state, success, and failure. Observed: 8 unit tests and 31 integration
+  tests passed; lint, build, whitespace, and the prescribed documentation validator passed.
+
+## 2026-10-26 — FND-001 completion verification
+
+- Ran the opt-in foundation integration suite against an isolated Oracle MySQL Community Server
+  8.4.11 instance: 43 tests passed across the HTTP runtime and disposable database suites.
+- Ran the actual production entry point with synthetic database configuration. Health, SPA fallback,
+  and the referenced built asset returned 200; unknown API returned the canonical JSON 404; SIGTERM
+  produced exit 0 with clean database shutdown.
+- Completed the final diff/security/scope review and the required unit, lint, build, whitespace, and
+  documentation validation gates. FND-001 is complete; FND-003 and UI implementation were not started.
+
 At initial log creation, no implementation activity had been recorded.
 
 ## 2026-10-20 — FND-001 development, completion blocked

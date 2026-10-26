@@ -4,7 +4,7 @@
 
 | Scope ID | Type | Status | Branch | Completed/Total | Last Evidence | Blockers |
 |---|---|---|---|---:|---|---|
-| FND | feature | in-progress | `feature/FND-application-foundation` | 0/6 | 2026-10-23: independent review PASS WITH WARNINGS; prior Codex unit 49/49, lint/in-memory build pass; user-confirmed host integration 43/43 and cleanup; observer details in verification-matrix §10 | FND-001 remains blocked on validator/frontend completion; validator also blocks FND-002 completion; Hostinger engine/version, TLS, limits, privileges, and acceptance unverified |
+| FND | feature | in-progress | `feature/FND-application-foundation` | 1/6 | 2026-10-26: FND-001 completion gates passed, including 43/43 MySQL integration and production entry smoke on isolated MySQL 8.4.11; see verification-matrix §12 | FND-002 hosting engine/version, TLS, limits, privileges, and acceptance remain unverified |
 | UI | feature | planned | `feature/UI-design-system-app-shell` | 0/4 | Planning only; no implementation evidence | A-003/A-004 affect content; A-007 reference screenshot unavailable |
 | AUTH | feature | planned | `feature/AUTH-identity-accounts` | 0/5 | Planning only; no implementation evidence | A-005 before AUTH-001 |
 | CAT | feature | planned | `feature/CAT-catalog-discovery` | 0/6 | Planning only; no implementation evidence | Dependencies not implemented |
@@ -76,3 +76,29 @@ No implementation activity recorded.
 - Preflight: correct current branch; empty index; local and live remote feature tip both `740c22b2fb3be6d1b5bd0080bbf42109e238c515`, remote main `4bffbb0560a4cdbe35ed55c5ce27e2afca1fb7eb`; no divergence. Thirty candidate files are backend implementation, tests, bounded tooling/configuration and related documentation. Ignored dependency/build directories and `server/.env` are excluded; environment contents are not accessed or loaded.
 - Existing evidence is confirmed from verification-matrix §10 and the user's handoff request: 49 unit tests, host MySQL 8.4.11 integration 43/43, cleanup passed, lint and in-memory build passed in independent review. This operation does not rerun those checks or represent reported host results as direct observation.
 - Formal statuses stay FND-001 `blocked`, FND-002 `in-progress`, completed 0/6. The prescribed documentation validator remains unavailable and did not pass; no replacement or bypass. Hosting/acceptance and frontend limitations remain. Resulting commit hash, reviewed file inventory, push verification and frontend checkout instructions belong in the handoff report; no circular hash-recording commit.
+
+### 2026-10-26 — FND-001 client foundation completion work
+
+- Added the approved Zustand dependency and APP-FND-001 FeatureActionProvider/hooks within FND-owned
+  client paths. Registration has lifecycle cleanup; dispatch exposes registered, unavailable, pending,
+  succeeded, and failed states without feature-to-feature imports. UI-owned visual states remain out
+  of scope.
+- Evidence: `npm run test -- foundation` 8/8; `npm run test:integration -- foundation` 31/31 outside
+  the loopback sandbox; `npm run lint`, `npm run build`, `git diff --check`, and the prescribed
+  documentation validator all passed. Exact commands are in verification-matrix §12.
+- FND-001 remains blocked and 0/6 complete: a real production smoke after FND-002 lifecycle wiring
+  requires a valid local MySQL runtime, which is unavailable. No task completion, completion commit,
+  later FND task, or UI work is claimed.
+
+### 2026-10-26 — FND-001 completion verification
+
+- Docker access was approved, but the local daemon could not reach containerd and service restart
+  required an unavailable interactive sudo password. Oracle's official MySQL Community Server 8.4.11
+  minimal binary was therefore downloaded to `/tmp` and integrity-tested before isolated use; no
+  system package, production database, repository secret, or persistent service was used.
+- `FND_DISPOSABLE_MYSQL_TESTS=1 npm run test:integration -- foundation` passed 43/43 across two suites
+  on a fresh disposable MySQL 8.4.11 instance. The actual production entry point then returned health,
+  SPA and built asset 200, canonical API JSON 404, and exited 0 after SIGTERM. Fixture cleanup passed.
+- Final unit, lint, build, whitespace and documentation validation evidence is recorded in
+  verification-matrix §12. FND-001 is `done`, AC-FND-001 is passed, and completion is 1/6. No FND-003,
+  UI implementation, push, merge, PR or deployment occurred.

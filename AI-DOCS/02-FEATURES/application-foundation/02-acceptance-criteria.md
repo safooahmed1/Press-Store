@@ -14,7 +14,7 @@ The feature is not complete until every required criterion passes and has eviden
 - **Then:** feature manifests load, `/api/v1/health` responds, and non-API production routes serve the React application
 - **Negative/edge behavior:** invalid configuration fails startup before traffic
 - **Evidence:** focused startup/integration tests and production-mode smoke command
-- [ ] Passed
+- [x] Passed
 
 ### AC-FND-002 — Persistence and errors are safe
 

@@ -8,8 +8,8 @@
 
 | Order | Task ID | Parent/Sub-feature | Workstream | Summary | Requirement IDs | Depends On | Owned Paths | Verification | Status | Branch | Commit Ref | Evidence |
 |---:|---|---|---|---|---|---|---|---|---|---|---|---|
-| 1 | FND-001 | FND/runtime | WS-FND-01 | Establish feature-first client/server runtime and manifest seams | REQ-FND-001, REQ-FND-002, REQ-FND-003, REQ-FND-010, REQ-FND-025 | None | `src/app/**`, `server/src/app/**`, root manifests | startup tests; lint | `blocked` | `feature/FND-application-foundation` | WIP checkpoint subject: `chore(FND-001): WIP checkpoint of application foundation`; completion commit: None; planned completion subject unchanged | 2026-10-20: 4 unit + 8 integration tests, lint/build, dev/prod probes pass; subsequent backend evidence and WIP preservation authorization below; mandatory docs validator unavailable; see `08-FND-001-development-handoff.md`. |
-| 2 | FND-002 | FND/database | WS-FND-01 | Add MySQL pool, migration runner, transaction and query contracts | REQ-FND-012, REQ-FND-020, REQ-FND-023, REQ-FND-027 | FND-001 complete OR reviewed backend baseline `740c22b2fb3be6d1b5bd0080bbf42109e238c515` under approved FND-DEC-002; A-002 confirmed | `server/src/platform/db/**`, `scripts/migrate*`, FND DB tests; exact bounded configuration/lifecycle/tooling additions in technical contracts §2 | empty/upgrade migrations; transaction tests; interruption/recovery and lifecycle checks | `in-progress` | `feature/FND-application-foundation` | Backend checkpoint subject: `chore(FND-002): checkpoint verified backend persistence for handoff`; completion commit: None; planned completion subject: `feat(FND-002): add MySQL persistence foundation` | 2026-10-23: independent review PASS WITH WARNINGS; Codex previously ran 49 unit tests, lint and in-memory production build successfully; user confirmed host MySQL 8.4.11 integration 43/43 and clean lifecycle. Observer/command details: verification-matrix §10. Mandatory validator and hosting/acceptance gates remain unresolved. |
+| 1 | FND-001 | FND/runtime | WS-FND-01 | Establish feature-first client/server runtime and manifest seams | REQ-FND-001, REQ-FND-002, REQ-FND-003, REQ-FND-006, REQ-FND-010, REQ-FND-025 | None | `src/app/**`, `server/src/app/**`, root manifests | startup tests; lint | `done` | `feature/FND-application-foundation` | Planned completion subject: `feat(FND-001): establish modular runtime seams` | 2026-10-26: APP-FND-001 client registry, 43/43 opt-in MySQL integration, and production smoke on isolated MySQL 8.4.11 passed; health/SPA/asset 200, API 404 JSON, graceful exit 0. Unit, lint, build, whitespace, and docs validation passed; see verification-matrix §12. |
+| 2 | FND-002 | FND/database | WS-FND-01 | Add MySQL pool, migration runner, transaction and query contracts | REQ-FND-012, REQ-FND-020, REQ-FND-023, REQ-FND-027 | FND-001 complete OR reviewed backend baseline `740c22b2fb3be6d1b5bd0080bbf42109e238c515` under approved FND-DEC-002; A-002 confirmed | `server/src/platform/db/**`, `scripts/migrate*`, FND DB tests; exact bounded configuration/lifecycle/tooling additions in technical contracts §2 | empty/upgrade migrations; transaction tests; interruption/recovery and lifecycle checks | `in-progress` | `feature/FND-application-foundation` | Backend checkpoint subject: `chore(FND-002): checkpoint verified backend persistence for handoff`; completion commit: None; planned completion subject: `feat(FND-002): add MySQL persistence foundation` | 2026-10-26 current state: MySQL 8.4.11 integration 43/43, lint/build and the restored documentation validator pass. Hosting engine/version, TLS, limits, privileges, and final acceptance remain unresolved; see verification-matrix §§10 and 12. |
 | 3 | FND-003 | FND/http | WS-FND-01 | Add REST transport, validation, errors, request IDs, and scope guardrails | REQ-FND-005, REQ-FND-011, REQ-FND-014, REQ-FND-021, REQ-FND-022, REQ-FND-024, REQ-FND-028, REQ-SCOPE-001 | FND-001 | `src/shared/api/**`, `server/src/platform/http/**` | API boundary tests; lint | `not-started` | `feature/FND-application-foundation` | — | — |
 | 4 | FND-004 | FND/storage | WS-FND-01 | Implement validated local image storage adapter and compensation | REQ-FND-018, REQ-FND-026 | FND-001 | `server/src/platform/storage/**`, storage tests | valid/malicious fixture tests | `not-started` | `feature/FND-application-foundation` | — | — |
 | 5 | FND-005 | FND/quality | WS-FND-01 | Establish test helpers, safe observability, and performance sanity checks | REQ-FND-019, REQ-FND-020, REQ-FND-029 | FND-002, FND-003 | `tests/helpers/**`, `server/src/platform/observability/**` | test harness; redaction; query checks | `not-started` | `feature/FND-application-foundation` | — | — |
@@ -19,15 +19,13 @@
 
 | Task ID | Blocker | Owner/Decision Needed | Next Action |
 |---|---|---|---|
-| FND-001 | Mandatory documentation validator path is unavailable; task cannot complete | User / tooling owner | Restore the documented validator or explicitly authorize a command change; rerun validation and review before any future completion authorization. Only the explicitly authorized WIP checkpoint is permitted; no completion commit. |
-| FND-002 | Mandatory documentation validator unavailable; completion blocked | User / tooling owner | Restore the prescribed validator through an approved process; no replacement, bypass, completion claim, or completion commit. FND-DEC-002 permits development only after a subsequent implementation instruction. |
 | FND-002 | Hosting MySQL engine/version, TLS requirements, connection limits, and migration privileges unverified | Hosting owner / backend developer | Obtain and verify capabilities during authorized development; do not invent values or claim compatibility. A-002 technology selection is confirmed, not a remaining blocker. |
 
 ## Completion Summary
 
-- **Completed:** 0/6
-- **Next ready task:** None. FND-002 is `in-progress`; independent review and user-observed host evidence are recorded, but mandatory documentation validation and hosting/acceptance gates remain unresolved. No other downstream task is authorized.
-- **Feature status:** `in-progress`; FND-001 remains `blocked` and 0/6 tasks are complete.
+- **Completed:** 1/6
+- **Next ready task:** `FND-003` after review of the FND-001 completion commit; FND-002 remains `in-progress` pending hosting/acceptance gates.
+- **Feature status:** `in-progress`; FND-001 is `done` and 1/6 tasks are complete.
 
 ## 2026-10-21 — Backend review fixes (FND-001 remains blocked)
 
@@ -58,3 +56,20 @@ FND-003 is `not-started` and depends on formal FND-001 completion, not FND-002 c
 ## 2026-10-23 — Authorized backend handoff checkpoint
 
 The user explicitly authorized committing and non-force pushing the current verified backend work on `feature/FND-application-foundation` for frontend handoff. Planned checkpoint subject: `chore(FND-002): checkpoint verified backend persistence for handoff`. This supersedes earlier session-specific no-commit/no-push restrictions only for this checkpoint, under AGENTS.md §10. It is not formal FND-001/FND-002 acceptance. FND-001 stays `blocked`, FND-002 stays `in-progress`, and completion remains 0/6; acceptance checkboxes and unresolved blockers are unchanged. Verification-matrix §10 retains the canonical 49-unit, host MySQL 8.4.11 43/43 integration, cleanup, lint, and in-memory build evidence with its original provenance. No application verification or database operation is rerun for Git handoff. No FND-003 work, PR, merge, deployment, or code modification is authorized. Report the resulting checkpoint hash and push outcome in chat without a self-referencing follow-up commit.
+
+## 2026-10-26 — FND-001 client foundation completion work
+
+`APP-FND-001` is now implemented with Zustand, `FeatureActionProvider`, and lifecycle-safe
+registration/dispatch hooks. The focused registry checks and full foundation checks pass; the required
+documentation validator now passes. FND-001 remains `blocked`, not done, because its final actual
+production smoke requires a valid MySQL runtime that is unavailable locally. No FND-003 or UI-owned
+implementation was started.
+
+## 2026-10-26 — FND-001 completion
+
+Oracle MySQL Community Server 8.4.11 was downloaded to an isolated temporary directory after the
+local Docker daemon proved unavailable. The opt-in foundation integration suite passed 43/43 against
+a fresh disposable database. A production entry-point smoke then returned 200 for health, SPA and the
+built asset, returned the canonical JSON 404 for an unknown API route, and exited 0 after SIGTERM.
+The database fixture stopped and removed its private data directory. Unit, lint, build, whitespace and
+the mandatory documentation validator also passed. FND-001 is `done`; FND-003 is next after review.

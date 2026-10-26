@@ -15,7 +15,7 @@
 
 | Branch | Type | Parent/Created From | Owner Workstream | Task IDs | Merge Target | Merge Prerequisites | Status |
 |---|---|---|---|---|---|---|---|
-| `feature/FND-application-foundation` | feature | `main` | WS-FND-01 | FND-001–FND-006 | `main` | FND full suite/build/docs validator; explicit merge instruction | active; authorized WIP preservation checkpoint; FND-001 blocked |
+| `feature/FND-application-foundation` | feature | `main` | WS-FND-01 | FND-001–FND-006 | `main` | FND full suite/build/docs validator; explicit merge instruction | active; FND-001 done; FND-002 in progress |
 | `feature/UI-design-system-app-shell` | feature | `main` after FND | WS-UI-01 | UI-001–UI-004 | `main` | UI visual/a11y/responsive suite; explicit merge instruction | planned |
 | `feature/AUTH-identity-accounts` | feature | `main` after FND | WS-AUTH-01 | AUTH-001–AUTH-005 | `main` | AUTH security suite; explicit merge instruction | planned |
 | `feature/CAT-catalog-discovery` | feature | `main` after FND/AUTH/UI | WS-CAT-01 | CAT-001–CAT-006 | `main` | catalog suite/contracts; explicit merge instruction | planned |
