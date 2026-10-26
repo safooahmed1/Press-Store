@@ -4,7 +4,7 @@
 
 | Scope ID | Type | Status | Branch | Completed/Total | Last Evidence | Blockers |
 |---|---|---|---|---:|---|---|
-| FND | feature | in-progress | `feature/FND-application-foundation` | 2/6 | 2026-10-26: FND-003 HTTP/Axios/React Query boundary complete; 11 unit/32 integration, lint/build/docs validator and zero-vulnerability audit pass; see verification-matrix §13 | FND-002 hosting engine/version, TLS, limits, privileges, and acceptance remain unverified |
+| FND | feature | in-progress | `feature/FND-application-foundation` | 3/6 | 2026-10-26: FND-004 bounded local image storage complete; 11 focused, 12 foundation unit and 36 integration checks, lint/build/docs validator and zero-vulnerability audit pass; see verification-matrix §14 | FND-002 hosting engine/version, TLS, limits, privileges, and acceptance remain unverified |
 | UI | feature | planned | `feature/UI-design-system-app-shell` | 0/4 | Planning only; no implementation evidence | A-003/A-004 affect content; A-007 reference screenshot unavailable |
 | AUTH | feature | planned | `feature/AUTH-identity-accounts` | 0/5 | Planning only; no implementation evidence | A-005 before AUTH-001 |
 | CAT | feature | planned | `feature/CAT-catalog-discovery` | 0/6 | Planning only; no implementation evidence | Dependencies not implemented |
@@ -116,3 +116,16 @@ No implementation activity recorded.
   moved them to 2.4.0, 4.6.7 and 8.3.5; final audit reports zero vulnerabilities. No broad auto-fix ran.
 - Documentation validation and whitespace checks pass. FND-003 is `done`; shared AC-FND-002 remains
   unchecked pending its FND-002/FND-005 portions. No FND-004, UI work, push, merge, PR or deployment.
+
+### 2026-10-26 — FND-004 bounded local image storage
+
+- User approved JPEG/PNG/WebP, 5 MiB, 8000×8000 and 40 MP bounds plus animated/multipage rejection.
+  DEC-007/FND-DEC-003 record `sharp` 0.35.5 as the single decoder and normalizer before installation.
+- STO-FND-001 validates filename, MIME and decoded format; fully decodes, auto-orients, strips metadata
+  and re-encodes; then writes an opaque UUID filename exclusively with 0600 permissions inside the
+  configured absolute root. Safe delete/URL operations and owning-operation compensation are included.
+- Focused storage tests passed 11/11. Foundation unit passed 12/12; integration passed 36/36 outside
+  the loopback sandbox (the database suite was explicitly skipped without its opt-in). Lint/build,
+  whitespace and documentation validation passed; final dependency audit reports zero vulnerabilities.
+- AC-FND-003 and FND-004 are complete. FND stays in progress at 3/6 because FND-002 remains open and
+  FND-005/FND-006 have not started. No UI work, push, merge, PR or deployment occurred.

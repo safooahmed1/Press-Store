@@ -14,6 +14,7 @@
 | Database | MySQL | Hostinger-supported version | §3 Database | Relational domain and transactions |
 | Authentication | MySQL-backed server sessions in Secure HttpOnly cookies | Same-origin | User decision 2026-10-18 | Revocable secure sessions without client token storage |
 | File storage | Hostinger local persistent uploads | V1 only | User decision 2026-10-18 | Minimum infrastructure |
+| Image processing | sharp | 0.35.5 | DEC-007; user approval 2026-10-26 | Full decode, metadata removal, bounded normalization |
 | Hosting | Hostinger web app | No VPS; no Docker | §3 and §36 | Required deployment target |
 
 ## 2. Approved Libraries and Services

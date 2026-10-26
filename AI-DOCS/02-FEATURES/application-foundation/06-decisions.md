@@ -24,3 +24,13 @@
 - **Open verification:** Hosting MySQL engine/version, TLS requirements, connection limits, and migration privileges remain unverified. Named-lock/InnoDB support and exact driver compatibility must also be checked during authorized development. Do not invent hosting values or silently substitute MariaDB. Migration ordering and recovery procedures require documentation and verification before runner acceptance.
 - **Alternatives:** Wait for formal FND-001 completion; introduce an ORM/query builder through a separate approved decision. Neither is selected for this bounded early start.
 - **Affected contracts/tasks:** FND-002; DB-FND-001, CFG-FND-001, API-FND-001 readiness integration. No consumer implementation is authorized; FND-003's HTTP/manifest freeze and full FND completion gates remain unchanged.
+
+## FND-DEC-003 — Bounded image policy and decoder
+
+- **Status:** `approved`
+- **Date:** 2026-10-26
+- **Decision:** STO-FND-001 accepts JPEG, PNG, and WebP only. Encoded input is limited to 5 MiB; decoded dimensions are limited to 8000×8000 and 40 megapixels. Animated or multipage images are rejected. `sharp` is the sole image decoder and normalizer; accepted images are decoded, auto-oriented, stripped of metadata, and safely re-encoded before an adapter-generated filename is persisted.
+- **Rationale:** The user approved concrete security limits. Full decode and re-encoding reject spoofed or malformed image payloads and remove embedded metadata while satisfying REQ-FND-018 without coupling storage to a business feature.
+- **Alternatives:** Signature-only inspection, retaining original bytes/metadata, accepting GIF/SVG, or adding multiple image libraries. These are not selected because they weaken validation or expand attack surface.
+- **Consequences:** Consumers must supply the original filename, declared MIME type, and bytes; the adapter validates all three against decoded format. Replacement/database workflows use the adapter's compensation helper. Future limit or format changes are STO-FND-001 contract changes.
+- **Affected contracts/tasks:** FND-004; STO-FND-001; REQ-FND-018/026; AC-FND-003.

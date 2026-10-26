@@ -34,7 +34,7 @@ The feature is not complete until every required criterion passes and has eviden
 - **Then:** valid images get generated safe paths and invalid/oversized/path-traversal input is rejected
 - **Negative/edge behavior:** compensation removes orphaned newly written files
 - **Evidence:** storage adapter tests
-- [ ] Passed
+- [x] Passed
 
 ### AC-FND-004 — Release shape is Hostinger-compatible
 

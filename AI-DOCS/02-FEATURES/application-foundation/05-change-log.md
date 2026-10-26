@@ -1,5 +1,15 @@
 # Change Log — Application Foundation
 
+## 2026-10-26 — FND-004 bounded local image storage
+
+- Added STO-FND-001 with user-approved JPEG/PNG/WebP, 5 MiB, 8000×8000 and 40 MP limits. Animated,
+  multipage, malformed, spoofed and unsupported files fail before persistence.
+- Added `sharp` 0.35.5 as the single decoder/normalizer. Accepted images are fully decoded,
+  auto-oriented, metadata-stripped and re-encoded before exclusive 0600 writes under an absolute root.
+- Added safe opaque URL/path handling, deletion and compensation for failed owning operations, plus
+  focused malicious-fixture and real-filesystem tests. No multipart endpoint or business upload rule
+  was introduced.
+
 ## 2026-10-26 — FND-003 REST transport and validation
 
 - Added the versioned same-origin Axios client, safe `ApiError` normalization, and one app-owned React

@@ -204,3 +204,20 @@ FND-003 is complete without checking shared AC-FND-002: database completion/acce
 observability evidence remain owned by FND-002/FND-005. The completion commit uses the planned subject
 `feat(FND-003): add REST validation and errors`; report its hash after creation rather than adding a
 circular documentation-only commit.
+
+## 14. Observed FND-004 Storage Evidence — 2026-10-26
+
+| Check | Exact command/procedure | Observed result |
+|---|---|---|
+| Focused storage | `node --test --test-isolation=none server/src/platform/storage/image-storage.test.js server/src/platform/storage/image-storage.integration.test.js` | 11 passed, 0 failed across validation and real-filesystem suites. |
+| Security fixtures | JPEG/PNG/WebP fixtures plus malformed bytes, MIME/extension spoofing, GIF, animated WebP, oversized input, strict dimension/pixel limits, traversal paths and unsafe generated IDs | Accepted formats were normalized; every malicious/over-limit case rejected before persistence; temporary roots cleaned. |
+| Filesystem/compensation inspection | Persist two images, inspect opaque paths/0600 mode, delete one, run failed and successful owning operations | Exclusive generated paths remained inside the root; targeted delete preserved the sibling; failed owning work removed its new file; successful work retained it. |
+| Foundation unit | `npm run test -- foundation` | 12 passed, 0 failed; includes all prior runtime/DB/HTTP/client checks and the storage validation suite. |
+| Foundation integration | `npm run test:integration -- foundation` outside the loopback sandbox | 36 passed, 0 failed across four suites; disposable MySQL explicitly skipped without opt-in. Initial sandbox attempt failed only because HTTP listeners received EPERM; storage integration passed in both runs. |
+| Lint/build/whitespace | `npm run lint`; `npm run build`; `git diff --check` | Passed; Vite 8.3.5 built 68 modules. |
+| Dependency audit | `npm audit --json` | `sharp` 0.35.5 and the complete graph report zero vulnerabilities. The initial sandboxed audit could not resolve the registry; the authorized network rerun passed. |
+| Documentation validator | `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .` | Passed. |
+
+FND-004 and AC-FND-003 are complete. The completion commit uses the planned subject
+`feat(FND-004): add local image storage adapter`; report its hash after creation rather than adding a
+circular documentation-only commit. FND-002 remains in progress, so FND-005 is not ready.

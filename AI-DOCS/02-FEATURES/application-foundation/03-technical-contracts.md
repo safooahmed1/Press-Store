@@ -132,7 +132,18 @@ Health exposes no version, environment, schema, or credentials. HTTP hooks suppo
 
 ## 8. External Integrations
 
-STO-FND-001 writes only within the configured Hostinger upload root, accepts decoded approved image types/size limits, generates filenames, and returns an opaque relative public URL. No external storage provider is used in V1.
+STO-FND-001 writes only within the configured Hostinger upload root, generates filenames, and returns
+an opaque relative public URL. It accepts an original filename, declared MIME type, and bytes; all three
+must agree with a fully decoded JPEG, PNG, or WebP image. Encoded input is limited to 5 MiB, decoded
+dimensions to 8000×8000 and 40 megapixels, and animated/multipage input is rejected. Accepted images
+are auto-oriented, stripped of metadata, and safely re-encoded by `sharp` before atomic persistence.
+Deletion accepts only adapter-generated opaque paths, and the compensation helper removes a newly
+written file when the owning operation fails. No external storage provider is used in V1.
+
+`createImageStorage(options)` exposes `put(upload)`, `delete(storedPath)`, `urlFor(storedPath)`, and
+`withCompensation(upload, operation)`. `put` returns the opaque `path`, relative `publicUrl`, normalized
+content type, dimensions, and encoded size. Limits can be configured only to values stricter than the
+approved maxima. Storage errors expose a stable `code`; decoder/filesystem causes remain server-only.
 
 ## 9. Configuration and Secrets
 
