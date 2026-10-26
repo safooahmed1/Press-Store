@@ -4,7 +4,7 @@
 
 | Scope ID | Type | Status | Branch | Completed/Total | Last Evidence | Blockers |
 |---|---|---|---|---:|---|---|
-| FND | feature | in-progress | `feature/FND-application-foundation` | 1/6 | 2026-10-26: FND-001 completion gates passed, including 43/43 MySQL integration and production entry smoke on isolated MySQL 8.4.11; see verification-matrix §12 | FND-002 hosting engine/version, TLS, limits, privileges, and acceptance remain unverified |
+| FND | feature | in-progress | `feature/FND-application-foundation` | 2/6 | 2026-10-26: FND-003 HTTP/Axios/React Query boundary complete; 11 unit/32 integration, lint/build/docs validator and zero-vulnerability audit pass; see verification-matrix §13 | FND-002 hosting engine/version, TLS, limits, privileges, and acceptance remain unverified |
 | UI | feature | planned | `feature/UI-design-system-app-shell` | 0/4 | Planning only; no implementation evidence | A-003/A-004 affect content; A-007 reference screenshot unavailable |
 | AUTH | feature | planned | `feature/AUTH-identity-accounts` | 0/5 | Planning only; no implementation evidence | A-005 before AUTH-001 |
 | CAT | feature | planned | `feature/CAT-catalog-discovery` | 0/6 | Planning only; no implementation evidence | Dependencies not implemented |
@@ -102,3 +102,17 @@ No implementation activity recorded.
 - Final unit, lint, build, whitespace and documentation validation evidence is recorded in
   verification-matrix §12. FND-001 is `done`, AC-FND-001 is passed, and completion is 1/6. No FND-003,
   UI implementation, push, merge, PR or deployment occurred.
+
+### 2026-10-26 — FND-003 REST transport and validation
+
+- Added FND-owned Axios and React Query boundaries plus canonical server HTTP primitives. Runtime
+  composition now enforces server-generated request IDs, body limits, feature-owned validation,
+  stable success/error envelopes, and sanitized unknown failures. No business route or UI was added.
+- Verification: foundation unit 11/11; HTTP integration 32/32 across three suites (the opt-in database
+  suite was intentionally skipped because FND-003 changes no DB contract); lint/build passed with
+  Vite 8.3.5 and 68 transformed modules. Response inspection covered 200, 400, 404, 409, 413, 422 and
+  500 behavior, field errors, request-ID correlation, hidden internals, and shipping scope exclusion.
+- Initial audit reported three high advisories in body-parser, zod and Vite. Bounded compatible updates
+  moved them to 2.4.0, 4.6.7 and 8.3.5; final audit reports zero vulnerabilities. No broad auto-fix ran.
+- Documentation validation and whitespace checks pass. FND-003 is `done`; shared AC-FND-002 remains
+  unchecked pending its FND-002/FND-005 portions. No FND-004, UI work, push, merge, PR or deployment.

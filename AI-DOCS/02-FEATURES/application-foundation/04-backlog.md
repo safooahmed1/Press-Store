@@ -10,7 +10,7 @@
 |---:|---|---|---|---|---|---|---|---|---|---|---|---|
 | 1 | FND-001 | FND/runtime | WS-FND-01 | Establish feature-first client/server runtime and manifest seams | REQ-FND-001, REQ-FND-002, REQ-FND-003, REQ-FND-006, REQ-FND-010, REQ-FND-025 | None | `src/app/**`, `server/src/app/**`, root manifests | startup tests; lint | `done` | `feature/FND-application-foundation` | Planned completion subject: `feat(FND-001): establish modular runtime seams` | 2026-10-26: APP-FND-001 client registry, 43/43 opt-in MySQL integration, and production smoke on isolated MySQL 8.4.11 passed; health/SPA/asset 200, API 404 JSON, graceful exit 0. Unit, lint, build, whitespace, and docs validation passed; see verification-matrix §12. |
 | 2 | FND-002 | FND/database | WS-FND-01 | Add MySQL pool, migration runner, transaction and query contracts | REQ-FND-012, REQ-FND-020, REQ-FND-023, REQ-FND-027 | FND-001 complete OR reviewed backend baseline `740c22b2fb3be6d1b5bd0080bbf42109e238c515` under approved FND-DEC-002; A-002 confirmed | `server/src/platform/db/**`, `scripts/migrate*`, FND DB tests; exact bounded configuration/lifecycle/tooling additions in technical contracts §2 | empty/upgrade migrations; transaction tests; interruption/recovery and lifecycle checks | `in-progress` | `feature/FND-application-foundation` | Backend checkpoint subject: `chore(FND-002): checkpoint verified backend persistence for handoff`; completion commit: None; planned completion subject: `feat(FND-002): add MySQL persistence foundation` | 2026-10-26 current state: MySQL 8.4.11 integration 43/43, lint/build and the restored documentation validator pass. Hosting engine/version, TLS, limits, privileges, and final acceptance remain unresolved; see verification-matrix §§10 and 12. |
-| 3 | FND-003 | FND/http | WS-FND-01 | Add REST transport, validation, errors, request IDs, and scope guardrails | REQ-FND-005, REQ-FND-011, REQ-FND-014, REQ-FND-021, REQ-FND-022, REQ-FND-024, REQ-FND-028, REQ-SCOPE-001 | FND-001 | `src/shared/api/**`, `server/src/platform/http/**` | API boundary tests; lint | `not-started` | `feature/FND-application-foundation` | — | — |
+| 3 | FND-003 | FND/http | WS-FND-01 | Add REST transport, validation, errors, request IDs, and scope guardrails | REQ-FND-005, REQ-FND-007, REQ-FND-011, REQ-FND-014, REQ-FND-021, REQ-FND-022, REQ-FND-024, REQ-FND-028, REQ-SCOPE-001 | FND-001 | `src/shared/api/**`, `server/src/platform/http/**` plus FND-owned provider/runtime composition | API boundary tests; lint | `done` | `feature/FND-application-foundation` | Planned completion subject: `feat(FND-003): add REST validation and errors` | 2026-10-26: Axios/React Query boundary, canonical HTTP errors, server request IDs, validation, body limits and scope exclusion implemented; 11 unit/32 integration, lint/build/docs validation and audit (0 vulnerabilities) pass; verification-matrix §13. |
 | 4 | FND-004 | FND/storage | WS-FND-01 | Implement validated local image storage adapter and compensation | REQ-FND-018, REQ-FND-026 | FND-001 | `server/src/platform/storage/**`, storage tests | valid/malicious fixture tests | `not-started` | `feature/FND-application-foundation` | — | — |
 | 5 | FND-005 | FND/quality | WS-FND-01 | Establish test helpers, safe observability, and performance sanity checks | REQ-FND-019, REQ-FND-020, REQ-FND-029 | FND-002, FND-003 | `tests/helpers/**`, `server/src/platform/observability/**` | test harness; redaction; query checks | `not-started` | `feature/FND-application-foundation` | — | — |
 | 6 | FND-006 | FND/deployment | WS-FND-01 | Build one Hostinger-compatible production app and runbook | REQ-FND-013, REQ-FND-024, REQ-FND-025, REQ-FND-029, REQ-SCOPE-015 | FND-001–FND-005 | root build/start config, deployment docs | clean build; production smoke | `not-started` | `feature/FND-application-foundation` | — | — |
@@ -23,9 +23,9 @@
 
 ## Completion Summary
 
-- **Completed:** 1/6
-- **Next ready task:** `FND-003` after review of the FND-001 completion commit; FND-002 remains `in-progress` pending hosting/acceptance gates.
-- **Feature status:** `in-progress`; FND-001 is `done` and 1/6 tasks are complete.
+- **Completed:** 2/6
+- **Next ready task:** `FND-004`; FND-002 remains `in-progress` pending hosting/acceptance gates. The separately approved UI early-start documentation is still required before UI branch creation.
+- **Feature status:** `in-progress`; FND-001 and FND-003 are `done`, so 2/6 tasks are complete.
 
 ## 2026-10-21 — Backend review fixes (FND-001 remains blocked)
 
@@ -73,3 +73,14 @@ a fresh disposable database. A production entry-point smoke then returned 200 fo
 built asset, returned the canonical JSON 404 for an unknown API route, and exited 0 after SIGTERM.
 The database fixture stopped and removed its private data directory. Unit, lint, build, whitespace and
 the mandatory documentation validator also passed. FND-001 is `done`; FND-003 is next after review.
+
+## 2026-10-26 — FND-003 completion
+
+Implemented the shared same-origin Axios transport and React Query provider, including safe client
+error normalization and one bounded retry for transient reads only. Added server-generated request
+IDs, canonical success/error helpers, explicit JSON/form limits, feature-owned validation middleware,
+and safe malformed/oversized/unknown error handling. The requirement mapping now includes the
+previously omitted REQ-FND-007 assignment already present in the canonical requirements index.
+Observed 11/11 unit and 32/32 HTTP integration passes, lint/build/docs validation passes, and a final
+`npm audit` result of zero vulnerabilities after bounded compatible dependency updates. AC-FND-002
+remains unchecked because its persistence and later observability portions are not complete.

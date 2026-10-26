@@ -6,7 +6,7 @@
 |---|---|---|---|---|---|---|
 | FND-001 | REQ-FND-001/002/003/010/025 | AC-FND-001 | runtime/manifest tests | lint | dev/prod route smoke | yes |
 | FND-002 | REQ-FND-012/020/023/027 | AC-FND-002 | migration/transaction tests | DB integration | query/upgrade notes | yes |
-| FND-003 | REQ-FND-005/011/014/021/022/024/028 | AC-FND-001/002 | HTTP/error/validation tests | lint/integration | response inspection | yes |
+| FND-003 | REQ-FND-005/007/011/014/021/022/024/028; REQ-SCOPE-001 | AC-FND-001/002 | HTTP/error/validation tests | lint/integration | response inspection | yes |
 | FND-004 | REQ-FND-018/026 | AC-FND-003 | storage/security tests | integration | file path/compensation inspection | yes |
 | FND-005 | REQ-FND-019/020/029 | AC-FND-002 | harness/redaction tests | platform suite | representative logs/query plans | yes |
 | FND-006 | REQ-FND-013/024/025/029 | AC-FND-004 | build/start tests | full FND/build | Hostinger-mode runbook smoke | yes |
@@ -188,3 +188,19 @@ FND-001 passed its required completion gate and AC-FND-001 is checked. The compl
 planned subject `feat(FND-001): establish modular runtime seams`; its hash is reported after Git creates
 it rather than recorded through a circular documentation commit. FND-003 and UI-owned implementation
 remain outside this completed task.
+
+## 13. Observed FND-003 HTTP Boundary Evidence — 2026-10-26
+
+| Check | Exact command/procedure | Observed result |
+|---|---|---|
+| Foundation unit | `npm run test -- foundation` | 11 passed, 0 failed; includes server HTTP, Axios normalization, React Query retry, runtime, database and APP-FND-001 regressions. |
+| HTTP integration | `npm run test:integration -- foundation` | 32 passed, 0 failed, 3 suites; disposable MySQL suite explicitly skipped without opt-in. HTTP coverage includes canonical 200/400/404/409/413/422/500 responses. |
+| Lint/build | `npm run lint`; `npm run build` | Both passed; Vite 8.3.5 built 68 modules, output JavaScript 248.14 kB (77.08 kB gzip). |
+| Dependency audit | `npm audit --json` | Initial three high advisories remediated by compatible body-parser 2.4.0, zod 4.6.7 and Vite 8.3.5 updates; final result 0 vulnerabilities. |
+| Response/scope inspection | Integration assertions inspect content types, field errors, request-ID header/body correlation, client-supplied ID rejection, unknown-error sanitization and `/api/v1/shipping` 404. | Passed; no private error detail or shipping implementation observed. |
+| Documentation/whitespace | Prescribed documentation validator; `git diff --check` | Passed. |
+
+FND-003 is complete without checking shared AC-FND-002: database completion/acceptance and later
+observability evidence remain owned by FND-002/FND-005. The completion commit uses the planned subject
+`feat(FND-003): add REST validation and errors`; report its hash after creation rather than adding a
+circular documentation-only commit.

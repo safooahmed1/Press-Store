@@ -146,11 +146,29 @@ Approved lifecycle wiring checks database connectivity before listening, injects
 
 HTTP-FND-001 is `{error:{code,message,fieldErrors?,requestId}}`. Unknown errors map to `INTERNAL_ERROR` without detail. Transactions roll back; file writes use compensation; safe reads may retry only bounded transient connection errors.
 
+FND-003 freezes the HTTP boundary as follows:
+
+- `requestContext` creates an opaque server request ID and returns it in `X-Request-Id`; inbound IDs
+  are never trusted. `sendData` emits `{data,meta?}`. Only `HttpError` messages are exposed; malformed
+  JSON, oversized bodies, unknown routes, and unknown exceptions map to safe stable envelopes.
+- JSON bodies are capped at 64 KiB and URL-encoded bodies at 16 KiB/100 parameters. Multipart
+  handling remains with STO-FND-001. Feature validators use `validateRequest(source, validator)` and
+  return `valid(value)` or `invalid(fieldErrors)`; sanitized values live under `req.validated`.
+  Validator field messages accept a string or string array and the envelope emits non-empty arrays.
+- The shared Axios `apiClient` targets same-origin `/api/v1`, sends cookies intentionally, and
+  normalizes canonical server failures into `ApiError`. Malformed/non-envelope failures never expose
+  response internals.
+- `AppProviders` owns one React Query client. Safe reads retry at most once for network/5xx failures;
+  4xx reads and every mutation do not retry by default. Feature owners still define query keys,
+  endpoint functions, DTO parsing, invalidation, and domain validation.
+- No shipping endpoint, DTO, configuration, or client behavior exists. `/api/v1/shipping` remains a
+  canonical `NOT_FOUND` response under REQ-SCOPE-001.
+
 DB-FND-001 transaction query failure is terminal for that transaction handle. Queued and later queries reject without driver execution, caught query failures still prevent commit, and rollback/connection cleanup remain mandatory. Nested `database.transaction()` calls on the same database instance are unsupported and reject before acquiring another connection; unrelated concurrent top-level transactions remain permitted. FND-002 adds no implicit savepoints or transaction retries.
 
 ## 11. Performance and Limits
 
-Global JSON/form limits are small and explicit. Upload limits are configured and enforced before/after decode. Database pools are bounded. API lists must paginate at feature owners.
+Global JSON/form limits are the explicit 64 KiB/16 KiB limits above. Upload limits are configured and enforced before/after decode. Database pools are bounded. API lists must paginate at feature owners.
 
 ## 12. Contract Change Rule
 

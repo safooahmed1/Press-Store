@@ -1,5 +1,17 @@
 # Change Log — Application Foundation
 
+## 2026-10-26 — FND-003 REST transport and validation
+
+- Added the versioned same-origin Axios client, safe `ApiError` normalization, and one app-owned React
+  Query client. Transient reads retry once; client errors and all mutations do not retry by default.
+- Replaced the minimal runtime error path with server-generated request IDs, canonical data/error
+  envelopes, `HttpError`, 64 KiB JSON and 16 KiB form limits, and feature-owned validation helpers.
+  Unknown errors are sanitized and `/api/v1/shipping` remains absent/404.
+- Added focused server/client contract tests and runtime integration for valid/invalid input,
+  malformed JSON, oversized bodies, known/unknown failures, request-ID trust, and scope exclusion.
+- Installed approved Axios/React Query dependencies. Updated body-parser, zod and Vite within compatible
+  ranges to remediate three high advisories; final audit reports zero vulnerabilities.
+
 ## 2026-10-26 — FND-001 client foundation completion work
 
 - Added Zustand-backed `APP-FND-001` FeatureActionRegistry at the app root. Feature owners register
