@@ -23,6 +23,7 @@ Do not read the whole documentation tree unless the task genuinely spans it.
 - Select only the earliest `not-started` task whose dependencies are complete.
 - If the user says `next`, continue with only the next ready task in that same scope.
 - Implement exactly one task per user authorization.
+- **FND-005-only exception (FND-DEC-004, 2026-10-27):** The user approved FND-005 implementation against locally verified FND-002 persistence while FND-002 remains `in-progress`. This satisfies FND-005's development dependency only. All FND-005 completion gates and FND-002 hosting/acceptance gates remain required; no FND-006 or release work is authorized.
 - After implementation, verification, documentation, and the task commit, report and stop.
 - Never start the next task automatically or move to another feature without explicit direction.
 - **FND-002-only exception (FND-DEC-002):** The user approved backend development against independently reviewed FND-001 backend baseline `740c22b2fb3be6d1b5bd0080bbf42109e238c515` without formal FND-001 completion. This satisfies only FND-002's runtime dependency for development and the corresponding §4 dependency preflight; A-002 must also be confirmed. FND-001 remains `blocked`, frontend completion remains with its developer, and no other downstream task is authorized. No completion, commit, merge, or release gate is waived. The current instruction authorizes documentation only; implementation requires a subsequent user instruction.

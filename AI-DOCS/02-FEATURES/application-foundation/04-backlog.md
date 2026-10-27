@@ -12,7 +12,7 @@
 | 2 | FND-002 | FND/database | WS-FND-01 | Add MySQL pool, migration runner, transaction and query contracts | REQ-FND-012, REQ-FND-020, REQ-FND-023, REQ-FND-027 | FND-001 complete OR reviewed backend baseline `740c22b2fb3be6d1b5bd0080bbf42109e238c515` under approved FND-DEC-002; A-002 confirmed | `server/src/platform/db/**`, `scripts/migrate*`, FND DB tests; exact bounded configuration/lifecycle/tooling additions in technical contracts §2 | empty/upgrade migrations; transaction tests; interruption/recovery and lifecycle checks | `in-progress` | `feature/FND-application-foundation` | Backend checkpoint subject: `chore(FND-002): checkpoint verified backend persistence for handoff`; completion commit: None; planned completion subject: `feat(FND-002): add MySQL persistence foundation` | 2026-10-26 current state: MySQL 8.4.11 integration 43/43, lint/build and the restored documentation validator pass. Hosting engine/version, TLS, limits, privileges, and final acceptance remain unresolved; see verification-matrix §§10 and 12. |
 | 3 | FND-003 | FND/http | WS-FND-01 | Add REST transport, validation, errors, request IDs, and scope guardrails | REQ-FND-005, REQ-FND-007, REQ-FND-011, REQ-FND-014, REQ-FND-021, REQ-FND-022, REQ-FND-024, REQ-FND-028, REQ-SCOPE-001 | FND-001 | `src/shared/api/**`, `server/src/platform/http/**` plus FND-owned provider/runtime composition | API boundary tests; lint | `done` | `feature/FND-application-foundation` | Planned completion subject: `feat(FND-003): add REST validation and errors` | 2026-10-26: Axios/React Query boundary, canonical HTTP errors, server request IDs, validation, body limits and scope exclusion implemented; 11 unit/32 integration, lint/build/docs validation and audit (0 vulnerabilities) pass; verification-matrix §13. |
 | 4 | FND-004 | FND/storage | WS-FND-01 | Implement validated local image storage adapter and compensation | REQ-FND-018, REQ-FND-026 | FND-001 | `server/src/platform/storage/**`, storage tests | valid/malicious fixture tests | `done` | `feature/FND-application-foundation` | Planned completion subject: `feat(FND-004): add local image storage adapter` | 2026-10-26: approved JPEG/PNG/WebP policy implemented with full decode/re-encode, 5 MiB/8000×8000/40 MP bounds, metadata stripping, opaque exclusive writes, safe deletion and compensation; 11/11 focused, 12/12 foundation unit and 36/36 integration passed; lint/build/docs validation and zero-vulnerability audit passed; verification-matrix §14. |
-| 5 | FND-005 | FND/quality | WS-FND-01 | Establish test helpers, safe observability, and performance sanity checks | REQ-FND-019, REQ-FND-020, REQ-FND-029 | FND-002, FND-003 | `tests/helpers/**`, `server/src/platform/observability/**` | test harness; redaction; query checks | `not-started` | `feature/FND-application-foundation` | — | — |
+| 5 | FND-005 | FND/quality | WS-FND-01 | Establish test helpers, safe observability, and performance sanity checks | REQ-FND-019, REQ-FND-020, REQ-FND-029 | FND-003 complete; locally verified FND-002 under approved FND-DEC-004 development exception | `tests/helpers/**`, `server/src/platform/observability/**`; bounded runtime/HTTP/tooling wiring in technical contracts §11 | test harness; redaction; query checks | `blocked` | `feature/FND-application-foundation` | Completion commit: None; planned subject: `feat(FND-005): add safe observability and quality harness` | 2026-10-27: implementation, 8 focused unit/5 focused HTTP checks, 14 foundation unit-file checks and 54/54 real-MySQL/HTTP integration checks pass; lint/build pass. Mandatory docs validator absent; failed sandbox initializer cleanup requires host intervention. See verification-matrix §15. |
 | 6 | FND-006 | FND/deployment | WS-FND-01 | Build one Hostinger-compatible production app and runbook | REQ-FND-013, REQ-FND-024, REQ-FND-025, REQ-FND-029, REQ-SCOPE-015 | FND-001–FND-005 | root build/start config, deployment docs | clean build; production smoke | `not-started` | `feature/FND-application-foundation` | — | — |
 
 ## Blockers
@@ -20,12 +20,25 @@
 | Task ID | Blocker | Owner/Decision Needed | Next Action |
 |---|---|---|---|
 | FND-002 | Hosting MySQL engine/version, TLS requirements, connection limits, and migration privileges unverified | Hosting owner / backend developer | Obtain and verify capabilities during authorized development; do not invent values or claim compatibility. A-002 technology selection is confirmed, not a remaining blocker. |
+| FND-005 | Mandatory canonical documentation validator unavailable in this environment; sandboxed MySQL initialization left a process/private directory that this session cannot terminate | Local environment owner | Restore the prescribed validator or explicitly approve its canonical replacement; stop only the verified test initializer and remove its private directory after confirming it is unused. See verification-matrix §15. |
 
 ## Completion Summary
 
 - **Completed:** 3/6
-- **Next ready task:** None. FND-002 remains `in-progress` pending hosting/acceptance gates; FND-005 depends on FND-002 and FND-006 depends on FND-001–005.
+- **Next ready task:** None. FND-005 is `blocked` by the unavailable mandatory validator and unresolved sandbox initializer cleanup; FND-002 hosting/acceptance and FND-006 dependencies remain open.
 - **Feature status:** `in-progress`; FND-001, FND-003, and FND-004 are `done`, so 3/6 tasks are complete.
+
+## 2026-10-27 — FND-005 implementation, completion withheld
+
+FND-DEC-004 records explicit user approval to begin against locally verified FND-002 persistence.
+Added allowlisted structured logs, HTTP request/error/abort correlation, startup outcomes, sink-failure
+isolation, shared HTTP/temp-directory/query-count helpers and client/database performance sanity
+checks. The final opt-in MySQL integration suite passed 54/54 without skips; 14 unit-file checks,
+8 focused unit cases, 5 focused HTTP cases, lint and build pass. No dependencies or database/business
+contracts changed. The canonical docs validator is absent again in the current environment; earlier
+successful evidence remains historical. The sandboxed initialization attempt also left an owned
+initializer/private directory that requires host intervention. No completion commit, promotion of
+AC-FND-002, FND-006 implementation or remote action occurred.
 
 ## 2026-10-21 — Backend review fixes (FND-001 remains blocked)
 
@@ -93,3 +106,22 @@ rejects malformed, spoofed, unsupported, animated, multipage or over-limit input
 UUID names, exclusive 0600 writes inside the configured absolute root, safe deletion and owning-work
 compensation. Observed 11/11 focused storage checks, 12/12 foundation unit and 36/36 integration passes;
 lint, build, whitespace, documentation validation and the zero-vulnerability audit passed.
+
+## 2026-10-27 — FND-005 closeout retry blocked
+
+The user requested the remaining FND-005 work. Read-only rechecks confirmed that the prescribed
+validator is still absent (invocation exit 2; validation BLOCKED / NOT RUN) and host PID 10626 still
+identifies the exact test initializer using `/tmp/press-fnd002-mysql-pXE2jY/data`. Its private root
+still exists. Prior TERM/KILL permission failures and the interactive sudo requirement remain
+unresolved; no repeated signals or deletion of an active datadir were attempted. FND-005 is now
+`blocked`. No implementation edits, application-test reruns, commit or push occurred in this retry.
+Restore the original validator and obtain verified host cleanup before retrying completion.
+
+## 2026-10-27 — Authorized FND-005 checkpoint
+
+The user explicitly requested a local commit of the current unfinished FND-005 work. Planned
+checkpoint subject: `chore(FND-005): checkpoint blocked quality foundation`. This authorizes one
+preservation commit only, not completion or push. FND-005 remains `blocked`, the mandatory validator
+remains BLOCKED / NOT RUN, host cleanup remains unresolved, and completion stays 3/6. Existing
+verification evidence is retained without claiming new application test runs. Report the resulting
+hash in chat; do not add a circular follow-up commit to store its own hash.

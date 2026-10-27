@@ -181,6 +181,34 @@ DB-FND-001 transaction query failure is terminal for that transaction handle. Qu
 
 Global JSON/form limits are the explicit 64 KiB/16 KiB limits above. Upload limits are configured and enforced before/after decode. Database pools are bounded. API lists must paginate at feature owners.
 
+### FND-005 operational implementation
+
+`createLogger({ environment, sink })` emits one JSON line per event. Only timestamp, level,
+environment, stable event name, server-generated UUID request ID, route template, HTTP method,
+status, nonnegative duration and stable error code are retained. Other fields (including bodies,
+headers, cookies, phone/payment data, SQL, exception messages and stacks) are discarded. Missing
+request metadata is null. The default sink is process stdout; synchronous and asynchronous sink
+failures are contained. Event names and route templates are trusted developer declarations, never
+user input. There is no arbitrary message or user-metadata channel.
+
+Request logging runs after request context and before body parsing. It emits exactly one completion
+or aborted event, includes only declared route templates with their static API mount, and records
+the canonical response error code without altering the response envelope. Unmatched paths are
+`<unmatched>`; nested mounts whose declared full template cannot be established are `<unresolved>`.
+No request URL, query string, route parameter value or inbound correlation ID is logged.
+Startup readiness/failure events use stable codes and never log configuration or exceptions.
+
+FND-005 additionally owns the minimal wiring in `server/src/app/{create-app,start-server}.js`,
+`server/src/platform/http/responses.js` (response-local error code only), `test.config.js` and
+`eslint.config.js` (shared test discovery/lint only). See FND-DEC-004 for the approved development
+dependency exception. No DB interface, API envelope or consumer contract changes.
+
+Shared helpers provide disposable HTTP/temporary-directory cleanup and query counting through the
+existing DB-FND-001 surface. Query counters retain counts only, never SQL/values. Real-MySQL sanity
+checks use a disposable-only indexed fixture, bounded parameterized reads and EXPLAIN; they do not
+claim business-query or hosting performance. Client sanity checks use the existing React Query
+client to verify in-flight deduplication and retry limits, without changing cache freshness policy.
+
 ## 12. Contract Change Rule
 
 Changes to envelopes, config names, database/storage/job interfaces, or manifest loading require FND approval, named consumer updates, full integration tests, and explicit user approval if architecture changes.

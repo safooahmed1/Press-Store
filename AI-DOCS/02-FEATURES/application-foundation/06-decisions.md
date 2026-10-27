@@ -1,5 +1,17 @@
 # Decisions — Application Foundation
 
+## FND-DEC-004 — FND-005 development against verified local persistence
+
+- **Status:** `approved`
+- **Date:** 2026-10-27
+- **Authorization:** The user explicitly approved starting FND-005 against the locally tested FND-002 implementation while FND-002 remains `in-progress`. This exception satisfies FND-005's development dependency only; it does not accept hosting compatibility or authorize FND-006, merging, publishing, or deployment.
+- **Scope:** FND-005 observability, shared test helpers, and performance sanity checks. Minimal FND-owned app/startup composition, HTTP error-code capture, test discovery and lint coverage changes wire these into the existing runtime and verification commands. No database interface or business-feature change.
+- **Implementation:** Use dependency-free structured JSON process logs with an allowlist of operational metadata. Drop unapproved fields rather than attempting to scrub arbitrary messages, SQL, bodies or exceptions. Record route templates, never actual request URLs or parameter values. Logging failure must not affect requests or database work.
+- **Verification:** Exercise correlation, success/failure/disconnect logs, sink failure isolation, disposable database query bounds/index plans, and actual React Query request deduplication/retry bounds. Future business-query plans and order/auth/job events remain with their feature owners. No new production latency target is invented.
+- **Completion boundary:** All ordinary FND-005 verification/documentation/commit gates still apply. Shared AC-FND-002 stays unchecked until FND-002 acceptance; production retention and hosting checks remain release gates.
+- **Alternatives:** Wait for hosting verification; introduce a logging or telemetry dependency. Neither is required for this bounded local task.
+- **Affected tasks/contracts:** FND-005; existing HTTP-FND-001 and DB-FND-001 behavior stays unchanged.
+
 ## FND-DEC-001 — Single deployable modular monolith
 
 - **Status:** `approved`

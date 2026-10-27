@@ -4,7 +4,7 @@
 
 | Scope ID | Type | Status | Branch | Completed/Total | Last Evidence | Blockers |
 |---|---|---|---|---:|---|---|
-| FND | feature | in-progress | `feature/FND-application-foundation` | 3/6 | 2026-10-26: FND-004 bounded local image storage complete; 11 focused, 12 foundation unit and 36 integration checks, lint/build/docs validator and zero-vulnerability audit pass; see verification-matrix §14 | FND-002 hosting engine/version, TLS, limits, privileges, and acceptance remain unverified |
+| FND | feature | in-progress | `feature/FND-application-foundation` | 3/6 | 2026-10-27: FND-005 closeout retry blocked; prior observability/helpers/performance evidence: 14 unit-file checks, 54/54 real-MySQL integration, lint/build pass; verification-matrix §15 | FND-005 docs validator unavailable and failed sandbox initializer cleanup needs host intervention; FND-002 hosting/acceptance still open |
 | UI | feature | planned | `feature/UI-design-system-app-shell` | 0/4 | Planning only; no implementation evidence | A-003/A-004 affect content; A-007 reference screenshot unavailable |
 | AUTH | feature | planned | `feature/AUTH-identity-accounts` | 0/5 | Planning only; no implementation evidence | A-005 before AUTH-001 |
 | CAT | feature | planned | `feature/CAT-catalog-discovery` | 0/6 | Planning only; no implementation evidence | Dependencies not implemented |
@@ -129,3 +129,60 @@ No implementation activity recorded.
   whitespace and documentation validation passed; final dependency audit reports zero vulnerabilities.
 - AC-FND-003 and FND-004 are complete. FND stays in progress at 3/6 because FND-002 remains open and
   FND-005/FND-006 have not started. No UI work, push, merge, PR or deployment occurred.
+
+### 2026-10-27 — FND-005 implementation, completion gate unresolved
+
+- The user authorized FND-005 and explicitly approved development against locally verified FND-002
+  persistence. FND-DEC-004 records the exception; FND-002 stays `in-progress` and its hosting gate is
+  unchanged. Preflight: clean worktree on `feature/FND-application-foundation`; FND-003 complete.
+- Implemented allowlisted structured logs and request/error/abort correlation, startup outcomes,
+  failure-isolated sinks, shared test helpers, query counting and actual React Query/database
+  performance sanity checks. Minimal runtime/HTTP/tooling wiring remains within FND ownership;
+  no dependency, database-interface, API envelope or business-feature changes.
+- Observed final verification: 8 focused unit cases, 5 focused HTTP cases, 14 foundation unit-file
+  checks and 54/54 real-MySQL foundation integration cases without skips; lint/build pass. MySQL
+  8.4.11 fixture EXPLAIN shows const/PRIMARY lookup and range/PRIMARY ten-row page, two measured
+  application reads total. Full details, command provenance and limitations: verification-matrix §15.
+- Initial local dependencies were stale/missing; `npm ci` restored the approved lockfile graph and
+  reported zero vulnerabilities. Initial sandbox HTTP failed with EPERM. Initial sandbox MySQL
+  initialization timed out and left PID 10626/root `/tmp/press-fnd002-mysql-pXE2jY`; TERM/KILL were
+  denied and noninteractive sudo requires authentication. Host-owner cleanup remains required;
+  later unrestricted successful teardown does not resolve this earlier artifact.
+- Mandatory canonical documentation validator again exits 2 because its script is absent in this
+  environment. Historical passing evidence is unchanged. FND-005 stays `in-progress`, completion
+  remains 3/6 and AC-FND-002 remains unchecked. Planned subject:
+  `feat(FND-005): add safe observability and quality harness`. No completion commit, FND-006 work,
+  push, PR, merge or deployment.
+
+### 2026-10-27 — FND-005 validator blocker confirmed by user
+
+- The user confirmed there is no verified alternate validator path and prohibited a fabricated path,
+  documentation bypass or DONE status before all mandatory checks pass. Validator is
+  **BLOCKED / NOT RUN**: the command invocation exited 2; validation itself did not execute.
+- Implementation work stopped with FND-005 `in-progress`; the existing code/test evidence is retained.
+  No additional implementation is inferred from this blocker acknowledgment.
+- Explicit user approval is now required for any commit or push, superseding normal local task-commit
+  preauthorization. No commit/push occurred. Missing validator and verified host cleanup remain open.
+
+### 2026-10-27 — FND-005 closeout retry blocked
+
+- User requested remaining FND-005 closeout. Rechecks show the original mandatory validator is still
+  missing and the exact sandbox initializer PID 10626/private root still exists. Validator remains
+  BLOCKED / NOT RUN; task is now `blocked`. See verification-matrix §15 retry evidence.
+- No code changes, redundant application-test reruns, repeated denied signals, active-datadir
+  deletion, commit, push or later-task work. Existing successful evidence is historical, not a new run.
+- Required external changes: restore the original prescribed validator and stop/clean only the
+  verified test initializer with appropriate host permissions. Explicit commit approval remains required.
+
+### 2026-10-27 — Authorized FND-005 local checkpoint
+
+- User explicitly requested a commit of the current FND-005 work, authorizing an incomplete-work
+  checkpoint under AGENTS.md §10. Planned subject:
+  `chore(FND-005): checkpoint blocked quality foundation`.
+- Preflight: existing `feature/FND-application-foundation`, empty index, and only the previously
+  reviewed FND-005 implementation/tests/tooling and related documentation changes. Preserve all
+  current implementation and historical evidence; no application code changes for this Git operation.
+- FND-005 stays `blocked`; mandatory validator BLOCKED / NOT RUN and host cleanup remain open.
+  No acceptance or completion status is promoted; no new application tests are claimed.
+- Authorization covers one local checkpoint, not push, PR, merge, deployment or later tasks.
+  Report the resulting hash and final Git state in chat without a self-referencing follow-up commit.

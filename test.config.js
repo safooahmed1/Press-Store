@@ -5,7 +5,7 @@ import { globSync } from 'node:fs'
 const args = process.argv.slice(2)
 const integration = args.includes('--integration')
 const filter = args.find((arg) => arg !== '--integration')
-const files = [...globSync(['src/**/*.test.js', 'server/src/**/*.test.js'], { exclude: ['**/node_modules/**'] })]
+const files = [...globSync(['src/**/*.test.js', 'server/src/**/*.test.js', 'tests/**/*.test.js'], { exclude: ['**/node_modules/**'] })]
   .filter((file) => file.endsWith('.integration.test.js') === integration).sort()
 const result = spawnSync(process.execPath, [
   '--test', ...(filter ? [`--test-name-pattern=${filter}`] : []), ...files,

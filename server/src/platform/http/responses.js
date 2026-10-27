@@ -39,6 +39,7 @@ export function sendData(res, data, meta) {
 }
 
 export function sendError(res, error) {
+  res.locals.errorCode = error.code
   const payload = {
     code: error.code,
     message: error.message,

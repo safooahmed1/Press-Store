@@ -5,15 +5,19 @@ import express from 'express'
 import { registerFeatureRouters } from './feature-manifests.js'
 import { apiBodyParsers } from '../platform/http/body-parsers.js'
 import { requestContext } from '../platform/http/request-context.js'
+import { createLogger } from '../platform/observability/logger.js'
+import { requestLogging } from '../platform/observability/request-logging.js'
 import { HttpError, httpErrorBoundary, notFound, sendData, sendError } from '../platform/http/responses.js'
 
 /** Compose the runtime without opening a port or importing feature internals. */
 export async function createApp({ config, manifests = [],
   distRoot = fileURLToPath(new URL('../../../dist/', import.meta.url)),
-  isReady = async () => true } = {}) {
+  isReady = async () => true, logger = createLogger({ environment: config.nodeEnv }) } = {}) {
   const app = express()
   app.disable('x-powered-by')
   app.use(requestContext)
+  app.use(requestLogging({ logger, mounts: ['/api/v1',
+    ...manifests.map((feature) => `/api/v1${feature?.path}`)] }))
   const api = express.Router()
   api.use(...apiBodyParsers())
   api.get('/health', async (req, res) => {

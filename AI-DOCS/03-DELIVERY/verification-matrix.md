@@ -221,3 +221,68 @@ circular documentation-only commit.
 FND-004 and AC-FND-003 are complete. The completion commit uses the planned subject
 `feat(FND-004): add local image storage adapter`; report its hash after creation rather than adding a
 circular documentation-only commit. FND-002 remains in progress, so FND-005 is not ready.
+
+## 15. Observed FND-005 Quality Evidence — 2026-10-27
+
+FND-DEC-004 supersedes only the development dependency restriction above: the user explicitly
+approved FND-005 against locally tested FND-002 persistence. FND-002 remains formally incomplete,
+shared AC-FND-002 stays unchecked, and FND-006 is not authorized.
+
+| Check | Exact command/procedure | Observed result |
+|---|---|---|
+| Focused unit | `node --test --test-isolation=none server/src/platform/observability/foundation-observability.test.js tests/helpers/foundation-quality.test.js` | 8 passed, 0 failed, 2 suites. Covers sensitive-field omission, malformed metadata, sync/async sink failure, exactly-once disconnect logging, temporary cleanup, query counts and actual client loading behavior. |
+| Focused HTTP | `node --test --test-isolation=none server/src/platform/observability/foundation-observability.integration.test.js` outside sandbox | Final run: 5 passed, 0 failed. Actual correlation/template/500/404/503/recovery inspection, real mid-response disconnect, startup outcomes, sync/async logger failure isolation. |
+| Foundation unit | `npm run test -- foundation` | 14 test-file checks passed, exit 0. Node default file isolation reports files here; the focused row reports individual new unit cases. |
+| Full foundation integration | `FND_DISPOSABLE_MYSQL_TESTS=1 npm run test:integration -- foundation > /tmp/press-fnd005-integration.log 2>&1` outside sandbox | Final run: 54 passed, 0 failed, 0 skipped, 6 suites, exit 0. Uses isolated MySQL 8.4.11-0ubuntu0.26.04.1. Earlier intermediate run was 52/52 before adding real disconnect/injected logger cases. |
+| Representative logs | Inspect captured JSON in focused HTTP tests and real-process foundation output | Timestamp/level/environment, generated request ID, declared `/api/v1/fixture/items/:id`, status/duration and canonical error codes observed. Request values, inbound IDs, cookies, authorization, private exception/SQL strings absent; abort emits 499/REQUEST_ABORTED once. Error-unwound/nested routes may use safe `<unresolved>` rather than a resolved URL. |
+| Representative query plans | Disposable-only 100-row quality fixture, two measured parameterized read calls, EXPLAIN of lookup and ten-row page | `const/PRIMARY` lookup and `range/PRIMARY` page; ten rows returned, no filesort; no per-row extra queries. Includes pool/timeout/transaction/migration regressions from existing DB suite. No business-query, hosting-performance or production-data claim. |
+| Client performance sanity | Existing React Query client and route manifest through shared harness | Two simultaneous reads execute one query function; explicitly fresh cached read does not refetch; transient failure executes twice, 422 and mutation execute once; manifest collection invokes no page loader. No UI rendering benchmark claimed. |
+| Dependencies | `npm ci` | Installed the existing lockfile graph; 238 packages added, 239 audited, zero vulnerabilities reported. Initial focused client test/build failed because local dependencies were stale/missing; both passed after installation. No dependency manifest/lockfile changes. |
+| Lint/build | `npm run lint`; `npm run build` | Passed; Vite 8.3.5, 68 modules, JS 248.14 kB / 77.08 kB gzip. |
+| Typecheck | Inspect package scripts | No typecheck script in approved JavaScript base; not run. |
+| Mandatory documentation validator | `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .` | **BLOCKED / NOT RUN:** command invocation exited 2 because the script is absent; validation itself did not execute. User confirmed no verified alternative is available and prohibited inventing a path or bypassing validation. Historical passing runs remain unchanged; no substitute or waiver. |
+
+### Failed sandbox run and unresolved cleanup
+
+The initial focused HTTP run failed with `listen EPERM`; the unrestricted rerun passed. The initial
+opt-in quality MySQL run inside the sandbox failed after initialization timeout (~32 seconds) and
+the Node session did not exit. It was interrupted (exit 130). This is not passing test evidence.
+Host process inspection found only the system MySQL PID 1721 plus the test initializer PID 10626:
+`mysqld --no-defaults --initialize-insecure --datadir=/tmp/press-fnd002-mysql-pXE2jY/data ...`.
+The private root `/tmp/press-fnd002-mysql-pXE2jY` remained. Non-sandbox `kill -TERM 10626` and
+`kill -KILL 10626` both failed with Permission denied; `sudo -n kill -KILL 10626` failed because
+interactive authentication is required. Do not remove the directory while the initializer is active.
+Host-owner intervention must re-check that exact PID/command, stop only this test initializer, then
+remove its exact unused private root. No system MySQL signal, application database, environment-file
+access, or production operation was performed.
+
+The subsequent unrestricted suites passed and their fixtures returned through normal teardown;
+this does not resolve or conceal the earlier sandbox initializer. FND-005 remains `in-progress`
+pending the canonical validator and verified cleanup. Planned completion subject is
+`feat(FND-005): add safe observability and quality harness`; no completion commit is created.
+
+Final second pass: re-read FND-005/AC-FND-002 and inspected the full tracked diff plus all new
+source/tests/helper documentation for scope, secrets, error handling and cleanup. Final unit-file
+checks and lint passed again; `git diff --check` passed and index stayed empty. The final prescribed
+validator attempt still exited 2. Final unrestricted `ps -C mysqld -o pid,ppid,args` showed only the
+unchanged system PID 1721 and the earlier sandbox initializer PID 10626; neither successful suite
+left an additional MySQL process. No production smoke/release execution or typecheck is claimed.
+
+The user's subsequent instruction confirms the validator is unavailable and has no verified alternate
+path. Record it as BLOCKED / NOT RUN; do not invent a path, bypass validation or mark FND-005 done.
+Implementation work has stopped. The user also requires explicit approval for any commit or push,
+superseding the normal local completion-commit preauthorization for this task. No commit or push
+has occurred; the planned subject above is a reference only, not current authorization.
+
+### FND-005 closeout retry — 2026-10-27
+
+- `git status --short` confirmed the existing unfinished FND-005 changes; branch remains
+  `feature/FND-application-foundation`. Existing work was preserved.
+- The unchanged prescribed validator invocation again exited 2: script absent. Validation remains
+  **BLOCKED / NOT RUN**; no replacement path, new validator or waiver was introduced.
+- Unrestricted `ps -C mysqld -o pid,ppid,args` again identified system MySQL PID 1721 and the exact
+  test initializer PID 10626 using `/tmp/press-fnd002-mysql-pXE2jY/data`. A directory-only inspection
+  confirmed that private root remains. No signals were repeated after the previously documented
+  permission denials; no active datadir was deleted.
+- FND-005 is `blocked`. Previously passing application checks were not rerun because no code changed
+  and those checks cannot resolve the two blockers. No new pass, completion, commit or push claimed.

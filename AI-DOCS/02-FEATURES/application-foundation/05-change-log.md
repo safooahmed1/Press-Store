@@ -1,5 +1,26 @@
 # Change Log — Application Foundation
 
+## 2026-10-27 — FND-005 closeout retry blocked
+
+- Rechecked the missing mandatory validator and exact leftover test initializer/private directory;
+  both blockers persist. Changed FND-005 status to `blocked` without modifying implementation.
+- Retained BLOCKED / NOT RUN validation evidence and explicit no-commit/no-push restriction.
+
+## 2026-10-27 — FND-005 quality implementation, verification gate open
+
+- Recorded the user's FND-005-only development dependency exception as FND-DEC-004; FND-002 remains
+  `in-progress` and its hosting/acceptance gate is unchanged.
+- Added dependency-free allowlisted JSON logs, request-ID correlation, declared route templates,
+  status/duration/error codes, startup outcomes and exactly-once completion/disconnect events.
+  Sensitive fields and raw exceptions never enter the log payload; sink failures stay isolated.
+- Added reusable loopback HTTP, temporary-directory and query-count test helpers and wired their
+  discovery/lint coverage. Verified actual React Query deduplication/retry bounds and an indexed,
+  bounded disposable-MySQL fixture read without changing business queries or cache policy.
+- Final verification: 8 focused unit cases, 5 focused HTTP cases, 14 foundation unit-file checks,
+  54/54 opt-in integration cases without skips, lint and build passed. Documentation validator is
+  unavailable and sandbox initializer cleanup needs host intervention; task stays `in-progress`
+  with no completion commit. Exact evidence and limitations: verification-matrix §15.
+
 ## 2026-10-26 — FND-004 bounded local image storage
 
 - Added STO-FND-001 with user-approved JPEG/PNG/WebP, 5 MiB, 8000×8000 and 40 MP limits. Animated,
