@@ -9,7 +9,7 @@
 | FND-003 | REQ-FND-005/007/011/014/021/022/024/028; REQ-SCOPE-001 | AC-FND-001/002 | HTTP/error/validation tests | lint/integration | response inspection | yes |
 | FND-004 | REQ-FND-018/026 | AC-FND-003 | storage/security tests | integration | file path/compensation inspection | yes |
 | FND-005 | REQ-FND-019/020/029 | AC-FND-002 | harness/redaction tests | platform suite | representative logs/query plans | yes |
-| FND-006 | REQ-FND-013/024/025/029 | AC-FND-004 | build/start tests | full FND/build | Hostinger-mode runbook smoke | yes |
+| FND-006 | REQ-FND-013/024/025/029 | AC-FND-004 | config/build/start, secret-bundle and `npm run test:production` (fake DB) | full FND/build still required | actual Hostinger/DB/session/persistence/backup runbook smoke still required | yes |
 | UI-001 | REQ-FND-004/008, REQ-UI-001/002/003 | AC-UI-001 | token/style tests | build | frontend-design visual evidence | yes |
 | UI-002 | REQ-FND-015, REQ-UI-001 | AC-UI-002 | component/a11y tests | UI suite | keyboard/contrast | yes |
 | UI-003 | REQ-FND-016, REQ-UI-004/005 | AC-UI-002 | shell/navigation tests | UI+SET integration | mobile nav/footer | yes |
@@ -286,3 +286,104 @@ has occurred; the planned subject above is a reference only, not current authori
   permission denials; no active datadir was deleted.
 - FND-005 is `blocked`. Previously passing application checks were not rerun because no code changed
   and those checks cannot resolve the two blockers. No new pass, completion, commit or push claimed.
+
+## 16. FND-002 Closeout Preflight — 2026-10-27
+
+- `git status --short`, current branch and recent history: clean worktree on
+  `feature/FND-application-foundation`, HEAD at FND-005 checkpoint `6b8675e`.
+- Read FND-002 blockers, DB implementation notes, configuration, connection options and existing
+  verification records. No application test rerun is claimed; existing local MySQL 8.4.11 results
+  do not verify a hosting provider. No Hostinger account/database connector is available in-session.
+- User explicitly answered that hosting is not ready. Hosting engine/version, TLS, connection limits,
+  migration-account privileges and named-lock/InnoDB compatibility are **BLOCKED / NOT RUN**.
+  No application environment file was read and no existing database was contacted or changed.
+- Public documentation research is contextual only: Hostinger's [database-engine article](https://www.hostinger.com/support/1583226-which-database-management-system-is-used-at-hostinger/)
+  identifies MariaDB for Web/Cloud, while its [Node.js connection guide](https://www.hostinger.com/support/connecting-a-hostinger-mysql-database-to-a-node-js-application/)
+  uses MySQL terminology. These pages do not establish this project's actual plan/engine/version.
+  Verify the actual target before accepting compatibility; do not silently replace approved MySQL.
+- The unchanged prescribed documentation-validator invocation exited 2 because the script is absent.
+  Validation itself is **BLOCKED / NOT RUN**, with no alternate path or bypass.
+- FND-002 becomes `blocked`. This is a documentation-only blocker record; no code, dependencies,
+  TLS settings, database recovery, migrations, application tests/build, commit, push or later task.
+
+## 17. FND-005 Cleanup Resolution and Checkpoint Review — 2026-10-27
+
+### Cleanup provenance
+
+| Item | Observer/executor | Reported result | Current disposition |
+|---|---|---|---|
+| Node test PID 10580 and disposable initializer PID 10626 | User executed on host and verified | Both safely terminated; neither process remained running | Cleanup process blocker resolved |
+| Associated processes/open files for `/tmp/press-fnd002-mysql-pXE2jY` | User inspected on host | Checked before removing the specific private directory | Safe-cleanup verification reported by user |
+| Exact private directory | User removed and verified on host | Final verification confirmed directory no longer exists | Directory blocker resolved |
+
+This is **user-executed and host-verified** evidence supplied in chat, not a fresh Codex process,
+open-file or filesystem inspection. Exact host commands/output were not supplied. Historical failure
+and permission-denial records remain intact; their cleanup-outstanding status is superseded here.
+
+### Static review and remaining gates
+
+- Reviewed exact checkpoint `6b8675e80b4b2252faa97ff17290d1b9a57c00ec` (25-file preservation
+  checkpoint), its source/test/tooling changes and FND-005 task/contracts/acceptance records.
+  Reviewed allowlisted metadata, request correlation, resolved-path suppression, exactly-once abort
+  handling, sync/async sink failure isolation, startup cleanup wiring, test-helper lifecycle,
+  client deduplication/retry bounds and disposable fixture query-count/EXPLAIN assertions.
+- No additional blocking code issue identified by this static review. This does not establish new
+  runtime/host compatibility or replace required checks. Previous 8 focused unit, 5 focused HTTP,
+  14 unit-file and 54 integration passes plus lint/build remain prior evidence, not new runs.
+- **FND-005 mandatory-check blocker:** original documentation validator unavailable,
+  **BLOCKED / NOT RUN**. No alternative script/path, bypass or inferred pass.
+- **Shared foundation acceptance:** AC-FND-002 remains unchecked pending FND-002 acceptance,
+  including unavailable-hosting verification. FND-DEC-004 permits FND-005 development only; it does
+  not complete FND-002 or shared/full-feature acceptance. No new dependency waiver is inferred.
+- **Completion procedure:** `6b8675e` is a checkpoint, not the completion commit. Mandatory gates
+  must pass before completion documentation/commit, and explicit user approval remains required.
+- Live MySQL tests must not be rerun until explicitly authorized again. No tests were rerun for this
+  review. No application code, commit, push or FND-006 changes/actions. Existing uncommitted FND-002
+  documentation changes are preserved. Recommended next action: restore the original validator and
+  run its exact prescribed command; reconcile the open acceptance gates before completion approval.
+- Documentation-only checks: `git diff --check` passed. The prescribed validator command was
+  attempted unchanged and exited 2 because the file is absent; validation itself remains
+  **BLOCKED / NOT RUN**. No test, MySQL process or database connection was started.
+
+## 18. FND-006 Local Production Preparation — 2026-10-27
+
+FND-DEC-005 records explicit local-development approval while FND-002/FND-005 remain blocked.
+Scope is code/runbook preparation, not acceptance or release. The earlier user-executed,
+host-verified FND-005 cleanup remains resolved. Existing uncommitted FND-002/FND-005 delivery notes
+were preserved. No live MySQL rerun, remote operation, commit or deployment was authorized/performed.
+
+| Check | Exact command/procedure | Observed result and boundary |
+|---|---|---|
+| Clean dependency installation | `npm ci` | Exit 0; 238 packages added, 239 audited; zero vulnerabilities reported. Existing lockfile/dependency versions retained. This is install evidence in the current working checkout, not a claim of a clean-checkout release. |
+| Focused config | `node --test --test-isolation=none server/src/config/foundation-production-config.test.js` | 3 passed, 0 failed. Explicit inputs, canonical writable-root/probe cleanup; missing secret, unsafe origin, relative/absent/file/source/symlinked-source roots rejected without echoing inputs. |
+| Local production | `npm run test:production` outside sandbox | 4 passed, 0 failed; builds actual Vite output and uses production startup/HTTP with an explicitly fake DB. One process serves built SPA/asset/API readiness; missing assets/uploads and encoded upload namespace yield safe 404. Valid opaque image GET/HEAD returns original normalized bytes across two local starts; symlink/directory/private files and unsupported methods rejected. |
+| Secret-boundary check | Production test launches Vite into a separate temporary output with synthetic SESSION_SECRET/MYSQL_PASSWORD/APP_ORIGIN/UPLOAD_ROOT | Build passed; produced HTML/assets contain neither the synthetic values nor inspected server-only import/config markers. No real credentials/environment file was used. This is a bounded fixture check, not a universal static security proof. |
+| Foundation unit regression | `npm run test -- foundation` after clean install | 15 test-file checks passed, exit 0. Default Node isolated-run summaries report files here, not individual cases. Includes the new production config suite. |
+| Foundation HTTP/platform regression without live MySQL | `FND_DISPOSABLE_MYSQL_TESTS=0 npm run test:integration -- foundation > /tmp/press-fnd006-no-mysql-integration.log 2>&1` outside sandbox | 45 passed, 0 failed, 7 suites; the disposable MySQL and quality query-plan suites explicitly skipped with their opt-in explanations. The Node summary says skipped 0 because skipped suites have no instantiated tests; this is not evidence that real DB checks ran. No live MySQL tests executed. |
+| Lint/build | `npm run lint`; `npm run build` | Exit 0. Vite 8.3.5, 68 modules, JS 248.14 kB / 77.08 kB gzip. Production script also rebuilt successfully. |
+| Sandbox limitation | Initial `npm run test:production`, then detailed `node --test --test-isolation=none tests/e2e/foundation-production.integration.test.js` | Initial file-level failure; detailed run showed two HTTP cases blocked by `listen EPERM`, while config-failure/bundle cases passed. Authorized unrestricted rerun passed all four. No MySQL initialization was attempted. |
+| Typecheck | Inspect approved root scripts | No typecheck script; not run. No TypeScript/framework/dependency migration. |
+| Mandatory documentation validator | Unchanged `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .` | Invocation exits 2, file absent; validation **BLOCKED / NOT RUN**. No fabricated path/script or waiver. |
+
+### Still unverified / not accepted
+
+- FND-002 hosting engine/version, driver/TLS/connection/privilege/InnoDB/named-lock acceptance;
+  shared AC-FND-002 and FND-005 mandatory-validator closeout.
+- Real DB empty/upgrade migrations and actual production-entry smoke under current production
+  configuration. Live MySQL reruns require fresh explicit user authorization; local fake wiring
+  cannot substitute for them, and prior live results are not represented as fresh runs.
+- Actual hosting selection, native module compatibility, runtime port/proxy behavior, HTTPS,
+  quotas, durable upload location and persistence through provider deployment cleanup.
+- AUTH secure-cookie/CSRF/origin behavior and actual sessions persisting across restart. FND-006
+  only validates session-secret presence/origin shape; it implements no auth/session behavior.
+- Real database/upload backup, restore and schema-compatible rollback execution, plus host log
+  retention/rotation/access. The [runbook](hostinger-runbook.md) is a procedure, not executed evidence.
+
+FND-006 remains `blocked`, AC-FND-004 unchecked, completed 3/6, feature not merge-ready. Planned
+subject `chore(FND-006): add Hostinger production shape` is a reference only; no commit authorized.
+
+Second pass: re-read FND-006/AC-FND-004 and reviewed tracked changes plus new configuration,
+upload-serving code, tests and runbook for ownership, secret exposure, path handling and cleanup.
+`node --version` reported v24.18.1; `git diff --check` passed. Lockfile, DB/AUTH/client source
+unchanged; index empty. The final unchanged validator invocation still exited 2. No new dependency,
+live MySQL, real hosting/session smoke, full-feature acceptance or completion claim.

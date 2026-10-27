@@ -4,7 +4,7 @@
 
 | Scope ID | Type | Status | Branch | Completed/Total | Last Evidence | Blockers |
 |---|---|---|---|---:|---|---|
-| FND | feature | in-progress | `feature/FND-application-foundation` | 3/6 | 2026-10-27: FND-005 closeout retry blocked; prior observability/helpers/performance evidence: 14 unit-file checks, 54/54 real-MySQL integration, lint/build pass; verification-matrix §15 | FND-005 docs validator unavailable and failed sandbox initializer cleanup needs host intervention; FND-002 hosting/acceptance still open |
+| FND | feature | in-progress | `feature/FND-application-foundation` | 3/6 | 2026-10-27: FND-006 local production preparation under FND-DEC-005; 3 config/4 fake-DB production, 15 unit-file/45 non-live-MySQL integration checks, lint/build/install pass; verification-matrix §18 | FND-002/FND-005/FND-006 blocked: validator missing, upstream/actual host/real-DB/session/recovery gates open; FND-005 cleanup resolved by user |
 | UI | feature | planned | `feature/UI-design-system-app-shell` | 0/4 | Planning only; no implementation evidence | A-003/A-004 affect content; A-007 reference screenshot unavailable |
 | AUTH | feature | planned | `feature/AUTH-identity-accounts` | 0/5 | Planning only; no implementation evidence | A-005 before AUTH-001 |
 | CAT | feature | planned | `feature/CAT-catalog-discovery` | 0/6 | Planning only; no implementation evidence | Dependencies not implemented |
@@ -186,3 +186,45 @@ No implementation activity recorded.
   No acceptance or completion status is promoted; no new application tests are claimed.
 - Authorization covers one local checkpoint, not push, PR, merge, deployment or later tasks.
   Report the resulting hash and final Git state in chat without a self-referencing follow-up commit.
+
+### 2026-10-27 — FND-002 closeout blocked by unavailable hosting
+
+- User requested the remaining FND-002 work, then confirmed hosting is not yet available. Clean
+  preflight on the existing FND branch; no verified hosting target or separate test database exists.
+- FND-002 is now `blocked`; preserve local persistence implementation/results and all hosting gates.
+  Public provider documentation cannot substitute for observed target-engine/TLS/limit/privilege checks.
+- Mandatory validator invocation exited 2; validation BLOCKED / NOT RUN. No alternate validator,
+  guessed settings, database connection/migration, code change, application-test rerun or commit/push.
+  Exact provenance is in verification-matrix §16. Feature completion remains 3/6.
+
+### 2026-10-27 — FND-005 cleanup resolved by user; review only
+
+- User reported terminating Node test PID 10580 and MySQL initializer PID 10626, verifying both absent,
+  checking associated processes/open files, removing only `/tmp/press-fnd002-mysql-pXE2jY` and
+  confirming directory absence. Provenance: user-executed and host-verified; not a Codex cleanup run.
+- Reviewed checkpoint `6b8675e` statically against task/contracts and existing evidence. No additional
+  blocking code issue found; no fresh runtime/test success claimed. Cleanup blocker is resolved.
+- FND-005 remains `blocked`: mandatory validator BLOCKED / NOT RUN; shared AC-FND-002 acceptance
+  is still open with FND-002; checkpoint is not completion. Next: restore original validator, run
+  the prescribed check, reconcile acceptance and obtain explicit completion-commit approval.
+- Preserved pre-existing FND-002 documentation edits. No application code, live MySQL or other test
+  reruns, commit, push or FND-006 work. Live MySQL reruns require new explicit authorization.
+
+### 2026-10-27 — Authorized FND-006 local development
+
+- User explicitly approved local code/runbook preparation despite blocked FND-002/FND-005;
+  FND-DEC-005 and root exception record the boundary. Existing delivery-document edits preserved
+  on `feature/FND-application-foundation`. No completion/validator/release gate waived.
+- Added production input/root validation before DB/listen; served validated opaque image URLs from
+  the same process; added production tests and Hostinger runbook. No authentication/session policy,
+  DB interface, business feature or dependency additions. Existing build/start commands retained.
+- Observed 3 focused config and 4 local production tests pass; 15 foundation unit-file checks and
+  45 HTTP/platform integration cases pass with FND_DISPOSABLE_MYSQL_TESTS=0. Two real database
+  suites explicitly skipped; no MySQL process/connection created by the new tests. Initial HTTP
+  sandbox EPERM was rerun outside sandbox with permission; no sandbox failure is called a pass.
+- `npm ci` installed the existing lockfile graph (238 added, 239 audited, zero vulnerabilities);
+  lint/build passed. Complete evidence/limits are in verification-matrix §18.
+- Mandatory validator invocation exits 2; validation BLOCKED / NOT RUN. FND-006 is `blocked`,
+  AC-FND-004 unchecked, feature remains 3/6. Actual hosting/native support, real DB smoke/migrations,
+  session persistence, durable host uploads, backup/restore and upstream closeout remain required.
+- No commit, push, PR, merge, deployment, live MySQL rerun or later-task work.

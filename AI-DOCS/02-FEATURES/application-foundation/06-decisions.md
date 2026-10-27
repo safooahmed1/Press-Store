@@ -1,5 +1,15 @@
 # Decisions — Application Foundation
 
+## FND-DEC-005 — Local FND-006 development before upstream closeout
+
+- **Status:** `approved`
+- **Date:** 2026-10-27
+- **Authorization:** The user explicitly approved local FND-006 code/runbook development despite FND-002/FND-005 remaining blocked. No validator waiver, hosting compatibility acceptance, live MySQL test rerun, deployment, commit or push is authorized.
+- **Scope:** Production configuration/startup checks, same-process static/API/upload serving, production-mode tests and operational runbook. Minimal FND-owned app/config/storage-serving and root verification-script wiring only; no database interface, authentication/session implementation or business-feature changes.
+- **Boundaries:** FND-001/FND-003/FND-004 are done; the approved FND-005 checkpoint provides local observability/test seams. Existing uncommitted delivery documentation is preserved. All ordinary completion and release gates remain in force; this decision supersedes only FND-006's development dependency restriction.
+- **Verification:** Configuration tests, production-mode HTTP tests with an explicit fake database, static bundle secret checks, lint/build and documented operator procedures. A fake database is local wiring evidence only. Real MySQL, host persistence/TLS/proxy/limits, session persistence, backup/restore execution and full release acceptance stay unverified until separately available/authorized.
+- **Consequence:** FND-006 cannot be marked done or AC-FND-004 checked while mandatory verification remains unavailable. No later feature, remote action or release is inferred.
+
 ## FND-DEC-004 — FND-005 development against verified local persistence
 
 - **Status:** `approved`

@@ -7,12 +7,13 @@ import { apiBodyParsers } from '../platform/http/body-parsers.js'
 import { requestContext } from '../platform/http/request-context.js'
 import { createLogger } from '../platform/observability/logger.js'
 import { requestLogging } from '../platform/observability/request-logging.js'
+import { productionUploads } from './production-uploads.js'
 import { HttpError, httpErrorBoundary, notFound, sendData, sendError } from '../platform/http/responses.js'
 
 /** Compose the runtime without opening a port or importing feature internals. */
 export async function createApp({ config, manifests = [],
   distRoot = fileURLToPath(new URL('../../../dist/', import.meta.url)),
-  isReady = async () => true, logger = createLogger({ environment: config.nodeEnv }) } = {}) {
+  isReady = async () => true, logger = createLogger({ environment: config.nodeEnv }), productionConfig } = {}) {
   const app = express()
   app.disable('x-powered-by')
   app.use(requestContext)
@@ -31,6 +32,8 @@ export async function createApp({ config, manifests = [],
   // Reserve the entire API namespace before static files or the SPA fallback.
   app.use('/api', notFound)
   if (config.nodeEnv === 'production') {
+    if (productionConfig) app.use('/uploads', productionUploads(productionConfig.uploadRoot))
+    app.use('/uploads', notFound)
     const indexFile = path.resolve(distRoot, 'index.html')
     await access(indexFile)
     app.use((req, res, next) => {
@@ -39,7 +42,7 @@ export async function createApp({ config, manifests = [],
       try { pathname = decodeURIComponent(req.path) } catch {
         return notFound(req, res)
       }
-      if (pathname.startsWith('//') || /^\/api(?:\/|$)/i.test(pathname)
+      if (pathname.startsWith('//') || /^\/(?:api|uploads)(?:\/|$)/i.test(pathname)
         || pathname.split('/').some((segment) => segment.startsWith('.'))) {
         return notFound(req, res)
       }

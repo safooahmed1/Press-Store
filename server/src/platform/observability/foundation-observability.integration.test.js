@@ -5,8 +5,78 @@ import express from 'express'
 import { startTestApp } from '../../../../tests/helpers/http-server.js'
 import { createLogger } from './logger.js'
 import { startServer } from '../../app/start-server.js'
+import { HttpError } from '../http/responses.js'
 
 describe('foundation request log integration', () => {
+  it('retains declared parameterized templates across sync, async and forwarded errors', async (t) => {
+    const router = express.Router()
+    router.post('/sync/:id', () => { throw new Error('private-sync-exception') })
+    router.post('/async/:id', async () => { throw new Error('private-async-exception') })
+    router.post('/forward/:id', (req, res, next) => next(new HttpError(409, 'CONFLICT', 'Safe conflict')))
+    router.post('/success/:id', (req, res) => res.json({ ok: true }))
+    const { origin, logs } = await startTestApp(t, {
+      manifests: [{ id: 'fixture', path: '/fixture', router }],
+    })
+    for (const [name, status, code] of [
+      ['sync', 500, 'INTERNAL_ERROR'], ['async', 500, 'INTERNAL_ERROR'],
+      ['forward', 409, 'CONFLICT'], ['success', 200, null],
+    ]) {
+      const response = await fetch(`${origin}/api/v1/fixture/${name}/private-id?token=private-query`, {
+        method: 'POST', body: JSON.stringify({ password: 'private-body' }),
+        headers: { 'Content-Type': 'application/json', Authorization: 'private-auth',
+          Cookie: 'private-cookie', 'X-Request-Id': 'private-inbound' },
+      })
+      const body = await response.json()
+      assert.equal(response.status, status)
+      const records = logs.filter((log) => log.requestId === response.headers.get('X-Request-Id'))
+      assert.equal(records.length, 1)
+      assert.equal(records[0].event, 'http.request.completed')
+      assert.equal(records[0].routeTemplate, `/api/v1/fixture/${name}/:id`)
+      assert.equal(records[0].status, status)
+      assert.equal(records[0].errorCode, code)
+      if (code) assert.equal(body.error.requestId, records[0].requestId)
+    }
+    assert.equal(logs.length, 4)
+    assert.doesNotMatch(JSON.stringify(logs), /private|password|Authorization|Cookie|Safe conflict/)
+  })
+
+  it('keeps nested dynamic routes unresolved on both success and failure and misses unmatched', async (t) => {
+    const nested = express.Router()
+    nested.get('/items/:id', (req, res) => res.json({ ok: true }))
+    nested.get('/failed/:id', async () => { throw new Error('private-nested-exception') })
+    const router = express.Router()
+    router.use('/accounts/:account', nested)
+    const { origin, logs } = await startTestApp(t, {
+      manifests: [{ id: 'fixture', path: '/fixture', router }],
+    })
+    for (const target of ['items/private-id', 'failed/private-id', 'missing']) {
+      const response = await fetch(`${origin}/api/v1/fixture/accounts/private-account/${target}?private=query`)
+      await response.text()
+    }
+    assert.deepEqual(logs.map((log) => [log.routeTemplate, log.status]), [
+      ['<unresolved>', 200], ['<unresolved>', 500], ['<unmatched>', 404],
+    ])
+    assert.doesNotMatch(JSON.stringify(logs), /private|query/)
+  })
+
+  it('preserves failed-route HTTP behavior with throwing and rejecting log sinks', async (t) => {
+    for (const sink of [() => { throw new Error('private-sink') },
+      async () => { throw new Error('private-sink') }]) {
+      const router = express.Router()
+      router.get('/failed/:id', async () => { throw new Error('private-exception') })
+      const { origin } = await startTestApp(t, {
+        logger: createLogger({ environment: 'test', sink }),
+        manifests: [{ id: 'fixture', path: '/fixture', router }],
+      })
+      const response = await fetch(`${origin}/api/v1/fixture/failed/private-id`)
+      assert.equal(response.status, 500)
+      const body = await response.json()
+      assert.equal(body.error.code, 'INTERNAL_ERROR')
+      assert.equal(body.error.requestId, response.headers.get('X-Request-Id'))
+      assert.doesNotMatch(JSON.stringify(body), /private/)
+    }
+  })
+
   it('correlates response and safe route-template logs, hides URLs/PII and logs failures', async (t) => {
     const router = express.Router()
     router.get('/items/:id', (req, res) => res.json({ ok: true }))

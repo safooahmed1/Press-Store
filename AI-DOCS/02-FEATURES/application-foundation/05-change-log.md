@@ -1,5 +1,33 @@
 # Change Log — Application Foundation
 
+## 2026-10-27 — FND-006 bounded local production preparation
+
+- Recorded explicit FND-DEC-005 local-development authorization; upstream/validator/hosting gates
+  remain required, and live MySQL reruns, commit, push and deployment remain unauthorized.
+- Added production-only input validation and a canonical, pre-provisioned writable upload-root
+  check before DB creation/listening. Session-secret presence does not implement AUTH policy.
+- Served STO-FND-001 opaque image GET/HEAD reads from the same Express process; reject symlink
+  files, directories, arbitrary paths/methods and SPA fallback for upload misses.
+- Added config and fake-DB production tests, synthetic secret-bundle checks, root test script and
+  Hostinger runbook. Observed local passes: 3 config, 4 production, 15 unit-file and 45 HTTP/platform
+  integration cases; lint/build and lockfile clean install pass. Real DB suites explicitly skipped.
+- FND-006 remains `blocked`, AC-FND-004 unchecked. No production/hosting/session-persistence,
+  database-migration or backup/restore execution is claimed. See verification-matrix §18.
+
+## 2026-10-27 — FND-005 cleanup resolution and checkpoint review
+
+- Recorded cleanup as user-executed and host-verified: both orphaned test PIDs terminated, associated
+  processes/open files checked, exact temporary directory removed and its absence verified.
+- Static checkpoint `6b8675e` review found no additional blocking code issue; no tests rerun or
+  application changes. Missing validator remains BLOCKED / NOT RUN, shared acceptance remains open,
+  and task remains `blocked`. No commit, push or FND-006 work; see verification-matrix §17.
+
+## 2026-10-27 — FND-002 hosting availability confirmed
+
+- User confirmed that hosting is not yet ready. FND-002 is `blocked` pending an actual hosting test
+  environment and the missing mandatory validator; no implementation or technology changes.
+- Preserved local MySQL evidence without claiming hosting compatibility or new application checks.
+
 ## 2026-10-27 — FND-005 closeout retry blocked
 
 - Rechecked the missing mandatory validator and exact leftover test initializer/private directory;

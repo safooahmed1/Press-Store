@@ -1,5 +1,5 @@
 import { constants as fsConstants } from 'node:fs'
-import { mkdir, open, realpath, unlink } from 'node:fs/promises'
+import fs from 'node:fs/promises'
 import path from 'node:path'
 import { randomUUID } from 'node:crypto'
 import sharp from 'sharp'
@@ -124,19 +124,35 @@ async function normalizeImage(upload, limits) {
 }
 
 async function writeExclusive(filePath, data) {
+  // Keep staging on the same filesystem, outside the adapter's public filename grammar.
+  const stagingPath = path.join(path.dirname(filePath), `.${randomUUID()}.tmp`)
   let handle
   let created = false
   try {
-    handle = await open(filePath, fsConstants.O_CREAT | fsConstants.O_EXCL | fsConstants.O_WRONLY, 0o600)
+    handle = await fs.open(stagingPath, fsConstants.O_CREAT | fsConstants.O_EXCL | fsConstants.O_WRONLY, 0o600)
     created = true
     await handle.writeFile(data)
     await handle.sync()
     await handle.close()
     handle = undefined
+    // Unlike rename, link atomically publishes the complete inode without replacing a collision.
+    await fs.link(stagingPath, filePath)
   } catch (error) {
     await handle?.close().catch(() => {})
-    if (created) await unlink(filePath).catch(() => {})
+    if (created) await fs.unlink(stagingPath).catch(() => {})
     throw error
+  }
+
+  // Successful link is the publication boundary: cleanup must neither roll it back nor
+  // reach put's collision retry loop. A failed unlink leaves only a private staging link.
+  try {
+    await fs.unlink(stagingPath)
+  } catch {
+    try {
+      process.emitWarning('Published image staging cleanup failed', { code: 'IMAGE_STAGING_CLEANUP_FAILED' })
+    } catch {
+      // Diagnostics must not turn a committed publication into a failed put either.
+    }
   }
 }
 
@@ -155,8 +171,8 @@ export function createImageStorage({
   const limits = Object.freeze({ maxInputBytes, maxWidth, maxHeight, maxPixels })
 
   async function storageRoot() {
-    await mkdir(configuredRoot, { recursive: true, mode: 0o750 })
-    return realpath(configuredRoot)
+    await fs.mkdir(configuredRoot, { recursive: true, mode: 0o750 })
+    return fs.realpath(configuredRoot)
   }
 
   function urlFor(storedPath) {
@@ -202,7 +218,7 @@ export function createImageStorage({
       throw storageError('UNSAFE_STORAGE_PATH', 'Unsafe image storage path')
     }
     try {
-      await unlink(filePath)
+      await fs.unlink(filePath)
       return true
     } catch (error) {
       if (error?.code === 'ENOENT') return false

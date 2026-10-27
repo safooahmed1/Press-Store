@@ -211,6 +211,31 @@ client to verify in-flight deduplication and retry limits, without changing cach
 
 ## 12. Contract Change Rule
 
+### FND-006 local production wiring — FND-DEC-005
+
+FND-006 owns `server/src/config/production-config.js` and focused tests, minimal production startup
+wiring in `server/src/app/start-server.js`, same-process upload reads in `server/src/app/production-uploads.js`
+and `create-app.js`, production tests in `tests/e2e/**`, the root production-test script and the
+runbook `AI-DOCS/03-DELIVERY/hostinger-runbook.md`. These stay within FND's canonical paths; no feature
+consumer interface is changed. STO-FND-001's default opaque `/uploads/<generated-name>` URLs become
+readable by the same Express process. The storage adapter's existing path validation remains the
+single filename authority; serving accepts only GET/HEAD of existing regular files and rejects
+symlinks, hidden paths, directories and unsupported names. Upload misses never reach SPA fallback.
+
+For production, startup validates `SESSION_SECRET` presence (AUTH still owns secret-strength/session
+policy), `APP_ORIGIN` as one HTTPS origin without credentials/path/query/fragment, and `UPLOAD_ROOT`
+as a pre-provisioned absolute readable/writable directory outside the application/release tree.
+Canonical path overlap and a bounded exclusive write/delete probe are checked before database
+creation/listening. No upload directory is silently created by this release check. Production
+configuration is read only under `server/src/config/`; no environment file is read or loaded.
+Development/test behavior and the database contract remain unchanged. Configuration injection used
+by tests still goes through the same production validation. No origin middleware, proxy trust,
+CSRF or cookie/session behavior is invented; those remain AUTH/release prerequisites.
+
+The Node 24 root build/start surface is retained. Local production tests explicitly substitute a
+fake DB and never constitute live database, session persistence or Hostinger compatibility evidence.
+The runbook must keep these unverified acceptance items and the missing validator visible.
+
 Changes to envelopes, config names, database/storage/job interfaces, or manifest loading require FND approval, named consumer updates, full integration tests, and explicit user approval if architecture changes.
 
 ## 13. Assumptions and TODOs

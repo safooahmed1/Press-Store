@@ -71,3 +71,4 @@ None. Foundation exposes no end-user UI beyond error infrastructure; UI owns pre
 | Integration | `npm run test:integration -- foundation` | yes | Empty/upgraded DB and HTTP cases pass |
 | Build | `npm run build` | yes | Client and server production artifacts build |
 | Production smoke | Documented local production-mode start plus health/SPA/API probes | yes | One process serves all expected paths |
+| Local production preparation | `npm run test:production` | yes for FND-006 local development; supplements real smoke | Production HTTP/assets/uploads and secret-bundle checks pass with explicitly fake DB; not hosting/MySQL/session acceptance |

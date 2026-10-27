@@ -11,6 +11,21 @@ export function requestLogging({ logger, mounts = ['/api/v1'] }) {
   const declaredMounts = new Set(mounts)
   return (req, res, next) => {
     const started = performance.now()
+    let route = req.route
+    let template = routeTemplate(req, declaredMounts)
+    // Express assigns the matched route before dispatch, while baseUrl still identifies
+    // its mount. Errors unwind that mount before finish/close, so snapshot only here.
+    // Keep req.route's normal read/write behavior and replace the snapshot on rematches,
+    // including an unresolved nested route after an earlier fully known route.
+    Object.defineProperty(req, 'route', {
+      configurable: true,
+      enumerable: true,
+      get: () => route,
+      set(value) {
+        route = value
+        template = routeTemplate(req, declaredMounts)
+      },
+    })
     let recorded = false
     const record = (aborted) => {
       if (recorded) return
@@ -22,7 +37,7 @@ export function requestLogging({ logger, mounts = ['/api/v1'] }) {
         Promise.resolve(logger.log(aborted ? 'http.request.aborted' : 'http.request.completed', {
           level: status >= 500 ? 'error' : status >= 400 ? 'warn' : 'info',
           requestId: res.locals.requestId,
-          routeTemplate: routeTemplate(req, declaredMounts), method: req.method, status,
+          routeTemplate: template, method: req.method, status,
           durationMs: performance.now() - started,
           errorCode: aborted ? 'REQUEST_ABORTED' : res.locals.errorCode,
         })).catch(() => {})

@@ -23,6 +23,7 @@ Do not read the whole documentation tree unless the task genuinely spans it.
 - Select only the earliest `not-started` task whose dependencies are complete.
 - If the user says `next`, continue with only the next ready task in that same scope.
 - Implement exactly one task per user authorization.
+- **FND-006 local-development exception (FND-DEC-005, 2026-10-27):** The user approved local FND-006 code/runbook development despite FND-002/FND-005 being blocked. No completion/validator/hosting gate is waived. Live MySQL reruns, deployment, commit and push remain unauthorized.
 - **FND-005-only exception (FND-DEC-004, 2026-10-27):** The user approved FND-005 implementation against locally verified FND-002 persistence while FND-002 remains `in-progress`. This satisfies FND-005's development dependency only. All FND-005 completion gates and FND-002 hosting/acceptance gates remain required; no FND-006 or release work is authorized.
 - After implementation, verification, documentation, and the task commit, report and stop.
 - Never start the next task automatically or move to another feature without explicit direction.

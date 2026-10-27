@@ -5,6 +5,29 @@ import { createLogger } from './logger.js'
 import { requestLogging } from './request-logging.js'
 
 describe('foundation safe observability', () => {
+  it('captures route metadata before mount restoration and uses the latest matched route', () => {
+    for (const nested of [false, true]) {
+      const records = []
+      const req = { method: 'GET', baseUrl: '/api/v1', route: undefined }
+      const res = Object.assign(new EventEmitter(), {
+        locals: {}, writableFinished: true, statusCode: 500,
+      })
+      requestLogging({ logger: { log: (event, fields) => records.push({ event, ...fields }) } })(req, res, () => {})
+      req.route = { path: '/skipped/:id' }
+      req.baseUrl = nested ? '/api/v1/private-account' : '/api/v1'
+      const route = { path: '/failed/:id' }
+      req.route = route
+      assert.equal(req.route, route)
+      req.baseUrl = ''
+      res.emit('finish')
+      res.emit('close')
+      assert.equal(records.length, 1)
+      assert.equal(records[0].routeTemplate, nested ? '<unresolved>' : '/api/v1/failed/:id')
+      assert.doesNotMatch(JSON.stringify(records), /private|skipped/)
+      assert.equal(res.listenerCount('close') + res.listenerCount('finish'), 0)
+    }
+  })
+
   it('drops sensitive fields, raw exceptions and malformed metadata without traversing them', () => {
     const lines = []
     const logger = createLogger({ environment: 'test', sink: (line) => lines.push(line) })
