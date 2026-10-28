@@ -85,6 +85,25 @@ UI-001 is task-complete at 1/4. AC-UI-001 remains a shared feature criterion unt
 | Whitespace/docs | `git diff --check`; required documentation validator | Passed |
 | Completion status | UI-002 acceptance/completion gate review | Done; UI feature remains 2/4 and AC-UI-002 remains shared until UI-003 shell behavior is implemented |
 
+## 9. Observed UI-003 Partial Evidence — 2026-10-28
+
+| Check | Exact command/procedure | Observed result |
+|---|---|---|
+| Customer shell component/a11y | `node --test src/shared/ui/shell/customer/ui-003.component.test.js` using Node 24 | 5 passed, 0 failed; landmarks/skip link, mobile menu focus return, safe optional links, loading contact, axe, and main focus |
+| Scope review | Inspect changed paths against UI-003 ownership | Customer shell path and focused tests only; no feature/server/admin/route changes |
+| Completion status | Re-read UI-003 acceptance and completion gate | In-progress until full suite and task commit |
+
+## 10. Observed UI-003 Completion Evidence — 2026-10-28
+
+| Check | Exact command/procedure | Observed result |
+|---|---|---|
+| Customer shell component/a11y | `node --test src/shared/ui/shell/customer/ui-003.component.test.js` using Node 24 | 5 passed, 0 failed |
+| Focused UI suite | `PATH=<Node 24 runtime> npm run test -- ui` with the existing child-process helper under the authorized elevated boundary | 35 passed, 0 failed |
+| Foundation regression | `PATH=<Node 24 runtime> npm run test -- foundation` | 96 passed, 0 failed |
+| Lint/build/audit | Node 24 `npm run lint`; `npm run build`; `npm audit --json` | Passed; zero vulnerabilities; Vite built 69 modules |
+| Whitespace/docs | `git diff --check`; required documentation validator | Passed |
+| Completion status | UI-003 acceptance/completion gate review | Done; UI feature remains 3/4 and AC-UI-002 remains shared until UI-004 completes the responsive matrix |
+
 ## 3. Feature Verification
 
 | Feature | Full Suite | Integration Scenarios | Build Required | Merge-Ready Evidence |

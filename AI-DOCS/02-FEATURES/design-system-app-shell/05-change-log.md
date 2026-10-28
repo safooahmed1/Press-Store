@@ -1,5 +1,10 @@
 # Change Log — Design System and App Shell
 
+### 2026-10-28 — UI-003 customer shell
+
+- Added `CustomerNavbar`, `CustomerFooter`, `CustomerLayout`, and `CustomerShell` under the UI-owned customer shell path. The shell provides public/customer navigation, skip link and landmarks, responsive mobile menu focus handling, safe contact/social projection rendering, and optional contact loading behavior without API calls.
+- Added five jsdom/Testing Library/axe tests covering navigation landmarks, cart/session states, Escape/focus return, safe optional links, loading contacts, and main-content focus. UI-003 is done at 3/4.
+
 ### 2026-10-28 — UI-002 accessible primitives
 
 - Added focused `Button`, `Field`, `Dialog`, `Price`, and `Image` primitives plus `AsyncBoundary` and `CollectionState` shared states under the UI-owned paths. Components use UI-001 tokens, semantic HTML, safe text rendering, logical borders, reduced-motion classes, and no network/business logic.

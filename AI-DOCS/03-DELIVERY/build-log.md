@@ -29,6 +29,11 @@
 - Direct component/a11y suite passed 6/6. The prescribed UI suite passed 30/30 including the UI-002 tests; foundation passed 94/94; lint, build, audit, whitespace, and documentation validation passed.
 - UI-002 is done at 2/4. The planned completion commit subject is `feat(UI-002): add accessible UI primitives`; no push, merge, deployment, or UI-003 implementation occurred.
 
+### 2026-10-28 — UI-003 customer shell implementation in progress
+
+- Preflight confirmed UI-002 and the frozen API-SET-002 public projection contract. Added customer-only navbar/footer/layout/shell primitives under `src/shared/ui/shell/customer/**`; no feature, server, route, or admin files changed.
+- Direct UI-003 component/a11y tests pass 5/5. The full UI suite passed 35/35, foundation passed 96/96, and lint/build/audit/docs/whitespace gates passed. UI-003 is done at 3/4; planned completion commit subject is `feat(UI-003): add customer app shell`.
+
 ### 2026-10-28 — UI-001 fashion design system
 
 - Preflight: created `feature/UI-design-system-app-shell` from `aa61d3f` under UI-DEC-002; preserved the three untracked user reference images and did not stage them. Scope stayed within UI paths plus the approved four-file shared wiring exception.

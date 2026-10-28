@@ -28,6 +28,14 @@
 - **Boundary:** No push, merge, deployment, or UI-003/UI-004 implementation is authorized. Root dependency manifests may change only for development test tooling required by UI-002 and must remain dev-only.
 - **Testing note:** The prescribed DOM/component tooling is required for the completion gate. If registry access prevents installing it, UI-002 remains `in-progress` and no completion commit is created.
 
+## UI-DEC-005 — UI-003 customer shell continuation
+
+- **Status:** `approved`
+- **Date:** 2026-10-28
+- **Decision:** Continue UI-003 on `feature/UI-design-system-app-shell` using the frozen `API-SET-002` projection shape. The customer shell accepts session, cart count, contact projection, and content as inputs; it performs no API calls or feature routing.
+- **Rationale:** UI-002 is complete and the shared shell contract is the next ordered UI task. Keeping contact data as an input preserves SET ownership and allows unavailable optional settings to remain hidden safely.
+- **Boundary:** Create only `src/shared/ui/shell/customer/**` and its focused tests plus named UI/delivery documentation. Do not modify `src/features/**`, `server/**`, admin shell paths, or route composition. No push, merge, deployment, or UI-004 implementation is authorized.
+
 ## UI-DEC-003 — UI-001 visual token direction
 
 - **Status:** `approved`
