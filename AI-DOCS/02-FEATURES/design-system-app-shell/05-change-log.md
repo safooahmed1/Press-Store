@@ -1,5 +1,10 @@
 # Change Log — Design System and App Shell
 
+### 2026-10-28 — UI-003 responsive navigation remediation
+
+- Closed an open customer mobile menu at the `md` desktop transition and moves focus to the main-content landmark when focus had been inside the menu. This prevents a hidden mobile focus trap from persisting after a viewport change.
+- Added a `matchMedia` DOM test and inspected English/long Arabic specimens at 390×844, 768×1024, 1440×900, and CSS 200% zoom without horizontal overflow. Evidence is in `evidence/ui-003-remediation-*`.
+
 ### 2026-10-28 — UI-004 admin layout
 
 - Added responsive `AdminLayout` primitives with desktop sidebar, mobile drawer, current-page semantics, skip link, keyboard focus handling, safe relative navigation paths, and prop-driven logout action. No admin data, API calls, feature routes, or page composition were added.

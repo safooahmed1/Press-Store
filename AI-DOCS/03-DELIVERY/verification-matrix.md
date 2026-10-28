@@ -104,6 +104,17 @@ UI-001 is task-complete at 1/4. AC-UI-001 remains a shared feature criterion unt
 | Whitespace/docs | `git diff --check`; required documentation validator | Passed |
 | Completion status | UI-003 acceptance/completion gate review | Done; UI feature remains 3/4 and AC-UI-002 remains shared until UI-004 completes the responsive matrix |
 
+## 11. Observed UI-003 Remediation Evidence — 2026-10-28
+
+| Check | Exact command/procedure | Observed result |
+|---|---|---|
+| Customer breakpoint/focus behavior | `node --test src/shared/ui/shell/customer/ui-003.component.test.js` using Node 24 | 6 passed, 0 failed; includes an open mobile menu transitioning at `md` with focus moved to `#main-content` |
+| Focused UI suite | `PATH=<Node 24 runtime> npm run test -- ui` | 40 passed, 0 failed |
+| Foundation regression | `PATH=<Node 24 runtime> npm run test -- foundation` | 97 passed, 0 failed |
+| Lint/build | Node 24 `npm run lint`; `npm run build` | Passed; Vite built 69 modules |
+| Visual QA | Local Vite specimen and browser inspection at 390×844, 768×1024, 1440×900, plus CSS 200% zoom with English and long Arabic copy | Menu opened/closed with Escape, no observed horizontal overflow, screenshots saved under `AI-DOCS/02-FEATURES/design-system-app-shell/evidence/ui-003-remediation-*` |
+| Completion status | Re-read UI-003 remediation scope and acceptance | Corrective UI-003 work is ready for its local commit; UI-004 remediation is not included |
+
 ## 3. Feature Verification
 
 | Feature | Full Suite | Integration Scenarios | Build Required | Merge-Ready Evidence |

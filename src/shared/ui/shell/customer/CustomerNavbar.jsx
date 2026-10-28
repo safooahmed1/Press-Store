@@ -45,6 +45,22 @@ export function CustomerNavbar({ session = { status: 'signed-out' }, cartCount =
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [menuOpen])
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia?.('(min-width: 48rem)')
+    if (!mediaQuery || !menuOpen) return undefined
+
+    function closeForDesktop(event) {
+      if (!event.matches) return
+      const focusWasInMenu = menuRef.current?.contains(document.activeElement)
+      setMenuOpen(false)
+      if (focusWasInMenu) document.getElementById('main-content')?.focus()
+    }
+
+    mediaQuery.addEventListener('change', closeForDesktop)
+    closeForDesktop(mediaQuery)
+    return () => mediaQuery.removeEventListener('change', closeForDesktop)
+  }, [menuOpen])
+
   function closeMenu() {
     setMenuOpen(false)
     menuButtonRef.current?.focus()

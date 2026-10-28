@@ -15,6 +15,25 @@ Object.assign(globalThis, {
 })
 Object.defineProperty(globalThis, 'navigator', { configurable: true, value: dom.window.navigator })
 
+let desktopViewport = false
+const viewportListeners = new Set()
+Object.defineProperty(dom.window, 'matchMedia', {
+  configurable: true,
+  value: () => ({
+    get matches() { return desktopViewport },
+    media: '(min-width: 48rem)',
+    addEventListener: (type, listener) => { if (type === 'change') viewportListeners.add(listener) },
+    removeEventListener: (type, listener) => { if (type === 'change') viewportListeners.delete(listener) },
+  }),
+})
+
+async function setDesktopViewport(matches) {
+  desktopViewport = matches
+  await act(async () => {
+    viewportListeners.forEach((listener) => listener({ matches, media: '(min-width: 48rem)' }))
+  })
+}
+
 const vite = await createServer({ root: process.cwd(), logLevel: 'silent' })
 const [react, testing, userEventModule, axeModule, shell] = await Promise.all([
   import('react'),
@@ -28,7 +47,10 @@ const { act, cleanup, render, screen, within } = testing
 const userEvent = userEventModule.default
 const axe = axeModule.default?.run ? axeModule.default : axeModule
 
-afterEach(() => cleanup())
+afterEach(async () => {
+  cleanup()
+  await setDesktopViewport(false)
+})
 after(async () => {
   cleanup()
   await vite.close()
@@ -70,6 +92,21 @@ test('ui-003 mobile menu traps focus and returns it on Escape', async () => {
   await user.keyboard('{Escape}')
   assert.equal(menuButton.getAttribute('aria-expanded'), 'false')
   assert.equal(document.activeElement, menuButton)
+})
+
+test('ui-003 closes an open mobile menu at the desktop breakpoint and moves focus to content', async () => {
+  render(createElement(shell.CustomerShell, { contact }, createElement('p', null, 'Content')))
+  const user = userEvent.setup()
+  const menuButton = screen.getByRole('button', { name: 'Open menu' })
+  await user.click(menuButton)
+  const mobileMenu = document.getElementById(menuButton.getAttribute('aria-controls'))
+  assert.equal(document.activeElement, within(mobileMenu).getByRole('link', { name: 'Home' }))
+
+  await setDesktopViewport(true)
+
+  assert.equal(menuButton.getAttribute('aria-expanded'), 'false')
+  assert.equal(document.activeElement, screen.getByRole('main'))
+  assert.equal(mobileMenu.className.includes('hidden'), true)
 })
 
 test('ui-003 footer hides unsafe optional social links and handles loading contacts', () => {

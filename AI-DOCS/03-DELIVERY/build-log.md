@@ -1,5 +1,10 @@
 # Build Log
 
+### 2026-10-28 — UI-003 responsive navigation remediation
+
+- The customer mobile menu now closes at the `md` breakpoint and moves focus from a closing menu to `#main-content`. Direct component checks pass 6/6; UI suite 40/40; foundation 97/97; lint/build pass. Browser evidence at 390×844, 768×1024, 1440×900, and CSS 200% zoom has no observed horizontal overflow.
+- UI-004 corrective work is deliberately not included in this commit and remains the next separately authorized remediation. No push or merge occurred.
+
 ## 1. Current Status
 
 | Scope ID | Type | Status | Branch | Completed/Total | Last Evidence | Blockers |

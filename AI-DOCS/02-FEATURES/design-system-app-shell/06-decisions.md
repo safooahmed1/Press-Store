@@ -26,6 +26,13 @@
 - **Decision:** Continue UI-004 locally on the existing UI branch with prop-driven admin layout primitives only. The layout owns responsive navigation, current-page semantics, and keyboard drawer behavior; admin features own data, API calls, logout policy, and route composition.
 - **Boundary:** Create only `src/shared/ui/shell/admin/**`, focused tests, and named delivery documentation. No admin pages, metrics, server changes, API calls, route changes, push, merge, or deployment are authorized.
 
+## UI-DEC-007 — UI-003 responsive remediation
+
+- **Status:** `approved`
+- **Date:** 2026-10-28
+- **Decision:** Correct UI-003 after review by closing its mobile menu on the `md` breakpoint and placing focus on the existing main landmark only when focus was inside that menu.
+- **Boundary:** Change only the customer shell, focused tests, visual evidence, and named delivery records. UI-004 corrections remain a separately authorized follow-up; no push, merge, deployment, feature routes, or API work is authorized.
+
 ## UI-DEC-004 — UI-002 local implementation boundary
 
 - **Status:** `approved`
