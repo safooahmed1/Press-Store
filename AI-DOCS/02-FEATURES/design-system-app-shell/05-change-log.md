@@ -1,5 +1,11 @@
 # Change Log — Design System and App Shell
 
+### 2026-10-28 — UI-002 accessible primitives
+
+- Added focused `Button`, `Field`, `Dialog`, `Price`, and `Image` primitives plus `AsyncBoundary` and `CollectionState` shared states under the UI-owned paths. Components use UI-001 tokens, semantic HTML, safe text rendering, logical borders, reduced-motion classes, and no network/business logic.
+- Added static UI-002 contract tests plus jsdom/Testing Library/user-event/axe-core component tests covering keyboard interaction, focus return, ARIA wiring, recovery actions, image failure, and axe accessibility checks.
+- UI-002 is done at 2/4. No push, merge, deployment, or UI-003/UI-004 implementation occurred. Reference images remain untracked.
+
 ### 2026-10-28 — UI-001 fashion design system
 
 - Implemented the Tailwind v4 Vite integration, centralized red/black/white tokens, Archivo and Noto Sans Arabic local WOFF2 fonts, reduced-motion/focus/base rules, responsive breakpoints, and an original Press Store favicon.

@@ -65,6 +65,26 @@
 
 UI-001 is task-complete at 1/4. AC-UI-001 remains a shared feature criterion until UI-002 primitives render representative consumers. No push, merge, deployment, or UI-002 implementation was performed.
 
+## 7. Observed UI-002 Partial Evidence — 2026-10-28
+
+| Check | Exact command/procedure | Observed result |
+|---|---|---|
+| Focused UI tests | `PATH=<Node 24 runtime> npm run test -- ui` with the existing child-process helper under the authorized elevated boundary | 24 passed, 0 failed; includes UI-002 static contract tests and all foundation/UI regressions |
+| Lint/build | `PATH=<Node 24 runtime> npm run lint`; `PATH=<Node 24 runtime> npm run build` | Both passed; Vite built 69 modules |
+| DOM/component/a11y tooling | Install `@testing-library/react`, `@testing-library/user-event`, `jsdom`, and `axe-core` as dev dependencies using Node 24 | **BLOCKED:** repeated npm registry attempts ended with `ETIMEDOUT` on a transitive package; manifests remained unchanged |
+| Completion status | Re-read UI-002 acceptance and completion gate | Remains `in-progress`; no completion commit or done claim |
+
+## 8. Observed UI-002 Completion Evidence — 2026-10-28
+
+| Check | Exact command/procedure | Observed result |
+|---|---|---|
+| Component interaction/accessibility | `node --test src/shared/ui/ui-002.component.test.js` using Node 24 | 6 passed, 0 failed; Button pending, Field ARIA, Price/Image recovery, Dialog focus return, state recovery, and axe checks |
+| Focused UI suite | `PATH=<Node 24 runtime> npm run test -- ui` with the existing child-process helper under the authorized elevated boundary | 30 passed, 0 failed |
+| Foundation regression | `PATH=<Node 24 runtime> npm run test -- foundation` | 94 passed, 0 failed |
+| Lint/build/audit | Node 24 `npm run lint`; `npm run build`; `npm audit --json` | Passed; zero vulnerabilities; Vite built 69 modules |
+| Whitespace/docs | `git diff --check`; required documentation validator | Passed |
+| Completion status | UI-002 acceptance/completion gate review | Done; UI feature remains 2/4 and AC-UI-002 remains shared until UI-003 shell behavior is implemented |
+
 ## 3. Feature Verification
 
 | Feature | Full Suite | Integration Scenarios | Build Required | Merge-Ready Evidence |

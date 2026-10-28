@@ -5,7 +5,7 @@
 | Scope ID | Type | Status | Branch | Completed/Total | Last Evidence | Blockers |
 |---|---|---|---|---:|---|---|
 | FND | feature | in-progress | `feature/FND-application-foundation` | 3/6 | 2026-10-27: FND-006 local production preparation under FND-DEC-005; 3 config/4 fake-DB production, 15 unit-file/45 non-live-MySQL integration checks, lint/build/install pass; verification-matrix §18 | FND-002/FND-005/FND-006 blocked: validator missing, upstream/actual host/real-DB/session/recovery gates open; FND-005 cleanup resolved by user |
-| UI | feature | in-progress | `feature/UI-design-system-app-shell` | 1/4 | 2026-10-28: UI-001 Tailwind/token/font implementation; 23/23 UI checks, lint/build, and 390/768/1440 visual evidence; design-system change log | UI-002–004 remain; FND must be present in main before merge |
+| UI | feature | in-progress | `feature/UI-design-system-app-shell` | 2/4 | 2026-10-28: UI-002 primitives; 30 UI checks including 6 DOM/axe tests, foundation/lint/build/audit/docs pass | UI-003–004 remain; FND must be present in main before merge |
 | AUTH | feature | planned | `feature/AUTH-identity-accounts` | 0/5 | Planning only; no implementation evidence | A-005 before AUTH-001 |
 | CAT | feature | planned | `feature/CAT-catalog-discovery` | 0/6 | Planning only; no implementation evidence | Dependencies not implemented |
 | SET | feature | planned | `feature/SET-store-settings` | 0/3 | Planning only; no implementation evidence | A-004 optional social scope |
@@ -16,6 +16,18 @@
 | ADM | feature | planned | `feature/ADM-admin-dashboard` | 0/3 | Planning only; no implementation evidence | Owner projection contracts not implemented |
 
 ## 2. Activity
+
+### 2026-10-28 — UI-002 primitives implementation in progress
+
+- Preflight confirmed UI-001 and the existing UI branch as the only implementation dependency. Added shared primitives/states under `src/shared/ui/**` and recorded UI-DEC-004 for the bounded local continuation.
+- `PATH=<Node 24 runtime> npm run test -- ui` passed 24/24 with the existing child-process helper executed under the authorized elevated boundary. `npm run lint` and `npm run build` passed.
+- The required dev-only DOM/component accessibility tooling could not be installed after repeated attempts: npm registry resolution ended with `ETIMEDOUT` on `@csstools/color-helpers`. `package.json` and `package-lock.json` were unchanged. UI-002 remains in-progress; no completion commit is authorized until the prescribed component/a11y gate runs.
+
+### 2026-10-28 — UI-002 completion evidence
+
+- Installed the approved dev-only `@testing-library/react`, `@testing-library/user-event`, `jsdom`, and `axe-core` dependencies with Node 24 after a successful retry.
+- Direct component/a11y suite passed 6/6. The prescribed UI suite passed 30/30 including the UI-002 tests; foundation passed 94/94; lint, build, audit, whitespace, and documentation validation passed.
+- UI-002 is done at 2/4. The planned completion commit subject is `feat(UI-002): add accessible UI primitives`; no push, merge, deployment, or UI-003 implementation occurred.
 
 ### 2026-10-28 — UI-001 fashion design system
 
