@@ -16,7 +16,7 @@
 | Branch | Type | Parent/Created From | Owner Workstream | Task IDs | Merge Target | Merge Prerequisites | Status |
 |---|---|---|---|---|---|---|---|
 | `feature/FND-application-foundation` | feature | `main` | WS-FND-01 | FND-001–FND-006 | `main` | FND full suite/build/docs validator; explicit merge instruction | active; FND-001/FND-003/FND-004 done; FND-002 blocked (hosting unavailable); FND-005 blocked (FND-DEC-004); FND-006 local preparation blocked (FND-DEC-005) |
-| `feature/UI-design-system-app-shell` | feature | `main` after FND | WS-UI-01 | UI-001–UI-004 | `main` | UI visual/a11y/responsive suite; explicit merge instruction | planned |
+| `feature/UI-design-system-app-shell` | feature | `aa61d3f` FND checkpoint under UI-DEC-002 | WS-UI-01 | UI-001–UI-004 | `main` | UI visual/a11y/responsive suite; FND present in main; explicit merge instruction | active; UI-001 done, UI-002–004 not-started; no push/merge authorized |
 | `feature/AUTH-identity-accounts` | feature | `main` after FND | WS-AUTH-01 | AUTH-001–AUTH-005 | `main` | AUTH security suite; explicit merge instruction | planned |
 | `feature/CAT-catalog-discovery` | feature | `main` after FND/AUTH/UI | WS-CAT-01 | CAT-001–CAT-006 | `main` | catalog suite/contracts; explicit merge instruction | planned |
 | `feature/SET-store-settings` | feature | `main` after FND/AUTH/UI | WS-SET-01 | SET-001–SET-003 | `main` | settings/privacy suite; explicit merge instruction | planned |

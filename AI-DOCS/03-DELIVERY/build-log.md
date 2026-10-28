@@ -5,7 +5,7 @@
 | Scope ID | Type | Status | Branch | Completed/Total | Last Evidence | Blockers |
 |---|---|---|---|---:|---|---|
 | FND | feature | in-progress | `feature/FND-application-foundation` | 3/6 | 2026-10-27: FND-006 local production preparation under FND-DEC-005; 3 config/4 fake-DB production, 15 unit-file/45 non-live-MySQL integration checks, lint/build/install pass; verification-matrix §18 | FND-002/FND-005/FND-006 blocked: validator missing, upstream/actual host/real-DB/session/recovery gates open; FND-005 cleanup resolved by user |
-| UI | feature | planned | `feature/UI-design-system-app-shell` | 0/4 | Planning only; no implementation evidence | A-003/A-004 affect content; A-007 reference screenshot unavailable |
+| UI | feature | in-progress | `feature/UI-design-system-app-shell` | 1/4 | 2026-10-28: UI-001 Tailwind/token/font implementation; 23/23 UI checks, lint/build, and 390/768/1440 visual evidence; design-system change log | UI-002–004 remain; FND must be present in main before merge |
 | AUTH | feature | planned | `feature/AUTH-identity-accounts` | 0/5 | Planning only; no implementation evidence | A-005 before AUTH-001 |
 | CAT | feature | planned | `feature/CAT-catalog-discovery` | 0/6 | Planning only; no implementation evidence | Dependencies not implemented |
 | SET | feature | planned | `feature/SET-store-settings` | 0/3 | Planning only; no implementation evidence | A-004 optional social scope |
@@ -17,7 +17,12 @@
 
 ## 2. Activity
 
-No implementation activity recorded.
+### 2026-10-28 — UI-001 fashion design system
+
+- Preflight: created `feature/UI-design-system-app-shell` from `aa61d3f` under UI-DEC-002; preserved the three untracked user reference images and did not stage them. Scope stayed within UI paths plus the approved four-file shared wiring exception.
+- Added Tailwind 4.3.3 and `@tailwindcss/vite`, `css-loader` 7.1.5, local Archivo/Noto Sans Arabic WOFF2 assets with licenses, centralized tokens/base rules, and an original favicon.
+- `npm run test -- ui` passed 23/23 with the existing child-process helper rerun using authorized elevated execution; `npm run lint` and `npm run build` passed. Chrome headless visual QA captured mobile/tablet/desktop evidence under the UI feature evidence directory.
+- UI-001 is done; UI remains in progress at 1/4. No push, merge, deployment, or next-task implementation occurred.
 
 ### 2026-10-20 — FND-001 development handoff
 

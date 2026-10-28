@@ -51,7 +51,21 @@
 | ADM-002 | REQ-ADM-002/003, REQ-SCOPE-011/021 | AC-ADM-002 | projection/UI/scope tests | owner-contract integration | no-chart/revenue inspection | yes |
 | ADM-003 | REQ-ADM-004 | AC-ADM-001/002 | admin E2E | lint/build/full admin | complete navigation matrix | yes |
 
-## 2. Feature Verification
+## 2. Observed UI-001 Evidence — 2026-10-28
+
+| Check | Exact command/procedure | Observed result |
+|---|---|---|
+| Focused UI tests | `npm run test -- ui` using Node 24; the existing child-process regression helper required authorized elevated execution because sandbox `spawnSync npm` returned EPERM | 23 passed, 0 failed; includes five UI token/style tests and the foundation selection regressions |
+| Foundation regression | `npm run test -- foundation` using Node 24 with the same elevated execution boundary | 93 passed, 0 failed |
+| Lint | `npm run lint` | Exit 0 |
+| Build | `npm run build` | Exit 0; Vite 8.3.5 emitted 9.00 kB CSS, 34.92 kB Archivo WOFF2, and 165.96 kB Noto Sans Arabic WOFF2 before gzip |
+| Visual QA | Chrome headless against a temporary UI specimen importing `/src/styles/index.css` at 390×844, 768×1024, and 1440×900; English-first copy plus long Arabic RTL sample | All three viewports rendered without horizontal overflow; screenshots saved under `AI-DOCS/02-FEATURES/design-system-app-shell/evidence/` |
+| Whitespace | `git diff --check` | Pass |
+| Documentation validator | `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .` | Required final check; run again after all documentation edits before commit |
+
+UI-001 is task-complete at 1/4. AC-UI-001 remains a shared feature criterion until UI-002 primitives render representative consumers. No push, merge, deployment, or UI-002 implementation was performed.
+
+## 3. Feature Verification
 
 | Feature | Full Suite | Integration Scenarios | Build Required | Merge-Ready Evidence |
 |---|---|---|---|---|
@@ -66,11 +80,11 @@
 | CUS | projection/privacy/query suite | AUTH/ORD read contracts | yes | AC-CUS-001–002 |
 | ADM | route/metric/admin E2E suite | all admin owner routes/contracts | yes | AC-ADM-001–002 |
 
-## 3. Project and Release Verification
+## 4. Project and Release Verification
 
 Run clean install, lint, all unit/component/integration/E2E tests, migrations on empty and prior schema, production build/start, health/SPA/API probes, responsive/accessibility/security smoke matrices, upload/session persistence checks, backup/rollback review, and the documentation validator. Confirm the source tree contains no accidental generated scaffold from planning work.
 
-## 4. Unavailable Checks and Required Blockers
+## 5. Unavailable Checks and Required Blockers
 
 No check is assumed available until its FND task creates the command. A task requiring a missing command remains `blocked` or `in-progress`; it cannot be marked done. Hostinger deployment smoke and production backups require credentials/environment and explicit user authorization. A-001 through A-007 must be confirmed or explicitly accepted before the task that depends on each.
 

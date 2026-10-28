@@ -28,6 +28,7 @@ Merge owner contracts before consumers, never redefine an interface, preserve ta
 |---|---|---|---|---|
 | HTTP-FND-001, DB-FND-001, STO-FND-001, JOB-FND-001, CFG-FND-001, APP-FND-001 | FND | all named features | FND `03-technical-contracts.md` | owner-first; breaking change requires all consumers/full suite |
 | UI-UI-001–UI-UI-004 | UI | all client features | UI contracts | breaking props/tokens require visual/a11y consumer updates |
+| UI-UI-005 | UI | all client features | UI contracts §6 | token names/values and breakpoint changes require visual regression review |
 | API-AUTH-001/002, AUTH-AUTH-001/002, READ-AUTH-001 | AUTH | customer/admin features | AUTH contracts | auth/security changes require critical user approval |
 | API-CAT-001/002, READ-CAT-001/002/003, CMD-CAT-001, UI-CAT-001 | CAT | HOME, CART, ORD, ADM | CAT contracts | money/availability/curation/intent changes require consumer integration |
 | API-SET-001/002, READ-SET-001/002 | SET | UI, ORD | SET contracts | projection privacy must never broaden silently |
