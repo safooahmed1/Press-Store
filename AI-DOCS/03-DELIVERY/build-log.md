@@ -5,7 +5,7 @@
 | Scope ID | Type | Status | Branch | Completed/Total | Last Evidence | Blockers |
 |---|---|---|---|---:|---|---|
 | FND | feature | in-progress | `feature/FND-application-foundation` | 3/6 | 2026-10-27: FND-006 local production preparation under FND-DEC-005; 3 config/4 fake-DB production, 15 unit-file/45 non-live-MySQL integration checks, lint/build/install pass; verification-matrix §18 | FND-002/FND-005/FND-006 blocked: validator missing, upstream/actual host/real-DB/session/recovery gates open; FND-005 cleanup resolved by user |
-| UI | feature | in-progress | `feature/UI-design-system-app-shell` | 2/4 | 2026-10-28: UI-002 primitives; 30 UI checks including 6 DOM/axe tests, foundation/lint/build/audit/docs pass | UI-003–004 remain; FND must be present in main before merge |
+| UI | feature | in-progress | `feature/UI-design-system-app-shell` | 4/4 | 2026-10-28: UI-004 admin layout; UI/foundation/lint/build/audit/docs gates pass | FND must be present in main and shared visual acceptance matrix closed before merge |
 | AUTH | feature | planned | `feature/AUTH-identity-accounts` | 0/5 | Planning only; no implementation evidence | A-005 before AUTH-001 |
 | CAT | feature | planned | `feature/CAT-catalog-discovery` | 0/6 | Planning only; no implementation evidence | Dependencies not implemented |
 | SET | feature | planned | `feature/SET-store-settings` | 0/3 | Planning only; no implementation evidence | A-004 optional social scope |
@@ -33,6 +33,10 @@
 
 - Preflight confirmed UI-002 and the frozen API-SET-002 public projection contract. Added customer-only navbar/footer/layout/shell primitives under `src/shared/ui/shell/customer/**`; no feature, server, route, or admin files changed.
 - Direct UI-003 component/a11y tests pass 5/5. The full UI suite passed 35/35, foundation passed 96/96, and lint/build/audit/docs/whitespace gates passed. UI-003 is done at 3/4; planned completion commit subject is `feat(UI-003): add customer app shell`.
+
+### 2026-10-28 — UI-004 admin layout completion
+
+- Added responsive admin layout primitives and four focused keyboard/landmark/axe checks. Full UI and foundation suites, lint, build, audit, whitespace, and documentation validation passed. UI-004 is done at 4/4; no push or merge performed.
 
 ### 2026-10-28 — UI-001 fashion design system
 

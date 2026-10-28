@@ -19,6 +19,13 @@
 - **Boundary:** No push, merge, FND source changes, server changes, or UI-002+ implementation is authorized. The branch remains blocked from integration until the normal FND merge gate passes.
 - **Affected contracts/tasks:** UI-001; UI-UI-005.
 
+## UI-DEC-006 — UI-004 admin layout continuation
+
+- **Status:** `approved`
+- **Date:** 2026-10-28
+- **Decision:** Continue UI-004 locally on the existing UI branch with prop-driven admin layout primitives only. The layout owns responsive navigation, current-page semantics, and keyboard drawer behavior; admin features own data, API calls, logout policy, and route composition.
+- **Boundary:** Create only `src/shared/ui/shell/admin/**`, focused tests, and named delivery documentation. No admin pages, metrics, server changes, API calls, route changes, push, merge, or deployment are authorized.
+
 ## UI-DEC-004 — UI-002 local implementation boundary
 
 - **Status:** `approved`

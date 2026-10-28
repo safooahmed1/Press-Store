@@ -1,5 +1,10 @@
 # Change Log — Design System and App Shell
 
+### 2026-10-28 — UI-004 admin layout
+
+- Added responsive `AdminLayout` primitives with desktop sidebar, mobile drawer, current-page semantics, skip link, keyboard focus handling, safe relative navigation paths, and prop-driven logout action. No admin data, API calls, feature routes, or page composition were added.
+- Added four jsdom/Testing Library/axe checks covering landmarks, drawer focus/Escape behavior, unsafe path rejection, and accessibility. UI-004 is done at 4/4; the feature remains gated from merge until FND is present in `main` and the shared visual acceptance matrix is closed.
+
 ### 2026-10-28 — UI-003 customer shell
 
 - Added `CustomerNavbar`, `CustomerFooter`, `CustomerLayout`, and `CustomerShell` under the UI-owned customer shell path. The shell provides public/customer navigation, skip link and landmarks, responsive mobile menu focus handling, safe contact/social projection rendering, and optional contact loading behavior without API calls.
