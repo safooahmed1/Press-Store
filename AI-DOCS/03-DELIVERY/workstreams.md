@@ -4,7 +4,7 @@
 
 | Workstream ID | Parent Feature | Objective | Task IDs | Allowed Paths | Forbidden Paths | Depends On | Parallel With | Branch | Merge Target | Status |
 |---|---|---|---|---|---|---|---|---|---|---|
-| WS-FND-01 | FND | Freeze runtime, DB/HTTP/storage/test/deployment platform | FND-001, FND-002, FND-003, FND-004, FND-005, FND-006 | FND paths in blueprint; root build config | `src/features/**`, business feature server paths, `src/shared/ui/**` | None | None until contracts freeze | `feature/FND-application-foundation` | `main` | planned |
+| WS-FND-01 | FND | Freeze runtime, DB/HTTP/storage/test/deployment platform | FND-001, FND-002, FND-003, FND-004, FND-005, FND-006 | FND paths in blueprint; root build config; FND-002 exact bounded additions in FND contracts §2 | `src/features/**`, business feature server paths, `src/shared/ui/**` | None | None until contracts freeze | `feature/FND-application-foundation` | `main` | in-progress; FND-001/FND-003/FND-004 done; FND-002 blocked (hosting unavailable); FND-005 blocked after FND-DEC-004; FND-006 local preparation blocked under FND-DEC-005; no later task ready |
 | WS-UI-01 | UI | Deliver visual system and responsive shared shells | UI-001, UI-002, UI-003, UI-004 | `src/shared/ui/**`, `src/styles/**`, approved assets | server/business feature paths | FND-001/FND-003 | WS-AUTH-01 core after shared boundaries freeze | `feature/UI-design-system-app-shell` | `main` | planned |
 | WS-AUTH-01 | AUTH | Deliver identities, sessions, auth UI, and guards | AUTH-001, AUTH-002, AUTH-003, AUTH-004, AUTH-005 | AUTH paths in blueprint | cart/order/catalog/settings paths | FND-002/FND-003; UI-002 for UI | WS-UI-01 non-overlapping work | `feature/AUTH-identity-accounts` | `main` | planned |
 | WS-CAT-01 | CAT | Deliver canonical catalog, discovery, and admin CRUD | CAT-001, CAT-002, CAT-003, CAT-004, CAT-005, CAT-006 | CAT paths in blueprint | HOME/CART/ORD paths; platform internals | FND; AUTH guard; UI primitives | WS-SET-01 after AUTH guard | `feature/CAT-catalog-discovery` | `main` | planned |
@@ -34,3 +34,7 @@ All normal feature workstreams have exclusive feature paths. UI and FND shared p
 ## 4. Developer Assignment Notes
 
 Assign one developer/agent per workstream. Refresh from the documented parent only at workstream start. Implement one ready task per user authorization, commit it, report, and stop. Do not treat a developer assignment as merge, push, PR, or deployment authorization.
+
+### 2026-10-23 — Bounded FND-002 exception
+
+FND-DEC-002 permits only FND-002 backend development against reviewed baseline `740c22b2fb3be6d1b5bd0080bbf42109e238c515`; FND-001 remains `blocked` and its frontend completion belongs to another developer. The current instruction is documentation only. No shared configuration, composition, tooling, or delivery file may be written concurrently. Existing branch/merge strategy, other dependency gates, and completion requirements remain unchanged; no completion commit is authorized.
