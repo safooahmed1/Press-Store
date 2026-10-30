@@ -12,6 +12,14 @@ dist
 dist-ssr
 *.local
 
+# Environment files must never enter the index, including nested server files.
+.env
+.env.*
+*.env
+*.env.*
+coverage/
+uploads/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

@@ -33,9 +33,9 @@
 | Planned Path/File | Responsibility | Created By Task | Must Not Contain |
 |---|---|---|---|
 | `src/features/admin-dashboard/navigation/**` | required route manifest/navigation content | ADM-001 | Owner feature page implementations |
-| `server/src/features/admin-dashboard/**` | compose bounded metrics | ADM-002 | Analytics persistence/foreign writes |
-| `src/features/admin-dashboard/dashboard/**` | dashboard cards/lists | ADM-002 | Revenue/charts |
-| `tests/integration/admin-dashboard/**` | route/metrics/scope evidence | ADM-003 | Production data |
+| `server/src/features/admin-dashboard/**` | compose bounded metrics | ADM-004 | Analytics persistence/foreign writes |
+| `src/features/admin-dashboard/dashboard/**` | dashboard cards/lists | ADM-005 | Revenue/charts |
+| `tests/integration/admin-dashboard/**` | live dashboard composition plus route/metrics/scope evidence | ADM-002, ADM-003 | Production data or unfinished BE/FE implementation |
 
 ## 3. API Contracts
 

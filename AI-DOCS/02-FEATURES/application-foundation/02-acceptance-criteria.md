@@ -14,7 +14,7 @@ The feature is not complete until every required criterion passes and has eviden
 - **Then:** feature manifests load, `/api/v1/health` responds, and non-API production routes serve the React application
 - **Negative/edge behavior:** invalid configuration fails startup before traffic
 - **Evidence:** focused startup/integration tests and production-mode smoke command
-- [ ] Passed
+- [x] Passed
 
 ### AC-FND-002 — Persistence and errors are safe
 
@@ -34,7 +34,7 @@ The feature is not complete until every required criterion passes and has eviden
 - **Then:** valid images get generated safe paths and invalid/oversized/path-traversal input is rejected
 - **Negative/edge behavior:** compensation removes orphaned newly written files
 - **Evidence:** storage adapter tests
-- [ ] Passed
+- [x] Passed
 
 ### AC-FND-004 — Release shape is Hostinger-compatible
 
@@ -71,3 +71,4 @@ None. Foundation exposes no end-user UI beyond error infrastructure; UI owns pre
 | Integration | `npm run test:integration -- foundation` | yes | Empty/upgraded DB and HTTP cases pass |
 | Build | `npm run build` | yes | Client and server production artifacts build |
 | Production smoke | Documented local production-mode start plus health/SPA/API probes | yes | One process serves all expected paths |
+| Local production preparation | `npm run test:production` | yes for FND-006 local development; supplements real smoke | Production HTTP/assets/uploads and secret-bundle checks pass with explicitly fake DB; not hosting/MySQL/session acceptance |

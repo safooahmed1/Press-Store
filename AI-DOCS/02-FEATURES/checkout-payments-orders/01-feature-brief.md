@@ -5,7 +5,7 @@
 - **Feature ID:** `ORD`
 - **Kind:** `business`
 - **Parent Feature:** `None`
-- **Owner:** `WS-ORD-01`, `WS-ORD-02`, `WS-ORD-03`
+- **Owner:** `WS-ORD-BE`, `WS-ORD-FE`, `WS-ORD-INT`
 - **Status:** `planned`
 
 ## 2. Summary

@@ -36,7 +36,7 @@ FND owns runtime primitives, UI owns reusable presentation, AUTH owns identity/s
 - Client: `app → features → shared`; no upward or feature-to-feature imports except exported contract adapters.
 - Server: `route → controller → service → repository/platform`.
 - Cross-feature server interaction calls an exposed service contract, never a foreign repository.
-- Feature manifests let FND compose routes/jobs without parallel edits to registries.
+- Feature manifests let FND compose React Router routes and jobs without parallel edits to registries.
 - CAT availability and ORD money/order invariants have one canonical implementation each.
 
 ## 6. Data Ownership

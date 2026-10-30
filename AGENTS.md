@@ -20,11 +20,17 @@ Do not read the whole documentation tree unless the task genuinely spans it.
 ## 3. User-Gated Task Loop
 
 - Interpret the user's requested feature or workstream as the active scope.
+- For AUTH and every later planned feature, select work from exactly one delivery lane: `BE`, `FE`, or `INT`. Use `AI-DOCS/03-DELIVERY/backend-track.md` or `frontend-track.md` as the entry point, then return to the feature backlog and canonical contracts.
+- A frontend task may finish against contract fixtures when its API is unavailable. This makes only the FE workstream `ready-for-integration`; it never completes the feature or its INT gate.
+- Keep at most one task `in-progress` per developer lane. After a lane is `ready-for-integration`, the developer may move only to the next dependency-ready task in the same requested lane and scope when the user authorizes it.
 - Select only the earliest `not-started` task whose dependencies are complete.
 - If the user says `next`, continue with only the next ready task in that same scope.
 - Implement exactly one task per user authorization.
+- **FND-006 local-development exception (FND-DEC-005, 2026-10-27):** The user approved local FND-006 code/runbook development despite FND-002/FND-005 being blocked. No completion/validator/hosting gate is waived. Live MySQL reruns, deployment, commit and push remain unauthorized.
+- **FND-005-only exception (FND-DEC-004, 2026-10-27):** The user approved FND-005 implementation against locally verified FND-002 persistence while FND-002 remains `in-progress`. This satisfies FND-005's development dependency only. All FND-005 completion gates and FND-002 hosting/acceptance gates remain required; no FND-006 or release work is authorized.
 - After implementation, verification, documentation, and the task commit, report and stop.
 - Never start the next task automatically or move to another feature without explicit direction.
+- **FND-002-only exception (FND-DEC-002):** The user approved backend development against independently reviewed FND-001 backend baseline `740c22b2fb3be6d1b5bd0080bbf42109e238c515` without formal FND-001 completion. This satisfies only FND-002's runtime dependency for development and the corresponding §4 dependency preflight; A-002 must also be confirmed. FND-001 remains `blocked`, frontend completion remains with its developer, and no other downstream task is authorized. No completion, commit, merge, or release gate is waived. The current instruction authorizes documentation only; implementation requires a subsequent user instruction.
 
 ## 4. Preflight
 
@@ -42,6 +48,8 @@ If the expected branch is missing, create it according to `branch-plan.md`. Do n
 ## 5. Ownership and Scope
 
 - Modify only paths owned by the selected task/workstream.
+- BE workstreams own `server/**` and backend integration tests named in their feature contract. FE workstreams own `src/**` and client tests/fixtures named there. INT workstreams own integration/E2E evidence and approved composition only; they do not absorb unfinished BE or FE implementation.
+- Contract fixtures and mock adapters are test/development-only, must match the canonical feature contract, and must not be shipped as a production data source.
 - Do not edit another feature's source paths, entities, APIs, screens, or contracts.
 - Use documented interfaces across feature boundaries.
 - Stop and request approval when a shared contract needs owner and consumer changes.

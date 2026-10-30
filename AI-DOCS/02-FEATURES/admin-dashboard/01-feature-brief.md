@@ -5,7 +5,7 @@
 - **Feature ID:** `ADM`
 - **Kind:** `business`
 - **Parent Feature:** `None`
-- **Owner:** `WS-ADM-01`
+- **Owner:** `WS-ADM-BE`, `WS-ADM-FE`, `WS-ADM-INT`
 - **Status:** `planned`
 
 ## 2. Summary
