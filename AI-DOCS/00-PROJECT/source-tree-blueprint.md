@@ -9,6 +9,7 @@ Press Store/
 ├── index.html
 ├── src/                             # React client
 │   ├── app/                         # app bootstrap, providers, route-manifest loader
+│   ├── routes/                       # FND-owned React Router composition
 │   ├── features/
 │   │   ├── auth/
 │   │   ├── catalog/
@@ -47,6 +48,7 @@ Each server feature contains only the directories it needs: `routes/`, `controll
 | Path | Purpose | Owner | Allowed Contents | Must Not Contain |
 |---|---|---|---|---|
 | `src/app/` | React providers, route discovery, error boundary | FND | App-only composition and provider wiring | Business rules or feature UI |
+| `src/routes/` | React Router manifest composition | FND | `RouterApp` and route-only tests | Feature pages, feature navigation, or business rules |
 | `src/features/<slug>/` | Feature-owned customer/admin UI | Named feature | Pages, components, hooks, API adapters, focused tests | Another feature's canonical types or business rules |
 | `src/shared/ui/` | Reusable visual primitives and states | UI | Tokens, buttons, fields, layouts, accessibility helpers | Business feature behavior |
 | `src/shared/api/` | Axios instance and error normalization | FND | Transport configuration only | Feature endpoint functions |

@@ -35,7 +35,7 @@
 
 | Planned Path/File | Responsibility | Created By Task | Must Not Contain |
 |---|---|---|---|
-| `src/app/**`, `src/shared/api/**` | Client providers, discovery, Axios/error setup | FND-001, FND-003 | Feature behavior |
+| `src/app/**`, `src/routes/**`, `src/shared/api/**` | Client providers, React Router discovery/composition, Axios/error setup | FND-001, FND-003 | Feature behavior |
 | `server/src/app/**`, `server/src/config/**` | Express composition and validated config | FND-001, FND-003 | Secret literals/domain rules |
 | `server/src/platform/db/**` | MySQL pool, transaction, migrations | FND-002 | Feature SQL |
 | `server/src/platform/http/**` | HTTP validation/error middleware | FND-003 | Feature-specific codes without registration |
@@ -242,11 +242,11 @@ Changes to envelopes, config names, database/storage/job interfaces, or manifest
 
 > **CONFIRMED A-002 — 2026-10-23:** use `mysql2/promise`, explicit parameterized SQL, and forward SQL migrations with an FND-owned runner; no ORM or query builder. See FND-DEC-002 and the assumptions register. Exact driver version and hosting compatibility remain development verification items, not unresolved technology selection.
 
-### FND-001 runtime seam implementation — 2026-10-20
+### FND-001 runtime seam implementation — amended 2026-10-30
 
 > **ASSUMPTION A-008:** manifests are named `manifest.js` immediately inside each feature directory and expose a named `feature` export. This fills the previously unspecified file/export convention; no business feature currently consumes it. FND-003 remains the documented contract freeze point.
 
-- Client discovery: `src/features/*/manifest.js`, using Vite glob discovery. The export is `{ id, routes: [{ path, load }] }`; `load` resolves a module whose default export is a React page. IDs are unique lowercase kebab-case. The initial seam supports exact absolute paths with lowercase letters/digits/hyphens, rejects duplicate paths and the `/api` namespace, and lazy-loads matched pages. Native document navigation is sufficient for this initial seam; parameter matching and client navigation helpers are not implemented. Empty/unmatched routes render nothing until UI/feature owners provide pages. Suspense and an app error boundary provide minimal loading/failure infrastructure.
+- Client discovery: `src/features/*/manifest.js`, using Vite glob discovery. The export is `{ id, routes: [{ path, load }] }`; `load` resolves a module whose default export is a React page. IDs are unique lowercase kebab-case. `App` owns `BrowserRouter`; FND-owned `src/routes/RouterApp.js` turns the validated manifests into lazy `Routes`/`Route` entries. Paths are absolute and support lowercase static segments plus named lowercase dynamic parameters (for example, `/products/:productid`). `/api`, wildcards, optional parameters, trailing slashes, duplicate literal paths, and duplicate dynamic signatures are rejected. Static and dynamic siblings are allowed and React Router ranks static paths first. Empty/unmatched routes render nothing until a feature owns that experience. Suspense and an app error boundary provide minimal loading/failure infrastructure. Feature navigation remains feature-owned; this contract does not require `Link`/`NavLink` conversion.
 - Server discovery: `server/src/features/*/manifest.js`. The export is `{ id, path, router }`; IDs are unique lowercase kebab-case, `path` is a unique single-segment lowercase kebab-case mount below `/api/v1`, and `router` is an Express router/middleware function. `/health` is reserved. Missing feature trees and directories without manifests are allowed; invalid/duplicate manifests and import failures prevent startup.
 - Config currently validates only `NODE_ENV` and `PORT` in `server/src/config/`. Development/test default to port 3000; production requires an explicit valid port. Environment files are not loaded. Database/session/origin/upload validation remains with the appropriate later tasks; this is not the complete CFG-FND-001 release gate.
 - Health currently reports runtime readiness, with an injectable fail-closed dependency check. No MySQL readiness exists before FND-002. A minimal request ID and sanitized runtime errors preserve the existing envelope; FND-003 still owns full HTTP/validation/transport infrastructure.

@@ -127,7 +127,7 @@ describe('foundation HTTP runtime', () => {
     await writeFile(path.join(distRoot, 'asset.js'), 'export const fixture = true')
     await writeFile(path.join(distRoot, '.env'), 'synthetic-fixture-only')
     const origin = await listen(t, { config: { nodeEnv: 'production' }, distRoot })
-    for (const route of ['/', '/nested/route']) {
+    for (const route of ['/', '/nested/route', '/products/fixture', '/admin/orders/fixture']) {
       const response = await fetch(`${origin}${route}`, { headers: { Accept: 'text/html' } })
       assert.equal(response.status, 200)
       assert.equal(await response.text(), html)
@@ -204,7 +204,7 @@ describe('foundation HTTP runtime', () => {
           }
         })
       }
-      for (const route of ['/', '/nested/route', '/%6eested/route', '/%252froute']) {
+      for (const route of ['/', '/nested/route', '/products/fixture', '/admin/orders/fixture', '/%6eested/route', '/%252froute']) {
         const response = await probe(origin, route, method)
         assert.equal(response.status, 200, route)
         assert.match(response.headers['content-type'], /text\/html/)

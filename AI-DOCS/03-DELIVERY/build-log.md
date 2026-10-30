@@ -228,3 +228,16 @@ No implementation activity recorded.
   AC-FND-004 unchecked, feature remains 3/6. Actual hosting/native support, real DB smoke/migrations,
   session persistence, durable host uploads, backup/restore and upstream closeout remain required.
 - No commit, push, PR, merge, deployment, live MySQL rerun or later-task work.
+
+### 2026-10-30 — FND-001 React Router manifest-routing amendment
+
+- User approved the client routing architecture change on `feature/FND-application-foundation`.
+  Added `react-router-dom` 7.18.5, `BrowserRouter` at the app root, and FND-owned manifest composition
+  in `src/routes/`; no feature page, route consumer, API, authentication, or business behavior changed.
+- The validated manifest contract now supports named dynamic parameters and rejects ambiguous dynamic
+  signatures. Direct production GET/HEAD fallback coverage includes customer and admin-shaped paths;
+  `/api` remains reserved. A-008 and FND-DEC-006 record the scope and decision.
+- Observed verification: foundation unit 94/94, integration 48/48 (two MySQL opt-in suites skipped),
+  production wiring 4/4, lint/build/audit, whitespace, and the prescribed documentation validator all
+  pass; see verification-matrix §19. FND remains 3/6 with FND-002/FND-005/FND-006 blocked. No push, merge,
+  PR, deployment, or UI navigation migration is implied.

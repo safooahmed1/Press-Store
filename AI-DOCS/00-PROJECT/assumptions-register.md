@@ -9,7 +9,7 @@
 | A-005 | Pending Confirmation | AUTH contracts | Customer phone numbers are normalized to Egyptian `+20` E.164 form and must be unique. | Confirm whether non-Egyptian customer numbers must be supported. |
 | A-006 | Pending Confirmation | branch-plan, integration-plan | Use merge commits for local/remote feature integration so task commits remain visible; do not merge until the user explicitly authorizes it. | Confirm `merge`, `squash`, or `rebase` before the first merge. |
 | A-007 | Pending Confirmation | UI feature and visual QA | The homepage reference screenshot mentioned by the PRD is not present in the repository; use the PRD's textual editorial-fashion direction and do not treat the existing 343×361 layered icon asset as that reference. | Attach or identify the intended screenshot if it should influence UI-001. |
-| A-008 | Recorded noncritical implementation assumption | FND contracts §13 | Immediate feature directories use `manifest.js` with a named `feature` export; the initial client seam matches exact paths and server manifests mount Express routers below `/api/v1`. | Review before FND-003 freezes manifest contracts; no business consumers exist yet. |
+| A-008 | Confirmed 2026-10-30 | FND contracts §13; FND-DEC-006 | Immediate feature directories use `manifest.js` with a named `feature` export. Client manifests compose through React Router and permit static paths plus named dynamic parameters; server manifests mount Express routers below `/api/v1`. | User approved the routing architecture amendment; future feature owners register routes only through their manifests. |
 
 ## 2026-10-23 — A-002 confirmation history
 

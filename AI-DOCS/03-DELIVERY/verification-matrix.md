@@ -382,6 +382,19 @@ were preserved. No live MySQL rerun, remote operation, commit or deployment was 
 FND-006 remains `blocked`, AC-FND-004 unchecked, completed 3/6, feature not merge-ready. Planned
 subject `chore(FND-006): add Hostinger production shape` is a reference only; no commit authorized.
 
+## 19. Observed FND-001 React Router Amendment Evidence — 2026-10-30
+
+| Check | Exact command/procedure | Observed result |
+|---|---|---|
+| Manifest and RouterView unit checks | `npm run test -- foundation` | 94 passed, 0 failed across 16 suites. Covers dynamic route validation, ambiguous signature rejection, static and dynamic React Router rendering, unknown blank route, and lazy manifest collection. |
+| Runtime integration | `npm run test:integration -- foundation` | 48 passed, 0 failed across 7 suites; disposable-MySQL/query-plan suites were explicitly skipped without opt-in. Production fallback verifies `/products/fixture` and `/admin/orders/fixture` with GET and HEAD while API paths remain reserved. |
+| Local production wiring | `npm run test:production` | 4 passed, 0 failed. Fake-database production test rebuilt and served the SPA/assets/API boundary; it is not hosting or live-MySQL acceptance evidence. |
+| Static checks | `npm run lint`; `npm run build`; `npm audit --json` | All exit 0. Vite 8.3.5 built 77 modules (286.04 kB JS, 89.97 kB gzip); audit reports zero vulnerabilities after adding `react-router-dom` 7.18.5. |
+| Whitespace and documentation | `git diff --check`; `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .` | Both exit 0; documentation validator reports `PASS: generated project documentation is structurally valid`. |
+
+This corrective FND-001 amendment preserves the feature's 3/6 completion count. It does not resolve the
+existing FND-002, FND-005, or FND-006 blockers and does not authorize a merge or release.
+
 Second pass: re-read FND-006/AC-FND-004 and reviewed tracked changes plus new configuration,
 upload-serving code, tests and runbook for ownership, secret exposure, path handling and cleanup.
 `node --version` reported v24.18.1; `git diff --check` passed. Lockfile, DB/AUTH/client source

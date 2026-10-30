@@ -1,5 +1,11 @@
 # Change Log — Application Foundation
 
+## 2026-10-30 — FND-001 React Router manifest-routing amendment
+
+- Replaced exact pathname selection with `BrowserRouter` and FND-owned `RouterApp` composition while retaining Vite feature-manifest discovery and lazy route modules.
+- Extended the manifest contract to named dynamic parameters, ambiguity validation, and direct production SPA fallback coverage. No feature page, navigation conversion, API, or business behavior changed.
+- FND-DEC-006 and A-008 record the user-approved architecture change; completion remains 3/6 because this corrective amendment does not resolve FND-002/FND-005/FND-006 blockers.
+
 ## 2026-10-27 — FND-006 bounded local production preparation
 
 - Recorded explicit FND-DEC-005 local-development authorization; upstream/validator/hosting gates

@@ -1,4 +1,4 @@
-import { Component } from 'react'
+import { Component, createElement } from 'react'
 
 export class RuntimeBoundary extends Component {
   state = { failed: false }
@@ -8,7 +8,7 @@ export class RuntimeBoundary extends Component {
   }
 
   render() {
-    if (this.state.failed) return <p role="alert">Unable to load the application.</p>
+    if (this.state.failed) return createElement('p', { role: 'alert' }, 'Unable to load the application.')
     return this.props.children
   }
 }

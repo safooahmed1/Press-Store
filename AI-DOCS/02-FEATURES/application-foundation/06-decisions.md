@@ -1,5 +1,16 @@
 # Decisions — Application Foundation
 
+## FND-DEC-006 — React Router manifest composition
+
+- **Status:** `approved`
+- **Date:** 2026-10-30
+- **Authorization:** User explicitly approved replacing the exact-path client runtime seam with React Router DOM while preserving feature-manifest discovery.
+- **Decision:** Add `react-router-dom@^7.18.5`. `src/app/App.jsx` owns `BrowserRouter`; FND-owned `src/routes/RouterApp.jsx` maps validated Vite-discovered manifests to lazy React Router routes. Feature pages remain manifest-owned; no central page registry, nested layout change, authentication rule, or business route is introduced.
+- **Route contract:** Support static paths and named lowercase parameters. Reject `/api`, splats, optional parameters, malformed paths, literal duplicates, and equivalent dynamic signatures. Preserve the blank unknown-route behavior until a feature owner defines it.
+- **Boundaries:** Existing anchors/navigation are not converted in this amendment. UI owns any later `Link`/`NavLink` consumer migration. Server SPA fallback remains responsible for direct non-API routes.
+- **Verification:** Manifest validation/lazy-loading tests, RouterApp static/dynamic/unknown rendering tests, direct production GET/HEAD SPA fallback regressions, foundation suite, lint, build, audit, whitespace, and the documentation validator.
+- **Affected tasks/contracts:** FND-001 and A-008; source-tree route ownership. No feature manifest consumer needs a source edit.
+
 ## FND-DEC-005 — Local FND-006 development before upstream closeout
 
 - **Status:** `approved`
