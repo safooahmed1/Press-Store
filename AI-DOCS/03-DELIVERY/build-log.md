@@ -1,11 +1,16 @@
 # Build Log
 
+### 2026-10-28 — UI-003 responsive navigation remediation
+
+- The customer mobile menu now closes at the `md` breakpoint and moves focus from a closing menu to `#main-content`. Direct component checks pass 6/6; UI suite 40/40; foundation 97/97; lint/build pass. Browser evidence at 390×844, 768×1024, 1440×900, and CSS 200% zoom has no observed horizontal overflow.
+- UI-004 corrective work is deliberately not included in this commit and remains the next separately authorized remediation. No push or merge occurred.
+
 ## 1. Current Status
 
 | Scope ID | Type | Status | Branch | Completed/Total | Last Evidence | Blockers |
 |---|---|---|---|---:|---|---|
 | FND | feature | in-progress | `feature/FND-application-foundation` | 3/6 | 2026-10-27: FND-006 local production preparation under FND-DEC-005; 3 config/4 fake-DB production, 15 unit-file/45 non-live-MySQL integration checks, lint/build/install pass; verification-matrix §18 | FND-002/FND-005/FND-006 blocked: validator missing, upstream/actual host/real-DB/session/recovery gates open; FND-005 cleanup resolved by user |
-| UI | feature | planned | `feature/UI-design-system-app-shell` | 0/4 | Planning only; no implementation evidence | A-003/A-004 affect content; A-007 reference screenshot unavailable |
+| UI | feature | in-progress | `feature/UI-design-system-app-shell` | 4/4 | 2026-10-28: UI-004 admin layout; UI/foundation/lint/build/audit/docs gates pass | FND must be present in main and shared visual acceptance matrix closed before merge |
 | AUTH | feature | planned | `feature/AUTH-identity-accounts` | 0/5 | Planning only; no implementation evidence | A-005 before AUTH-001 |
 | CAT | feature | planned | `feature/CAT-catalog-discovery` | 0/6 | Planning only; no implementation evidence | Dependencies not implemented |
 | SET | feature | planned | `feature/SET-store-settings` | 0/3 | Planning only; no implementation evidence | A-004 optional social scope |
@@ -17,7 +22,33 @@
 
 ## 2. Activity
 
-No implementation activity recorded.
+### 2026-10-28 — UI-002 primitives implementation in progress
+
+- Preflight confirmed UI-001 and the existing UI branch as the only implementation dependency. Added shared primitives/states under `src/shared/ui/**` and recorded UI-DEC-004 for the bounded local continuation.
+- `PATH=<Node 24 runtime> npm run test -- ui` passed 24/24 with the existing child-process helper executed under the authorized elevated boundary. `npm run lint` and `npm run build` passed.
+- The required dev-only DOM/component accessibility tooling could not be installed after repeated attempts: npm registry resolution ended with `ETIMEDOUT` on `@csstools/color-helpers`. `package.json` and `package-lock.json` were unchanged. UI-002 remains in-progress; no completion commit is authorized until the prescribed component/a11y gate runs.
+
+### 2026-10-28 — UI-002 completion evidence
+
+- Installed the approved dev-only `@testing-library/react`, `@testing-library/user-event`, `jsdom`, and `axe-core` dependencies with Node 24 after a successful retry.
+- Direct component/a11y suite passed 6/6. The prescribed UI suite passed 30/30 including the UI-002 tests; foundation passed 94/94; lint, build, audit, whitespace, and documentation validation passed.
+- UI-002 is done at 2/4. The planned completion commit subject is `feat(UI-002): add accessible UI primitives`; no push, merge, deployment, or UI-003 implementation occurred.
+
+### 2026-10-28 — UI-003 customer shell implementation in progress
+
+- Preflight confirmed UI-002 and the frozen API-SET-002 public projection contract. Added customer-only navbar/footer/layout/shell primitives under `src/shared/ui/shell/customer/**`; no feature, server, route, or admin files changed.
+- Direct UI-003 component/a11y tests pass 5/5. The full UI suite passed 35/35, foundation passed 96/96, and lint/build/audit/docs/whitespace gates passed. UI-003 is done at 3/4; planned completion commit subject is `feat(UI-003): add customer app shell`.
+
+### 2026-10-28 — UI-004 admin layout completion
+
+- Added responsive admin layout primitives and four focused keyboard/landmark/axe checks. Full UI and foundation suites, lint, build, audit, whitespace, and documentation validation passed. UI-004 is done at 4/4; no push or merge performed.
+
+### 2026-10-28 — UI-001 fashion design system
+
+- Preflight: created `feature/UI-design-system-app-shell` from `aa61d3f` under UI-DEC-002; preserved the three untracked user reference images and did not stage them. Scope stayed within UI paths plus the approved four-file shared wiring exception.
+- Added Tailwind 4.3.3 and `@tailwindcss/vite`, `css-loader` 7.1.5, local Archivo/Noto Sans Arabic WOFF2 assets with licenses, centralized tokens/base rules, and an original favicon.
+- `npm run test -- ui` passed 23/23 with the existing child-process helper rerun using authorized elevated execution; `npm run lint` and `npm run build` passed. Chrome headless visual QA captured mobile/tablet/desktop evidence under the UI feature evidence directory.
+- UI-001 is done; UI remains in progress at 1/4. No push, merge, deployment, or next-task implementation occurred.
 
 ### 2026-10-20 — FND-001 development handoff
 

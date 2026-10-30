@@ -51,7 +51,71 @@
 | ADM-002 | REQ-ADM-002/003, REQ-SCOPE-011/021 | AC-ADM-002 | projection/UI/scope tests | owner-contract integration | no-chart/revenue inspection | yes |
 | ADM-003 | REQ-ADM-004 | AC-ADM-001/002 | admin E2E | lint/build/full admin | complete navigation matrix | yes |
 
-## 2. Feature Verification
+## 2. Observed UI-001 Evidence — 2026-10-28
+
+| Check | Exact command/procedure | Observed result |
+|---|---|---|
+| Focused UI tests | `npm run test -- ui` using Node 24; the existing child-process regression helper required authorized elevated execution because sandbox `spawnSync npm` returned EPERM | 23 passed, 0 failed; includes five UI token/style tests and the foundation selection regressions |
+| Foundation regression | `npm run test -- foundation` using Node 24 with the same elevated execution boundary | 93 passed, 0 failed |
+| Lint | `npm run lint` | Exit 0 |
+| Build | `npm run build` | Exit 0; Vite 8.3.5 emitted 9.00 kB CSS, 34.92 kB Archivo WOFF2, and 165.96 kB Noto Sans Arabic WOFF2 before gzip |
+| Visual QA | Chrome headless against a temporary UI specimen importing `/src/styles/index.css` at 390×844, 768×1024, and 1440×900; English-first copy plus long Arabic RTL sample | All three viewports rendered without horizontal overflow; screenshots saved under `AI-DOCS/02-FEATURES/design-system-app-shell/evidence/` |
+| Whitespace | `git diff --check` | Pass |
+| Documentation validator | `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .` | Required final check; run again after all documentation edits before commit |
+
+UI-001 is task-complete at 1/4. AC-UI-001 remains a shared feature criterion until UI-002 primitives render representative consumers. No push, merge, deployment, or UI-002 implementation was performed.
+
+## 7. Observed UI-002 Partial Evidence — 2026-10-28
+
+| Check | Exact command/procedure | Observed result |
+|---|---|---|
+| Focused UI tests | `PATH=<Node 24 runtime> npm run test -- ui` with the existing child-process helper under the authorized elevated boundary | 24 passed, 0 failed; includes UI-002 static contract tests and all foundation/UI regressions |
+| Lint/build | `PATH=<Node 24 runtime> npm run lint`; `PATH=<Node 24 runtime> npm run build` | Both passed; Vite built 69 modules |
+| DOM/component/a11y tooling | Install `@testing-library/react`, `@testing-library/user-event`, `jsdom`, and `axe-core` as dev dependencies using Node 24 | **BLOCKED:** repeated npm registry attempts ended with `ETIMEDOUT` on a transitive package; manifests remained unchanged |
+| Completion status | Re-read UI-002 acceptance and completion gate | Remains `in-progress`; no completion commit or done claim |
+
+## 8. Observed UI-002 Completion Evidence — 2026-10-28
+
+| Check | Exact command/procedure | Observed result |
+|---|---|---|
+| Component interaction/accessibility | `node --test src/shared/ui/ui-002.component.test.js` using Node 24 | 6 passed, 0 failed; Button pending, Field ARIA, Price/Image recovery, Dialog focus return, state recovery, and axe checks |
+| Focused UI suite | `PATH=<Node 24 runtime> npm run test -- ui` with the existing child-process helper under the authorized elevated boundary | 30 passed, 0 failed |
+| Foundation regression | `PATH=<Node 24 runtime> npm run test -- foundation` | 94 passed, 0 failed |
+| Lint/build/audit | Node 24 `npm run lint`; `npm run build`; `npm audit --json` | Passed; zero vulnerabilities; Vite built 69 modules |
+| Whitespace/docs | `git diff --check`; required documentation validator | Passed |
+| Completion status | UI-002 acceptance/completion gate review | Done; UI feature remains 2/4 and AC-UI-002 remains shared until UI-003 shell behavior is implemented |
+
+## 9. Observed UI-003 Partial Evidence — 2026-10-28
+
+| Check | Exact command/procedure | Observed result |
+|---|---|---|
+| Customer shell component/a11y | `node --test src/shared/ui/shell/customer/ui-003.component.test.js` using Node 24 | 5 passed, 0 failed; landmarks/skip link, mobile menu focus return, safe optional links, loading contact, axe, and main focus |
+| Scope review | Inspect changed paths against UI-003 ownership | Customer shell path and focused tests only; no feature/server/admin/route changes |
+| Completion status | Re-read UI-003 acceptance and completion gate | In-progress until full suite and task commit |
+
+## 10. Observed UI-003 Completion Evidence — 2026-10-28
+
+| Check | Exact command/procedure | Observed result |
+|---|---|---|
+| Customer shell component/a11y | `node --test src/shared/ui/shell/customer/ui-003.component.test.js` using Node 24 | 5 passed, 0 failed |
+| Focused UI suite | `PATH=<Node 24 runtime> npm run test -- ui` with the existing child-process helper under the authorized elevated boundary | 35 passed, 0 failed |
+| Foundation regression | `PATH=<Node 24 runtime> npm run test -- foundation` | 96 passed, 0 failed |
+| Lint/build/audit | Node 24 `npm run lint`; `npm run build`; `npm audit --json` | Passed; zero vulnerabilities; Vite built 69 modules |
+| Whitespace/docs | `git diff --check`; required documentation validator | Passed |
+| Completion status | UI-003 acceptance/completion gate review | Done; UI feature remains 3/4 and AC-UI-002 remains shared until UI-004 completes the responsive matrix |
+
+## 11. Observed UI-003 Remediation Evidence — 2026-10-28
+
+| Check | Exact command/procedure | Observed result |
+|---|---|---|
+| Customer breakpoint/focus behavior | `node --test src/shared/ui/shell/customer/ui-003.component.test.js` using Node 24 | 6 passed, 0 failed; includes an open mobile menu transitioning at `md` with focus moved to `#main-content` |
+| Focused UI suite | `PATH=<Node 24 runtime> npm run test -- ui` | 40 passed, 0 failed |
+| Foundation regression | `PATH=<Node 24 runtime> npm run test -- foundation` | 97 passed, 0 failed |
+| Lint/build | Node 24 `npm run lint`; `npm run build` | Passed; Vite built 69 modules |
+| Visual QA | Local Vite specimen and browser inspection at 390×844, 768×1024, 1440×900, plus CSS 200% zoom with English and long Arabic copy | Menu opened/closed with Escape, no observed horizontal overflow, screenshots saved under `AI-DOCS/02-FEATURES/design-system-app-shell/evidence/ui-003-remediation-*` |
+| Completion status | Re-read UI-003 remediation scope and acceptance | Corrective UI-003 work is ready for its local commit; UI-004 remediation is not included |
+
+## 3. Feature Verification
 
 | Feature | Full Suite | Integration Scenarios | Build Required | Merge-Ready Evidence |
 |---|---|---|---|---|
@@ -66,11 +130,11 @@
 | CUS | projection/privacy/query suite | AUTH/ORD read contracts | yes | AC-CUS-001–002 |
 | ADM | route/metric/admin E2E suite | all admin owner routes/contracts | yes | AC-ADM-001–002 |
 
-## 3. Project and Release Verification
+## 4. Project and Release Verification
 
 Run clean install, lint, all unit/component/integration/E2E tests, migrations on empty and prior schema, production build/start, health/SPA/API probes, responsive/accessibility/security smoke matrices, upload/session persistence checks, backup/rollback review, and the documentation validator. Confirm the source tree contains no accidental generated scaffold from planning work.
 
-## 4. Unavailable Checks and Required Blockers
+## 5. Unavailable Checks and Required Blockers
 
 No check is assumed available until its FND task creates the command. A task requiring a missing command remains `blocked` or `in-progress`; it cannot be marked done. Hostinger deployment smoke and production backups require credentials/environment and explicit user authorization. A-001 through A-007 must be confirmed or explicitly accepted before the task that depends on each.
 

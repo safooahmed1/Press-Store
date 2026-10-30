@@ -22,6 +22,7 @@
 | UI-UI-002 | UI | Async collection/page states | all client features | §6 |
 | UI-UI-003 | UI | Responsive customer shell | AUTH, CAT, HOME, CART, ORD | §6 |
 | UI-UI-004 | UI | Responsive admin layout primitives | CAT, HOME, ORD, CUS, SET, ADM | §6 |
+| UI-UI-005 | Theme | Press Store design tokens and responsive breakpoints | all client features | §6 |
 
 **Consumes**
 | Contract ID | Owner Feature | Used By | Required Version/Behavior |
@@ -60,6 +61,19 @@ None.
 | UI-UI-003 | `CustomerShell` | session summary, cart count, contact projection, content | desktop/mobile nav, loading contact, signed-in/out | customer features | landmarks, menu focus trap/return, skip link |
 | UI-UI-004 | `AdminLayout` | nav items, current item, content | expanded/collapsed/mobile drawer | admin features | keyboard drawer, current-page semantics |
 
+### UI-UI-005 — Design token theme
+
+The shared stylesheet exposes these stable semantic CSS/Tailwind tokens to client consumers:
+
+| Token group | Names | Contract |
+|---|---|---|
+| Color | `canvas`, `ink`, `signal-red`, `surface`, `muted`, `line` | White canvas, black structure, red signal, readable contrast; status meaning is never color-only. |
+| Typography | `font-sans`, `font-display`, `text-label`, `text-body`, `text-title`, `text-display` | Archivo-first English typography with Noto Sans Arabic fallback and centralized scale/line-height. |
+| Responsive | `sm`, `md`, `lg`, `xl` | 640/768/1024/1280px mobile-first breakpoints. |
+| Layout | `--press-content-max`, `--press-gutter` | 1440px content ceiling and fluid logical gutters. |
+
+Consumers must use semantic tokens rather than reintroducing feature-local palette, font, or breakpoint values. UI-002+ may add component-level states without redefining these foundations.
+
 ## 7. Permissions and Security
 
 Components accept already-authorized state and never infer permission from hidden controls. Links are allowlisted/sanitized; raw HTML is not accepted.
@@ -86,4 +100,4 @@ Breaking prop/token/state changes require UI owner approval, named consumer upda
 
 ## 13. Assumptions and TODOs
 
-A-003, A-004, and A-007 remain pending in `assumptions-register.md`.
+A-004 remains pending in `assumptions-register.md`; A-003 and A-007 were confirmed on 2026-10-28.
