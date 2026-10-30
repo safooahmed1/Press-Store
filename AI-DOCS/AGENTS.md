@@ -10,6 +10,8 @@ These rules apply to every file under `AI-DOCS/` and supplement root `AGENTS.md`
 - Keep requirement, feature, task, contract, permission, entity, and branch IDs stable.
 - Never redefine an API, entity, event, permission, or shared component in a consumer document.
 - Never remove historical decisions, change-log entries, commits, or verification evidence; supersede or append.
+- Treat `backend-track.md` and `frontend-track.md` as navigation views only. Feature contracts, acceptance criteria, and backlogs remain canonical; do not copy API shapes into either track.
+- For AUTH and later planned features, keep every implementation task in exactly one `BE`, `FE`, or `INT` lane. BE and FE must not own the same writable source path.
 
 ## Status Integrity
 
@@ -24,8 +26,9 @@ These rules apply to every file under `AI-DOCS/` and supplement root `AGENTS.md`
 1. Update the owner document first.
 2. Update requirement and interface registries.
 3. Update all named consumers in the same approved change.
-4. Run `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .`.
-5. Record the change and observed evidence.
+4. If a frozen API contract changes, pause affected lanes and update FE fixtures plus both lane references before integration.
+5. Run `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .`.
+6. Record the change and observed evidence.
 
 ## Language and Format
 

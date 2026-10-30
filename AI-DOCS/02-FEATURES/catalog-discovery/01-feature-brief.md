@@ -5,7 +5,7 @@
 - **Feature ID:** `CAT`
 - **Kind:** `business`
 - **Parent Feature:** `None`
-- **Owner:** `WS-CAT-01`
+- **Owner:** `WS-CAT-BE`, `WS-CAT-FE`, `WS-CAT-INT`
 - **Status:** `planned`
 
 ## 2. Summary

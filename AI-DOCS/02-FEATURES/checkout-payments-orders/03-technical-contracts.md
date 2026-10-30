@@ -40,10 +40,12 @@
 | `server/src/features/orders/{migrations,domain,repositories}/**` | order/payment schema/state/snapshots | ORD-001 | Foreign table writes |
 | `server/src/features/orders/checkout/**` | quote and atomic creation | ORD-002, ORD-003 | Client-only formatting |
 | `src/features/orders/checkout/**` | checkout review/payment UI | ORD-004 | Server money authority |
-| `server/src/features/orders/customer/**`, `src/features/orders/customer/**` | self-only list/detail | ORD-005 | Admin operations |
+| `server/src/features/orders/customer/**` | self-only list/detail API | ORD-009 | Admin operations or client rendering |
+| `src/features/orders/customer/**` | responsive customer order history capability | ORD-010 | Admin operations or server persistence |
 | `server/src/features/orders/admin/**` | admin projections/actions/WhatsApp data | ORD-006 | Customer/session writes |
 | `src/features/orders/admin/**` | admin order UI | ORD-007 | Shared admin shell |
-| `server/src/features/orders/jobs/**`, `tests/integration/orders/**` | expiry and full verification | ORD-008 | Scheduler platform implementation |
+| `server/src/features/orders/jobs/**` | rerunnable unpaid-cash expiry | ORD-011 | Scheduler platform implementation or paid-order expiry |
+| `tests/integration/orders/**` | customer-history composition and full live verification | ORD-005, ORD-008 | Feature implementation that belongs to BE or FE |
 
 ## 3. API Contracts
 

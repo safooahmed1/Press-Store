@@ -6,18 +6,25 @@
 |---|---|---|---|---:|---|---|
 | FND | feature | in-progress | `feature/FND-application-foundation` | 3/6 | 2026-10-27: FND-006 local production preparation under FND-DEC-005; 3 config/4 fake-DB production, 15 unit-file/45 non-live-MySQL integration checks, lint/build/install pass; verification-matrix §18 | FND-002/FND-005/FND-006 blocked: validator missing, upstream/actual host/real-DB/session/recovery gates open; FND-005 cleanup resolved by user |
 | UI | feature | planned | `feature/UI-design-system-app-shell` | 0/4 | Planning only; no implementation evidence | A-003/A-004 affect content; A-007 reference screenshot unavailable |
-| AUTH | feature | planned | `feature/AUTH-identity-accounts` | 0/5 | Planning only; no implementation evidence | A-005 before AUTH-001 |
-| CAT | feature | planned | `feature/CAT-catalog-discovery` | 0/6 | Planning only; no implementation evidence | Dependencies not implemented |
-| SET | feature | planned | `feature/SET-store-settings` | 0/3 | Planning only; no implementation evidence | A-004 optional social scope |
-| HOME | feature | planned | `feature/HOME-homepage-merchandising` | 0/4 | Planning only; no implementation evidence | Dependencies not implemented |
-| CART | feature | planned | `feature/CART-persistent-cart` | 0/4 | Planning only; no implementation evidence | Dependencies not implemented |
-| ORD | feature | planned | `feature/ORD-checkout-payments-orders` | 0/8 | Planning only; no implementation evidence | A-001 before ORD-008; dependencies not implemented |
-| CUS | feature | planned | `feature/CUS-customer-directory` | 0/3 | Planning only; no implementation evidence | ORD read contract not implemented |
-| ADM | feature | planned | `feature/ADM-admin-dashboard` | 0/3 | Planning only; no implementation evidence | Owner projection contracts not implemented |
+| AUTH | feature | planned | `feature/AUTH-integration` | 0/5 | DEC-008 splits BE/FE/INT; no implementation evidence | FND-002 and A-005 before AUTH-BE |
+| CAT | feature | planned | `feature/CAT-integration` | 0/6 | DEC-008 splits BE/FE/INT; no implementation evidence | Dependencies not implemented |
+| SET | feature | planned | `feature/SET-integration` | 0/3 | DEC-008 splits BE/FE/INT; no implementation evidence | A-004 optional social scope |
+| HOME | feature | planned | `feature/HOME-integration` | 0/4 | DEC-008 splits BE/FE/INT; no implementation evidence | Dependencies not implemented |
+| CART | feature | planned | `feature/CART-integration` | 0/4 | DEC-008 splits BE/FE/INT; no implementation evidence | Dependencies not implemented |
+| ORD | feature | planned | `feature/ORD-integration` | 0/11 | ORD-009/010/011 split mixed API/UI/job work; no implementation evidence | A-001 before ORD-011/008; dependencies not implemented |
+| CUS | feature | planned | `feature/CUS-integration` | 0/3 | DEC-008 splits BE/FE/INT; no implementation evidence | ORD read contract not implemented |
+| ADM | feature | planned | `feature/ADM-integration` | 0/5 | ADM-004/005 split projection/UI work; no implementation evidence | Owner projection contracts not implemented |
 
 ## 2. Activity
 
-No implementation activity recorded.
+### 2026-10-30 — DOCS-BEFE-001 delivery-model refactor
+
+- Planned completion subject: `docs(DOCS-BEFE-001): split backend and frontend workstreams`.
+- User approved one monorepo with separate Backend and Frontend workstreams plus a live Integration gate; no application code, runtime API, repository topology, or deployment behavior changed.
+- Added Backend/Frontend navigation tracks; retained canonical feature contracts/backlogs; defined same-commit contract freeze and `ready-for-integration` behavior for API-delayed frontend work.
+- Preserved FND/UI history. AUTH and later planned features now use `feature/<ID>-integration`, `work/<ID>-backend`, and `work/<ID>-frontend` branches.
+- Preserved every existing task ID. Split only mixed planned work: ORD-009/010/011 and ADM-004/005; ORD-005/008 and ADM-002 remain stable INT IDs.
+- Verification: the prescribed documentation validator passed; `git diff --check` passed; exact task/workstream/branch coverage and BE/FE source ownership were manually inspected. No application test or build was run because the change is documentation-only.
 
 ### 2026-10-20 — FND-001 development handoff
 

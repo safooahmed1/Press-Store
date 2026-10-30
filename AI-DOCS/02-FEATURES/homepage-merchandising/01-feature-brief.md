@@ -5,7 +5,7 @@
 - **Feature ID:** `HOME`
 - **Kind:** `business`
 - **Parent Feature:** `None`
-- **Owner:** `WS-HOME-01`
+- **Owner:** `WS-HOME-BE`, `WS-HOME-FE`, `WS-HOME-INT`
 - **Status:** `planned`
 
 ## 2. Summary

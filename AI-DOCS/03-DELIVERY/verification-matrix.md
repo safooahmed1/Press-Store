@@ -40,16 +40,21 @@
 | ORD-002 | REQ-PAY-001/003–008/011, REQ-SCOPE-010/013 | AC-ORD-001 | quote/payment matrix | CAT/CART/SET integration | copy/data inspection | yes |
 | ORD-003 | REQ-PAY-001/010/011, REQ-ORD-013/014 | AC-ORD-001 | transaction/idempotency/race tests | order integration | duplicate-response recovery | yes |
 | ORD-004 | REQ-PAY-001–008 | AC-ORD-001 | checkout UI/a11y tests | E2E/build | payment/copy/viewport flow | yes |
-| ORD-005 | REQ-ORD-001/002/003/005, REQ-SCOPE-017 | AC-ORD-003 | API isolation/UI tests | order integration | active/cancelled visibility | yes |
+| ORD-005 | REQ-ORD-001/002/003/005, REQ-SCOPE-017 | AC-ORD-003 | API-ORD-002/client contract match | live customer-history integration/build | active/cancelled visibility against real API | yes |
 | ORD-006 | REQ-PAY-009/010, REQ-ORD-007/008/009/011/012/015 | AC-ORD-002/004 | admin action/state/link tests | auth/order integration | manual verification flow | yes |
 | ORD-007 | REQ-ORD-007–012 | AC-ORD-004 | admin UI/action tests | build | daily mobile/desktop flow | yes |
-| ORD-008 | REQ-PAY-012, REQ-ORD-004/005/006 | AC-ORD-005 | clock/job/race tests | full ORD E2E/build | rerun/log/visibility review | yes |
+| ORD-008 | REQ-PAY-012, REQ-ORD-004/005/006 | AC-ORD-005 | live expiry/client projection integration | full ORD E2E/build | rerun/log/visibility review | yes |
+| ORD-009 | REQ-ORD-001/002/003/005, REQ-SCOPE-017 | AC-ORD-003 | customer API isolation/pagination tests | order backend suite | response/privacy inspection | yes |
+| ORD-010 | REQ-ORD-001/002/003/005, REQ-SCOPE-017 | AC-ORD-003 | customer history component/a11y tests with contract fixtures | client build | responsive/empty/error fixture matrix | yes |
+| ORD-011 | REQ-PAY-012, REQ-ORD-004/005/006 | AC-ORD-005 | clock/race/rerun job tests | order backend suite | job log/state inspection | yes |
 | CUS-001 | REQ-CUS-001/002 | AC-CUS-001 | API/projection/auth tests | AUTH/ORD integration | query count/plan | yes |
 | CUS-002 | REQ-CUS-001/002/003 | AC-CUS-001/002 | UI/pagination tests | build | responsive list/detail | yes |
 | CUS-003 | REQ-CUS-003, REQ-SCOPE-007 | AC-CUS-002 | privacy/no-write/scope tests | full CUS suite | source/response inspection | yes |
 | ADM-001 | REQ-ADM-001/004 | AC-ADM-001 | route/nav/auth tests | admin integration | drawer/keyboard/viewport | yes |
-| ADM-002 | REQ-ADM-002/003, REQ-SCOPE-011/021 | AC-ADM-002 | projection/UI/scope tests | owner-contract integration | no-chart/revenue inspection | yes |
+| ADM-002 | REQ-ADM-002/003, REQ-SCOPE-011/021 | AC-ADM-002 | API-ADM-001/client contract match | live owner-contract integration | no-chart/revenue inspection against real API | yes |
 | ADM-003 | REQ-ADM-004 | AC-ADM-001/002 | admin E2E | lint/build/full admin | complete navigation matrix | yes |
+| ADM-004 | REQ-ADM-002/003, REQ-SCOPE-011/021 | AC-ADM-002 | projection/auth/scope API tests | owner-contract backend checks | bounded count/list inspection | yes |
+| ADM-005 | REQ-ADM-002/003, REQ-SCOPE-011/021 | AC-ADM-002 | dashboard component/a11y tests with fixtures | client build | responsive/loading/error/no-chart matrix | yes |
 
 ## 2. Feature Verification
 
@@ -69,6 +74,10 @@
 ## 3. Project and Release Verification
 
 Run clean install, lint, all unit/component/integration/E2E tests, migrations on empty and prior schema, production build/start, health/SPA/API probes, responsive/accessibility/security smoke matrices, upload/session persistence checks, backup/rollback review, and the documentation validator. Confirm the source tree contains no accidental generated scaffold from planning work.
+
+### DOCS-BEFE-001 — Delivery-lane documentation refactor
+
+Required evidence: documentation validator passes; every planned task appears in workstreams and branch plan; AUTH and later tasks map to exactly one BE, FE, or INT workstream; parallel BE/FE allowed paths are disjoint; each feature has an INT gate; API-delayed FE behavior remains fixture-only and cannot make a feature merge-ready; `git diff --check` passes; no application source or dependency file changes.
 
 ## 4. Unavailable Checks and Required Blockers
 
