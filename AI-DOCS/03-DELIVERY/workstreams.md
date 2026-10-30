@@ -2,6 +2,8 @@
 
 ## 1. Workstream Registry
 
+FND and UI preserve their existing branches and history. AUTH and every later planned feature use three lanes: Backend (`BE`), Frontend (`FE`), and live Integration (`INT`).
+
 | Workstream ID | Parent Feature | Objective | Task IDs | Allowed Paths | Forbidden Paths | Depends On | Parallel With | Branch | Merge Target | Status |
 |---|---|---|---|---|---|---|---|---|---|---|
 | WS-FND-01 | FND | Freeze runtime, DB/HTTP/storage/test/deployment platform | FND-001, FND-002, FND-003, FND-004, FND-005, FND-006 | FND paths in blueprint; root build config; FND-002 exact bounded additions in FND contracts §2 | `src/features/**`, business feature server paths, `src/shared/ui/**` | None | None until contracts freeze | `feature/FND-application-foundation` | `main` | in-progress; FND-001/FND-003/FND-004 done; FND-002 blocked (hosting unavailable); FND-005 blocked after FND-DEC-004; FND-006 local preparation blocked under FND-DEC-005; no later task ready |
@@ -16,25 +18,69 @@
 | WS-ORD-03 | ORD | Deliver admin actions/UI, expiry, and full ORD verification | ORD-006, ORD-007, ORD-008 | order admin/job paths and disjoint admin/job tests | checkout/customer UI; core schema except approved transition fixes | WS-ORD-01 merged; UI/FND job | WS-ORD-02 | `work/WS-ORD-03-admin-operations` | `feature/ORD-checkout-payments-orders` | planned |
 | WS-CUS-01 | CUS | Deliver read-only admin customer directory | CUS-001, CUS-002, CUS-003 | CUS paths in blueprint | AUTH/ORD source/tables | AUTH and READ-ORD-001 | None on canonical dependencies | `feature/CUS-customer-directory` | `main` | planned |
 | WS-ADM-01 | ADM | Deliver admin navigation/dashboard and final admin gate | ADM-001, ADM-002, ADM-003 | ADM paths in blueprint | owner feature pages/tables; shared UI internals | AUTH, UI, CAT, ORD, CUS | None on final composition | `feature/ADM-admin-dashboard` | `main` | planned |
+| WS-FND-01 | FND | Preserve and complete the existing platform workstream | FND-001–FND-006 | Existing FND contract paths | Business feature and shared UI paths | None | None on shared composition | `feature/FND-application-foundation` | `main` | in-progress; legacy branch retained |
+| WS-UI-01 | UI | Preserve the existing design-system/app-shell workstream | UI-001–UI-004 | `src/shared/ui/**`, styles/assets | Server/business paths | FND contracts | Backend work with disjoint paths | `feature/UI-design-system-app-shell` | `main` | existing branch retained; history reconciled there |
+| WS-AUTH-BE | AUTH | Identity, sessions, customer/admin APIs | AUTH-001–AUTH-003 | AUTH server/platform paths, bootstrap script, backend tests | `src/**`, other feature server paths | FND DB/HTTP; A-005 | WS-AUTH-FE after contract freeze | `work/AUTH-backend` | `feature/AUTH-integration` | planned |
+| WS-AUTH-FE | AUTH | Customer/admin authentication and account experience | AUTH-004 | `src/features/auth/**`, client tests/fixtures | `server/**` | UI-002; frozen AUTH contract | WS-AUTH-BE | `work/AUTH-frontend` | `feature/AUTH-integration` | planned |
+| WS-AUTH-INT | AUTH | Prove live auth/security and lane compatibility | AUTH-005 | AUTH integration/E2E tests and evidence; approved composition only | Unfinished BE/FE feature implementation | AUTH-BE and AUTH-FE ready | None on AUTH integration paths | `feature/AUTH-integration` | `main` | planned |
+| WS-CAT-BE | CAT | Catalog domain and public/admin APIs | CAT-001–CAT-003 | `server/src/features/catalog/**`, backend catalog tests | `src/**`, HOME/CART/ORD source | FND, AUTH guard | WS-CAT-FE after contract freeze; SET lanes | `work/CAT-backend` | `feature/CAT-integration` | planned |
+| WS-CAT-FE | CAT | Shop/product and admin catalog capabilities | CAT-004–CAT-005 | `src/features/catalog/**`, client tests/fixtures | `server/**` | UI; frozen CAT contract | WS-CAT-BE; SET-FE | `work/CAT-frontend` | `feature/CAT-integration` | planned |
+| WS-CAT-INT | CAT | Freeze consumer reads and verify live catalog | CAT-006 | Catalog integration/contract/E2E evidence | Unfinished BE/FE implementation | CAT-BE and CAT-FE ready | None on CAT integration paths | `feature/CAT-integration` | `main` | planned |
+| WS-SET-BE | SET | Settings schema, API, and bounded projections | SET-001 | `server/src/features/settings/**`, backend settings tests | `src/**`, other feature source | FND, AUTH guard | CAT-BE; SET-FE after freeze | `work/SET-backend` | `feature/SET-integration` | planned |
+| WS-SET-FE | SET | Responsive admin settings capability | SET-002 | `src/features/settings/**`, client tests/fixtures | `server/**` | UI; frozen SET contract | CAT-FE; SET-BE | `work/SET-frontend` | `feature/SET-integration` | planned |
+| WS-SET-INT | SET | Verify live projections and privacy | SET-003 | Settings integration/contract evidence | Unfinished BE/FE implementation | SET-BE and SET-FE ready | None on SET integration paths | `feature/SET-integration` | `main` | planned |
+| WS-HOME-BE | HOME | Homepage schema, API, and CAT orchestration | HOME-001 | `server/src/features/homepage/**`, backend tests | `src/**`, CAT-owned source | CAT contracts, FND storage, AUTH | HOME-FE after freeze; CART-BE | `work/HOME-backend` | `feature/HOME-integration` | planned |
+| WS-HOME-FE | HOME | Public and admin homepage capabilities | HOME-002–HOME-003 | `src/features/homepage/**`, client tests/fixtures | `server/**`, CAT source | UI; frozen HOME/CAT contracts | HOME-BE; CART-FE | `work/HOME-frontend` | `feature/HOME-integration` | planned |
+| WS-HOME-INT | HOME | Verify live order/limits/navigation/security | HOME-004 | HOME integration/E2E evidence | Unfinished BE/FE implementation | HOME-BE and HOME-FE ready | None on HOME integration paths | `feature/HOME-integration` | `main` | planned |
+| WS-CART-BE | CART | Persistent cart and transactional handoff | CART-001–CART-002 | `server/src/features/cart/**`, backend tests | `src/**`, CAT/ORD/AUTH source | AUTH, CAT contracts | CART-FE after freeze; HOME-BE | `work/CART-backend` | `feature/CART-integration` | planned |
+| WS-CART-FE | CART | Responsive cart and add-to-cart adapter | CART-003 | `src/features/cart/**`, client tests/fixtures | `server/**`, CAT source | UI/CAT extension; frozen CART contract | CART-BE; HOME-FE | `work/CART-frontend` | `feature/CART-integration` | planned |
+| WS-CART-INT | CART | Verify live persistence/readiness/isolation | CART-004 | CART integration/E2E evidence | Unfinished BE/FE implementation | CART-BE and CART-FE ready | None on CART integration paths | `feature/CART-integration` | `main` | planned |
+| WS-ORD-BE | ORD | Order/payment domain, APIs, admin actions, customer reads, expiry | ORD-001–ORD-003, ORD-006, ORD-009, ORD-011 | `server/src/features/orders/**`, order backend tests | `src/**`, dependency-owner paths | CART, CAT, SET, AUTH, FND | WS-ORD-FE after contract freeze | `work/ORD-backend` | `feature/ORD-integration` | planned |
+| WS-ORD-FE | ORD | Checkout, customer history, and admin orders capabilities | ORD-004, ORD-007, ORD-010 | `src/features/orders/**`, client tests/fixtures | `server/**` | UI; frozen ORD contracts | WS-ORD-BE | `work/ORD-frontend` | `feature/ORD-integration` | planned |
+| WS-ORD-INT | ORD | Customer-history composition and full order/payment E2E | ORD-005, ORD-008 | ORD integration/E2E evidence and approved composition | Unfinished BE/FE implementation | ORD-BE and ORD-FE ready; A-001 | None on ORD integration paths | `feature/ORD-integration` | `main` | planned |
+| WS-CUS-BE | CUS | Admin-only customer/order projection API | CUS-001 | `server/src/features/customers/**`, backend tests | `src/**`, AUTH/ORD source | AUTH and ORD reads | WS-CUS-FE after freeze | `work/CUS-backend` | `feature/CUS-integration` | planned |
+| WS-CUS-FE | CUS | Responsive customer list/detail capability | CUS-002 | `src/features/customers/**`, client tests/fixtures | `server/**` | UI; frozen CUS contract | WS-CUS-BE | `work/CUS-frontend` | `feature/CUS-integration` | planned |
+| WS-CUS-INT | CUS | Verify live privacy, scope, and bounded queries | CUS-003 | CUS integration/E2E evidence | Unfinished BE/FE implementation | CUS-BE and CUS-FE ready | None on CUS integration paths | `feature/CUS-integration` | `main` | planned |
+| WS-ADM-BE | ADM | Compose bounded dashboard projections | ADM-004 | `server/src/features/admin-dashboard/**`, backend tests | `src/**`, owner feature source | CAT/ORD/CUS reads | WS-ADM-FE after freeze | `work/ADM-backend` | `feature/ADM-integration` | planned |
+| WS-ADM-FE | ADM | Admin navigation and dashboard capability | ADM-001, ADM-005 | `src/features/admin-dashboard/**`, client tests/fixtures | `server/**`, owner feature pages | UI/AUTH; frozen ADM contract | WS-ADM-BE | `work/ADM-frontend` | `feature/ADM-integration` | planned |
+| WS-ADM-INT | ADM | Compose live dashboard and run final admin gate | ADM-002–ADM-003 | ADM integration/E2E evidence and approved composition | Unfinished BE/FE implementation | ADM-BE and ADM-FE ready | None on ADM integration paths | `feature/ADM-integration` | `main` | planned |
 
 ## 2. Contract Freeze Points
 
-1. FND-003 freezes HTTP/error/manifest contracts; FND-002/FND-004 freeze DB/storage.
-2. AUTH-005 freezes customer/admin guards and safe customer read.
-3. CAT-006 freezes product/variant/price/availability, curation, and product-count reads.
-4. SET-003 freezes selected payment/contact projections.
-5. CART-002 freezes locked read/exact clear for ORD.
-6. ORD-003 freezes create/quote; ORD-006 freezes admin/read projections before WS-ORD-02/03 consumers finish.
-7. CUS-003 freezes customer-count projection before ADM-002.
+1. FND and UI retain their existing freeze/evidence history.
+2. For each later feature, its technical contract is frozen on the integration branch before BE/FE branches are created from the same commit.
+3. FE may use fixtures only after the request, response, error, auth, and state behavior it consumes is canonical.
+4. A post-freeze breaking change stops both lanes until the owner decision, consumer list, fixture update, and compatibility plan are recorded.
+5. The INT task starts only when both lanes are `ready-for-integration`; it runs against the real API and cannot be satisfied by fixtures.
 
 ## 3. Ownership Conflict Check
 
-All normal feature workstreams have exclusive feature paths. UI and FND shared paths have single owners. ORD uses an integration branch: WS-ORD-01 writes core paths first; after merge, WS-ORD-02 and WS-ORD-03 receive disjoint client/server/test subpaths. CAT emits UI-CAT-001 through the FND-owned APP-FND-001 registry; CART registers its handler entirely within CART paths. HOME invokes CAT's curation command without CAT writes. No two listed parallel workstreams own the same writable file family.
+BE owns feature server paths; FE owns feature client paths; INT owns integration/E2E evidence and only explicitly approved composition. No parallel BE and FE row owns the same writable source family. Canonical feature docs are updated by one active task at a time and are never concurrently edited across the two workstream branches.
 
 ## 4. Developer Assignment Notes
 
-Assign one developer/agent per workstream. Refresh from the documented parent only at workstream start. Implement one ready task per user authorization, commit it, report, and stop. Do not treat a developer assignment as merge, push, PR, or deployment authorization.
+- Use `backend-track.md` or `frontend-track.md` as navigation, then use the feature backlog/contracts as truth.
+- Keep one task `in-progress` per developer lane. A completed lane waiting for the API is `ready-for-integration`, not blocked and not feature-complete.
+- After explicit authorization, a developer whose lane is ready may move to the next dependency-ready capability in that lane.
+- Every task still follows the one-task authorization, verification, documentation, commit, report, and stop loop.
 
-### 2026-10-23 — Bounded FND-002 exception
+## 5. Machine-Checkable Task Coverage
 
-FND-DEC-002 permits only FND-002 backend development against reviewed baseline `740c22b2fb3be6d1b5bd0080bbf42109e238c515`; FND-001 remains `blocked` and its frontend completion belongs to another developer. The current instruction is documentation only. No shared configuration, composition, tooling, or delivery file may be written concurrently. Existing branch/merge strategy, other dependency gates, and completion requirements remain unchanged; no completion commit is authorized.
+Ranges above are descriptive only. Exact workstream coverage is:
+
+| Feature | Exact Task IDs |
+|---|---|
+| FND | FND-001, FND-002, FND-003, FND-004, FND-005, FND-006 |
+| UI | UI-001, UI-002, UI-003, UI-004 |
+| AUTH | AUTH-001, AUTH-002, AUTH-003, AUTH-004, AUTH-005 |
+| CAT | CAT-001, CAT-002, CAT-003, CAT-004, CAT-005, CAT-006 |
+| SET | SET-001, SET-002, SET-003 |
+| HOME | HOME-001, HOME-002, HOME-003, HOME-004 |
+| CART | CART-001, CART-002, CART-003, CART-004 |
+| ORD | ORD-001, ORD-002, ORD-003, ORD-004, ORD-005, ORD-006, ORD-007, ORD-008, ORD-009, ORD-010, ORD-011 |
+| CUS | CUS-001, CUS-002, CUS-003 |
+| ADM | ADM-001, ADM-002, ADM-003, ADM-004, ADM-005 |
+
+### 2026-10-30 — Migration boundary
+
+DEC-008 applies the three-lane model to AUTH and later planned features. Existing FND/UI branches and all historical evidence remain intact; they are not renamed or rewritten. The documentation migration itself does not authorize any feature branch creation, merge, push, PR, deployment, or application implementation.

@@ -2,7 +2,7 @@
 
 ## 1. Integration Principles
 
-Merge owner contracts before consumers, never redefine an interface, preserve task commits/evidence, run post-merge checks, and stop for explicit merge authorization. Feature completion is `merge-ready`, not merged or released.
+Merge owner contracts before consumers, never redefine an interface, preserve task commits/evidence, run post-merge checks, and stop for explicit merge authorization. For AUTH and later features, BE and FE start from the same frozen integration commit. Either lane may become `ready-for-integration` first; feature completion is impossible until the real API INT gate passes. Feature completion is `merge-ready`, not merged or released.
 
 ## 2. Ordered Merge Plan
 
@@ -10,17 +10,18 @@ Merge owner contracts before consumers, never redefine an interface, preserve ta
 |---:|---|---|---|---|
 | 1 | FND feature | `main` | FND-001–006 done; platform suite/build/doc validator | startup, migration, error, storage, build smoke |
 | 2 | UI feature | `main` | UI-001–004 done; FND present | visual/a11y/responsive/build |
-| 3 | AUTH feature | `main` | AUTH-001–005 done; UI/FND contracts present | auth security/isolation/build |
-| 4 | CAT feature | `main` | CAT-001–006 done; owner contracts frozen | catalog filters/admin/upload/CAT contracts |
-| 5 | SET feature | `main` | SET-001–003 done | settings privacy/consumer projections |
-| 6 | HOME feature | `main` | HOME-001–004 done; CAT/UI contracts present | section order/limits/navigation/build |
-| 7 | CART feature | `main` | CART-001–004 done; CAT/AUTH contracts present | persistence/isolation/readiness |
-| 8 | WS-ORD-01 | ORD integration | ORD-001–003 done | migration, quote, atomic/idempotent creation |
-| 9 | WS-ORD-02 | ORD integration | core merged; ORD-004–005 done | customer checkout/history/isolation |
-| 10 | WS-ORD-03 | ORD integration | core merged; ORD-006–008 done; A-001 resolved | admin actions, expiry, full ORD E2E |
-| 11 | ORD integration | `main` | all ORD workstreams and feature gate merge-ready | full checkout/payment/order regression |
-| 12 | CUS feature | `main` | CUS-001–003 done; ORD/AUTH projections present | directory/privacy/query checks |
-| 13 | ADM feature | `main` | ADM-001–003 done; all admin routes/projections present | admin navigation/dashboard E2E and production build |
+| 3 | AUTH BE and FE | AUTH integration | frozen contract; each lane's focused gate passes | contract compatibility, auth component/build |
+| 4 | AUTH integration | `main` | AUTH-001–005 done; real security/isolation gate | live auth/security/build |
+| 5 | CAT BE/FE, SET BE/FE | their integration branches | feature contract frozen; lane gates pass | focused server/client checks |
+| 6 | CAT and SET integrations | `main` in dependency order | each INT task done; live consumer/privacy gates | catalog/settings cross-contract checks |
+| 7 | HOME BE/FE, CART BE/FE | their integration branches | CAT/AUTH/UI contracts present; lane gates pass | focused server/client checks |
+| 8 | HOME and CART integrations | `main` in dependency order | each INT task done against live APIs | HOME/CART cross-feature gates |
+| 9 | ORD BE and FE | ORD integration | frozen ORD contracts; ORD-009/010/011 included; lane gates pass | backend transaction/job and client capability suites |
+| 10 | ORD integration | `main` | ORD-001–ORD-011 done as applicable; A-001; real E2E | full checkout/payment/order regression |
+| 11 | CUS BE and FE | CUS integration | AUTH/ORD reads frozen; lane gates pass | projection and client checks |
+| 12 | CUS integration | `main` | CUS-001–003 done; real privacy/query gate | directory/privacy/query checks |
+| 13 | ADM BE and FE | ADM integration | owner projections frozen; lane gates pass | projection/navigation/dashboard checks |
+| 14 | ADM integration | `main` | ADM-001–ADM-005 done; live admin gate | admin E2E and production build |
 
 ## 3. Interface Registry
 
@@ -51,7 +52,16 @@ Merge owner contracts before consumers, never redefine an interface, preserve ta
 
 ## 5. Contract Change Process
 
-Owner records the decision and version/compatibility impact, updates canonical contract and requirement/task mappings, names every consumer, obtains approval where required, updates owner and consumers in sequenced non-parallel work, runs focused and cross-feature checks, then reruns the docs validator.
+Owner records the decision and version/compatibility impact, updates canonical contract and requirement/task mappings, names every consumer, and obtains both BE and FE owner acknowledgement. Pause affected lane work, update owner and consumers in sequenced non-parallel work, update FE fixtures, run focused and cross-feature checks against both fixtures and the live API, then rerun the docs validator.
+
+## 5.1 API-Delayed Frontend Procedure
+
+1. Confirm the canonical API contract is frozen even though the implementation is unavailable.
+2. Implement the complete FE capability against contract fixtures, including success and all required loading/empty/error/unauthorized/validation states.
+3. Keep the production adapter pointed at the real endpoint; fixtures remain test/development-only.
+4. After FE verification and its task commit, mark only the FE workstream `ready-for-integration` and stop.
+5. On later user authorization, move to the next dependency-ready FE task; do not reopen completed waiting work without a contract decision.
+6. When BE is ready, merge both lanes into integration and rerun the same scenarios against the real API. Any mismatch fails INT and prevents `merge-ready`.
 
 ## 6. Rollback and Recovery
 

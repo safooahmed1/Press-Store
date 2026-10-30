@@ -106,12 +106,12 @@
 | REQ-PAY-010 | User decision 2026-10-18 | functional | Wallet EG and InstaPay orders stay payment-pending until manual admin verification. | ORD | ORD-001, ORD-003, ORD-006 | planned |
 | REQ-PAY-011 | User decision 2026-10-18 | non-goal | Manual electronic payment requires no receipt upload or transaction reference; Wallet records only the sending wallet number. | ORD | ORD-002, ORD-003 | planned |
 | REQ-PAY-012 | User decision 2026-10-18 | data | A verified paid order has no automatic pickup expiry and remains until delivered. | ORD | ORD-001, ORD-008 | planned |
-| REQ-ORD-001 | §14.1 Customer Orders | functional | Customers can list and open only their own orders. | ORD | ORD-005 | planned |
-| REQ-ORD-002 | §14.1 Customer Orders | data | Customer order detail shows number, items, variants, quantities, prices, discount, total, payment method, time, and pickup information. | ORD | ORD-001, ORD-005 | planned |
-| REQ-ORD-003 | §14.1 Customer Orders | UX | Customer order views avoid a complex status workflow. | ORD | ORD-005 | planned |
-| REQ-ORD-004 | §14.2 Pickup Rule and user decision | functional | Uncollected unpaid Cash on Pickup orders auto-cancel after the deterministic maximum collection window. | ORD | ORD-008 | planned |
-| REQ-ORD-005 | §14.2 Pickup Rule | functional | Auto-cancelled orders are removed from the customer's active Your Orders list. | ORD | ORD-005, ORD-008 | planned |
-| REQ-ORD-006 | §14.2 Pickup Rule | operational | Order expiry/archival uses the simplest reliable backend mechanism. | ORD | ORD-008 | planned |
+| REQ-ORD-001 | §14.1 Customer Orders | functional | Customers can list and open only their own orders. | ORD | ORD-005, ORD-009, ORD-010 | planned |
+| REQ-ORD-002 | §14.1 Customer Orders | data | Customer order detail shows number, items, variants, quantities, prices, discount, total, payment method, time, and pickup information. | ORD | ORD-001, ORD-005, ORD-009, ORD-010 | planned |
+| REQ-ORD-003 | §14.1 Customer Orders | UX | Customer order views avoid a complex status workflow. | ORD | ORD-005, ORD-009, ORD-010 | planned |
+| REQ-ORD-004 | §14.2 Pickup Rule and user decision | functional | Uncollected unpaid Cash on Pickup orders auto-cancel after the deterministic maximum collection window. | ORD | ORD-008, ORD-011 | planned |
+| REQ-ORD-005 | §14.2 Pickup Rule | functional | Auto-cancelled orders are removed from the customer's active Your Orders list. | ORD | ORD-005, ORD-008, ORD-009, ORD-010, ORD-011 | planned |
+| REQ-ORD-006 | §14.2 Pickup Rule | operational | Order expiry/archival uses the simplest reliable backend mechanism. | ORD | ORD-008, ORD-011 | planned |
 | REQ-ORD-007 | §20 Admin Orders | functional | Admin order list shows number, customer name/phone, product count, and total. | ORD | ORD-006, ORD-007 | planned |
 | REQ-ORD-008 | §20 Admin Orders | functional | Admin can mark an order prepared. | ORD | ORD-006, ORD-007 | planned |
 | REQ-ORD-009 | §20 Admin Orders | functional | Admin can mark an order delivered/picked up. | ORD | ORD-006, ORD-007 | planned |
@@ -129,8 +129,8 @@
 | REQ-SET-003 | §24 Payment Information | security | Public consumers receive only the contact/payment values required for the selected UI context. | SET | SET-001, SET-003 | planned |
 | REQ-SET-004 | §7.7 Footer | functional | Configured store/contact/social values feed the footer while empty optional social links stay hidden. | SET | SET-003 | planned |
 | REQ-ADM-001 | §15 Sidebar | functional | Admin navigation includes Dashboard, Products, Categories, Brands, Orders, Customers, Homepage, Settings, and Logout. | ADM | ADM-001 | planned |
-| REQ-ADM-002 | §16 Dashboard | functional | Dashboard may show total products, total orders, total customers, attention orders, and recent orders. | ADM | ADM-002 | planned |
-| REQ-ADM-003 | §16 Dashboard | non-goal | Dashboard excludes revenue charts, advanced reports, conversion/customer analytics, and business intelligence. | ADM | ADM-002 | planned |
+| REQ-ADM-002 | §16 Dashboard | functional | Dashboard may show total products, total orders, total customers, attention orders, and recent orders. | ADM | ADM-002, ADM-004, ADM-005 | planned |
+| REQ-ADM-003 | §16 Dashboard | non-goal | Dashboard excludes revenue charts, advanced reports, conversion/customer analytics, and business intelligence. | ADM | ADM-002, ADM-004, ADM-005 | planned |
 | REQ-ADM-004 | §33 Responsive Requirements | UX | Admin dashboard remains usable on smaller screens. | ADM | ADM-001, ADM-003 | planned |
 | REQ-SCOPE-001 | §2 and §37 | non-goal | Shipping is not implemented. | FND | FND-003 | planned |
 | REQ-SCOPE-002 | §2 and §37 | non-goal | Multiple admins and admin roles are not implemented. | AUTH | AUTH-003, AUTH-005 | planned |

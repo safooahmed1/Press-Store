@@ -5,7 +5,7 @@
 - **Feature ID:** `AUTH`
 - **Kind:** `shared`
 - **Parent Feature:** `None`
-- **Owner:** `WS-AUTH-01`
+- **Owner:** `WS-AUTH-BE`, `WS-AUTH-FE`, `WS-AUTH-INT`
 - **Status:** `planned`
 
 ## 2. Summary

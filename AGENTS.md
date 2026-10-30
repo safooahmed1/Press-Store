@@ -20,6 +20,9 @@ Do not read the whole documentation tree unless the task genuinely spans it.
 ## 3. User-Gated Task Loop
 
 - Interpret the user's requested feature or workstream as the active scope.
+- For AUTH and every later planned feature, select work from exactly one delivery lane: `BE`, `FE`, or `INT`. Use `AI-DOCS/03-DELIVERY/backend-track.md` or `frontend-track.md` as the entry point, then return to the feature backlog and canonical contracts.
+- A frontend task may finish against contract fixtures when its API is unavailable. This makes only the FE workstream `ready-for-integration`; it never completes the feature or its INT gate.
+- Keep at most one task `in-progress` per developer lane. After a lane is `ready-for-integration`, the developer may move only to the next dependency-ready task in the same requested lane and scope when the user authorizes it.
 - Select only the earliest `not-started` task whose dependencies are complete.
 - If the user says `next`, continue with only the next ready task in that same scope.
 - Implement exactly one task per user authorization.
@@ -45,6 +48,8 @@ If the expected branch is missing, create it according to `branch-plan.md`. Do n
 ## 5. Ownership and Scope
 
 - Modify only paths owned by the selected task/workstream.
+- BE workstreams own `server/**` and backend integration tests named in their feature contract. FE workstreams own `src/**` and client tests/fixtures named there. INT workstreams own integration/E2E evidence and approved composition only; they do not absorb unfinished BE or FE implementation.
+- Contract fixtures and mock adapters are test/development-only, must match the canonical feature contract, and must not be shipped as a production data source.
 - Do not edit another feature's source paths, entities, APIs, screens, or contracts.
 - Use documented interfaces across feature boundaries.
 - Stop and request approval when a shared contract needs owner and consumer changes.

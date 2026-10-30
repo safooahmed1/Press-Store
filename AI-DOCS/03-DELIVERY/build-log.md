@@ -49,6 +49,26 @@
 - Added Tailwind 4.3.3 and `@tailwindcss/vite`, `css-loader` 7.1.5, local Archivo/Noto Sans Arabic WOFF2 assets with licenses, centralized tokens/base rules, and an original favicon.
 - `npm run test -- ui` passed 23/23 with the existing child-process helper rerun using authorized elevated execution; `npm run lint` and `npm run build` passed. Chrome headless visual QA captured mobile/tablet/desktop evidence under the UI feature evidence directory.
 - UI-001 is done; UI remains in progress at 1/4. No push, merge, deployment, or next-task implementation occurred.
+| UI | feature | planned | `feature/UI-design-system-app-shell` | 0/4 | Planning only; no implementation evidence | A-003/A-004 affect content; A-007 reference screenshot unavailable |
+| AUTH | feature | planned | `feature/AUTH-integration` | 0/5 | DEC-008 splits BE/FE/INT; no implementation evidence | FND-002 and A-005 before AUTH-BE |
+| CAT | feature | planned | `feature/CAT-integration` | 0/6 | DEC-008 splits BE/FE/INT; no implementation evidence | Dependencies not implemented |
+| SET | feature | planned | `feature/SET-integration` | 0/3 | DEC-008 splits BE/FE/INT; no implementation evidence | A-004 optional social scope |
+| HOME | feature | planned | `feature/HOME-integration` | 0/4 | DEC-008 splits BE/FE/INT; no implementation evidence | Dependencies not implemented |
+| CART | feature | planned | `feature/CART-integration` | 0/4 | DEC-008 splits BE/FE/INT; no implementation evidence | Dependencies not implemented |
+| ORD | feature | planned | `feature/ORD-integration` | 0/11 | ORD-009/010/011 split mixed API/UI/job work; no implementation evidence | A-001 before ORD-011/008; dependencies not implemented |
+| CUS | feature | planned | `feature/CUS-integration` | 0/3 | DEC-008 splits BE/FE/INT; no implementation evidence | ORD read contract not implemented |
+| ADM | feature | planned | `feature/ADM-integration` | 0/5 | ADM-004/005 split projection/UI work; no implementation evidence | Owner projection contracts not implemented |
+
+## 2. Activity
+
+### 2026-10-30 — DOCS-BEFE-001 delivery-model refactor
+
+- Planned completion subject: `docs(DOCS-BEFE-001): split backend and frontend workstreams`.
+- User approved one monorepo with separate Backend and Frontend workstreams plus a live Integration gate; no application code, runtime API, repository topology, or deployment behavior changed.
+- Added Backend/Frontend navigation tracks; retained canonical feature contracts/backlogs; defined same-commit contract freeze and `ready-for-integration` behavior for API-delayed frontend work.
+- Preserved FND/UI history. AUTH and later planned features now use `feature/<ID>-integration`, `work/<ID>-backend`, and `work/<ID>-frontend` branches.
+- Preserved every existing task ID. Split only mixed planned work: ORD-009/010/011 and ADM-004/005; ORD-005/008 and ADM-002 remain stable INT IDs.
+- Verification: the prescribed documentation validator passed; `git diff --check` passed; exact task/workstream/branch coverage and BE/FE source ownership were manually inspected. No application test or build was run because the change is documentation-only.
 
 ### 2026-10-20 — FND-001 development handoff
 

@@ -13,6 +13,10 @@
 | 3 | UI-003 | UI/customer-shell | WS-UI-01 | Build responsive customer navbar, footer, and layout primitives | REQ-FND-016, REQ-UI-004, REQ-UI-005 | UI-002, API-SET-002 contract frozen | `src/shared/ui/shell/customer/**` | navigation/keyboard tests | `done` | `feature/UI-design-system-app-shell` | `fix(UI-003): harden responsive customer navigation` | Original completion evidence retained; corrective breakpoint/focus test, 390/768/1440 + 200% visual evidence, and full verification pass recorded 2026-10-28 |
 | 4 | UI-004 | UI/responsive | WS-UI-01 | Build admin layout primitives and complete responsive/accessibility matrix | REQ-FND-016, REQ-UI-006, REQ-UI-007 | UI-002, UI-003 | `src/shared/ui/shell/admin/**`, UI tests | viewport/a11y/build checks | `done` | `feature/UI-design-system-app-shell` | `feat(UI-004): add responsive admin layout primitives` | Admin layout keyboard/a11y tests, full UI/foundation/lint/build/audit/docs checks; feature merge remains gated by FND/main and shared responsive visual matrix |
 
+## DEC-008 Delivery Lane
+
+UI is a grandfathered frontend workstream: UI-001–UI-004 remain on `feature/UI-design-system-app-shell` under `WS-UI-01`; no historical task, status, or branch is rewritten.
+
 ## Blockers
 
 | Task ID | Blocker | Owner/Decision Needed | Next Action |

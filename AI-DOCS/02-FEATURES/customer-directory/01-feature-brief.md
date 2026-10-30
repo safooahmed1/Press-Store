@@ -5,7 +5,7 @@
 - **Feature ID:** `CUS`
 - **Kind:** `business`
 - **Parent Feature:** `None`
-- **Owner:** `WS-CUS-01`
+- **Owner:** `WS-CUS-BE`, `WS-CUS-FE`, `WS-CUS-INT`
 - **Status:** `planned`
 
 ## 2. Summary

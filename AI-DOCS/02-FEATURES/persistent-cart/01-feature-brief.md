@@ -5,7 +5,7 @@
 - **Feature ID:** `CART`
 - **Kind:** `business`
 - **Parent Feature:** `None`
-- **Owner:** `WS-CART-01`
+- **Owner:** `WS-CART-BE`, `WS-CART-FE`, `WS-CART-INT`
 - **Status:** `planned`
 
 ## 2. Summary

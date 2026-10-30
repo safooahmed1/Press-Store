@@ -5,7 +5,7 @@
 - **Feature ID:** `SET`
 - **Kind:** `shared`
 - **Parent Feature:** `None`
-- **Owner:** `WS-SET-01`
+- **Owner:** `WS-SET-BE`, `WS-SET-FE`, `WS-SET-INT`
 - **Status:** `planned`
 
 ## 2. Summary
