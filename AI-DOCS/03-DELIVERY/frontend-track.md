@@ -16,7 +16,7 @@ This is the Frontend developer entry point, not a duplicate specification. Canon
 
 | Order | Feature | Workstream | Tasks | Depends On | Branch | Owned Source | Current State |
 |---:|---|---|---|---|---|---|---|
-| 1 | AUTH | WS-AUTH-FE | AUTH-004 | UI primitives; frozen AUTH API contract | `work/AUTH-frontend` | `src/features/auth/**` | planned |
+| 1 | AUTH | WS-AUTH-FE | AUTH-004 | UI primitives; frozen AUTH API contract | `work/AUTH-frontend` | `src/features/auth/**` | ready-for-integration; fixture evidence recorded 2026-10-31 |
 | 2 | CAT | WS-CAT-FE | CAT-004–CAT-005 | UI shells; frozen CAT contracts | `work/CAT-frontend` | `src/features/catalog/**` | planned |
 | 3 | SET | WS-SET-FE | SET-002 | admin shell; frozen SET contract | `work/SET-frontend` | `src/features/settings/**` | planned; parallel-safe with CAT-FE |
 | 4 | HOME | WS-HOME-FE | HOME-002–HOME-003 | UI shells; frozen HOME/CAT contracts | `work/HOME-frontend` | `src/features/homepage/**` | planned |

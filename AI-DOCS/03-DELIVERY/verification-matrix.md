@@ -469,6 +469,17 @@ subject `chore(FND-006): add Hostinger production shape` is a reference only; no
 This corrective FND-001 amendment preserves the feature's 3/6 completion count. It does not resolve the
 existing FND-002, FND-005, or FND-006 blockers and does not authorize a merge or release.
 
+## 20. Observed AUTH-004 Frontend Evidence — 2026-10-31
+
+| Check | Exact command/procedure | Observed result |
+|---|---|---|
+| Phone/API unit tests | Node 24 `node --test src/features/auth/api/auth-api.test.js` | Egyptian local and `+20` normalization plus safe canonical field-error mapping passed. |
+| Component/a11y | Node 24 `node --test src/features/auth/auth-004.component.test.js` | Customer registration validation/focus, safe credential failure, unauthorized Account recovery, and axe check passed against AUTH contract fixtures. |
+| Focused suite | Node 24 `npm run test -- auth` | Passed with the AUTH tests and existing selected test set. |
+| Lint/build | Node 24 `npm run lint`; `npm run build` | Passed; Vite emitted lazy `AuthPages` route chunk. |
+| Responsive/manual | In-app browser DOM inspection of `/register`, `/admin/login`, and `/login` at 375, 768, and 1440px | No horizontal overflow; mobile form is before the editorial identity section. The 375px constrained layout is the available local zoom-equivalent check. |
+| Completion status | Re-read AUTH-004 acceptance and FE completion gate | Done as fixture-only FE work; `WS-AUTH-FE` is `ready-for-integration`, not feature completion. |
+
 Second pass: re-read FND-006/AC-FND-004 and reviewed tracked changes plus new configuration,
 upload-serving code, tests and runbook for ownership, secret exposure, path handling and cleanup.
 `node --version` reported v24.18.1; `git diff --check` passed. Lockfile, DB/AUTH/client source

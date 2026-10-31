@@ -35,7 +35,7 @@ FND and UI are grandfathered existing feature branches. For AUTH and later featu
 | `feature/UI-design-system-app-shell` | legacy feature | existing FND lineage | WS-UI-01 | UI-001–UI-004 | `main` after FND | UI full gate; explicit merge | existing; history preserved/reconciled on its branch |
 | `feature/AUTH-integration` | integration | `715df78` updated `main` after FND/UI prerequisites | WS-AUTH-INT | AUTH-005 | `main` | BE+FE ready; live security/integration pass | active; AUTH contract frozen 2026-10-31 |
 | `work/AUTH-backend` | backend | frozen AUTH integration commit | WS-AUTH-BE | AUTH-001–AUTH-003 | `feature/AUTH-integration` | backend suite and contract match; explicit merge | planned |
-| `work/AUTH-frontend` | frontend | same frozen AUTH integration commit | WS-AUTH-FE | AUTH-004 | `feature/AUTH-integration` | component/a11y/build and fixture evidence; explicit merge | planned |
+| `work/AUTH-frontend` | frontend | `4e92f8f` frozen AUTH integration commit | WS-AUTH-FE | AUTH-004 | `feature/AUTH-integration` | component/a11y/build and fixture evidence; explicit merge | ready-for-integration; AUTH-004 verified 2026-10-31 |
 | `feature/CAT-integration` | integration | updated `main` after AUTH/UI/FND | WS-CAT-INT | CAT-006 | `main` | BE+FE ready; live CAT gate | planned |
 | `work/CAT-backend` | backend | frozen CAT integration commit | WS-CAT-BE | CAT-001–CAT-003 | `feature/CAT-integration` | backend catalog suite; explicit merge | planned |
 | `work/CAT-frontend` | frontend | same frozen CAT integration commit | WS-CAT-FE | CAT-004–CAT-005 | `feature/CAT-integration` | client/a11y/responsive/build; explicit merge | planned |

@@ -11,7 +11,7 @@
 |---|---|---|---|---:|---|---|
 | FND | feature | in-progress | `feature/FND-application-foundation` | 3/6 | 2026-10-27: FND-006 local production preparation under FND-DEC-005; 3 config/4 fake-DB production, 15 unit-file/45 non-live-MySQL integration checks, lint/build/install pass; verification-matrix §18 | FND-002/FND-005/FND-006 blocked: validator missing, upstream/actual host/real-DB/session/recovery gates open; FND-005 cleanup resolved by user |
 | UI | feature | in-progress | `feature/UI-design-system-app-shell` | 4/4 | 2026-10-28: UI-004 admin layout; UI/foundation/lint/build/audit/docs gates pass | FND must be present in main and shared visual acceptance matrix closed before merge |
-| AUTH | feature | planned | `feature/AUTH-identity-accounts` | 0/5 | Planning only; no implementation evidence | A-005 before AUTH-001 |
+| AUTH | feature | in-progress | `feature/AUTH-integration` | 1/5 | 2026-10-31: AUTH-004 fixture-based frontend screens verified | AUTH backend and AUTH-005 live security gate remain open |
 | CAT | feature | planned | `feature/CAT-catalog-discovery` | 0/6 | Planning only; no implementation evidence | Dependencies not implemented |
 | SET | feature | planned | `feature/SET-store-settings` | 0/3 | Planning only; no implementation evidence | A-004 optional social scope |
 | HOME | feature | planned | `feature/HOME-homepage-merchandising` | 0/4 | Planning only; no implementation evidence | Dependencies not implemented |
@@ -21,6 +21,12 @@
 | ADM | feature | planned | `feature/ADM-admin-dashboard` | 0/3 | Planning only; no implementation evidence | Owner projection contracts not implemented |
 
 ## 2. Activity
+
+### 2026-10-31 — AUTH-004 frontend authentication screens
+
+- On frozen AUTH contract commit `4e92f8f`, created `work/AUTH-frontend` and implemented only `src/features/auth/**` plus AUTH-owned tests and documentation. The production adapter remains aimed at `/api/v1`; fixtures are test-only.
+- Node 24 checks: `npm run test -- auth` passed; focused AUTH API and component/axe checks passed; `npm run lint` and `npm run build` passed. Browser DOM QA found no horizontal overflow at 375, 768, or 1440px; mobile rendering provides the constrained zoom-equivalent layout check.
+- `WS-AUTH-FE` is ready for integration. No server implementation, push, PR, merge, deployment, or AUTH-005 live security claim occurred.
 
 ### 2026-10-28 — UI-002 primitives implementation in progress
 

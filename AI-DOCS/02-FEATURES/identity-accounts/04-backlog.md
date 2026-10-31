@@ -11,7 +11,7 @@
 | 1 | AUTH-001 | AUTH/core | WS-AUTH-BE | Add identity/session schema, phone normalization, hashing, and secure session primitives | REQ-AUTH-001, REQ-AUTH-002, REQ-AUTH-010, REQ-AUTH-012 | FND-002, FND-003, A-005 confirmed/accepted | AUTH server/platform paths | migration/unit tests | `not-started` | `work/AUTH-backend` | — | — |
 | 2 | AUTH-002 | AUTH/customer | WS-AUTH-BE | Implement customer register/login/logout/account APIs | REQ-AUTH-003, REQ-AUTH-004, REQ-AUTH-005, REQ-AUTH-011 | AUTH-001 | AUTH customer routes/services | API integration tests | `not-started` | `work/AUTH-backend` | — | — |
 | 3 | AUTH-003 | AUTH/admin | WS-AUTH-BE | Implement single-admin bootstrap and separate admin auth APIs | REQ-AUTH-006, REQ-AUTH-007, REQ-AUTH-013, REQ-SCOPE-002 | AUTH-001 | admin auth paths, bootstrap script | bootstrap/admin tests | `not-started` | `work/AUTH-backend` | — | — |
-| 4 | AUTH-004 | AUTH/UI | WS-AUTH-FE | Build responsive customer/admin auth and Account screens | REQ-AUTH-003, REQ-AUTH-004, REQ-AUTH-005 | AUTH-002, AUTH-003, UI-002 | `src/features/auth/**` | component/manual tests | `not-started` | `work/AUTH-frontend` | — | — |
+| 4 | AUTH-004 | AUTH/UI | WS-AUTH-FE | Build responsive customer/admin auth and Account screens | REQ-AUTH-003, REQ-AUTH-004, REQ-AUTH-005 | frozen API-AUTH-001/002, UI-002; live API deferred to INT | `src/features/auth/**` | component/manual tests | `done` | `work/AUTH-frontend` | `feat(AUTH-004): build authentication screens` | Contract-fixture API/phone tests and component/axe checks pass; Node 24 lint/build pass; browser DOM QA shows no horizontal overflow at 375, 768, and 1440px. Fixture-only FE evidence; real API/auth security remain AUTH-005. |
 | 5 | AUTH-005 | AUTH/security | WS-AUTH-INT | Enforce fixed guards, isolation, CSRF/rate limits, and full auth security suite | REQ-AUTH-008, REQ-AUTH-009, REQ-AUTH-014 | AUTH-002–AUTH-004 | AUTH guards/tests | full security integration suite | `not-started` | `feature/AUTH-integration` | — | — |
 
 ## DEC-008 Effective Delivery Overlay
@@ -32,6 +32,6 @@ The ordered-task rows above and this lane summary are the canonical DEC-008 assi
 
 ## Completion Summary
 
-- **Completed:** 0/5
-- **Next ready task:** `AUTH-001` after FND-002/FND-003
+- **Completed:** 1/5
+- **Next ready task:** `AUTH-001` in the BE lane; no further FE task is dependency-ready until authorization after this FE handoff.
 - **Feature status:** `planned`
