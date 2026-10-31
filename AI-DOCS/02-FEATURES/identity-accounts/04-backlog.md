@@ -28,7 +28,7 @@ The ordered-task rows above and this lane summary are the canonical DEC-008 assi
 
 | Task ID | Blocker | Owner/Decision Needed | Next Action |
 |---|---|---|---|
-| AUTH-001 | A-005 phone geography | User | Confirm Egypt-only phone normalization or expand contract |
+| None. | None. | None. | A-005 was confirmed on 2026-10-31: Egyptian local and `+20` input normalize to unique `+20` E.164. |
 
 ## Completion Summary
 

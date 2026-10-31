@@ -142,4 +142,4 @@ Authentication, session, cookie, admin provisioning, actor type, or ownership ch
 
 ## 13. Assumptions and TODOs
 
-A-005 remains pending; no non-Egyptian phone behavior is invented.
+**CONFIRMED A-005 — 2026-10-31:** customer and admin forms accept Egyptian local `01xxxxxxxxx` and `+201xxxxxxxxx` input, normalize to unique `+20` E.164, and reject non-Egyptian numbers in V1.

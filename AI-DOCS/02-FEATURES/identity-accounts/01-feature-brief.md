@@ -94,5 +94,4 @@ FND database/HTTP/config contracts and UI form/shell state contracts.
 
 ## 13. Assumptions and TODOs
 
-> **ASSUMPTION A-005:** normalize unique customer/admin phone numbers to Egyptian `+20` E.164.  
-> **TODO A-005:** confirm whether non-Egyptian numbers are required.
+> **CONFIRMED A-005 — 2026-10-31:** customer and admin forms accept Egyptian local `01xxxxxxxxx` and `+201xxxxxxxxx` input, normalize to unique `+20` E.164, and do not support non-Egyptian numbers in V1.

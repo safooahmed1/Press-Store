@@ -33,7 +33,7 @@ FND and UI are grandfathered existing feature branches. For AUTH and later featu
 | `feature/ADM-admin-dashboard` | feature | `main` after CAT/ORD/CUS/UI/AUTH | WS-ADM-01 | ADM-001–ADM-003 | `main` | admin E2E/build/docs validator; explicit merge instruction | planned |
 | `feature/FND-application-foundation` | legacy feature | `main` | WS-FND-01 | FND-001–FND-006 | `main` | FND full gate; explicit merge | active; history preserved |
 | `feature/UI-design-system-app-shell` | legacy feature | existing FND lineage | WS-UI-01 | UI-001–UI-004 | `main` after FND | UI full gate; explicit merge | existing; history preserved/reconciled on its branch |
-| `feature/AUTH-integration` | integration | updated `main` after FND/UI prerequisites | WS-AUTH-INT | AUTH-005 | `main` | BE+FE ready; live security/integration pass | planned |
+| `feature/AUTH-integration` | integration | `715df78` updated `main` after FND/UI prerequisites | WS-AUTH-INT | AUTH-005 | `main` | BE+FE ready; live security/integration pass | active; AUTH contract frozen 2026-10-31 |
 | `work/AUTH-backend` | backend | frozen AUTH integration commit | WS-AUTH-BE | AUTH-001–AUTH-003 | `feature/AUTH-integration` | backend suite and contract match; explicit merge | planned |
 | `work/AUTH-frontend` | frontend | same frozen AUTH integration commit | WS-AUTH-FE | AUTH-004 | `feature/AUTH-integration` | component/a11y/build and fixture evidence; explicit merge | planned |
 | `feature/CAT-integration` | integration | updated `main` after AUTH/UI/FND | WS-CAT-INT | CAT-006 | `main` | BE+FE ready; live CAT gate | planned |
