@@ -18,7 +18,7 @@ FND and UI are grandfathered existing feature branches. For AUTH and later featu
 
 | Branch | Type | Parent/Created From | Owner Workstream | Task IDs | Merge Target | Merge Prerequisites | Status |
 |---|---|---|---|---|---|---|---|
-| `feature/FND-application-foundation` | feature | `main` | WS-FND-01 | FND-001–FND-006 | `main` | FND full suite/build/docs validator; explicit merge instruction | active; FND-001/FND-003/FND-004 done; FND-002 blocked (hosting unavailable); FND-005 blocked (FND-DEC-004); FND-006 local preparation blocked (FND-DEC-005) |
+| `feature/FND-application-foundation` | feature | `main` | WS-FND-01 | FND-001–FND-006 | `main` | FND full suite/build/docs validator; explicit merge instruction | User accepts 6/6 tasks for downstream development (FND-DEC-007/008); original validator BLOCKED / NOT RUN; not release-verified; no commit/push authorization. |
 | `feature/UI-design-system-app-shell` | feature | `aa61d3f` FND checkpoint under UI-DEC-002 | WS-UI-01 | UI-001–UI-004 | `main` | UI visual/a11y/responsive suite; FND present in main; explicit merge instruction | active; UI-003 responsive remediation verified; UI-004 correction awaits separate authorization; no push/merge authorized |
 | `feature/AUTH-identity-accounts` | feature | `main` after FND | WS-AUTH-01 | AUTH-001–AUTH-005 | `main` | AUTH security suite; explicit merge instruction | planned |
 | `feature/CAT-catalog-discovery` | feature | `main` after FND/AUTH/UI | WS-CAT-01 | CAT-001–CAT-006 | `main` | catalog suite/contracts; explicit merge instruction | planned |
@@ -31,10 +31,10 @@ FND and UI are grandfathered existing feature branches. For AUTH and later featu
 | `work/WS-ORD-03-admin-operations` | workstream | ORD integration after WS-ORD-01 | WS-ORD-03 | ORD-006–ORD-008 | `feature/ORD-checkout-payments-orders` | admin/expiry suite; A-001 resolved; explicit merge instruction | planned |
 | `feature/CUS-customer-directory` | feature | `main` after ORD/AUTH | WS-CUS-01 | CUS-001–CUS-003 | `main` | directory/privacy/query suite; explicit merge instruction | planned |
 | `feature/ADM-admin-dashboard` | feature | `main` after CAT/ORD/CUS/UI/AUTH | WS-ADM-01 | ADM-001–ADM-003 | `main` | admin E2E/build/docs validator; explicit merge instruction | planned |
-| `feature/FND-application-foundation` | legacy feature | `main` | WS-FND-01 | FND-001–FND-006 | `main` | FND full gate; explicit merge | active; history preserved |
+| `feature/FND-application-foundation` | legacy feature | `main` | WS-FND-01 | FND-001–FND-006 | `main` | FND full gate; explicit merge | User accepts 6/6 tasks for downstream development (FND-DEC-007/008); original validator BLOCKED / NOT RUN; not release-verified; no commit/push authorization. |
 | `feature/UI-design-system-app-shell` | legacy feature | existing FND lineage | WS-UI-01 | UI-001–UI-004 | `main` after FND | UI full gate; explicit merge | existing; history preserved/reconciled on its branch |
 | `feature/AUTH-integration` | integration | `715df78` updated `main` after FND/UI prerequisites | WS-AUTH-INT | AUTH-005 | `main` | BE+FE ready; live security/integration pass | active; AUTH contract frozen 2026-10-31 |
-| `work/AUTH-backend` | backend | frozen AUTH integration commit | WS-AUTH-BE | AUTH-001–AUTH-003 | `feature/AUTH-integration` | backend suite and contract match; explicit merge | planned |
+| `work/AUTH-backend` | backend | frozen AUTH integration commit | WS-AUTH-BE | AUTH-001–AUTH-003 | `feature/AUTH-integration` | backend suite and contract match; explicit merge | Created locally from origin/feature/AUTH-integration at 4e92f8f; AUTH-001 actual MySQL verification passed, blocked on original docs validator; no commit/push. |
 | `work/AUTH-frontend` | frontend | same frozen AUTH integration commit | WS-AUTH-FE | AUTH-004 | `feature/AUTH-integration` | component/a11y/build and fixture evidence; explicit merge | planned |
 | `feature/CAT-integration` | integration | updated `main` after AUTH/UI/FND | WS-CAT-INT | CAT-006 | `main` | BE+FE ready; live CAT gate | planned |
 | `work/CAT-backend` | backend | frozen CAT integration commit | WS-CAT-BE | CAT-001–CAT-003 | `feature/CAT-integration` | backend catalog suite; explicit merge | planned |

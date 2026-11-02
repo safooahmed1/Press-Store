@@ -9,9 +9,9 @@
 
 | Scope ID | Type | Status | Branch | Completed/Total | Last Evidence | Blockers |
 |---|---|---|---|---:|---|---|
-| FND | feature | in-progress | `feature/FND-application-foundation` | 3/6 | 2026-10-27: FND-006 local production preparation under FND-DEC-005; 3 config/4 fake-DB production, 15 unit-file/45 non-live-MySQL integration checks, lint/build/install pass; verification-matrix §18 | FND-002/FND-005/FND-006 blocked: validator missing, upstream/actual host/real-DB/session/recovery gates open; FND-005 cleanup resolved by user |
+| FND | feature | in-progress | `feature/FND-application-foundation` | 6/6 | 2026-11-02: user accepts all FND tasks for downstream development, FND-DEC-007/008 | Not release-verified; original docs validator BLOCKED / NOT RUN; host/session/backup evidence unverified |
 | UI | feature | in-progress | `feature/UI-design-system-app-shell` | 4/4 | 2026-10-28: UI-004 admin layout; UI/foundation/lint/build/audit/docs gates pass | FND must be present in main and shared visual acceptance matrix closed before merge |
-| AUTH | feature | planned | `feature/AUTH-identity-accounts` | 0/5 | Planning only; no implementation evidence | A-005 before AUTH-001 |
+| AUTH | feature | in-progress | `feature/AUTH-identity-accounts` | 0/5 | 2026-11-02: AUTH-001 final focused suite 13/13 including disposable MySQL 8.4.11; cleanup and lint pass; verification-matrix §23 | AUTH-001 blocked: original documentation validator unavailable; no completion commit authorized |
 | CAT | feature | planned | `feature/CAT-catalog-discovery` | 0/6 | Planning only; no implementation evidence | Dependencies not implemented |
 | SET | feature | planned | `feature/SET-store-settings` | 0/3 | Planning only; no implementation evidence | A-004 optional social scope |
 | HOME | feature | planned | `feature/HOME-homepage-merchandising` | 0/4 | Planning only; no implementation evidence | Dependencies not implemented |
@@ -50,7 +50,7 @@
 - `npm run test -- ui` passed 23/23 with the existing child-process helper rerun using authorized elevated execution; `npm run lint` and `npm run build` passed. Chrome headless visual QA captured mobile/tablet/desktop evidence under the UI feature evidence directory.
 - UI-001 is done; UI remains in progress at 1/4. No push, merge, deployment, or next-task implementation occurred.
 | UI | feature | planned | `feature/UI-design-system-app-shell` | 0/4 | Planning only; no implementation evidence | A-003/A-004 affect content; A-007 reference screenshot unavailable |
-| AUTH | feature | planned | `feature/AUTH-integration` | 0/5 | DEC-008 splits BE/FE/INT; no implementation evidence | FND-002 and A-005 before AUTH-BE |
+| AUTH | feature | in-progress | `feature/AUTH-integration` | 0/5 | 2026-11-02: AUTH-001 final focused suite 13/13 including disposable MySQL 8.4.11; cleanup and lint pass; verification-matrix §23 | AUTH-001 blocked: original documentation validator unavailable; no completion commit authorized |
 | CAT | feature | planned | `feature/CAT-integration` | 0/6 | DEC-008 splits BE/FE/INT; no implementation evidence | Dependencies not implemented |
 | SET | feature | planned | `feature/SET-integration` | 0/3 | DEC-008 splits BE/FE/INT; no implementation evidence | A-004 optional social scope |
 | HOME | feature | planned | `feature/HOME-integration` | 0/4 | DEC-008 splits BE/FE/INT; no implementation evidence | Dependencies not implemented |
@@ -292,3 +292,47 @@
   production wiring 4/4, lint/build/audit, whitespace, and the prescribed documentation validator all
   pass; see verification-matrix §19. FND remains 3/6 with FND-002/FND-005/FND-006 blocked. No push, merge,
   PR, deployment, or UI navigation migration is implied.
+
+### 2026-11-02 — FND-002 acceptance and FND-005 closeout verification
+
+- User explicitly accepted FND-002 as complete; recorded the bounded exception in FND-DEC-007.
+- Switched from clean main to the assigned existing FND branch; stash retained, no merge/rebase.
+- Reviewed existing observability and helper implementation; no source defect requiring an edit identified.
+- Focused 17/17, foundation unit 92/92, non-live integration 48/48, lint/build passed after required sandbox reruns.
+- Original docs validator invocation exits 2 (file absent). FND-005/FND-006 remain blocked; no completion commit.
+- No live MySQL, AUTH implementation, remote write or deployment; see verification-matrix §20 for boundaries.
+
+### 2026-11-02 — User accepts foundation and authorizes AUTH-001
+
+FND-DEC-008 records user acceptance of the remaining FND tasks. FND task accounting is 6/6;
+release checks are not promoted to passes. AUTH-001 is authorized next. User confirms Egypt-only
+phone input normalized to +20; this matches AUTH-DEC-002 already on origin/feature/AUTH-integration.
+Commit/push restrictions remain in force. No application code or acceptance requirements changed.
+
+### 2026-11-02 — AUTH-001 local implementation
+
+- Branch work/AUTH-backend created from frozen origin/feature/AUTH-integration 4e92f8f.
+- Foundation acceptance notes preserved on the original branch in a separate stash and carried
+  into current canonical documentation without overwriting newer main/UI/routing history.
+- AUTH-DEC-003 approved; A-005 reconfirmed. Only AUTH-001 server/platform paths and owned docs edited.
+- Added schema/identity/password/session/cookie primitives and tests. No HTTP endpoints or UI changes.
+- No completion/commit/push. Exact observations, skips and limitations: verification-matrix §22.
+
+### 2026-11-02 — AUTH-001 actual MySQL closeout check
+
+- User requested remaining work; ran authorized isolated MySQL tests, not an application database.
+- Strengthened persisted-session test to recreate the pool and service. Final combined suite passes
+  13/13 with no skips on MySQL 8.4.11; cleanup verified and lint passed.
+- Original docs validator still missing (invocation exit 2); task is blocked, completed 0/5 unchanged.
+- No completion commit, push, existing database migration or AUTH-002 implementation.
+
+### 2026-11-02 — Authorized AUTH-001 preservation and push
+
+- User explicitly authorizes one checkpoint commit of the current reviewed work and a non-force
+  push to origin/work/AUTH-backend. Prior session-specific no-commit/no-push notes remain historical.
+- Planned subject: `chore(AUTH-001): checkpoint verified identity and session foundation`.
+- Includes AUTH-001 code/tests/docs and the current user's FND acceptance notes carried as dependencies.
+- Existing 13/13 actual-MySQL/focused checks, lint/build and prior regression evidence retained;
+  no application or live-DB checks rerun for Git-only preservation.
+- Original docs validation remains BLOCKED / NOT RUN; AUTH-001 stays blocked, 0/5 complete.
+- No completion commit, PR, merge, deployment or AUTH-002 work is authorized by this preservation step.

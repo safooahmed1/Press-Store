@@ -6,7 +6,7 @@
 - **Kind:** `shared`
 - **Parent Feature:** `None`
 - **Owner:** `WS-AUTH-BE`, `WS-AUTH-FE`, `WS-AUTH-INT`
-- **Status:** `planned`
+- **Status:** `in-progress`
 
 ## 2. Summary
 

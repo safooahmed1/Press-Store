@@ -474,3 +474,82 @@ upload-serving code, tests and runbook for ownership, secret exposure, path hand
 `node --version` reported v24.18.1; `git diff --check` passed. Lockfile, DB/AUTH/client source
 unchanged; index empty. The final unchanged validator invocation still exited 2. No new dependency,
 live MySQL, real hosting/session smoke, full-feature acceptance or completion claim.
+
+## 20. FND-005 Closeout Attempt and FND-002 Acceptance — 2026-11-02
+
+Branch: `feature/FND-application-foundation`, baseline `aa61d3f`. Node v24.18.1.
+FND-DEC-007 records explicit user acceptance of FND-002; this is not a newly observed hosting pass.
+The branch is behind main; no merge/rebase or removal of main's later UI/routing changes occurred.
+Existing stash was inspected read-only and remains untouched.
+
+| Check | Exact command/procedure | Observed result |
+|---|---|---|
+| Focused logger/helpers/HTTP | `node --test --test-isolation=none server/src/platform/observability/foundation-observability.test.js tests/helpers/foundation-quality.test.js server/src/platform/observability/foundation-observability.integration.test.js` | Initial sandbox: 9 pass, 8 HTTP failures due to listen EPERM. Authorized unrestricted rerun: 17 passed, 0 failed, 3 suites. |
+| Foundation unit | `npm run test -- foundation` | Initial sandbox: 15 files pass, selection test fails. Detailed `node --test --test-isolation=none tests/helpers/foundation-test-selection.test.js` identified spawnSync npm EPERM. Authorized unrestricted rerun: 92 tests passed, 0 failed, 16 suites. Cleanup selection uses fake processes only. |
+| Non-live integration | `FND_DISPOSABLE_MYSQL_TESTS=0 npm run test:integration -- foundation` outside sandbox | 48 passed, 0 failed, 7 suites. Disposable MySQL and query-plan suites explicitly skipped; no live database operation. Includes four production fake-DB cases and synthetic secret-bundle fixture. |
+| Lint | `npm run lint` | Exit 0. |
+| Build | `npm run build` | Exit 0; Vite 8.3.5, 68 modules, JS 248.14 kB / gzip 77.08 kB. |
+| Typecheck | Inspect package scripts | No typecheck script in approved JavaScript base; not run. |
+| Original documentation validator | `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .` | Invocation exit 2: script absent; validation BLOCKED / NOT RUN. No alternate validator invented. |
+
+Second pass: reviewed the complete seven-document diff, task acceptance criteria and remaining
+runbook gates. `git diff --check` passes. Only FND documentation changed; application source,
+dependencies, acceptance checkboxes and the existing stash are unchanged. No staging or commit.
+
+No FND-005 completion commit. AC-FND-002 remains unchecked pending the mandatory closeout.
+FND-006 production wiring is locally tested; actual host/database/session persistence,
+backup/restore and remaining runbook checks are not executed evidence. AC-FND-004 remains unchecked.
+
+## 21. User Acceptance Boundary — 2026-11-02
+
+FND-DEC-008 records the user's acceptance of remaining FND task accounting for AUTH development.
+No new verification ran for this decision. Original documentation validation remains BLOCKED / NOT RUN;
+no acceptance checkbox, live hosting/session check, backup/restore check or release gate is marked passed.
+Commit and push still require explicit user approval. Historical evidence above remains unchanged.
+
+## 22. AUTH-001 Local Implementation Evidence — 2026-11-02
+
+Baseline: frozen `origin/feature/AUTH-integration` at `4e92f8f`; working branch `work/AUTH-backend`.
+User accepts all FND tasks for downstream development under FND-DEC-007/008, reconfirms A-005 and
+approves AUTH-DEC-003. FND acceptance notes were preserved in a separate named stash and copied into
+the dependency documentation without rewriting this baseline's newer history. Both stashes remain.
+
+| Check | Exact command/procedure | Observed result |
+|---|---|---|
+| Focused primitives/source migration discovery | `node --test --test-isolation=none server/src/features/auth/repositories/auth-identities.test.js server/src/features/auth/services/auth-core.test.js server/src/features/auth/services/auth-core.integration.test.js server/src/platform/auth/auth-sessions.test.js` | 12 passed, 0 failed, 6 suites. Covers phone/password boundaries, scrypt salts/verification/cost parsing, scoped hashed-token lifecycle, fixed expiry, logout, cookie attributes/duplicates, persistence failure/rotation rollback with a fake repository, safe summaries and source migration discovery. Real-MySQL suite explicitly skipped. |
+| Prescribed auth unit | `npm run test -- auth` | Final exit 0: 25 file checks passed, 0 failed. Test-name filter selects AUTH cases; other loaded files are not evidence of all their cases running. Initial attempt failed to import react-router-dom/jsdom because local dependencies belonged to the older FND checkout. |
+| Existing dependency restoration | `npm ci` | Exit 0; 316 packages installed from the existing lockfile, 317 audited; six moderate vulnerabilities reported in that locked graph. No audit fix, version or manifest/lockfile change. This is dependency restoration, not a new dependency decision. |
+| Non-live auth integration selection | `FND_DISPOSABLE_MYSQL_TESTS=0 npm run test:integration -- auth` | Exit 0, 8 file checks; actual DB constraint/persistence scenario explicitly skipped. Direct focused row above reports the migration-source case separately. |
+| Foundation regression | `FND_DISPOSABLE_MYSQL_TESTS=0 npm run test:integration -- foundation` outside sandbox | Exit 0: 49 passed, 0 failed, 7 suites/file groups, including the filtered AUTH file load. Foundation real-MySQL/query-plan suites explicitly skipped; no new live-DB result claimed. |
+| Lint/build | `npm run lint`; `npm run build` | Both exit 0. Vite 8.3.5, 78 modules; JS 286.04 kB / gzip 90.00 kB. |
+| Typecheck | Inspect approved package scripts | No typecheck script; not run. |
+| Live migration/constraint/persistence | Opt-in AUTH MySQL scenario, not executed | NOT RUN; requires explicit authorization and disposable MySQL. Unit/fake transaction checks do not establish actual SQL compatibility, FK/CHECK enforcement or restart persistence. |
+| Original documentation validator | `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .` | Invocation exit 2: original script absent; validation BLOCKED / NOT RUN. No replacement path or tool installed; requirements unchanged. |
+
+Reviewed the complete source and documentation changes for ownership, secrets, fixed work factors,
+cookie scope, parameterized SQL, atomic rotation and accidental route/bootstrap installation.
+AUTH-004 owner acknowledgement and fixture reconciliation for AUTH-DEC-003 are required before INT;
+no FE source was modified. AUTH-002/003 endpoints and AUTH-005 live guards/CSRF/rate limits remain
+future tasks. AUTH-001 is in-progress, not done; no completion commit or push is authorized.
+`git diff --check` passes; dependency manifests/lockfile and acceptance checkboxes are unchanged.
+
+## 23. AUTH-001 Actual Disposable MySQL Evidence — 2026-11-02
+
+Scope: remaining AUTH-001 verification authorized by the user's request after the missing actual
+MySQL tests were reported. Branch remains work/AUTH-backend with all prior work preserved.
+No existing/application database or environment file was used. Only a private synthetic fixture
+was initialized through the existing helper; no platform/helper code was modified.
+
+| Check | Exact command/procedure | Observed result |
+|---|---|---|
+| Runtime / database binary | `node --version`; `mysqld --version` | Node v24.18.1; MySQL 8.4.11-0ubuntu0.26.04.1, Ubuntu build. |
+| Initial actual DB verification | `FND_DISPOSABLE_MYSQL_TESTS=1 node --test --test-isolation=none server/src/features/auth/services/auth-core.integration.test.js` outside sandbox | 2 passed, 0 failed, 0 skipped, 2 suites. Empty identity schema, populated upgrade/session migration, repeat migrations, constraints, scoped session lifecycle and failed-rotation rollback passed. |
+| Final focused suite | `FND_DISPOSABLE_MYSQL_TESTS=1 node --test --test-isolation=none server/src/features/auth/repositories/auth-identities.test.js server/src/features/auth/services/auth-core.test.js server/src/features/auth/services/auth-core.integration.test.js server/src/platform/auth/auth-sessions.test.js` outside sandbox | 13 passed, 0 failed, 0 skipped, 6 suites. Real-DB case now closes/recreates the pool as well as the service before reading the persisted session; diagnostic confirms MySQL 8.4.11. |
+| Fixture cleanup | `ps -C mysqld -o pid,ppid,comm`; `ls -d /tmp/press-fnd002-mysql-*` before/after runs | No mysqld process before or after; after each completed run, no matching temporary root. Commands with no matches return nonzero; those results establish absence, not a test failure. Fixture teardown itself completed without error. |
+| Lint after test improvement | `npm run lint` | Exit 0. No application source or dependency change in this closeout attempt; previous build and local regression evidence remains in §22 and was not rerun. |
+| Original docs validator | `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .` | Invocation exit 2: original script still absent. Validation BLOCKED / NOT RUN; no fabricated tool/path or acceptance-requirement change. |
+
+The real-DB NOT RUN status in §22 is historical and superseded for the tested local MySQL scenarios.
+This is not actual Hostinger compatibility, production backup/restore or full HTTP AUTH acceptance.
+AUTH-001 remains blocked on the original mandatory documentation validator and has no completion
+commit; explicit no-commit/no-push restriction remains in force. AUTH-002 was not started.

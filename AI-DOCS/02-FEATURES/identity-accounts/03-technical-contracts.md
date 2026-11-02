@@ -143,3 +143,15 @@ Authentication, session, cookie, admin provisioning, actor type, or ownership ch
 ## 13. Assumptions and TODOs
 
 **CONFIRMED A-005 — 2026-10-31:** customer and admin forms accept Egyptian local `01xxxxxxxxx` and `+201xxxxxxxxx` input, normalize to unique `+20` E.164, and reject non-Egyptian numbers in V1.
+
+## 14. AUTH-001 implementation policy — AUTH-DEC-003
+
+- `services/auth-validation.js`: exact Egyptian local/international input normalizes to +20; invalid types, lengths, whitespace, non-ASCII digits and non-Egyptian formats reject. Password bounds and hashing follow AUTH-DEC-003.
+- `services/passwords.js`: asynchronous built-in scrypt with versioned, fixed-parameter encoding and constant-time key comparison. Hash verification does not choose work factors from untrusted stored text.
+- `repositories/identities.js`: internal credential lookups and an explicit safe customer summary through DB-FND-001. No registration or bootstrap workflow is installed in AUTH-001.
+- `auth_001_create_identities.sql`: AUTH-owned customers/admins with BIGINT identities, unique canonical phones, bounded name columns (A-009) and a CHECK restricting admin_id to 1. Migration is additive and forward-only; no production reset or automatic recovery.
+- `auth_002_create_sessions.sql`: sessions have a BINARY(32) primary digest, actor_type, nullable customer_id/admin_id foreign keys and an exclusive-scope CHECK. The conceptual actorId is the matching non-null FK, not a separate unconstrained polymorphic FK. Expiry and actor indexes support lookup/cleanup. Timestamps are UTC; no cascading history deletion.
+- `createSessionRepository(database)` owns atomic rotation, scoped active lookup/last-seen update and scoped revocation. SQL values are parameterized; raw session tokens never cross this boundary.
+- `createSessionService({ repository, clock })` exposes create({ actorType, actorId, previousToken? }), find(token, actorType) and revoke(token, actorType). Callers must already have verified credentials before create. It returns the new token only after the rotation transaction succeeds. Actor IDs are exact positive BIGINT decimal strings; adminId is 1.
+- `createSessionCookies({ production })` exposes issue(scope, session), clear(scope), read(scope, cookieHeader). Production names are __Host-press-customer and __Host-press-admin; development names omit __Host-. Duplicate, malformed or oversized cookie headers produce no token. This does not replace CSRF/origin guards.
+- AUTH-002/AUTH-003 own endpoint orchestration, configuration wiring and credential-failure handling; AUTH-005 owns the complete live security gate. Frozen API envelopes/routes are unchanged. AUTH-004 needs owner acknowledgement/reconciliation of the newly approved password policy before INT.

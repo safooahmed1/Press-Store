@@ -153,3 +153,18 @@ At initial log creation, no implementation activity had been recorded.
 - Preserved existing backend implementation, tests, approved dependency/tooling/configuration changes, FND-DEC-002 and its task-loop exception, and delivery evidence. No frontend source or application code was modified during this handoff operation.
 - Retained verification provenance in verification-matrix §10: 49 prior unit tests, user-host MySQL 8.4.11 integration 43/43 and cleanup, and earlier lint/in-memory build pass. No fresh test, build, cleanup, or database result is claimed for this Git-only operation.
 - FND-001 remains `blocked`, FND-002 remains `in-progress`, completion stays 0/6, and acceptance criteria are not promoted. The unchanged prescribed documentation validator remains missing and did not pass; hosting and other acceptance blockers remain unresolved. This is preservation for handoff, not formal acceptance, merge readiness, or FND-003 authorization.
+
+## 2026-11-02 — User acceptance and FND-005 closeout attempt
+
+- Recorded FND-DEC-007: FND-002 is done by explicit user acceptance; unrun hosting checks remain visible.
+- Reviewed existing safe logger, request lifecycle and shared test helpers. No source change required.
+- Focused checks 17/17, foundation unit 92/92, non-live-MySQL integration 48/48, lint/build pass.
+- Initial sandbox HTTP/subprocess checks failed with EPERM; authorized unrestricted reruns passed.
+- Original mandatory documentation validator remains absent (invocation exit 2); no substitute or pass claimed.
+- FND-005/FND-006 remain blocked. No completion commit, stash restoration, live MySQL, merge, push or deployment.
+
+## 2026-11-02 — User accepts FND and requests next backend task
+
+- FND-DEC-008 records explicit acceptance of FND-005/FND-006 for downstream development, 6/6 tasks.
+- Validation stays BLOCKED / NOT RUN; unrun release checks and acceptance criteria are unchanged.
+- No new test run, implementation change, completion commit, merge or remote action.

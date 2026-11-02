@@ -10,6 +10,7 @@
 | A-006 | Pending Confirmation | branch-plan, integration-plan | Use merge commits for local/remote feature integration so task commits remain visible; do not merge until the user explicitly authorizes it. | Confirm `merge`, `squash`, or `rebase` before the first merge. |
 | A-007 | Confirmed by user 2026-10-28 | UI feature and visual QA | The user supplied `design-reference/home.png`, `product.png`, and `shop.png`; they guide UI-001 without being copied literally or staged as production assets. | None for UI-001. |
 | A-008 | Confirmed 2026-10-30 | FND contracts §13; FND-DEC-006 | Immediate feature directories use `manifest.js` with a named `feature` export. Client manifests compose through React Router and permit static paths plus named dynamic parameters; server manifests mount Express routers below `/api/v1`. | User approved the routing architecture amendment; future feature owners register routes only through their manifests. |
+| A-009 | Pending Confirmation | AUTH schema/contracts | Store first/last names in VARCHAR(255) columns with non-empty trimmed values. This is a bounded storage choice for an unspecified name limit, not a PRD requirement; registration validation belongs to AUTH-002. | Confirm or amend before exposing registration. |
 
 ## 2026-10-23 — A-002 confirmation history
 

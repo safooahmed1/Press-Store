@@ -67,3 +67,23 @@
 - **Alternatives:** Signature-only inspection, retaining original bytes/metadata, accepting GIF/SVG, or adding multiple image libraries. These are not selected because they weaken validation or expand attack surface.
 - **Consequences:** Consumers must supply the original filename, declared MIME type, and bytes; the adapter validates all three against decoded format. Replacement/database workflows use the adapter's compensation helper. Future limit or format changes are STO-FND-001 contract changes.
 - **Affected contracts/tasks:** FND-004; STO-FND-001; REQ-FND-018/026; AC-FND-003.
+
+## FND-DEC-007 — User acceptance of FND-002 and remaining closeout request
+
+- **Status:** `approved`
+- **Date:** 2026-11-02
+- **Authorization:** The user explicitly instructed that FND-002 be considered complete and requested the remaining FND-005/FND-006 work.
+- **Decision:** Record FND-002 as `done` by explicit user acceptance of the existing implementation and historical local verification. This is a user-directed exception to the former FND-002 hosting/validator/completion-commit gate, not new verification evidence. Existing checkpoint `9555ad3` remains a checkpoint; no completion commit is fabricated.
+- **Boundary:** Hosting engine/version, TLS, limits, privileges and migration compatibility remain unverified release items. No production database connection, deployment, merge, push or blanket acceptance of FND-005/FND-006 is implied.
+- **Execution:** Begin FND-005 closeout on its assigned branch. FND-003 is done and FND-002 is now accepted. The original documentation validator remains required for FND-005/FND-006; retain blocked status if unavailable. Historical live-MySQL results remain historical; do not infer fresh authorization for live MySQL reruns.
+- **Shared acceptance:** FND-002 dependency is satisfied by user acceptance. AC-FND-002 remains open until the FND-005 documentation/verification closeout is complete; AC-FND-004 remains open for release evidence.
+
+## FND-DEC-008 — User acceptance of remaining FND tasks and transition to AUTH
+
+- **Status:** `approved`
+- **Date:** 2026-11-02
+- **Authorization:** After being informed of the missing original validator and outstanding release checks, the user explicitly accepted all FND work and instructed moving to the next backend task.
+- **Decision:** FND-005 and FND-006 are recorded as `done` by user acceptance, completing FND task accounting at 6/6. Together with FND-DEC-007 this satisfies the foundation development prerequisite for AUTH-001.
+- **Evidence boundary:** This is acceptance, not an observed pass. Documentation validation stays BLOCKED / NOT RUN. Hosting compatibility, real production/session persistence, backup/restore and other unrun release checks remain unverified; acceptance checkboxes are not falsely promoted.
+- **Status boundary:** FND is user-accepted for downstream development; it is not declared merge-ready or release-verified. No completion commits are fabricated.
+- **Restrictions retained:** No commit, push, merge, deployment, replacement validator, acceptance-requirement rewrite or live-MySQL rerun is authorized. AUTH-001 is the sole next implementation task; subsequent tasks need authorization.
