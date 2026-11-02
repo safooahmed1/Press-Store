@@ -553,3 +553,56 @@ The real-DB NOT RUN status in §22 is historical and superseded for the tested l
 This is not actual Hostinger compatibility, production backup/restore or full HTTP AUTH acceptance.
 AUTH-001 remains blocked on the original mandatory documentation validator and has no completion
 commit; explicit no-commit/no-push restriction remains in force. AUTH-002 was not started.
+
+## 24. AUTH-002 Customer APIs and FND Composition Amendment — 2026-11-02
+
+Branch: work/AUTH-backend; baseline published AUTH-001 checkpoint 9b86081. User approved the
+AUTH-002 development exception AUTH-DEC-004 and coordinated FND owner/AUTH consumer amendment
+AUTH-DEC-005 / FND-DEC-009. Shared source changes are limited to the loader/startServer and their
+existing tests. No FND DB interface, dependency, FE source or unrelated feature source changed.
+
+| Check | Exact command/procedure | Observed result |
+|---|---|---|
+| Focused manifests/validation/repositories | `node --test --test-isolation=none server/src/app/foundation-manifests.test.js server/src/features/auth/services/auth-customer-input.test.js server/src/features/auth/repositories/auth-identities.test.js` | 24 passed, 0 failed, 4 suites. Static/array/factory/context compatibility, pre-factory rejection and input boundaries. Subsequent full unit run includes the lint-corrected validator. |
+| Initial actual customer HTTP/DB | `FND_DISPOSABLE_MYSQL_TESTS=1 node --test --test-isolation=none server/src/features/auth/routes/auth-customer.integration.test.js` outside sandbox | 3 passed, 0 failed, 0 skipped, 2 suites on MySQL 8.4.11. Default manifest/startServer mounts and app restart; duplicate registration/race; atomic identity/session rollback; origin/media/validation and storage outage boundary. |
+| Final AUTH actual HTTP/DB regression | `FND_DISPOSABLE_MYSQL_TESTS=1 node --test --test-isolation=none server/src/features/auth/routes/auth-customer.integration.test.js server/src/features/auth/services/auth-core.integration.test.js` outside sandbox | 5 passed, 0 failed, 0 skipped, 4 suites. Includes added real admin-token rejection/customer-logout isolation and existing core migrations/FK/session constraints. MySQL 8.4.11 diagnostic emitted; no application DB. |
+| Full unit suite | `npm run test` outside sandbox | 136 passed, 0 failed, 24 suites. Includes existing UI/foundation and AUTH units. Existing JSDOM canvas-not-implemented notices appeared during axe tests; assertions passed, no dependency added. |
+| Foundation non-live HTTP/platform regression | `FND_DISPOSABLE_MYSQL_TESTS=0 npm run test:integration -- foundation` outside sandbox | 50 reported passing checks, 0 failures. AUTH integration files loaded under the foundation name filter; actual AUTH scenarios are evidenced by the final focused row instead. Foundation live-MySQL/query-plan suites explicitly skipped here. |
+| Lint | `npm run lint` | Initial no-control-regex violation in name validation was corrected using bounded code-point checks; rerun exit 0. No rule disabled. |
+| Build | `npm run build` | Exit 0; Vite 8.3.5, 78 modules, JS 286.04 kB / gzip 90.00 kB. |
+| Typecheck | Inspect approved package scripts | Not available; JavaScript base retained. |
+| Cleanup | `ps -C mysqld -o pid,ppid,comm`; `ls -d /tmp/press-fnd002-mysql-*` after final focused live suite | No running mysqld process or matching private MySQL fixture root remained. Test teardown completed without failure. |
+| Original docs validator | `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .` | Required original script remains unavailable; validation BLOCKED / NOT RUN. No alternative installed or acceptance requirement changed. |
+
+Verification covers customer API behavior and explicit development exceptions only. AC-AUTH-001
+still requires client/UI integration evidence; AC-AUTH-002/003, admin APIs/bootstrap, full abuse
+rate limits, browser CSRF/origin and cross-feature security remain their later owner tasks/gates.
+No acceptance checkbox or task completion claim. AUTH-002 is blocked on original documentation
+validation, not the now-approved shared amendment. No completion commit or additional push.
+
+Second pass: re-read AUTH-002 and AC-AUTH-001/003, reviewed the full tracked diff and new manifest,
+router, service, validator and tests for scope, safe DTOs/errors, transaction rollback, cookie/origin
+handling and debug/secret artifacts. `git diff --check` passes; package/lockfile and client source
+are unchanged. Existing stashes remain untouched. No further task or remote write was performed.
+
+## 25. User-Requested Full Code Verification — 2026-11-02
+
+Scope: explicit user request to test the current AUTH/FND work on work/AUTH-backend. Existing
+uncommitted implementation/documentation was preserved; no source/test or dependency changes.
+All database scenarios used their own synthetic disposable MySQL fixtures, not an application DB.
+
+| Check | Exact command/procedure | Observed result |
+|---|---|---|
+| Full unit | `npm run test > /tmp/press-auth002-full-unit-20261102.log 2>&1` outside sandbox | Exit 0; 136 tests passed, 0 failed, 0 skipped, 24 suites. |
+| Full integration with actual disposable MySQL | `FND_DISPOSABLE_MYSQL_TESTS=1 npm run test:integration > /tmp/press-auth002-full-integration-20261102.log 2>&1` outside sandbox | Exit 0; 66 tests passed, 0 failed, 0 skipped, 11 suites. AUTH customer HTTP/core scenarios, FND real DB migrations/transactions/lifecycle, HTTP/errors/observability/storage, fake-DB local production and real DB indexed query-plan sanity all ran. MySQL 8.4.11-0ubuntu0.26.04.1. |
+| Lint | `npm run lint` | Exit 0. |
+| Build | `npm run build` | Exit 0; Vite 8.3.5, 78 modules; JS 286.04 kB / gzip 90.00 kB. |
+| Cleanup | `ps -C mysqld -o pid,ppid,comm`; `ls -d /tmp/press-fnd002-mysql-*` | No mysqld process before/after; no matching private fixture root after completion. No unrelated process was signaled or existing DB modified. |
+| Whitespace | `git diff --check` | Exit 0. |
+| Original docs validator | `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .` | Invocation exit 2: original script absent. Validation remains BLOCKED / NOT RUN; no replacement/waiver. |
+| Typecheck | Inspect package scripts | No typecheck command in approved JavaScript base; not run. |
+
+This supersedes earlier skipped local-MySQL regression evidence only for scenarios actually present
+in this suite. It is not AUTH-003/004/005 acceptance, live browser/Hostinger/backup verification or
+permission to advance tasks. AUTH-001/AUTH-002 remain blocked on original docs validation, no
+acceptance checkboxes promoted, no completion commit/checkpoint/push or subsequent implementation.

@@ -87,3 +87,15 @@
 - **Evidence boundary:** This is acceptance, not an observed pass. Documentation validation stays BLOCKED / NOT RUN. Hosting compatibility, real production/session persistence, backup/restore and other unrun release checks remain unverified; acceptance checkboxes are not falsely promoted.
 - **Status boundary:** FND is user-accepted for downstream development; it is not declared merge-ready or release-verified. No completion commits are fabricated.
 - **Restrictions retained:** No commit, push, merge, deployment, replacement validator, acceptance-requirement rewrite or live-MySQL rerun is authorized. AUTH-001 is the sole next implementation task; subsequent tasks need authorization.
+
+## FND-DEC-009 — Contextual server router factories and multiple mounts
+
+- **Status:** `approved by user`
+- **Date:** 2026-11-02
+- **Authorization:** User explicitly approved the bounded FND+AUTH amendment proposed in AUTH-DEC-005 before source changes.
+- **Decision:** loadFeatureManifests(root, context) accepts a named feature export containing one descriptor or an array. A descriptor contains exactly one of router or createRouter(context). Validate all IDs/mounts and mutually exclusive router forms before invoking factories, resolve factories sequentially with one shallow-frozen context, then validate resolved routers before composition.
+- **Context:** startServer passes the existing lifecycle-owned database, validated runtime config and validated production appOrigin (when applicable). Credentials/session secret and upload configuration are not passed as extra context. Features do not create pools or read environment files. FND retains startup-failure cleanup and graceful shutdown ownership.
+- **Compatibility:** Existing single static descriptors and mount restrictions remain supported. Unique lowercase kebab-case IDs/mounts and reserved /health apply across all descriptors. Import, descriptor, factory and resolution failures prevent listening. Client manifests and database/HTTP contracts are unchanged.
+- **Exact paths:** server/src/app/feature-manifests.js; server/src/app/start-server.js; existing foundation-manifests and foundation-runtime integration tests. AUTH consumer owns server/src/features/auth/manifest.js and its routes/services/tests. No unrelated owner source is changed.
+- **Consumers:** AUTH uses /auth and /account descriptors. Future server features may opt in; static consumers need no source changes. See AUTH-DEC-005 and FND technical contracts §13.
+- **Verification:** Backward/static registration, multiple mounts, async factories, shared context, pre-factory duplicate/ambiguity rejection, startup failure pool cleanup, actual AUTH default-loader/startServer HTTP/database scenarios and foundation regression. Missing original docs validator remains an explicit blocker; no new completion/merge/release claim.

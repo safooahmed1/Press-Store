@@ -168,3 +168,10 @@ At initial log creation, no implementation activity had been recorded.
 - FND-DEC-008 records explicit acceptance of FND-005/FND-006 for downstream development, 6/6 tasks.
 - Validation stays BLOCKED / NOT RUN; unrun release checks and acceptance criteria are unchanged.
 - No new test run, implementation change, completion commit, merge or remote action.
+
+## 2026-11-02 — Approved AUTH-002 runtime seam integration
+
+- FND-DEC-009 records explicit user approval for multiple server mounts and contextual router factories.
+- Updated the loader/startServer and their existing tests; static manifests, pool ownership and API envelopes remain compatible.
+- AUTH consumes the seam through /auth and /account. No new pool, environment reader, dependency or migration.
+- Original documentation validation remains BLOCKED / NOT RUN; this amendment does not promote a release gate.

@@ -11,7 +11,7 @@
 |---|---|---|---|---:|---|---|
 | FND | feature | in-progress | `feature/FND-application-foundation` | 6/6 | 2026-11-02: user accepts all FND tasks for downstream development, FND-DEC-007/008 | Not release-verified; original docs validator BLOCKED / NOT RUN; host/session/backup evidence unverified |
 | UI | feature | in-progress | `feature/UI-design-system-app-shell` | 4/4 | 2026-10-28: UI-004 admin layout; UI/foundation/lint/build/audit/docs gates pass | FND must be present in main and shared visual acceptance matrix closed before merge |
-| AUTH | feature | in-progress | `feature/AUTH-identity-accounts` | 0/5 | 2026-11-02: AUTH-001 final focused suite 13/13 including disposable MySQL 8.4.11; cleanup and lint pass; verification-matrix §23 | AUTH-001 blocked: original documentation validator unavailable; no completion commit authorized |
+| AUTH | feature | in-progress | `feature/AUTH-identity-accounts` | 0/5 | 2026-11-02: requested full verification: unit 136/136, all integration with actual disposable MySQL 66/66 (no skips), lint/build/cleanup pass; verification-matrix §25 | AUTH-001/AUTH-002 blocked on original documentation validator; no AUTH-002 completion commit |
 | CAT | feature | planned | `feature/CAT-catalog-discovery` | 0/6 | Planning only; no implementation evidence | Dependencies not implemented |
 | SET | feature | planned | `feature/SET-store-settings` | 0/3 | Planning only; no implementation evidence | A-004 optional social scope |
 | HOME | feature | planned | `feature/HOME-homepage-merchandising` | 0/4 | Planning only; no implementation evidence | Dependencies not implemented |
@@ -50,7 +50,7 @@
 - `npm run test -- ui` passed 23/23 with the existing child-process helper rerun using authorized elevated execution; `npm run lint` and `npm run build` passed. Chrome headless visual QA captured mobile/tablet/desktop evidence under the UI feature evidence directory.
 - UI-001 is done; UI remains in progress at 1/4. No push, merge, deployment, or next-task implementation occurred.
 | UI | feature | planned | `feature/UI-design-system-app-shell` | 0/4 | Planning only; no implementation evidence | A-003/A-004 affect content; A-007 reference screenshot unavailable |
-| AUTH | feature | in-progress | `feature/AUTH-integration` | 0/5 | 2026-11-02: AUTH-001 final focused suite 13/13 including disposable MySQL 8.4.11; cleanup and lint pass; verification-matrix §23 | AUTH-001 blocked: original documentation validator unavailable; no completion commit authorized |
+| AUTH | feature | in-progress | `feature/AUTH-integration` | 0/5 | 2026-11-02: requested full verification: unit 136/136, all integration with actual disposable MySQL 66/66 (no skips), lint/build/cleanup pass; verification-matrix §25 | AUTH-001/AUTH-002 blocked on original documentation validator; no AUTH-002 completion commit |
 | CAT | feature | planned | `feature/CAT-integration` | 0/6 | DEC-008 splits BE/FE/INT; no implementation evidence | Dependencies not implemented |
 | SET | feature | planned | `feature/SET-integration` | 0/3 | DEC-008 splits BE/FE/INT; no implementation evidence | A-004 optional social scope |
 | HOME | feature | planned | `feature/HOME-integration` | 0/4 | DEC-008 splits BE/FE/INT; no implementation evidence | Dependencies not implemented |
@@ -336,3 +336,39 @@ Commit/push restrictions remain in force. No application code or acceptance requ
   no application or live-DB checks rerun for Git-only preservation.
 - Original docs validation remains BLOCKED / NOT RUN; AUTH-001 stays blocked, 0/5 complete.
 - No completion commit, PR, merge, deployment or AUTH-002 work is authorized by this preservation step.
+
+
+### 2026-11-02 — AUTH-002 preflight and shared composition approval gate
+
+User approved the AUTH-002 development exception (AUTH-DEC-004). Read-only runtime inspection
+found the single-mount/no-context server manifest contract cannot compose both documented AUTH API
+namespaces with the existing lifecycle-owned database. AUTH-DEC-005 contains a bounded proposed
+FND owner/AUTH consumer amendment. AUTH-002 is blocked pending explicit shared-owner approval;
+AUTH-001 remains blocked on the missing original validator. No code/test/database/commit/push action.
+
+### 2026-11-02 — AUTH-002 customer authentication API implementation
+
+- User approved coordinated FND/AUTH amendment. Loader supports descriptor arrays/context factories;
+  startup injects its existing pool/runtime config/production origin and retains lifecycle cleanup.
+- AUTH-002 mounts frozen registration/login/logout/account URLs with transactional registration,
+  scoped sessions, safe DTOs, same-origin boundary, validation, no-store and storage failure handling.
+- Full unit 136/136, final isolated actual-MySQL/HTTP suite 5/5, foundation regression 50 reported
+  non-live checks, lint/build pass. No database/application credentials or existing DB was used.
+- Original validator remains BLOCKED / NOT RUN; AUTH-002 blocked, completion 0/5 unchanged.
+- No admin/FE/rate-limit implementation, new dependency, commit, push, merge, deployment or later task.
+
+### 2026-11-02 — User-requested full verification
+
+- Full unit suite: 136 passed; full integration with disposable MySQL: 66 passed, 0 failed/skipped.
+- Lint/build/whitespace passed; no remaining MySQL fixture process/root after teardown.
+- No source/test/dependency change. Exact commands and outputs: verification-matrix §25.
+- Original docs validator remains BLOCKED / NOT RUN. No task completion, commit or push.
+
+### 2026-11-02 — Authorized AUTH-002 preservation commit and push
+
+- User explicitly requested committing/pushing the verified AUTH-002 work and approved FND runtime amendment.
+- Planned checkpoint subject: `chore(AUTH-002): checkpoint verified customer authentication APIs`.
+- Existing full unit 136/136, full actual-MySQL integration 66/66 and lint/build/cleanup evidence
+  remain in verification-matrix §25; no application test is rerun for Git-only preservation.
+- Original documentation validation stays BLOCKED / NOT RUN; AUTH-002 is not marked done.
+- Only checkpoint preservation/non-force branch push authorized; no PR, merge, deployment or next task.

@@ -53,9 +53,17 @@ describe('foundation HTTP runtime', () => {
 
   it('closes the pool when manifest composition fails after successful DB readiness', async () => {
     let closed = false
-    await assert.rejects(startServer({ config: { nodeEnv: 'test', port: 0 }, databaseConfig: {},
-      databaseFactory: () => ({ check: async () => true, close: async () => { closed = true } }),
-      manifestsLoader: async () => { throw new Error('fixture composition failure') },
+    const database = { check: async () => true, close: async () => { closed = true } }
+    const config = { nodeEnv: 'test', port: 0 }
+    await assert.rejects(startServer({ config, databaseConfig: {},
+      databaseFactory: () => database,
+      manifestsLoader: async (root, context) => {
+        assert.equal(root, undefined)
+        assert.equal(context.database, database)
+        assert.equal(context.config, config)
+        assert.equal(context.appOrigin, undefined)
+        throw new Error('fixture composition failure')
+      },
     }), /fixture composition failure/)
     assert.equal(closed, true)
   })
@@ -269,7 +277,7 @@ describe('foundation HTTP runtime', () => {
       { data: { fixture: true } })
     await mkdir(new URL('invalid/', root))
     await writeFile(new URL('invalid/manifest.js', root), 'export const feature = null')
-    await assert.rejects(createApp({ config: { nodeEnv: 'test' },
+    await assert.rejects(async () => createApp({ config: { nodeEnv: 'test' },
       manifests: await loadFeatureManifests(root) }))
     await mkdir(new URL('broken/', root))
     await writeFile(new URL('broken/manifest.js', root), 'throw new Error("fixture import failure")')

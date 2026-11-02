@@ -24,7 +24,8 @@ export async function startServer({ config, databaseConfig, databaseFactory = cr
     databaseConfig ??= readDatabaseConfig()
     database = databaseFactory(databaseConfig)
     if (!await database.check()) throw new Error('Database unavailable')
-    const manifests = await manifestsLoader()
+    const manifests = await manifestsLoader(undefined, { database, config,
+      appOrigin: productionConfig?.appOrigin })
     const app = await createApp({ config, manifests, isReady: () => database.check(),
       logger: runtimeLogger, productionConfig })
     server = app.listen(config.port)

@@ -33,3 +33,42 @@ No implementation activity recorded.
   no application or live-DB checks rerun for Git-only preservation.
 - Original docs validation remains BLOCKED / NOT RUN; AUTH-001 stays blocked, 0/5 complete.
 - No completion commit, PR, merge, deployment or AUTH-002 work is authorized by this preservation step.
+
+## 2026-11-02 — AUTH-002 development exception and composition preflight
+
+- AUTH-DEC-004 records user approval to develop against the verified AUTH-001 checkpoint while its validator gate remains blocked.
+- Reviewed the API-AUTH-001 contract, feature discovery, router registration and database startup lifecycle.
+- Proposed bounded FND+AUTH composition amendment AUTH-DEC-005 to support two mounts and the existing lifecycle-owned database.
+- Shared owner approval is required before source changes. No customer API implementation, test execution, dependency, database operation, commit or push.
+
+## 2026-11-02 — AUTH-002 customer APIs and approved runtime composition
+
+- User explicitly approved AUTH-DEC-005; FND-DEC-009 records the shared owner/consumer amendment.
+- Added /auth customer register/login/logout plus /account using the existing FND-owned DB pool.
+- Registration/customer session creation roll back together; duplicate normalized phone races
+  return one success/one safe conflict. Login verifies absent identities against a precomputed dummy
+  hash, rotates the current session and returns no credentials. Account/logout enforce customer scope.
+- Kept bodyless FE logout compatible; mutations check Origin, register/login require JSON, and
+  responses are no-store with safe canonical errors on validation, unauthorized and storage failure.
+- Added factory/context/static compatibility tests, request validation and actual MySQL/HTTP cases.
+- Observed full unit 136/136, final focused live AUTH 5/5, foundation non-live regression 50 reported
+  checks, lint/build passes. Initial no-control-regex lint error was fixed without disabling the rule.
+- Original documentation validation remains BLOCKED / NOT RUN. No acceptance checkbox promoted,
+  new dependency, unrelated owner source, completion commit, push or next task.
+
+## 2026-11-02 — Requested full test rerun
+
+- Ran the entire unit suite (136/136) and entire integration suite with disposable MySQL enabled
+  (66/66, no failures/skips), plus lint/build/whitespace checks; all code checks passed.
+- Verified fixture cleanup; no existing application database, source or dependency change.
+- Original docs validator remains absent, BLOCKED / NOT RUN. No completion/commit/push or next task.
+- Exact commands and log locations are in verification-matrix §25.
+
+### 2026-11-02 — Authorized AUTH-002 preservation commit and push
+
+- User explicitly requested committing/pushing the verified AUTH-002 work and approved FND runtime amendment.
+- Planned checkpoint subject: `chore(AUTH-002): checkpoint verified customer authentication APIs`.
+- Existing full unit 136/136, full actual-MySQL integration 66/66 and lint/build/cleanup evidence
+  remain in verification-matrix §25; no application test is rerun for Git-only preservation.
+- Original documentation validation stays BLOCKED / NOT RUN; AUTH-002 is not marked done.
+- Only checkpoint preservation/non-force branch push authorized; no PR, merge, deployment or next task.

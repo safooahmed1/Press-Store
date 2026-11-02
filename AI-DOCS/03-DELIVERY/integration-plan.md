@@ -70,3 +70,14 @@ Before merge, retain the source branch and verify a clean target. After merge fa
 ## 7. Release Gate
 
 All features are merged with post-merge evidence; all 145 requirements are verified or explicitly disposed; migrations pass empty/upgrade cases; lint, integration, E2E, production build/start, responsive/accessibility/security smokes, Hostinger runbook, backups, and documentation validator pass; unresolved assumptions are confirmed or accepted; user explicitly authorizes deployment.
+
+
+## 8. Approved AUTH-002 server composition amendment — 2026-11-02
+
+FND-DEC-009 and AUTH-DEC-005 record user approval for the owner/consumer runtime amendment.
+FND technical contracts §13 remain canonical for manifest/context behavior. AUTH consumes the
+optional contextual factory seam through its two documented mounts; existing static descriptors
+remain compatible. No client API URL, request DTO or success envelope is relocated/redefined.
+The customer mutation boundary uses the existing same-origin policy and maps safe errors through
+HTTP-FND-001. AUTH-005 retains the complete real security/abuse gate; AUTH-004 policy reconciliation
+and live client/API checks remain required before INT. No feature merge or release is authorized.

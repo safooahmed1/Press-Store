@@ -8,6 +8,17 @@ function customerSummary(row) {
 /** Credential methods are server-internal; only explicit summaries may become API DTOs. */
 export function createIdentityRepository(database) {
   return Object.freeze({
+    async createCustomer({ firstName, lastName, phone, passwordHash, now }) {
+      await database.query(`INSERT INTO customers
+        (first_name, last_name, phone, password_hash, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)`,
+      [firstName, lastName, phone, passwordHash, now, now])
+      return this.readCustomerByPhone(phone)
+    },
+    async readCustomerByPhone(phone) {
+      const [row] = await database.query(`SELECT customer_id, first_name, last_name, phone
+        FROM customers WHERE phone = ?`, [normalizePhone(phone)])
+      return customerSummary(row)
+    },
     async findCustomerCredentials(phone) {
       const [row] = await database.query(`SELECT customer_id, first_name, last_name, phone, password_hash
         FROM customers WHERE phone = ?`, [normalizePhone(phone)])

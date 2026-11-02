@@ -31,3 +31,35 @@
 - **Source:** [Node scrypt](https://nodejs.org/api/crypto.html#cryptoscryptpassword-salt-keylen-options-callback); [OWASP password storage](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html). Lifetimes and length bounds are user-approved product policy, not recommendations attributed to those sources.
 - **Consumer handoff:** AUTH-004 owner must acknowledge the policy and reconcile validation/fixtures before live integration. Existing remote FE form checks only non-empty passwords and maps server field errors; no FE source was changed. AUTH-005 still owns live guards/CSRF/rate limits; the current primitives do not install routes or middleware.
 - **Verification boundary:** Unit/fake-repository results are not actual MySQL constraints or session persistence evidence. Missing original validator remains BLOCKED / NOT RUN. No completion commit/push authorized.
+
+## AUTH-DEC-004 — AUTH-002 development against verified AUTH-001 checkpoint
+
+- **Status:** `approved`
+- **Date:** 2026-11-02
+- **Authorization:** User explicitly approved starting AUTH-002 as a development exception after AUTH-001's missing original validator was explained.
+- **Decision:** AUTH-002 may develop against verified checkpoint 9b86081027641dcde163b0ffa6497e8ae63bbea5. This satisfies only its development dependency on AUTH-001.
+- **Boundaries:** AUTH-001 remains blocked, original documentation validation stays BLOCKED / NOT RUN, and no acceptance requirement is changed. AUTH-003/005, completion commits, further checkpoint publication, merge and deployment are not authorized by this exception.
+
+## AUTH-DEC-005 — Bounded runtime composition amendment for customer APIs
+
+- **Status:** `approved by user 2026-11-02`
+- **Date:** 2026-11-02
+- **Problem:** API-AUTH-001 requires both /api/v1/auth/customer/* and /api/v1/account. The existing server manifest export permits one unique single-segment mount per feature. Its loader receives no database/runtime context; startServer retains the sole lifecycle-owned pool without passing it to feature routers. A second pool, import-time environment access, route relocation or registering routes by reaching outside the feature router would violate the current contracts.
+- **Approved FND owner change:** Extend loadFeatureManifests(root, context) to accept an optional explicit runtime context from startServer and allow the named feature export to be either one existing descriptor or an array of descriptors. A descriptor may provide createRouter(context) instead of an already-created router. Normalize to the existing validated { id, path, router } registry before createApp; existing static manifests remain compatible.
+- **Exact approved FND source paths:** server/src/app/feature-manifests.js; server/src/app/start-server.js; their colocated foundation-manifests/runtime integration tests. No database-interface, migration-runner, route-envelope or frontend contract changes.
+- **Approved AUTH consumer:** server/src/features/auth/manifest.js exports two descriptors, auth at /auth and account at /account, whose factories consume the injected FND database/config. AUTH owns router/controller/service/repository implementations. Registration/login/logout/account URL and DTO contracts remain unchanged.
+- **Ownership:** User explicitly approved the coordinated FND owner and AUTH consumer amendment after reviewing the bounded proposal. No FND source changed before approval. Future feature owners may use the optional factory seam; existing static consumers retain their behavior. See FND-DEC-009.
+- **Verification after approval:** Existing static-manifest validation and atomic registration; new multiple-mount/factory/context tests; actual customer HTTP/database registration, duplicate race, login, rotation, logout and account isolation; foundation regressions, lint/build and original docs validation (retain missing-tool blocker). Do not infer actual API coverage from factory-only tests.
+- **Alternative:** Do not mount AUTH-002 until an FND owner provides an approved injection/multiple-mount seam. No undocumented workaround is selected.
+
+## AUTH-DEC-006 — Customer API implementation boundaries
+
+- **Status:** `implementation within approved AUTH-002 scope`
+- **Date:** 2026-11-02
+- **Registration:** Hash outside the transaction, then insert the customer and rotate/create the session in one transaction. Join that transaction through the existing session repository rather than starting a nested FND transaction. Inspect duplicate-phone conflicts only after rollback. No address, city, actor ID or extra payload fields are accepted.
+- **Login:** Verify an absent phone against a precomputed random dummy hash with the same approved scrypt parameters. Create the dummy hash during router construction before listening, not on the first credential failure. Return the same generic error for absent and wrong-password cases.
+- **Customer boundary:** Account derives the actor only from the customer cookie/session. Logout is idempotent and affects only the customer session; an admin cookie is never treated as a customer credential. Return only the existing customer summary DTO. Private responses are no-store; no cookie is issued/cleared after storage failure.
+- **Mutation boundary:** Enforce the documented same-origin policy for customer mutations. Production compares Origin with the FND-validated appOrigin and never trusts forwarded/Host headers for that decision. Local development/test compares with the actual request origin, preserving the existing Vite same-origin proxy. Missing/mismatched Origin and cross-site fetch metadata reject with FORBIDDEN. Register/login require JSON; bodyless logout remains compatible with the existing FE adapter.
+- **Deferred gates:** This is not the complete AUTH-005 abuse/security gate. Login/registration rate limits and the full cross-feature security/CSRF/browser integration suite remain AUTH-005 release prerequisites; no production-readiness or feature-completion claim is made.
+- **Name bound:** A-009 remains an explicitly labeled noncritical implementation assumption, using the existing 255-character storage limit. It is not a new PRD requirement or claimed user decision.
+- **Authorization limits:** AUTH-DEC-004/005 authorize this task and its bounded FND integration only. Missing original validator and no-new-commit/no-push boundaries remain; the earlier AUTH-001 checkpoint publication does not authorize publishing later changes.
