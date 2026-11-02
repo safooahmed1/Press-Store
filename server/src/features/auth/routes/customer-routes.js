@@ -5,7 +5,7 @@ import { createSessionCookies } from '../../../platform/auth/session-cookies.js'
 import { createCustomerService, CustomerAuthError } from '../services/customers.js'
 import { customerInput } from '../services/customer-input.js'
 
-function mutationBoundary(production, appOrigin) {
+export function mutationBoundary(production, appOrigin) {
   if (production && (!appOrigin || new URL(appOrigin).protocol !== 'https:'
     || new URL(appOrigin).origin !== appOrigin)) throw new Error('Validated auth origin required')
   return (req, res, next) => {
@@ -18,7 +18,7 @@ function mutationBoundary(production, appOrigin) {
   }
 }
 
-function requireJson(req, res, next) {
+export function requireJson(req, res, next) {
   return req.is('application/json') ? next()
     : next(new HttpError(415, 'UNSUPPORTED_MEDIA_TYPE', 'Use a JSON request body'))
 }

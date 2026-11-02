@@ -8,6 +8,15 @@ function customerSummary(row) {
 /** Credential methods are server-internal; only explicit summaries may become API DTOs. */
 export function createIdentityRepository(database) {
   return Object.freeze({
+    async readBootstrapAdmin() {
+      const [row] = await database.query('SELECT admin_id, phone, password_hash FROM admins WHERE admin_id = 1')
+      return row ? { adminId: row.admin_id, phone: row.phone, passwordHash: row.password_hash } : null
+    },
+    async createAdmin({ phone, passwordHash, now }) {
+      await database.query(`INSERT INTO admins
+        (admin_id, phone, password_hash, created_at, updated_at) VALUES (1, ?, ?, ?, ?)`,
+      [phone, passwordHash, now, now])
+    },
     async createCustomer({ firstName, lastName, phone, passwordHash, now }) {
       await database.query(`INSERT INTO customers
         (first_name, last_name, phone, password_hash, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)`,

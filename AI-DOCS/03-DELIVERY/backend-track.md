@@ -16,7 +16,7 @@ This is the Backend developer entry point, not a second specification. Canonical
 
 | Order | Feature | Workstream | Tasks | Depends On | Branch | Owned Source | Current State |
 |---:|---|---|---|---|---|---|---|
-| 1 | AUTH | WS-AUTH-BE | AUTH-001–AUTH-003 | FND DB/HTTP contracts; A-005 | `work/AUTH-backend` | `server/src/features/auth/**`, `server/src/platform/auth/**`, bootstrap script | AUTH-001/AUTH-002 blocked on original docs validator; core/customer API MySQL checks passed; AUTH-002 exception/amendment approved |
+| 1 | AUTH | WS-AUTH-BE | AUTH-001–AUTH-003 | FND DB/HTTP contracts; A-005 | `work/AUTH-backend` | `server/src/features/auth/**`, `server/src/platform/auth/**`, bootstrap script | AUTH-001/002 remain blocked; AUTH-003 implemented under AUTH-DEC-007/008, blocked on original docs validator; full rerun and host cleanup passed, verification-matrix §27 |
 | 2 | CAT | WS-CAT-BE | CAT-001–CAT-003 | AUTH guard; FND DB/storage/HTTP | `work/CAT-backend` | `server/src/features/catalog/**` | planned |
 | 3 | SET | WS-SET-BE | SET-001 | AUTH guard; FND DB/HTTP | `work/SET-backend` | `server/src/features/settings/**` | planned; parallel-safe with CAT-BE after dependencies |
 | 4 | HOME | WS-HOME-BE | HOME-001 | CAT admin/curation contract; FND storage | `work/HOME-backend` | `server/src/features/homepage/**` | planned |
@@ -34,3 +34,19 @@ The BE workstream is `ready-for-integration` only when its tasks are `done`, bac
 ## 5. Blockers and Next Work
 
 When the current API is delayed, record the blocker in the feature backlog. Do not ask FE to wait or silently change its fixture shape. FE may continue against the frozen contract. The backend developer moves only after explicit authorization to the next BE task whose dependencies are complete.
+
+## 2026-11-02 — AUTH-003 current development disposition
+
+AUTH-DEC-007/008 approve only the AUTH-003 early start and admin bootstrap/API policy;
+FND-DEC-010 approves exact shared config/ESLint paths. Implementation and isolated verification
+are recorded in verification-matrix §26. AUTH-003 is blocked on original documentation validation
+and failed sandbox fixture cleanup. AUTH-001/002 remain blocked; AUTH is 0/5 and not ready for
+integration. Current branch work/AUTH-backend remains at checkpoint 7f3849f with uncommitted
+AUTH-003 changes. No commit, push, merge, deploy, FE change or next task is authorized. This current
+entry supersedes earlier current-state references saying AUTH-003 is not started; history is retained.
+
+### 2026-11-02 — Latest verification supersedes cleanup blocker
+
+Verification-matrix §27 records requested full rerun (unit 140/140, integration 71/71, lint/build/
+diff pass) and observed host cleanup. Earlier §26 cleanup blocker is resolved; original mandatory
+documentation validation remains BLOCKED / NOT RUN. AUTH-003 still blocked, no commit or next task.

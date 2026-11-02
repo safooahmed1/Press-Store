@@ -81,3 +81,12 @@ remain compatible. No client API URL, request DTO or success envelope is relocat
 The customer mutation boundary uses the existing same-origin policy and maps safe errors through
 HTTP-FND-001. AUTH-005 retains the complete real security/abuse gate; AUTH-004 policy reconciliation
 and live client/API checks remain required before INT. No feature merge or release is authorized.
+
+## 9. AUTH-003 approved consumer implementation — 2026-11-02
+
+AUTH-DEC-007/008 and FND-DEC-010 cover the bounded early start, CLI-only configuration reader,
+bootstrap security semantics and Node lint coverage. API-AUTH-002 paths/DTOs remain frozen;
+401 absent/expired vs 403 customer-only current-session behavior implements the existing boundary.
+No FE source/fixture or shared runtime/DB contract changes. AUTH-005 still owns rate limiting,
+reusable feature guards and full browser/security acceptance. See §26 evidence and cleanup blockers;
+AUTH-003 is not done, and neither lane/feature integration nor publication is authorized.

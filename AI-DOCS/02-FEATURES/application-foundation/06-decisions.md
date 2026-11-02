@@ -99,3 +99,12 @@
 - **Exact paths:** server/src/app/feature-manifests.js; server/src/app/start-server.js; existing foundation-manifests and foundation-runtime integration tests. AUTH consumer owns server/src/features/auth/manifest.js and its routes/services/tests. No unrelated owner source is changed.
 - **Consumers:** AUTH uses /auth and /account descriptors. Future server features may opt in; static consumers need no source changes. See AUTH-DEC-005 and FND technical contracts §13.
 - **Verification:** Backward/static registration, multiple mounts, async factories, shared context, pre-factory duplicate/ambiguity rejection, startup failure pool cleanup, actual AUTH default-loader/startServer HTTP/database scenarios and foundation regression. Missing original docs validator remains an explicit blocker; no new completion/merge/release claim.
+
+## FND-DEC-010 — Bounded AUTH-003 configuration and CLI lint coverage
+
+- **Status:** `approved by user`
+- **Date:** 2026-11-02
+- **Decision:** Permit server/src/config/admin-bootstrap-config.js and its colocated tests to read/validate protected CLI-only bootstrap inputs. Existing database config/pool interfaces remain unchanged; ordinary server startup does not consume or require bootstrap credentials. No environment file is read.
+- **Tooling:** Extend only the Node ESLint file patterns to scripts/bootstrap-admin*.js. Invoke the operational CLI directly with Node; no package script or dependency change.
+- **Consumer:** AUTH owns scripts/bootstrap-admin.js, bootstrap services/repository SQL and admin routes/tests. See AUTH-DEC-007/008. No further shared ownership is transferred.
+- **Verification:** Configuration/CLI rejection and safe-output tests, bootstrap and HTTP tests on new disposable MySQL only, existing regression suite, lint/build/diff review. Missing original documentation validation remains blocked; no completion or publishing authorization.

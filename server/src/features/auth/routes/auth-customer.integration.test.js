@@ -63,7 +63,7 @@ describe('auth customer HTTP request boundary', () => {
     const failedLogout = await post(origin, 'logout', undefined, `__Host-press-customer=${token}`, { Origin: 'https://store.test' })
     assert.equal(failedLogout.status, 500)
     assert.equal(failedLogout.headers.get('set-cookie'), null)
-    for (const path of ['/auth/admin/register', '/auth/admin/login']) {
+    for (const path of ['/auth/admin/register']) {
       assert.equal((await fetch(`${origin}/api/v1${path}`, { method: 'POST' })).status, 404)
     }
     assert.doesNotMatch(JSON.stringify(logs), new RegExp(`${token}|${password}|${details.phone}|DB_UNAVAILABLE`))

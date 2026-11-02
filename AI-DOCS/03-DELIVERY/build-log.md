@@ -11,7 +11,7 @@
 |---|---|---|---|---:|---|---|
 | FND | feature | in-progress | `feature/FND-application-foundation` | 6/6 | 2026-11-02: user accepts all FND tasks for downstream development, FND-DEC-007/008 | Not release-verified; original docs validator BLOCKED / NOT RUN; host/session/backup evidence unverified |
 | UI | feature | in-progress | `feature/UI-design-system-app-shell` | 4/4 | 2026-10-28: UI-004 admin layout; UI/foundation/lint/build/audit/docs gates pass | FND must be present in main and shared visual acceptance matrix closed before merge |
-| AUTH | feature | in-progress | `feature/AUTH-identity-accounts` | 0/5 | 2026-11-02: requested full verification: unit 136/136, all integration with actual disposable MySQL 66/66 (no skips), lint/build/cleanup pass; verification-matrix §25 | AUTH-001/AUTH-002 blocked on original documentation validator; no AUTH-002 completion commit |
+| AUTH | feature | in-progress | `feature/AUTH-identity-accounts` | 0/5 | 2026-11-02: AUTH-003 full rerun unit 140/140, actual-MySQL integration 71/71 (no skips), lint/build/diff and cleanup pass; verification-matrix §27 | AUTH-001/002/003 blocked on original validator; no commit authorized |
 | CAT | feature | planned | `feature/CAT-catalog-discovery` | 0/6 | Planning only; no implementation evidence | Dependencies not implemented |
 | SET | feature | planned | `feature/SET-store-settings` | 0/3 | Planning only; no implementation evidence | A-004 optional social scope |
 | HOME | feature | planned | `feature/HOME-homepage-merchandising` | 0/4 | Planning only; no implementation evidence | Dependencies not implemented |
@@ -50,7 +50,7 @@
 - `npm run test -- ui` passed 23/23 with the existing child-process helper rerun using authorized elevated execution; `npm run lint` and `npm run build` passed. Chrome headless visual QA captured mobile/tablet/desktop evidence under the UI feature evidence directory.
 - UI-001 is done; UI remains in progress at 1/4. No push, merge, deployment, or next-task implementation occurred.
 | UI | feature | planned | `feature/UI-design-system-app-shell` | 0/4 | Planning only; no implementation evidence | A-003/A-004 affect content; A-007 reference screenshot unavailable |
-| AUTH | feature | in-progress | `feature/AUTH-integration` | 0/5 | 2026-11-02: requested full verification: unit 136/136, all integration with actual disposable MySQL 66/66 (no skips), lint/build/cleanup pass; verification-matrix §25 | AUTH-001/AUTH-002 blocked on original documentation validator; no AUTH-002 completion commit |
+| AUTH | feature | in-progress | `feature/AUTH-integration` | 0/5 | 2026-11-02: AUTH-003 full rerun unit 140/140, actual-MySQL integration 71/71 (no skips), lint/build/diff and cleanup pass; verification-matrix §27 | AUTH-001/002/003 blocked on original validator; no commit authorized |
 | CAT | feature | planned | `feature/CAT-integration` | 0/6 | DEC-008 splits BE/FE/INT; no implementation evidence | Dependencies not implemented |
 | SET | feature | planned | `feature/SET-integration` | 0/3 | DEC-008 splits BE/FE/INT; no implementation evidence | A-004 optional social scope |
 | HOME | feature | planned | `feature/HOME-integration` | 0/4 | DEC-008 splits BE/FE/INT; no implementation evidence | Dependencies not implemented |
@@ -372,3 +372,34 @@ AUTH-001 remains blocked on the missing original validator. No code/test/databas
   remain in verification-matrix §25; no application test is rerun for Git-only preservation.
 - Original documentation validation stays BLOCKED / NOT RUN; AUTH-002 is not marked done.
 - Only checkpoint preservation/non-force branch push authorized; no PR, merge, deployment or next task.
+
+### 2026-11-02 — AUTH-003 implementation and independent-review handoff
+
+- User explicitly approved AUTH-DEC-007/008, bounded FND-DEC-010 config/ESLint changes, and testing
+  only with new isolated MySQL fixtures. Implemented bootstrap and separate admin APIs on
+  work/AUTH-backend against checkpoints 9b86081 / 7f3849f; no frontend/dependency/migration changes.
+- Focused 9/9, full unit 140/140 and all integration 71/71 (no skips), lint/build/diff pass. See §26.
+- Original validator invocation exit 2, BLOCKED / NOT RUN. Four failed-sandbox initializer processes
+  and roots still require privileged cleanup; successful unrestricted fixtures cleaned up.
+- AUTH-003 blocked; AUTH feature 0/5; AUTH-001/002 not promoted. No commit, push, merge, deploy or
+  next-task implementation. Existing application DB/env file and unrelated system MySQL untouched.
+
+### 2026-11-02 — Requested test rerun and host cleanup resolution
+
+Full unit 140/140 and full actual-MySQL integration 71/71 pass without failures/skips; lint/build/
+diff pass. Before rerun the four prior initializer PIDs were observed absent; removed only their
+exact inactive temporary directories. Final host inventory: no disposable processes/roots, unrelated
+system MySQL PID 1719 untouched. This resolves the prior cleanup blocker without rewriting failure
+history. Original validator still exits 2, BLOCKED / NOT RUN; AUTH-003 remains blocked, AUTH 0/5.
+No implementation change, independent review, commit, push, merge, deploy or next task. Exact
+commands, logs and evidence: verification-matrix §27.
+
+### 2026-11-02 — AUTH-003 independent review and authorized checkpoint push
+
+Separate reviewer agent returned PASS WITH WARNINGS after read-only static review. No confirmed
+AUTH-003 defects; rate limiting remains an approved AUTH-005 production/security prerequisite.
+The user then explicitly requested commit/push of this task. Planned preservation subject:
+`chore(AUTH-003): checkpoint reviewed admin authentication`. Existing §27 test/cleanup evidence retained, not rerun for Git-only work.
+Original documentation validation remains BLOCKED / NOT RUN; AUTH-003 blocked and AUTH 0/5.
+Only one checkpoint/non-force push authorized, no completion/PR/merge/deployment/next task.
+Hash and push verification reported in chat, without a circular hash-recording commit.

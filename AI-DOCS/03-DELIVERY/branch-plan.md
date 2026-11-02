@@ -34,7 +34,7 @@ FND and UI are grandfathered existing feature branches. For AUTH and later featu
 | `feature/FND-application-foundation` | legacy feature | `main` | WS-FND-01 | FND-001–FND-006 | `main` | FND full gate; explicit merge | User accepts 6/6 tasks for downstream development (FND-DEC-007/008); original validator BLOCKED / NOT RUN; not release-verified; no commit/push authorization. |
 | `feature/UI-design-system-app-shell` | legacy feature | existing FND lineage | WS-UI-01 | UI-001–UI-004 | `main` after FND | UI full gate; explicit merge | existing; history preserved/reconciled on its branch |
 | `feature/AUTH-integration` | integration | `715df78` updated `main` after FND/UI prerequisites | WS-AUTH-INT | AUTH-005 | `main` | BE+FE ready; live security/integration pass | active; AUTH contract frozen 2026-10-31 |
-| `work/AUTH-backend` | backend | frozen AUTH integration commit | WS-AUTH-BE | AUTH-001–AUTH-003 | `feature/AUTH-integration` | backend suite and contract match; explicit merge | Created from frozen 4e92f8f; AUTH-001 checkpoint published as 9b86081. AUTH-002 locally verified, blocked on original docs validator; no additional commit/push authorized. |
+| `work/AUTH-backend` | backend | frozen AUTH integration commit | WS-AUTH-BE | AUTH-001–AUTH-003 | `feature/AUTH-integration` | backend suite and contract match; explicit merge | Created from frozen 4e92f8f; checkpoints 9b86081 / 7f3849f published. AUTH-003 uncommitted, verified under AUTH-DEC-007/008 but blocked on original validator; latest full rerun and cleanup pass (§27); no commit/push authorized. |
 | `work/AUTH-frontend` | frontend | same frozen AUTH integration commit | WS-AUTH-FE | AUTH-004 | `feature/AUTH-integration` | component/a11y/build and fixture evidence; explicit merge | planned |
 | `feature/CAT-integration` | integration | updated `main` after AUTH/UI/FND | WS-CAT-INT | CAT-006 | `main` | BE+FE ready; live CAT gate | planned |
 | `work/CAT-backend` | backend | frozen CAT integration commit | WS-CAT-BE | CAT-001–CAT-003 | `feature/CAT-integration` | backend catalog suite; explicit merge | planned |
@@ -111,3 +111,19 @@ Stop when a conflict touches another owner's canonical path or contract. BE neve
 ## 7. Historical Branch Exceptions
 
 The 2026-10-21 FND checkpoint authorization and all later FND/UI evidence remain historical and unchanged on their owning branches. DEC-008 introduces no retroactive branch rename, merge, push, completion, or release authorization.
+
+## 2026-11-02 — AUTH-003 current development disposition
+
+AUTH-DEC-007/008 approve only the AUTH-003 early start and admin bootstrap/API policy;
+FND-DEC-010 approves exact shared config/ESLint paths. Implementation and isolated verification
+are recorded in verification-matrix §26. AUTH-003 is blocked on original documentation validation
+and failed sandbox fixture cleanup. AUTH-001/002 remain blocked; AUTH is 0/5 and not ready for
+integration. Current branch work/AUTH-backend remains at checkpoint 7f3849f with uncommitted
+AUTH-003 changes. No commit, push, merge, deploy, FE change or next task is authorized. This current
+entry supersedes earlier current-state references saying AUTH-003 is not started; history is retained.
+
+### 2026-11-02 — Latest verification supersedes cleanup blocker
+
+Verification-matrix §27 records requested full rerun (unit 140/140, integration 71/71, lint/build/
+diff pass) and observed host cleanup. Earlier §26 cleanup blocker is resolved; original mandatory
+documentation validation remains BLOCKED / NOT RUN. AUTH-003 still blocked, no commit or next task.

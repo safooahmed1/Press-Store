@@ -606,3 +606,167 @@ This supersedes earlier skipped local-MySQL regression evidence only for scenari
 in this suite. It is not AUTH-003/004/005 acceptance, live browser/Hostinger/backup verification or
 permission to advance tasks. AUTH-001/AUTH-002 remain blocked on original docs validation, no
 acceptance checkboxes promoted, no completion commit/checkpoint/push or subsequent implementation.
+
+## 26. AUTH-003 Implementation and Verification — 2026-11-02
+
+Scope: only AUTH-003 BE on work/AUTH-backend, HEAD 7f3849fa333bf19c9b0381dad00a04662e7b5e0e.
+User-approved AUTH-DEC-007/008 and FND-DEC-010 permit early development and bounded config/ESLint
+amendments. AUTH-001/002 remain blocked; no acceptance requirement is waived. No completion,
+commit, push, merge, deploy, dependency, migration file, frontend implementation or later task.
+All executed DB operations targeted newly created disposable fixtures with synthetic inputs;
+no existing application database connection or server/.env read was performed.
+
+| Check | Exact command/procedure | Observed result |
+|---|---|---|
+| Focused AUTH-003 | `FND_DISPOSABLE_MYSQL_TESTS=1 node --test --test-isolation=none server/src/config/admin-bootstrap-config.test.js server/src/features/auth/services/auth-admin-bootstrap.test.js server/src/features/auth/routes/auth-admin.integration.test.js > /tmp/press-auth003-focused-final-20261102.log 2>&1` outside sandbox | Exit 0; 9 tests, 4 suites, 0 failures/skips. |
+| Full unit | `npm run test > /tmp/press-auth003-full-unit-20261102.log 2>&1` outside sandbox | Exit 0; 140 tests, 26 suites, 0 failures/skips. |
+| Full integration | `FND_DISPOSABLE_MYSQL_TESTS=1 npm run test:integration > /tmp/press-auth003-full-integration-20261102.log 2>&1` outside sandbox | Exit 0; 71 tests, 13 suites, 0 failures/skips, including actual MySQL, HTTP and CLI subprocesses. |
+| Lint | `npm run lint` | Exit 0, including authorized bootstrap CLI coverage. Log /tmp/press-auth003-lint-20261102.log. |
+| Build | `npm run build > /tmp/press-auth003-build-20261102.log 2>&1` | Exit 0; Vite 8.3.5, 78 modules, existing JS bundle 286.04 kB / gzip 90.00 kB. |
+| Whitespace | `git diff --check` and inspection of new files | Passed at implementation review; rechecked after documentation update. |
+| Original docs validator | `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .` | Exit 2, original script absent; BLOCKED / NOT RUN. No replacement installed or waiver. |
+| Typecheck | Existing package scripts inspected | No typecheck in approved JavaScript project; not run. |
+| Host cleanup | Host `ps` with exact task PIDs and /tmp fixture-root inventory | BLOCKED for initial sandbox attempt; details below. Successful unrestricted runs did not leave additional fixtures. |
+
+### Verified behavior and second pass
+
+Real CLI creates and repeats without exposing protected values; argument/config errors are rejected
+before DB construction, pools close on validation/storage failures, and close failure suppresses
+success output. Real DB checks confirm unchanged hashes/timestamps/sessions on matching rerun or
+mismatched phone/password, normalized-phone idempotency, concurrent same-identity reconciliation,
+and refusal of a competing identity without overwriting the winner.
+
+HTTP checks cover absent/wrong credentials, safe adminId-only DTO, separate customer/admin
+credentials/cookies, 401 absent/expired vs 403 valid customer-only current-session, admin precedence,
+wrong-scope/duplicate cookies, eight-hour absolute expiry, transactional rotation and rollback on
+session-insert failure, actual application restart persistence, idempotent logout, unrelated-session
+preservation, customer/admin logout isolation, production clear-cookie flags, origin/media/body
+validation, no public admin registration, no-store router responses, and safe storage failures with
+no premature cookie issuance/clearing. Existing unit cookie tests cover production issuance flags.
+Log assertions exclude credential values, raw tokens and DB failure detail. Static review confirms
+no password arguments, credential interpolation, automatic bootstrap, migration invocation,
+credential UPDATE path or new runtime pool. Re-read AUTH-003, AC-AUTH-002 and linked policies;
+reviewed complete source/test/tooling diff and new files for scope, debug artifacts and regressions.
+Rate limiting, reusable cross-feature guards and full browser/security acceptance remain AUTH-005.
+No AUTH acceptance checkbox is marked passed.
+
+### Initial failures and outstanding cleanup
+
+The initial sandbox command was:
+`FND_DISPOSABLE_MYSQL_TESTS=1 node --test --test-isolation=none server/src/features/auth/routes/auth-admin.integration.test.js > /tmp/press-auth003-focused-integration-20261102.log 2>&1`.
+HTTP failed with listen EPERM. Four MySQL initializer attempts timed out (about 32 seconds each)
+and left confined initializer processes alive; successful unrestricted reruns are separate evidence.
+An unrestricted initial run also exposed an incorrect test expectation (422 for null JSON); corrected
+the test to expect FND's existing strict-parser 400, then focused/full runs passed. No FND transport
+behavior was changed. Parser failures occur before feature middleware; no-store assertions apply
+to responses within the AUTH routers, as in AUTH-002.
+
+Verified ownership before attempting cleanup:
+
+| Initializer PID | Parent test runner | Exact owned fixture root |
+|---:|---:|---|
+| 52655 | 52638 | /tmp/press-fnd002-mysql-NF6qMt |
+| 52757 | 52638 | /tmp/press-fnd002-mysql-wUt0ZN |
+| 53141 | 52638 | /tmp/press-fnd002-mysql-CISByl |
+| 53386 | 52638 | /tmp/press-fnd002-mysql-mW63M8 |
+
+All four command lines are mysqld --initialize-insecure for the matching root/data, not running
+application DB instances. Host signal attempt failed PermissionError (errno 13). The initializer
+security label is /usr/sbin/mysqld//&bwrap//&unpriv_bwrap (enforce). `sudo -n kill -TERM 52655 52757
+53141 53386` failed because interactive authentication is required. Interrupting the original tool
+session returned exit 130 but subsequent host inspection still found parent 52638 and four active
+initializers. No active fixture directory was removed. Unrelated system MySQL PID 1719 (mysql user,
+started before this work) was neither connected to nor signaled. No passwords were requested,
+provided as arguments or printed. No unrelated process was terminated.
+
+Host operator action remains: re-identify these exact task-owned PIDs/command lines to avoid PID
+reuse, stop only those initializers/test runner with appropriate privileges, then remove only these
+four roots after confirming their processes have stopped. Re-run the host process/root inventory.
+Do not terminate PID 1719 or delete another test's fixtures. Until observed cleanup succeeds,
+AUTH-003 remains blocked on cleanup as well as the original documentation validator.
+
+### Files and independent-review handoff
+
+New files:
+- scripts/bootstrap-admin.js
+- server/src/config/admin-bootstrap-config.js
+- server/src/config/admin-bootstrap-config.test.js
+- server/src/features/auth/services/bootstrap-admin.js
+- server/src/features/auth/services/admins.js
+- server/src/features/auth/services/auth-admin-bootstrap.test.js
+- server/src/features/auth/routes/admin-routes.js
+- server/src/features/auth/routes/auth-admin.integration.test.js
+
+Modified source/tests/tooling:
+- server/src/features/auth/manifest.js
+- server/src/features/auth/repositories/identities.js
+- server/src/features/auth/routes/customer-routes.js (export existing boundaries for reuse)
+- server/src/features/auth/routes/auth-customer.integration.test.js (remove obsolete absent-admin-login expectation)
+- server/src/features/auth/README.md
+- eslint.config.js
+
+Modified documentation: AUTH technical contracts/backlog/change log/decisions; FND technical
+contracts/change log/decisions; delivery backend-track, branch-plan, workstreams, integration-plan,
+build-log and this verification matrix. Historical evidence is retained; current amendments are
+explicit. No new assumption or FE change.
+
+Review the uncommitted diff against HEAD 7f3849f, including untracked files. Prioritize insert-only
+bootstrap/concurrency, CLI secret/error/lifecycle boundaries, customer/admin separation and
+rotation rollback. Reuse the exact focused/full commands above only under authorized fixture
+conditions. No independent review has been performed by another agent; this is the author's second
+pass and a handoff for review. AUTH-003 blocked, AUTH 0/5, no acceptance/completion/commit claim.
+
+## 27. Requested AUTH-003 Full Test Rerun and Cleanup Resolution — 2026-11-02
+
+Scope: user requested TEST for current uncommitted AUTH-003. No implementation, dependency,
+migration or frontend source changed. Existing changes and both stashes preserved. DB tests used
+only newly created disposable MySQL with synthetic input; no existing application DB or server/.env.
+
+| Check | Exact command/procedure | Observed result |
+|---|---|---|
+| Full unit | `npm run test > /tmp/press-auth003-rerun-unit-20261102.log 2>&1` outside sandbox | Exit 0; 140 passed, 26 suites, 0 failed/skipped. |
+| Full integration | `FND_DISPOSABLE_MYSQL_TESTS=1 npm run test:integration > /tmp/press-auth003-rerun-integration-20261102.log 2>&1` outside sandbox | Exit 0; 71 passed, 13 suites, 0 failed/skipped. Includes actual MySQL, CLI, HTTP, bootstrap races, rollback, restart and scope isolation. |
+| Lint | `npm run lint > /tmp/press-auth003-rerun-lint-20261102.log 2>&1` | Exit 0. |
+| Build | `npm run build > /tmp/press-auth003-rerun-build-20261102.log 2>&1` | Exit 0; Vite 8.3.5, 78 modules. |
+| Diff | `git diff --check` | Exit 0; rechecked after recording this evidence. |
+| Original docs validator | `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .` | Exit 2; original script absent, BLOCKED / NOT RUN. No replacement/waiver. |
+| Typecheck | Existing approved JavaScript script surface | No typecheck script; not run. |
+| Cleanup | Host `ps -C mysqld -o pid,ppid,user,stat,comm` and Python Path('/tmp').glob('press-fnd002-mysql-*') before/after | Final inventory contains only unrelated system MySQL PID 1719 and zero disposable fixture roots. No unrelated process signaled or DB accessed. |
+
+Before rerun, host inventory showed the four §26 initializer processes had already stopped; this
+turn did not stop them and does not attribute how they exited. The four documented directories
+remained. Confirmed every old initializer PID absent under /proc, rejected symlinks, then removed
+only the exact inactive task-owned roots NF6qMt, wUt0ZN, CISByl and mW63M8. Inventory was empty
+before new tests and after successful rerun. No privileged signaling or sudo retry was needed.
+This observed result resolves §26's cleanup blocker; its earlier failure evidence remains historical.
+
+AUTH-003 remains blocked solely on the original mandatory documentation validator. AUTH-001/002
+statuses unchanged; AUTH remains 0/5. No acceptance boxes promoted, independent review claimed,
+commit, push, merge, deployment or later task. §26 retains the source inventory and review handoff;
+reviewers should use §27 as the latest full test and cleanup evidence.
+
+## 28. AUTH-003 Independent Review and Checkpoint Authorization — 2026-11-02
+
+A separate reviewer agent, auth003_independent_review, inspected the uncommitted diff and untracked
+AUTH-003 source, tests, approved contracts and relevant persistence/runtime dependencies. Verdict:
+PASS WITH WARNINGS; no confirmed actionable implementation defects within approved scope.
+Checked bootstrap singleton/concurrency and insert-only semantics, secret/password handling,
+admin/customer authentication and session isolation, transactional rotation/rollback, Origin/cookies,
+and safe DTO/errors. Reviewer ran read-only inspection and git diff --check (pass); no tests,
+MySQL connection, server/.env access, file writes or publication. Earlier §26/27 no-independent-review
+statements are historical and superseded only by this actual separate review.
+
+Warning W1: high residual deployment risk from absent login abuse controls at admin-routes.js:19
+and fixed-cost password verification in services/admins.js:18. This is the explicit AUTH-005
+allocation in AUTH-DEC-008, not an AUTH-003 scope defect or full security acceptance. Complete
+browser/CSRF integration, reusable cross-feature guards and rate limits remain AUTH-005.
+Reviewer did not rerun or independently reproduce the existing §27 unit/integration evidence.
+Original missing documentation validator remains a formal completion blocker, not a code defect.
+
+The user explicitly requested commit and push after receiving the review. Planned subject:
+`chore(AUTH-003): checkpoint reviewed admin authentication`. Authorizes one preservation checkpoint of the reviewed AUTH-003 source/tests/docs
+and approved FND-DEC-010 amendments, then non-force push to origin/work/AUTH-backend. No PR,
+merge, deployment, next task, acceptance change or completion claim. AUTH-003 stays blocked,
+AUTH remains 0/5. Source/test/dependency content is unchanged since §27; no application test
+rerun is claimed for this documentation/Git-only step. Whitespace/staging inventory reviewed
+before commit; resulting hash and remote verification reported in chat without follow-up commit.

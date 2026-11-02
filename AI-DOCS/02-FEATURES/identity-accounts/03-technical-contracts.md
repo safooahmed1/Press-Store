@@ -165,3 +165,15 @@ Authentication, session, cookie, admin provisioning, actor type, or ownership ch
 - Registration/session creation are atomic. Duplicate normalized phones return 409 PHONE_UNAVAILABLE with no new cookie. Missing/wrong credentials return the same 401 INVALID_CREDENTIALS message. Missing/expired/wrong-scope account sessions return 401 AUTH_REQUIRED. Storage failure fails closed through the canonical safe 500 envelope and never returns a new/cleared cookie prematurely.
 - Mutations reject missing/mismatched Origin or cross-site fetch metadata with 403 FORBIDDEN. Register/login additionally reject non-JSON bodies with 415 UNSUPPORTED_MEDIA_TYPE. Logout accepts an empty body for the existing Axios adapter. Private success/error responses within the routers are no-store. Production cookie flags/names remain AUTH-DEC-003.
 - AUTH-005 retains full CSRF/origin/browser integration, abuse rate limits, cross-feature guards and security acceptance. These customer scenarios alone do not satisfy AC-AUTH-003 or feature completion. AUTH-003 admin APIs/bootstrap and AUTH-004 FE implementation are outside this task.
+
+## 16. AUTH-003 approved implementation policy
+
+AUTH-DEC-007 authorizes the bounded early start; AUTH-DEC-008 owns bootstrap/admin behavior.
+FND-DEC-010 approves exactly the CLI configuration reader/tests and ESLint pattern amendment.
+Bootstrap uses BOOTSTRAP_ADMIN_PHONE and BOOTSTRAP_ADMIN_PASSWORD only through the explicit CLI;
+existing DB-FND-001 config/pool lifecycle is reused and closed on success/failure. No migrations,
+password arguments, credential output, automatic provisioning or credential replacement.
+The admin endpoints preserve API-AUTH-002's URLs and safe adminId-only DTO. Missing/expired
+current-session authentication returns AUTH_REQUIRED (401); valid customer-only authentication
+returns FORBIDDEN (403); valid admin authentication wins when both cookies are supplied. Logout
+is idempotent and scoped. Rate limiting and reusable guards remain AUTH-005, not a passed gate.

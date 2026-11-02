@@ -20,7 +20,7 @@ FND and UI preserve their existing branches and history. AUTH and every later pl
 | WS-ADM-01 | ADM | Deliver admin navigation/dashboard and final admin gate | ADM-001, ADM-002, ADM-003 | ADM paths in blueprint | owner feature pages/tables; shared UI internals | AUTH, UI, CAT, ORD, CUS | None on final composition | `feature/ADM-admin-dashboard` | `main` | planned |
 | WS-FND-01 | FND | Preserve and complete the existing platform workstream | FND-001–FND-006 | Existing FND contract paths | Business feature and shared UI paths | None | None on shared composition | `feature/FND-application-foundation` | `main` | User accepts 6/6 tasks for downstream development (FND-DEC-007/008); original validator BLOCKED / NOT RUN; not release-verified; no commit/push authorization. |
 | WS-UI-01 | UI | Preserve the existing design-system/app-shell workstream | UI-001–UI-004 | `src/shared/ui/**`, styles/assets | Server/business paths | FND contracts | Backend work with disjoint paths | `feature/UI-design-system-app-shell` | `main` | existing branch retained; history reconciled there |
-| WS-AUTH-BE | AUTH | Identity, sessions, customer/admin APIs | AUTH-001–AUTH-003 | AUTH server/platform paths, bootstrap script, backend tests | `src/**`, other feature server paths | FND DB/HTTP; A-005 | WS-AUTH-FE after contract freeze | `work/AUTH-backend` | `feature/AUTH-integration` | AUTH-001/AUTH-002 blocked on original docs validator; core/customer API implementation and MySQL checks pass (§§23–24); AUTH-003 not started. |
+| WS-AUTH-BE | AUTH | Identity, sessions, customer/admin APIs | AUTH-001–AUTH-003 | AUTH server/platform paths, bootstrap script, backend tests | `src/**`, other feature server paths | FND DB/HTTP; A-005 | WS-AUTH-FE after contract freeze | `work/AUTH-backend` | `feature/AUTH-integration` | AUTH-001/002 remain blocked; AUTH-003 implemented/verified under AUTH-DEC-007/008, blocked on original validator; full rerun/host cleanup pass (§27); no commit authorized. |
 | WS-AUTH-FE | AUTH | Customer/admin authentication and account experience | AUTH-004 | `src/features/auth/**`, client tests/fixtures | `server/**` | UI-002; frozen AUTH contract | WS-AUTH-BE | `work/AUTH-frontend` | `feature/AUTH-integration` | active; fixture-based implementation authorized |
 | WS-AUTH-INT | AUTH | Prove live auth/security and lane compatibility | AUTH-005 | AUTH integration/E2E tests and evidence; approved composition only | Unfinished BE/FE feature implementation | AUTH-BE and AUTH-FE ready | None on AUTH integration paths | `feature/AUTH-integration` | `main` | planned |
 | WS-CAT-BE | CAT | Catalog domain and public/admin APIs | CAT-001–CAT-003 | `server/src/features/catalog/**`, backend catalog tests | `src/**`, HOME/CART/ORD source | FND, AUTH guard | WS-CAT-FE after contract freeze; SET lanes | `work/CAT-backend` | `feature/CAT-integration` | planned |
@@ -84,3 +84,19 @@ Ranges above are descriptive only. Exact workstream coverage is:
 ### 2026-10-30 — Migration boundary
 
 DEC-008 applies the three-lane model to AUTH and later planned features. Existing FND/UI branches and all historical evidence remain intact; they are not renamed or rewritten. The documentation migration itself does not authorize any feature branch creation, merge, push, PR, deployment, or application implementation.
+
+## 2026-11-02 — AUTH-003 current development disposition
+
+AUTH-DEC-007/008 approve only the AUTH-003 early start and admin bootstrap/API policy;
+FND-DEC-010 approves exact shared config/ESLint paths. Implementation and isolated verification
+are recorded in verification-matrix §26. AUTH-003 is blocked on original documentation validation
+and failed sandbox fixture cleanup. AUTH-001/002 remain blocked; AUTH is 0/5 and not ready for
+integration. Current branch work/AUTH-backend remains at checkpoint 7f3849f with uncommitted
+AUTH-003 changes. No commit, push, merge, deploy, FE change or next task is authorized. This current
+entry supersedes earlier current-state references saying AUTH-003 is not started; history is retained.
+
+### 2026-11-02 — Latest verification supersedes cleanup blocker
+
+Verification-matrix §27 records requested full rerun (unit 140/140, integration 71/71, lint/build/
+diff pass) and observed host cleanup. Earlier §26 cleanup blocker is resolved; original mandatory
+documentation validation remains BLOCKED / NOT RUN. AUTH-003 still blocked, no commit or next task.

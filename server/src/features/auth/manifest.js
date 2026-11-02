@@ -1,10 +1,15 @@
 import { createCustomerRouters } from './routes/customer-routes.js'
+import { createAdminRouter } from './routes/admin-routes.js'
 
 // One graph per FND runtime context, shared by both mounts and reclaimed with that runtime.
 const runtimes = new WeakMap()
 function runtime(context) {
   if (!context || typeof context !== 'object') throw new Error('Auth runtime context required')
-  if (!runtimes.has(context)) runtimes.set(context, createCustomerRouters(context))
+  if (!runtimes.has(context)) runtimes.set(context, (async () => {
+    const routers = await createCustomerRouters(context)
+    routers.auth.use('/admin', await createAdminRouter(context))
+    return routers
+  })())
   return runtimes.get(context)
 }
 

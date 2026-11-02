@@ -175,3 +175,10 @@ At initial log creation, no implementation activity had been recorded.
 - Updated the loader/startServer and their existing tests; static manifests, pool ownership and API envelopes remain compatible.
 - AUTH consumes the seam through /auth and /account. No new pool, environment reader, dependency or migration.
 - Original documentation validation remains BLOCKED / NOT RUN; this amendment does not promote a release gate.
+
+## 2026-11-02 — Approved AUTH-003 operational configuration boundary
+
+- FND-DEC-010 records user approval for the CLI-only admin bootstrap config reader/test and narrow
+  Node ESLint script coverage. No other FND source, DB interface or runtime startup change.
+- Consumer implementation/evidence: AUTH-DEC-007/008 and verification-matrix §26.
+- Original validator remains BLOCKED / NOT RUN; failed sandbox fixture cleanup remains open.

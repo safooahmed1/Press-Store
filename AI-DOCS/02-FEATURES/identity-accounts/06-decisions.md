@@ -63,3 +63,20 @@
 - **Deferred gates:** This is not the complete AUTH-005 abuse/security gate. Login/registration rate limits and the full cross-feature security/CSRF/browser integration suite remain AUTH-005 release prerequisites; no production-readiness or feature-completion claim is made.
 - **Name bound:** A-009 remains an explicitly labeled noncritical implementation assumption, using the existing 255-character storage limit. It is not a new PRD requirement or claimed user decision.
 - **Authorization limits:** AUTH-DEC-004/005 authorize this task and its bounded FND integration only. Missing original validator and no-new-commit/no-push boundaries remain; the earlier AUTH-001 checkpoint publication does not authorize publishing later changes.
+
+## AUTH-DEC-007 — Bounded AUTH-003 early start
+
+- **Status:** `approved by user`
+- **Date:** 2026-11-02
+- **Decision:** AUTH-003 BE development may use verified AUTH-001 checkpoint 9b86081027641dcde163b0ffa6497e8ae63bbea5 and AUTH-002 checkpoint 7f3849fa333bf19c9b0381dad00a04662e7b5e0e while original documentation validation remains BLOCKED / NOT RUN. This satisfies development dependencies only; AUTH-001/002 are not completed and no acceptance requirement is waived.
+- **Authorization:** After read-only preflight the user explicitly approved implementation, tests on newly created disposable MySQL fixtures, lint/build/diff checks, and the bounded shared changes in FND-DEC-010. No existing application DB, environment file, frontend implementation, dependency, migration, commit, push, merge or deployment is authorized.
+
+## AUTH-DEC-008 — Protected single-admin bootstrap and admin API boundaries
+
+- **Status:** `approved by user`
+- **Date:** 2026-11-02
+- **Bootstrap:** Explicit node scripts/bootstrap-admin.js only. Protected CLI-only BOOTSTRAP_ADMIN_PHONE / BOOTSTRAP_ADMIN_PASSWORD inputs enter through validated server/src/config code; no password arguments, logging, error interpolation, env-file loading, automatic bootstrap or migration execution. Reuse Egyptian phone validation and unchanged AUTH-DEC-003 password hashing.
+- **Idempotency:** Same normalized phone and matching password returns unchanged without touching stored credentials, timestamps or sessions. Different phone/password fails closed. The existing singleton DB constraint arbitrates concurrent insertion; after a constraint conflict re-read and verify the winner without overwrite. Other storage failures propagate safely without automatic retry or claimed success.
+- **API:** POST /api/v1/auth/admin/login, POST /api/v1/auth/admin/logout, GET /api/v1/auth/admin/session. Login/session return 200 with {data:{admin:{adminId}}}; logout returns 200 with {data:{}}. Strict phone/password body only, generic INVALID_CREDENTIALS with precomputed dummy hash for absent identities, same-origin mutation checks, JSON login, bodyless logout, no-store and safe storage errors. No public admin registration.
+- **Sessions:** Reuse admin-only cookies, eight-hour absolute expiry, transactional current-session rotation and admin-only revocation. A valid admin session takes precedence. Current-session returns 401 AUTH_REQUIRED for absent/expired authentication, 403 FORBIDDEN for a valid customer-only session. Customer tokens under the admin cookie cannot authenticate an admin; logout is idempotent and leaves customer sessions intact.
+- **Deferred:** AUTH-005 retains rate limits, reusable cross-feature guards and complete browser/security acceptance. AUTH-003 is not full security acceptance or production readiness. Frozen endpoints/DTOs are preserved; no FE fixture or source changes authorized.

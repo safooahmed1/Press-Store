@@ -72,3 +72,40 @@ No implementation activity recorded.
   remain in verification-matrix §25; no application test is rerun for Git-only preservation.
 - Original documentation validation stays BLOCKED / NOT RUN; AUTH-002 is not marked done.
 - Only checkpoint preservation/non-force branch push authorized; no PR, merge, deployment or next task.
+
+## 2026-11-02 — AUTH-003 protected bootstrap and separate admin APIs
+
+- Recorded user-approved early start AUTH-DEC-007, bootstrap/admin policy AUTH-DEC-008 and bounded
+  FND config/tooling amendment FND-DEC-010 before implementation.
+- Added explicit environment-only CLI, insert-only singleton bootstrap, safe conflict reconciliation,
+  admin login/logout/session, strict validation, existing origin boundary, secure scoped sessions,
+  safe DTOs/errors and no-store router responses. No dependencies, migrations or frontend changes.
+- Focused 9/9; full unit 140/140; full integration with actual disposable MySQL 71/71, no skips;
+  lint/build pass. Fixed a test expecting 422 for primitive JSON; FND correctly returns 400.
+- Initial sandbox attempt failed (listen EPERM and MySQL initialization timeouts) and left four
+  confined initializer children/roots. Unrestricted successful fixtures cleaned up, but normal
+  host signaling was denied and sudo -n requires authentication. Cleanup remains blocked; unrelated
+  system MySQL PID 1719 was not touched. Exact PIDs/paths and evidence are in §26.
+- Original validator invocation exit 2, BLOCKED / NOT RUN. AUTH-003 blocked; completion remains
+  0/5. No acceptance checkbox, completion commit, push, merge, deployment or later task.
+
+### 2026-11-02 — Requested test rerun and host cleanup resolution
+
+Full unit 140/140 and full actual-MySQL integration 71/71 pass without failures/skips; lint/build/
+diff pass. Before rerun the four prior initializer PIDs were observed absent; removed only their
+exact inactive temporary directories. Final host inventory: no disposable processes/roots, unrelated
+system MySQL PID 1719 untouched. This resolves the prior cleanup blocker without rewriting failure
+history. Original validator still exits 2, BLOCKED / NOT RUN; AUTH-003 remains blocked, AUTH 0/5.
+No implementation change, independent review, commit, push, merge, deploy or next task. Exact
+commands, logs and evidence: verification-matrix §27.
+
+## 2026-11-02 — Independent review and authorized preservation commit/push
+
+- Separate reviewer agent completed static read-only AUTH-003 review: PASS WITH WARNINGS, no
+  confirmed actionable defects within approved scope. High residual login-abuse risk is the
+  explicitly approved AUTH-005 deferral; original missing validator is not a code defect.
+- User explicitly requested commit/push. Planned subject: `chore(AUTH-003): checkpoint reviewed admin authentication`.
+- Preserve prior full unit 140/140, integration 71/71, lint/build and cleanup evidence (§27);
+  no application test rerun for documentation/Git-only preservation. See §28 for review boundaries.
+- Original validation remains BLOCKED / NOT RUN, AUTH-003 blocked, AUTH 0/5. No completion,
+  PR, merge, deployment or later task. Existing stashes and unrelated artifacts preserved.

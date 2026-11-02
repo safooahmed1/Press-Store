@@ -10,7 +10,7 @@
 |---:|---|---|---|---|---|---|---|---|---|---|---|---|
 | 1 | AUTH-001 | AUTH/core | WS-AUTH-BE | Add identity/session schema, phone normalization, hashing, and secure session primitives | REQ-AUTH-001, REQ-AUTH-002, REQ-AUTH-010, REQ-AUTH-012 | FND-002, FND-003, A-005 confirmed/accepted | AUTH server/platform paths | migration/unit tests | `blocked` | `work/AUTH-backend` | Authorized checkpoint subject: `chore(AUTH-001): checkpoint verified identity and session foundation`; completion commit: None. | 2026-11-02: final focused suite 13/13, including actual disposable MySQL 8.4.11 constraints, migrations, rotation rollback and pool-recreation persistence; cleanup verified; lint passed. Original docs validator BLOCKED / NOT RUN; no commit authorized. See verification-matrix §23. |
 | 2 | AUTH-002 | AUTH/customer | WS-AUTH-BE | Implement customer register/login/logout/account APIs | REQ-AUTH-003, REQ-AUTH-004, REQ-AUTH-005, REQ-AUTH-011 | AUTH-001 development dependency satisfied only by approved AUTH-DEC-004 | AUTH customer routes/services | API integration tests | `blocked` | `work/AUTH-backend` | Authorized checkpoint subject: `chore(AUTH-002): checkpoint verified customer authentication APIs`; completion commit: None. | 2026-11-02: user-requested full verification passes: unit 136/136; all integration with actual disposable MySQL 66/66, no skips; lint/build/whitespace pass; fixture cleanup verified. Original docs validator BLOCKED / NOT RUN; no completion commit. See verification-matrix §25. |
-| 3 | AUTH-003 | AUTH/admin | WS-AUTH-BE | Implement single-admin bootstrap and separate admin auth APIs | REQ-AUTH-006, REQ-AUTH-007, REQ-AUTH-013, REQ-SCOPE-002 | AUTH-001 | admin auth paths, bootstrap script | bootstrap/admin tests | `not-started` | `work/AUTH-backend` | — | — |
+| 3 | AUTH-003 | AUTH/admin | WS-AUTH-BE | Implement single-admin bootstrap and separate admin auth APIs | REQ-AUTH-006, REQ-AUTH-007, REQ-AUTH-013, REQ-SCOPE-002 | AUTH-001 development dependency satisfied only by approved AUTH-DEC-007 | admin auth paths, bootstrap script; approved config/tooling in FND-DEC-010 | bootstrap/admin tests | `blocked` | `work/AUTH-backend` | Planned subject: `feat(AUTH-003): implement protected admin authentication`; no commit authorized. | 2026-11-02: full rerun unit 140/140, integration 71/71, no skips; lint/build/diff pass; host cleanup verified. Original validator BLOCKED / NOT RUN. See verification-matrix §27; no commit authorized. |
 | 4 | AUTH-004 | AUTH/UI | WS-AUTH-FE | Build responsive customer/admin auth and Account screens | REQ-AUTH-003, REQ-AUTH-004, REQ-AUTH-005 | AUTH-002, AUTH-003, UI-002 | `src/features/auth/**` | component/manual tests | `not-started` | `work/AUTH-frontend` | — | — |
 | 5 | AUTH-005 | AUTH/security | WS-AUTH-INT | Enforce fixed guards, isolation, CSRF/rate limits, and full auth security suite | REQ-AUTH-008, REQ-AUTH-009, REQ-AUTH-014 | AUTH-002–AUTH-004 | AUTH guards/tests | full security integration suite | `not-started` | `feature/AUTH-integration` | — | — |
 
@@ -30,11 +30,12 @@ The ordered-task rows above and this lane summary are the canonical DEC-008 assi
 |---|---|---|---|
 | AUTH-001 | Original documentation validator remains unavailable; completion commit is not authorized. Live MySQL verification now passed. | Original tooling owner / user | Restore verified original validator; no replacement or completion claim. See verification-matrix §23. |
 | AUTH-002 | Original mandatory documentation validator unavailable; code/API and actual MySQL verification passed. | Original tooling owner / user | Restore the verified original validator; task remains blocked, no completion commit or later-task work. |
+| AUTH-003 | Original mandatory documentation validator unavailable; code tests and host cleanup pass (§27). | Original tooling owner / user | Restore original validator; no completion/commit. |
 
 ## Completion Summary
 
 - **Completed:** 0/5
-- **Next ready task:** None while AUTH-001/AUTH-002 remain blocked on original documentation validation; AUTH-003 is not authorized.
+- **Next ready task:** None. AUTH-001/002 remain blocked; AUTH-003 development was authorized by AUTH-DEC-007/008 and is now implemented but blocked on original docs validation; sandbox fixture cleanup resolved (§27).
 - **Feature status:** `in-progress`
 
 ## 2026-11-02 — AUTH-001 local implementation
@@ -96,3 +97,33 @@ session-specific no-commit/no-push restriction only for this checkpoint. AUTH-00
 the missing original validator; no completion, PR, merge, deployment or AUTH-003 authorization.
 Planned subject: `chore(AUTH-002): checkpoint verified customer authentication APIs`.
 Report resulting commit hash/push outcome in chat; do not create a circular follow-up commit.
+
+## 2026-11-02 — Approved AUTH-003 implementation and review handoff
+
+AUTH-DEC-007/008 and FND-DEC-010 authorize the bounded early start, bootstrap policy, admin APIs,
+configuration reader and ESLint amendment. Backend code/tests implemented; original endpoint/DTO
+contracts preserved. Focused 9/9, full unit 140/140 and all integration 71/71 passed without skips;
+lint/build passed. Exact evidence, initial failures and remaining cleanup are in §26. AUTH-003 is
+blocked, AUTH completion stays 0/5, all acceptance boxes remain unchanged, and no commit/push,
+merge, deploy, frontend change or next task is authorized. Planned subject is informational only.
+
+### 2026-11-02 — Requested test rerun and host cleanup resolution
+
+Full unit 140/140 and full actual-MySQL integration 71/71 pass without failures/skips; lint/build/
+diff pass. Before rerun the four prior initializer PIDs were observed absent; removed only their
+exact inactive temporary directories. Final host inventory: no disposable processes/roots, unrelated
+system MySQL PID 1719 untouched. This resolves the prior cleanup blocker without rewriting failure
+history. Original validator still exits 2, BLOCKED / NOT RUN; AUTH-003 remains blocked, AUTH 0/5.
+No implementation change, independent review, commit, push, merge, deploy or next task. Exact
+commands, logs and evidence: verification-matrix §27.
+
+## 2026-11-02 — Authorized AUTH-003 checkpoint publication
+
+The user explicitly requested committing and pushing the current reviewed AUTH-003 implementation.
+Planned checkpoint subject: `chore(AUTH-003): checkpoint reviewed admin authentication`. This authorizes one preservation commit and non-force
+push of work/AUTH-backend to origin, including approved FND-DEC-010 configuration/tooling changes.
+It supersedes earlier session-specific no-commit/no-push restrictions only for this checkpoint.
+AUTH-003 remains blocked on original documentation validation; AUTH remains 0/5. Independent
+review PASS WITH WARNINGS and scope are recorded in verification-matrix §28. No completion,
+acceptance waiver, PR, merge, deployment or next task. Resulting hash/push result reported in chat;
+no circular follow-up commit.
