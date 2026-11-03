@@ -770,3 +770,30 @@ merge, deployment, next task, acceptance change or completion claim. AUTH-003 st
 AUTH remains 0/5. Source/test/dependency content is unchanged since §27; no application test
 rerun is claimed for this documentation/Git-only step. Whitespace/staging inventory reviewed
 before commit; resulting hash and remote verification reported in chat without follow-up commit.
+
+
+## CAT-001 — Isolated Catalog Domain Verification — 2026-11-04
+
+**Scope:** CAT-001 / WS-CAT-BE only. Branch work/CAT-backend from 7e3ca00152afc3181a1ae2eaf3beff9f7888b6f1 under user-approved CAT-DEC-002, not an integrated/frozen CAT baseline. CAT-DEC-003 approves exact rounding/precision; A-010 records bounded implementation choices. FND-002/FND-004 accepted for downstream development; their unrun hosting/release checks remain unrun. No AUTH-005 guard or frontend changes are carried into this branch.
+
+| Check | Exact command / evidence | Observed result |
+|---|---|---|
+| Focused domain/MySQL | `FND_DISPOSABLE_MYSQL_TESTS=1 node --test --test-isolation=none server/src/features/catalog/services/catalog.test.js server/src/features/catalog/services/catalog-domain.integration.test.js > /tmp/press-cat001-focused.log 2>&1` | 14 passed, 4 suites, 0 failed/skipped; exit 0 |
+| Full unit | `npm run test > /tmp/press-cat001-full-unit.log 2>&1` | 148 passed, 28 suites, 0 failed/skipped; exit 0 |
+| Full integration | `FND_DISPOSABLE_MYSQL_TESTS=1 npm run test:integration > /tmp/press-cat001-full-integration.log 2>&1` | 77 passed, 15 suites, 0 failed/skipped; exit 0 |
+| Lint | `npm run lint > /tmp/press-cat001-lint.log 2>&1` | Exit 0 |
+| Build | `npm run build > /tmp/press-cat001-build.log 2>&1` | Exit 0 |
+| Diff | `git diff --check` | Exit 0 |
+| Required original docs validator | `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .` | Exit 2, missing script; BLOCKED / NOT RUN. No replacement validator or invented pass. |
+| Typecheck | package.json inspection | No typecheck script; approved JavaScript/ESM remains unchanged. |
+| Host cleanup | `ps -eo pid,uid,args` and exact /tmp directory inventories after tests | Only unrelated system /usr/sbin/mysqld PID 1714 UID 124; no disposable mysqld or press-fnd002-mysql-* / press-cat001-images-* directory. No system/application DB touched. |
+
+All authoritative tests ran in /home/tarek/projects/Press-Store-CAT-backend. Focused/MySQL and full runners were outside sandbox for actual subprocess/socket execution. Initial focused result was 12/14: two assertions incorrectly expected numeric COUNT instead of FND BIGINT strings; corrected tests and successful rerun retained in this history. A sandbox default isolated-runner wrapper count is not claimed as coverage.
+
+**Meaningful coverage:** migration discovery; empty classification schema then upgrade with retained category/brand data; complete migration rerun; unique names; single main/bounded additional slots; FK references; unique pairs and true boolean availability; 0/100-percent/half-minor/maximum-safe-money cases; strict unknown-field/Unicode validation; real transaction rollback after a later child failure; real file compensation on invalid FK and later malformed image; inactive/soft-deleted availability rejection; referenced classification protection; optimistic concurrent classification edits; post-commit old-file deletion and explicit cleanup-pending behavior.
+
+**Second pass:** re-read CAT-001 and AC-CAT-001/003; reviewed all new source, SQL, tests and tracked documentation for ownership, parameterization, integer precision, rollback, storage limits, safe error boundaries and generated artifacts. No routes/manifests, numeric stock, dependency/environment reading, frontend or other-feature source writes added. New files stay under server/src/features/catalog/**. Existing node_modules is linked for local test execution only; link/build output is ignored and not staged. Original AUTH working checkout and both preserved stashes remain unchanged in scope/status.
+
+**Limits and recovery:** this task is not CAT public/admin API, UI, max-eight curation, full consumer availability transaction contract or security integration. SQL slot uniqueness enforces image upper bounds, while the service transaction enforces mandatory main-image existence. Existing FND file compensation is not a distributed transaction: ambiguous commit acknowledgement/process crashes require explicit file/DB reconciliation without blind retries. A committed classification delete can report server-internal cleanupPending; CAT-003 must handle reconciliation without exposing paths or mistaking it for rollback. Production engine/proxy/hosting/release checks are not claimed.
+
+**Disposition:** CAT-001 implemented and locally verified; formal status blocked solely by unavailable mandatory original documentation validator. CAT 0/6, all three feature acceptance Passed checkboxes remain unchecked. Planned completion subject feat(CAT-001): add catalog domain foundation; completion commit None. No next task, commit, push, merge, deployment or frontend implementation performed.

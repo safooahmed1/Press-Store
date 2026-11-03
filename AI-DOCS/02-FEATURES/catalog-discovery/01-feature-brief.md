@@ -6,7 +6,7 @@
 - **Kind:** `business`
 - **Parent Feature:** `None`
 - **Owner:** `WS-CAT-BE`, `WS-CAT-FE`, `WS-CAT-INT`
-- **Status:** `planned`
+- **Status:** `in-progress`
 
 ## 2. Summary
 
@@ -98,3 +98,5 @@ FND DB/HTTP/storage; AUTH admin guard; UI states/components.
 ## 13. Assumptions and TODOs
 
 None.
+
+CAT-001 domain implementation is locally verified but formal completion remains blocked by the unavailable original documentation validator. No feature acceptance is claimed.

@@ -8,7 +8,7 @@
 
 | Order | Task ID | Parent/Sub-feature | Workstream | Summary | Requirement IDs | Depends On | Owned Paths | Verification | Status | Branch | Commit Ref | Evidence |
 |---:|---|---|---|---|---|---|---|---|---|---|---|---|
-| 1 | CAT-001 | CAT/domain | WS-CAT-BE | Add catalog schema, money/discount, image, variant, and classification services | REQ-CAT-001, REQ-CAT-002, REQ-CAT-003, REQ-CAT-006, REQ-CAT-017, REQ-CAT-018 | FND-002, FND-004 | CAT server migrations/services | migration/unit tests | `not-started` | `work/CAT-backend` | — | — |
+| 1 | CAT-001 | CAT/domain | WS-CAT-BE | Add catalog schema, money/discount, image, variant, and classification services | REQ-CAT-001, REQ-CAT-002, REQ-CAT-003, REQ-CAT-006, REQ-CAT-017, REQ-CAT-018 | FND-002, FND-004 | CAT server migrations/services | migration/unit tests | `blocked` | `work/CAT-backend` | User-authorized preservation checkpoint; planned chore(CAT-001): checkpoint verified catalog domain foundation | CAT-001 evidence appendix in verification-matrix; code checks pass, original docs validator BLOCKED / NOT RUN. |
 | 2 | CAT-002 | CAT/public-api | WS-CAT-BE | Implement paginated public list/detail/classification APIs and five filters | REQ-CAT-005, REQ-CAT-009, REQ-CAT-010, REQ-CAT-011, REQ-CAT-012, REQ-CAT-013, REQ-CAT-015, REQ-CAT-019 | CAT-001, FND-003 | CAT public routes/repos | filter/API tests | `not-started` | `work/CAT-backend` | — | — |
 | 3 | CAT-003 | CAT/admin-api | WS-CAT-BE | Implement admin catalog CRUD, uploads, variants, flags, and safe deletion | REQ-CAT-004, REQ-CAT-016, REQ-CAT-017, REQ-CAT-018, REQ-CAT-019 | CAT-001, AUTH-AUTH-002, STO-FND-001 | CAT admin routes/services | admin/upload/conflict tests | `not-started` | `work/CAT-backend` | — | — |
 | 4 | CAT-004 | CAT/storefront | WS-CAT-FE | Build Shop/Product Details with required filters, variants, gallery, and exclusions | REQ-CAT-007, REQ-CAT-008, REQ-CAT-009, REQ-CAT-010, REQ-CAT-011, REQ-CAT-012, REQ-CAT-013, REQ-CAT-014, REQ-SCOPE-006, REQ-SCOPE-008, REQ-SCOPE-009, REQ-SCOPE-016 | CAT-002, UI-002 | `src/features/catalog/shop/**`, `product/**` | component/responsive tests | `not-started` | `work/CAT-frontend` | — | — |
@@ -29,10 +29,14 @@ The ordered-task rows above and this lane summary are the canonical DEC-008 assi
 
 | Task ID | Blocker | Owner/Decision Needed | Next Action |
 |---|---|---|---|
-| None. | None. | None. | None. |
+| CAT-001 | Original required documentation validator is unavailable. | Original tooling owner / user | Keep BLOCKED / NOT RUN; no replacement or completion claim. |
 
 ## Completion Summary
 
 - **Completed:** 0/6
-- **Next ready task:** `CAT-001` after FND-002/FND-004
-- **Feature status:** `planned`
+- **Next ready task:** None while CAT-001 completion is blocked; CAT-002 remains not-started.
+- **Feature status:** `in-progress`
+
+## 2026-11-04 — CAT-001 bounded backend implementation
+
+CAT-DEC-002/003 record the explicit baseline and money-policy approvals. A-010 records implementation bounds. Source, tests, migrations and task evidence are local to work/CAT-backend; no completion commit, remote write or CAT-002 start. Required original docs validation remains BLOCKED / NOT RUN.

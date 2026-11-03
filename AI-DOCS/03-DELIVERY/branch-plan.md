@@ -37,7 +37,7 @@ FND and UI are grandfathered existing feature branches. For AUTH and later featu
 | `work/AUTH-backend` | backend | frozen AUTH integration commit | WS-AUTH-BE | AUTH-001–AUTH-003 | `feature/AUTH-integration` | backend suite and contract match; explicit merge | Created from frozen 4e92f8f; checkpoints 9b86081 / 7f3849f published. AUTH-003 uncommitted, verified under AUTH-DEC-007/008 but blocked on original validator; latest full rerun and cleanup pass (§27); no commit/push authorized. |
 | `work/AUTH-frontend` | frontend | same frozen AUTH integration commit | WS-AUTH-FE | AUTH-004 | `feature/AUTH-integration` | component/a11y/build and fixture evidence; explicit merge | planned |
 | `feature/CAT-integration` | integration | updated `main` after AUTH/UI/FND | WS-CAT-INT | CAT-006 | `main` | BE+FE ready; live CAT gate | planned |
-| `work/CAT-backend` | backend | frozen CAT integration commit | WS-CAT-BE | CAT-001–CAT-003 | `feature/CAT-integration` | backend catalog suite; explicit merge | planned |
+| `work/CAT-backend` | backend | frozen CAT integration commit | WS-CAT-BE | CAT-001–CAT-003 | `feature/CAT-integration` | backend catalog suite; explicit merge | CAT-001 local implementation, blocked completion; early baseline 7e3ca00 approved by CAT-DEC-002; no frozen CAT integration baseline claimed. |
 | `work/CAT-frontend` | frontend | same frozen CAT integration commit | WS-CAT-FE | CAT-004–CAT-005 | `feature/CAT-integration` | client/a11y/responsive/build; explicit merge | planned |
 | `feature/SET-integration` | integration | updated `main` after AUTH/UI/FND | WS-SET-INT | SET-003 | `main` | BE+FE ready; live privacy/consumer gate | planned |
 | `work/SET-backend` | backend | frozen SET integration commit | WS-SET-BE | SET-001 | `feature/SET-integration` | backend settings suite; explicit merge | planned |
@@ -127,3 +127,8 @@ entry supersedes earlier current-state references saying AUTH-003 is not started
 Verification-matrix §27 records requested full rerun (unit 140/140, integration 71/71, lint/build/
 diff pass) and observed host cleanup. Earlier §26 cleanup blocker is resolved; original mandatory
 documentation validation remains BLOCKED / NOT RUN. AUTH-003 still blocked, no commit or next task.
+
+
+## 2026-11-04 — CAT-001 bounded baseline exception
+
+CAT-DEC-002 overrides only CAT-001's development branch creation prerequisite: work/CAT-backend starts from 7e3ca00152afc3181a1ae2eaf3beff9f7888b6f1 in /home/tarek/projects/Press-Store-CAT-backend. The normally required feature/CAT-integration frozen baseline is not claimed or created. BE/FE common-baseline freeze, explicit merges and full integration remain required later. Original AUTH checkout changes/stashes are preserved; no AUTH changes are carried into this branch. No push/deploy authorization.

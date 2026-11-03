@@ -60,3 +60,8 @@ Gallery controls, filter drawer, selector labels/states, price semantics, admin 
 | Integration | `npm run test:integration -- catalog` | yes | public/admin/filter/upload cases pass |
 | UI | catalog component tests plus responsive filter/gallery procedure | yes | Required states usable |
 | Lint/build | `npm run lint && npm run build` | yes | Exit 0 |
+
+
+## 2026-11-04 — CAT-001 partial evidence
+
+Schema/domain coverage is recorded in verification-matrix's CAT-001 appendix. Public/admin HTTP and UI/consumer acceptance remain later tasks; no feature Passed checkbox is checked. Original required documentation validator is unavailable, BLOCKED / NOT RUN. This does not waive the completion rule.

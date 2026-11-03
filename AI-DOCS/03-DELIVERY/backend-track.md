@@ -17,7 +17,7 @@ This is the Backend developer entry point, not a second specification. Canonical
 | Order | Feature | Workstream | Tasks | Depends On | Branch | Owned Source | Current State |
 |---:|---|---|---|---|---|---|---|
 | 1 | AUTH | WS-AUTH-BE | AUTH-001–AUTH-003 | FND DB/HTTP contracts; A-005 | `work/AUTH-backend` | `server/src/features/auth/**`, `server/src/platform/auth/**`, bootstrap script | AUTH-001/002 remain blocked; AUTH-003 implemented under AUTH-DEC-007/008, blocked on original docs validator; full rerun and host cleanup passed, verification-matrix §27 |
-| 2 | CAT | WS-CAT-BE | CAT-001–CAT-003 | AUTH guard; FND DB/storage/HTTP | `work/CAT-backend` | `server/src/features/catalog/**` | planned |
+| 2 | CAT | WS-CAT-BE | CAT-001–CAT-003 | AUTH guard; FND DB/storage/HTTP | `work/CAT-backend` | `server/src/features/catalog/**` | CAT-001 implemented locally under CAT-DEC-002/003; completion blocked on original docs validator. CAT-002/003 not started. |
 | 3 | SET | WS-SET-BE | SET-001 | AUTH guard; FND DB/HTTP | `work/SET-backend` | `server/src/features/settings/**` | planned; parallel-safe with CAT-BE after dependencies |
 | 4 | HOME | WS-HOME-BE | HOME-001 | CAT admin/curation contract; FND storage | `work/HOME-backend` | `server/src/features/homepage/**` | planned |
 | 5 | CART | WS-CART-BE | CART-001–CART-002 | AUTH and CAT read contracts | `work/CART-backend` | `server/src/features/cart/**` | planned; parallel-safe with HOME-BE |
@@ -50,3 +50,8 @@ entry supersedes earlier current-state references saying AUTH-003 is not started
 Verification-matrix §27 records requested full rerun (unit 140/140, integration 71/71, lint/build/
 diff pass) and observed host cleanup. Earlier §26 cleanup blocker is resolved; original mandatory
 documentation validation remains BLOCKED / NOT RUN. AUTH-003 still blocked, no commit or next task.
+
+
+## 2026-11-04 — CAT-001 current work
+
+User authorized CAT backend and approved CAT-DEC-002/003. CAT-001 domain implementation is local to work/CAT-backend from published backend checkpoint 7e3ca00; formal task completion blocked by original missing docs validator. CAT-002/003 not started; no frontend or remote write. See CAT backlog and verification-matrix CAT-001 appendix.

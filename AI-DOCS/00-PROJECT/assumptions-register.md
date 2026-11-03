@@ -15,3 +15,7 @@
 ## 2026-10-23 — A-002 confirmation history
 
 A-002 previously remained pending: explicit SQL migrations and a small parameterized MySQL query layer were proposed, with the concrete driver to be chosen during FND-002 and any required ORM/query builder awaiting confirmation. User approval of FND-DEC-002 D2 confirms the choice above; it does not claim dependency installation, database connectivity, hosting compatibility, or task completion.
+
+## A-010 — CAT bounded text and variant payloads
+
+Active noncritical implementation assumption, 2026-11-04, CAT-001. Names use at most 255 well-formed Unicode code points, product descriptions 10000, color/size labels 100, and a product payload at most 1000 variants. Text is trimmed, nonempty and rejects control characters; no case folding or Unicode normalization is performed. Classification names and variant labels use exact case-sensitive binary equality in MySQL. A product may have zero variants and therefore no purchasable options. These are bounded implementation choices, not stated PRD limits or a user-confirmed decision. Owners may revise these limits consistently before API freeze. Money behavior is separately approved in CAT-DEC-003, not assumed here.

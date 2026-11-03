@@ -145,3 +145,17 @@ Money, availability, variant identity, flags, image limits, or public DTO change
 ## 13. Assumptions and TODOs
 
 None.
+
+
+## 14. CAT-001 backend domain implementation — 2026-11-04
+
+CAT-DEC-002 approves an isolated early-development baseline only; this is not the full CAT API freeze. CAT-DEC-003 defines two-place percentage precision and exact half-up final-unit rounding. A-010 records bounded text/variant choices without attributing them to the PRD.
+
+- Additive `cat_001`/`cat_002`/`cat_003` migrations use DB-FND-001 discovery. Classification uniqueness, product classification FKs, positive safe-integer money, discount range, boolean fields, unique variant pairs and bounded image slots are enforced in MySQL.
+- `product_images.slot = 0` represents main role; slots 1–3 represent additional role/order. The service requires one to four uploads and creates the mandatory main image in the same product transaction. SQL enforces at most one image in each slot; it does not assert main-image existence across tables. All application writes must go through the CAT service. No numeric inventory or cascading history deletion.
+- `createCatalogService({repository,storage})` provides server-internal createProduct/createCategory/createBrand, classification rename/delete and requireAvailableVariant. No HTTP routes, manifest, admin guard wiring, product-update API, homepage flag command or public list/filter endpoints are added by CAT-001. New product flags default false; max-eight curation remains CAT-003/CMD-CAT-001 work.
+- IDs/version inputs are canonical positive unsigned BIGINT strings. Classification rename uses optimistic version comparison; delete locks the classification and rejects any referencing product, including soft-deleted rows. FKs also protect races. Missing/stale classification mutation yields EDIT_CONFLICT.
+- All uploaded images pass through STO-FND-001. New files wrap the database transaction with compensation; validation/late-upload/insert failures unwind new files. Committed category deletion attempts old-file cleanup afterwards; a cleanup failure returns server-internal `{deleted:true,cleanupPending:path}` for explicit reconciliation, never an HTTP DTO or claim of rollback. CAT-003 must handle this outcome and must not expose paths or exception causes.
+- `requireAvailableVariant` rejects unknown/inactive variants and soft-deleted products with VARIANT_UNAVAILABLE, returning current exact price on success. This is the domain primitive; consumer transaction consistency and full READ-CAT-001 acceptance remain CAT-006/consumer tasks.
+- DB constraint errors retain the safe FND DB_CONSTRAINT_FAILED code; CAT-003 transport mapping must not inspect/expose raw driver errors. A lost commit acknowledgement is an ambiguous outcome: do not auto-retry or assume file/DB atomicity across a process crash. File/DB crash reconciliation and full mutation acceptance remain visible integration work.
+- Migrations are explicit operational commands only; no startup migration. MySQL DDL may partially commit. On interruption, preserve the execution marker and inspect schema through a separately approved recovery procedure; never automatically drop/retry/mark-applied. No migration was applied to an existing application database.

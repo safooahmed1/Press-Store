@@ -23,7 +23,7 @@ FND and UI preserve their existing branches and history. AUTH and every later pl
 | WS-AUTH-BE | AUTH | Identity, sessions, customer/admin APIs | AUTH-001–AUTH-003 | AUTH server/platform paths, bootstrap script, backend tests | `src/**`, other feature server paths | FND DB/HTTP; A-005 | WS-AUTH-FE after contract freeze | `work/AUTH-backend` | `feature/AUTH-integration` | AUTH-001/002 remain blocked; AUTH-003 implemented/verified under AUTH-DEC-007/008, blocked on original validator; full rerun/host cleanup pass (§27); no commit authorized. |
 | WS-AUTH-FE | AUTH | Customer/admin authentication and account experience | AUTH-004 | `src/features/auth/**`, client tests/fixtures | `server/**` | UI-002; frozen AUTH contract | WS-AUTH-BE | `work/AUTH-frontend` | `feature/AUTH-integration` | active; fixture-based implementation authorized |
 | WS-AUTH-INT | AUTH | Prove live auth/security and lane compatibility | AUTH-005 | AUTH integration/E2E tests and evidence; approved composition only | Unfinished BE/FE feature implementation | AUTH-BE and AUTH-FE ready | None on AUTH integration paths | `feature/AUTH-integration` | `main` | planned |
-| WS-CAT-BE | CAT | Catalog domain and public/admin APIs | CAT-001–CAT-003 | `server/src/features/catalog/**`, backend catalog tests | `src/**`, HOME/CART/ORD source | FND, AUTH guard | WS-CAT-FE after contract freeze; SET lanes | `work/CAT-backend` | `feature/CAT-integration` | planned |
+| WS-CAT-BE | CAT | Catalog domain and public/admin APIs | CAT-001–CAT-003 | `server/src/features/catalog/**`, backend catalog tests | `src/**`, HOME/CART/ORD source | FND, AUTH guard | WS-CAT-FE after contract freeze; SET lanes | `work/CAT-backend` | `feature/CAT-integration` | CAT-001 local domain implementation; formal completion blocked on docs validator; CAT-DEC-002 baseline exception. CAT-002/003 not started. |
 | WS-CAT-FE | CAT | Shop/product and admin catalog capabilities | CAT-004–CAT-005 | `src/features/catalog/**`, client tests/fixtures | `server/**` | UI; frozen CAT contract | WS-CAT-BE; SET-FE | `work/CAT-frontend` | `feature/CAT-integration` | planned |
 | WS-CAT-INT | CAT | Freeze consumer reads and verify live catalog | CAT-006 | Catalog integration/contract/E2E evidence | Unfinished BE/FE implementation | CAT-BE and CAT-FE ready | None on CAT integration paths | `feature/CAT-integration` | `main` | planned |
 | WS-SET-BE | SET | Settings schema, API, and bounded projections | SET-001 | `server/src/features/settings/**`, backend settings tests | `src/**`, other feature source | FND, AUTH guard | CAT-BE; SET-FE after freeze | `work/SET-backend` | `feature/SET-integration` | planned |
@@ -100,3 +100,8 @@ entry supersedes earlier current-state references saying AUTH-003 is not started
 Verification-matrix §27 records requested full rerun (unit 140/140, integration 71/71, lint/build/
 diff pass) and observed host cleanup. Earlier §26 cleanup blocker is resolved; original mandatory
 documentation validation remains BLOCKED / NOT RUN. AUTH-003 still blocked, no commit or next task.
+
+
+## 2026-11-04 — WS-CAT-BE bounded development
+
+Only CAT-001 is authorized and implemented under CAT-DEC-002/003; completion remains blocked on original documentation validation. Owned source: server/src/features/catalog/**. Forbidden: src/**, AUTH/HOME/CART/ORD implementation, platform internals, real environment files. No BE/FE parallel implementation or integration baseline is asserted. No next task/remote operation authorized.

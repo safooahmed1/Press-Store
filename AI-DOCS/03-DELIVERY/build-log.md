@@ -403,3 +403,18 @@ The user then explicitly requested commit/push of this task. Planned preservatio
 Original documentation validation remains BLOCKED / NOT RUN; AUTH-003 blocked and AUTH 0/5.
 Only one checkpoint/non-force push authorized, no completion/PR/merge/deployment/next task.
 Hash and push verification reported in chat, without a circular hash-recording commit.
+
+
+## 2026-11-04 — CAT-001 isolated backend domain implementation
+
+- Branch work/CAT-backend, base 7e3ca00152afc3181a1ae2eaf3beff9f7888b6f1; separate checkout /home/tarek/projects/Press-Store-CAT-backend. CAT-DEC-002/003 approved by user; A-010 is an implementation assumption.
+- Added catalog schema, exact discount/price computation, validation, classification services, transactional product/image/variant creation and availability primitive. No endpoint or frontend changes; no existing database/env used, no dependencies added.
+- Focused 14/14, full unit 148/148, full disposable-MySQL integration 77/77, zero skipped/failed. Lint/build/diff pass. Cleanup host inventory shows only unrelated system mysqld PID 1714 UID 124; no press-fnd002-mysql-* or press-cat001-images-* roots remain. System service untouched.
+- Initial focused run 12/14 failed two COUNT type expectations; corrected to DB-FND-001 BIGINT string contract, then all checks passed. Sandbox default isolated runner emitted a one-file wrapper result; the authoritative focused run used --test-isolation=none outside sandbox to observe all 14 actual cases.
+- Formal CAT-001 completion blocked: original mandatory docs validator absent, exit 2, BLOCKED / NOT RUN. No substitute/waiver. Planned subject feat(CAT-001): add catalog domain foundation; no commit created. CAT 0/6. CAT-002 not started. AUTH local changes and both original stashes remain preserved. No commit/push/merge/deploy.
+- Exact commands/results and remaining boundaries: verification-matrix CAT-001 appendix.
+
+
+## CAT-001 checkpoint publication authorization — 2026-11-04
+
+The user explicitly requested a commit and push to preserve CAT-001 as a checkpoint. Planned subject: `chore(CAT-001): checkpoint verified catalog domain foundation`, branch `work/CAT-backend`, destination `origin/work/CAT-backend`. Include only CAT-001 source/tests/migrations and its documentation. This is a preservation checkpoint, not a completion commit; original documentation validation remains BLOCKED / NOT RUN and CAT-001 stays blocked. Prior statements that publication was unauthorized are historical and superseded only for this checkpoint. No AUTH changes, CAT-002 start, PR, merge or deployment is authorized. Report the resulting hash and observed push result after execution rather than inventing evidence or making a follow-up hash-only commit.
