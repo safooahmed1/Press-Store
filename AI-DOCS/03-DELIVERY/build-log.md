@@ -418,3 +418,10 @@ Hash and push verification reported in chat, without a circular hash-recording c
 ## CAT-001 checkpoint publication authorization — 2026-11-04
 
 The user explicitly requested a commit and push to preserve CAT-001 as a checkpoint. Planned subject: `chore(CAT-001): checkpoint verified catalog domain foundation`, branch `work/CAT-backend`, destination `origin/work/CAT-backend`. Include only CAT-001 source/tests/migrations and its documentation. This is a preservation checkpoint, not a completion commit; original documentation validation remains BLOCKED / NOT RUN and CAT-001 stays blocked. Prior statements that publication was unauthorized are historical and superseded only for this checkpoint. No AUTH changes, CAT-002 start, PR, merge or deployment is authorized. Report the resulting hash and observed push result after execution rather than inventing evidence or making a follow-up hash-only commit.
+
+
+## 2026-11-04 — User-authorized CAT-002/CAT-003 checkpoint publication
+
+The user explicitly requested commit/push for both accepted tasks. Preserve each in a separate commit on work/CAT-backend, then non-force push origin/work/CAT-backend. Planned subjects: `chore(CAT-002): checkpoint verified public catalog APIs` and `chore(CAT-003): checkpoint verified admin catalog management`. These are preservation/publication checkpoints for user-accepted task records, not proof of missing mandatory validation or full feature acceptance. CAT-001 remains blocked; original docs validator BLOCKED / NOT RUN, all feature acceptance checkboxes unchanged. No PR/merge/deploy or next task authorized.
+
+CAT-002 source-only baseline was previously verified with 153 unit / 85 isolated integration checks; latest combined CAT-003 worktree verification was 161 unit / 95 isolated integration, lint/build/diff passed, no skips/failures. These observed earlier checks are preserved, not claimed rerun during publication. This first checkpoint stages public read source with its matching public-only manifest; the protected admin manifest/config/guard/parser/migration/dependency additions follow in the second checkpoint. No frontend or original AUTH checkout changes.
