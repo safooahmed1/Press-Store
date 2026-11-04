@@ -62,6 +62,7 @@ describe('foundation HTTP runtime', () => {
         assert.equal(context.database, database)
         assert.equal(context.config, config)
         assert.equal(context.appOrigin, undefined)
+        assert.equal(context.storageConfig, null)
         throw new Error('fixture composition failure')
       },
     }), /fixture composition failure/)

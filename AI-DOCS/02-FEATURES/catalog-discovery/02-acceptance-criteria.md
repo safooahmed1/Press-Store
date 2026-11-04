@@ -65,3 +65,17 @@ Gallery controls, filter drawer, selector labels/states, price semantics, admin 
 ## 2026-11-04 — CAT-001 partial evidence
 
 Schema/domain coverage is recorded in verification-matrix's CAT-001 appendix. Public/admin HTTP and UI/consumer acceptance remain later tasks; no feature Passed checkbox is checked. Original required documentation validator is unavailable, BLOCKED / NOT RUN. This does not waive the completion rule.
+
+
+## 2026-11-04 — CAT-002 partial evidence
+
+API filter matrix, safe product/classification/detail DTOs, unavailable/deleted behavior, SQL-injection literal handling, bounded query count and failure boundaries are covered by the CAT-002 verification appendix. Full UI/admin/cross-feature acceptance remains unrun; all feature Passed boxes remain unchecked. Original required documentation validation remains BLOCKED / NOT RUN.
+
+
+## 2026-11-04 — CAT-003 backend acceptance evidence only
+
+Backend admin HTTP/MySQL/upload/version/security scenarios are observed in the CAT-003 verification appendix. This supplies backend portions of AC-CAT-001/003; required frontend/admin/browser/cross-feature acceptance and hosting/recovery gates remain unrun. All feature Passed boxes remain unchecked; mandatory original documentation validation is still BLOCKED / NOT RUN.
+
+## 2026-11-04 — Current accepted task status
+
+CAT-DEC-007 records user acceptance of CAT-002/CAT-003 for task tracking (2/6 total, BE 2/3); CAT-001 remains blocked. This supersedes earlier current status statements only, not evidence or requirements. No feature acceptance checkbox is checked; original docs validation BLOCKED / NOT RUN, full feature status in-progress, not merge-ready or release-verified. Both accepted implementations remain uncommitted.

@@ -420,8 +420,36 @@ Hash and push verification reported in chat, without a circular hash-recording c
 The user explicitly requested a commit and push to preserve CAT-001 as a checkpoint. Planned subject: `chore(CAT-001): checkpoint verified catalog domain foundation`, branch `work/CAT-backend`, destination `origin/work/CAT-backend`. Include only CAT-001 source/tests/migrations and its documentation. This is a preservation checkpoint, not a completion commit; original documentation validation remains BLOCKED / NOT RUN and CAT-001 stays blocked. Prior statements that publication was unauthorized are historical and superseded only for this checkpoint. No AUTH changes, CAT-002 start, PR, merge or deployment is authorized. Report the resulting hash and observed push result after execution rather than inventing evidence or making a follow-up hash-only commit.
 
 
+## 2026-11-04 — CAT-002 public read APIs, verification passed / formal completion blocked
+
+CAT-DEC-004 authorizes this task only against published checkpoint 2c6bb4f. Implemented public products/list/detail/categories/brands, five filters, bounded pagination, exact final-price predicate, safe DTO/error behavior and three-query batched page loading. CAT-DEC-005 records the price interpretation transparently; A-011 records presentation bounds. The initial before-hook cleanup harness error was corrected in CAT-owned tests and its verified orphan runner terminated with SIGTERM only; system MySQL stayed untouched.
+
+Authoritative focused result 13/13, full unit 153/153, full disposable-MySQL integration 85/85, all zero failed/skipped; lint/build/diff passed. Exact commands/logs and cleanup evidence are in verification-matrix CAT-002 appendix. No disposable test processes/directories remain; only unrelated system mysqld PID 1714 UID 124. No existing database or server/.env accessed. No production-scale filtering/snapshot/FE acceptance claimed.
+
+CAT-002 remains blocked solely for mandatory original docs validation (script missing, BLOCKED / NOT RUN); 0/6 formal CAT tasks. Code/documentation are local and uncommitted on work/CAT-backend; planned subject feat(CAT-002): add public catalog read APIs, commit None. No new commit/push/merge/deploy or CAT-003 work. Original AUTH changes/stashes preserved separately.
+
+
+## 2026-11-04 — CAT-003 protected catalog management implemented / formal completion blocked
+
+CAT-DEC-006 / FND-DEC-011 approve bounded early development, unchanged guard transfer, validated storage context, busboy 1.6.0 and additive cat_004 coordination migration. Implemented admin product/category/brand GET/POST/PUT/DELETE, image replacement/compensation, version conflicts, history-safe deletion/variant identity preservation and serialized max-eight flags/CMD-CAT-001. CAT-002 local changes remain preserved; branch remains work/CAT-backend at 2c6bb4f.
+
+Observed final results: focused 18/18, full unit 161/161, full disposable-MySQL integration 95/95, all zero failed/skipped; lint/build/diff pass. Runtime npm audit reports zero; all existing locked package entries unchanged, only busboy/streamsearch added, no audit fix or unrelated upgrade. Exact commands/logs, initial expiry-fixture correction and multipart inclusive-boundary fixes are in verification-matrix CAT-003 appendix. No disposable processes or fixture directories remain; only unrelated system MySQL PID 1718 UID 124. Original AUTH source/package files and both stashes preserved.
+
+Formal CAT-003 status blocked solely by the original missing documentation validator (BLOCKED / NOT RUN, exit 2), CAT still 0/6; no feature acceptance checkbox changed. Full FE/INT/hosting/recovery/security gates remain open. No server/.env/existing application DB/frontend access; no commit/push/merge/deploy or next task. Planned subject feat(CAT-003): add protected admin catalog management; completion commit None. Independent-review handoff is recorded without claiming an independent review occurred.
+
+
+## 2026-11-04 — User-accepted CAT-002/CAT-003 closeout
+
+User explicitly requested closeout after the implementation/test report. CAT-DEC-007 records a task-accounting exception: both tasks done by acceptance despite original missing documentation validation and no completion commit. CAT-001 remains blocked, feature count 2/6, BE 2/3; feature in-progress. Latest actual code evidence stays 161/161 unit, 95/95 isolated integration, lint/build/diff pass. This closeout changes documentation only and runs no new code tests. Source/lock/tests untouched, all historical evidence preserved; original docs validation BLOCKED / NOT RUN. No commit/push/merge/deploy or next task authorized.
+
+
 ## 2026-11-04 — User-authorized CAT-002/CAT-003 checkpoint publication
 
 The user explicitly requested commit/push for both accepted tasks. Preserve each in a separate commit on work/CAT-backend, then non-force push origin/work/CAT-backend. Planned subjects: `chore(CAT-002): checkpoint verified public catalog APIs` and `chore(CAT-003): checkpoint verified admin catalog management`. These are preservation/publication checkpoints for user-accepted task records, not proof of missing mandatory validation or full feature acceptance. CAT-001 remains blocked; original docs validator BLOCKED / NOT RUN, all feature acceptance checkboxes unchanged. No PR/merge/deploy or next task authorized.
 
 CAT-002 source-only baseline was previously verified with 153 unit / 85 isolated integration checks; latest combined CAT-003 worktree verification was 161 unit / 95 isolated integration, lint/build/diff passed, no skips/failures. These observed earlier checks are preserved, not claimed rerun during publication. This first checkpoint stages public read source with its matching public-only manifest; the protected admin manifest/config/guard/parser/migration/dependency additions follow in the second checkpoint. No frontend or original AUTH checkout changes.
+
+
+## 2026-11-04 — Current checkpoint publication disposition
+
+CAT-DEC-008 authorizes separate CAT-002/CAT-003 checkpoint commits and non-force push. CAT-002 checkpoint is 43ebb117945afe60babd86c12a55cd4091ea1514. CAT-003 planned subject is chore(CAT-003): checkpoint verified admin catalog management; resulting hash/push confirmation are reported from Git after execution, not invented in this record. Earlier local/uncommitted/no-authorization entries remain historical and are superseded for this publication only. Task accounting remains CAT-002/003 accepted done (2/6, BE 2/3); CAT-001 blocked. Original docs validation BLOCKED / NOT RUN; feature remains in-progress, all three Passed boxes unchecked. No new code tests run for publication, no PR/merge/deploy/next task.

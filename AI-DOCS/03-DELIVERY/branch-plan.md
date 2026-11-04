@@ -37,7 +37,7 @@ FND and UI are grandfathered existing feature branches. For AUTH and later featu
 | `work/AUTH-backend` | backend | frozen AUTH integration commit | WS-AUTH-BE | AUTH-001–AUTH-003 | `feature/AUTH-integration` | backend suite and contract match; explicit merge | Created from frozen 4e92f8f; checkpoints 9b86081 / 7f3849f published. AUTH-003 uncommitted, verified under AUTH-DEC-007/008 but blocked on original validator; latest full rerun and cleanup pass (§27); no commit/push authorized. |
 | `work/AUTH-frontend` | frontend | same frozen AUTH integration commit | WS-AUTH-FE | AUTH-004 | `feature/AUTH-integration` | component/a11y/build and fixture evidence; explicit merge | planned |
 | `feature/CAT-integration` | integration | updated `main` after AUTH/UI/FND | WS-CAT-INT | CAT-006 | `main` | BE+FE ready; live CAT gate | planned |
-| `work/CAT-backend` | backend | frozen CAT integration commit | WS-CAT-BE | CAT-001–CAT-003 | `feature/CAT-integration` | backend catalog suite; explicit merge | CAT-001 local implementation, blocked completion; early baseline 7e3ca00 approved by CAT-DEC-002; no frozen CAT integration baseline claimed. |
+| `work/CAT-backend` | backend | frozen CAT integration commit | WS-CAT-BE | CAT-001–CAT-003 | `feature/CAT-integration` | backend catalog suite; explicit merge | CAT-002 checkpoint 43ebb11; CAT-003 checkpoint/push authorized under CAT-DEC-008. No feature merge/release authorization; original docs validator blocked. |
 | `work/CAT-frontend` | frontend | same frozen CAT integration commit | WS-CAT-FE | CAT-004–CAT-005 | `feature/CAT-integration` | client/a11y/responsive/build; explicit merge | planned |
 | `feature/SET-integration` | integration | updated `main` after AUTH/UI/FND | WS-SET-INT | SET-003 | `main` | BE+FE ready; live privacy/consumer gate | planned |
 | `work/SET-backend` | backend | frozen SET integration commit | WS-SET-BE | SET-001 | `feature/SET-integration` | backend settings suite; explicit merge | planned |
@@ -132,3 +132,12 @@ documentation validation remains BLOCKED / NOT RUN. AUTH-003 still blocked, no c
 ## 2026-11-04 — CAT-001 bounded baseline exception
 
 CAT-DEC-002 overrides only CAT-001's development branch creation prerequisite: work/CAT-backend starts from 7e3ca00152afc3181a1ae2eaf3beff9f7888b6f1 in /home/tarek/projects/Press-Store-CAT-backend. The normally required feature/CAT-integration frozen baseline is not claimed or created. BE/FE common-baseline freeze, explicit merges and full integration remain required later. Original AUTH checkout changes/stashes are preserved; no AUTH changes are carried into this branch. No push/deploy authorization.
+
+## 2026-11-04 — Accepted CAT-002/CAT-003 task closeout
+
+CAT-DEC-007 supersedes earlier blocked task-tracking status for CAT-002/003 only. They are accepted done, BE 2/3 and feature 2/6. CAT-001 remains blocked; implementation commits/source publication and full docs/feature/owner integration gates remain open. No next task or remote operation authorized.
+
+
+## 2026-11-04 — Current checkpoint publication disposition
+
+CAT-DEC-008 authorizes separate CAT-002/CAT-003 checkpoint commits and non-force push. CAT-002 checkpoint is 43ebb117945afe60babd86c12a55cd4091ea1514. CAT-003 planned subject is chore(CAT-003): checkpoint verified admin catalog management; resulting hash/push confirmation are reported from Git after execution, not invented in this record. Earlier local/uncommitted/no-authorization entries remain historical and are superseded for this publication only. Task accounting remains CAT-002/003 accepted done (2/6, BE 2/3); CAT-001 blocked. Original docs validation BLOCKED / NOT RUN; feature remains in-progress, all three Passed boxes unchecked. No new code tests run for publication, no PR/merge/deploy/next task.

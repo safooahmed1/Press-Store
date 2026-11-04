@@ -100,3 +100,11 @@ FND DB/HTTP/storage; AUTH admin guard; UI states/components.
 None.
 
 CAT-001 domain implementation is locally verified but formal completion remains blocked by the unavailable original documentation validator. No feature acceptance is claimed.
+
+CAT-002 public read implementation is locally verified under CAT-DEC-004; formal task completion is blocked on the same original missing documentation validator. CAT feature 0/6 formally done; no feature readiness or integration claim.
+
+CAT-003 backend management is implemented and verified under CAT-DEC-006; CAT-001/002/003 formal completion remains blocked by original documentation validation. No FE/INT/merge-readiness claimed.
+
+## 2026-11-04 — Current accepted task status
+
+CAT-DEC-007 records user acceptance of CAT-002/CAT-003 for task tracking (2/6 total, BE 2/3); CAT-001 remains blocked. This supersedes earlier current status statements only, not evidence or requirements. No feature acceptance checkbox is checked; original docs validation BLOCKED / NOT RUN, full feature status in-progress, not merge-ready or release-verified. Both accepted implementations remain uncommitted.

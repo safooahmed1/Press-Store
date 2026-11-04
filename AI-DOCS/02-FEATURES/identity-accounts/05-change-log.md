@@ -109,3 +109,8 @@ commands, logs and evidence: verification-matrix §27.
   no application test rerun for documentation/Git-only preservation. See §28 for review boundaries.
 - Original validation remains BLOCKED / NOT RUN, AUTH-003 blocked, AUTH 0/5. No completion,
   PR, merge, deployment or later task. Existing stashes and unrelated artifacts preserved.
+
+
+## 2026-11-04 — CAT-003 guard consumer handoff
+
+CAT-DEC-006 approves transfer of the existing unmodified fixed-scope AUTH guard/test into work/CAT-backend, with SHA-256 equality observed against original AUTH files. CAT consumes existing cookie/session factories and Origin boundary. No original AUTH checkout edit, auth policy change, task acceptance change or full AUTH-005 merge/security completion claim.

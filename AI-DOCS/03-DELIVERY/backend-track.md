@@ -17,7 +17,7 @@ This is the Backend developer entry point, not a second specification. Canonical
 | Order | Feature | Workstream | Tasks | Depends On | Branch | Owned Source | Current State |
 |---:|---|---|---|---|---|---|---|
 | 1 | AUTH | WS-AUTH-BE | AUTH-001–AUTH-003 | FND DB/HTTP contracts; A-005 | `work/AUTH-backend` | `server/src/features/auth/**`, `server/src/platform/auth/**`, bootstrap script | AUTH-001/002 remain blocked; AUTH-003 implemented under AUTH-DEC-007/008, blocked on original docs validator; full rerun and host cleanup passed, verification-matrix §27 |
-| 2 | CAT | WS-CAT-BE | CAT-001–CAT-003 | AUTH guard; FND DB/storage/HTTP | `work/CAT-backend` | `server/src/features/catalog/**` | CAT-001 implemented locally under CAT-DEC-002/003; completion blocked on original docs validator. CAT-002/003 not started. |
+| 2 | CAT | WS-CAT-BE | CAT-001–CAT-003 | AUTH guard; FND DB/storage/HTTP | `work/CAT-backend` | `server/src/features/catalog/**` | CAT-002/003 accepted done (CAT-DEC-007); checkpoint commit/push authorized CAT-DEC-008. CAT-002 checkpoint 43ebb11; CAT-003 pending execution record. CAT-001 blocked, validator/full gates open. |
 | 3 | SET | WS-SET-BE | SET-001 | AUTH guard; FND DB/HTTP | `work/SET-backend` | `server/src/features/settings/**` | planned; parallel-safe with CAT-BE after dependencies |
 | 4 | HOME | WS-HOME-BE | HOME-001 | CAT admin/curation contract; FND storage | `work/HOME-backend` | `server/src/features/homepage/**` | planned |
 | 5 | CART | WS-CART-BE | CART-001–CART-002 | AUTH and CAT read contracts | `work/CART-backend` | `server/src/features/cart/**` | planned; parallel-safe with HOME-BE |
@@ -55,3 +55,12 @@ documentation validation remains BLOCKED / NOT RUN. AUTH-003 still blocked, no c
 ## 2026-11-04 — CAT-001 current work
 
 User authorized CAT backend and approved CAT-DEC-002/003. CAT-001 domain implementation is local to work/CAT-backend from published backend checkpoint 7e3ca00; formal task completion blocked by original missing docs validator. CAT-002/003 not started; no frontend or remote write. See CAT backlog and verification-matrix CAT-001 appendix.
+
+## 2026-11-04 — Accepted CAT-002/CAT-003 task closeout
+
+CAT-DEC-007 supersedes earlier blocked task-tracking status for CAT-002/003 only. They are accepted done, BE 2/3 and feature 2/6. CAT-001 remains blocked; implementation commits/source publication and full docs/feature/owner integration gates remain open. No next task or remote operation authorized.
+
+
+## 2026-11-04 — Current checkpoint publication disposition
+
+CAT-DEC-008 authorizes separate CAT-002/CAT-003 checkpoint commits and non-force push. CAT-002 checkpoint is 43ebb117945afe60babd86c12a55cd4091ea1514. CAT-003 planned subject is chore(CAT-003): checkpoint verified admin catalog management; resulting hash/push confirmation are reported from Git after execution, not invented in this record. Earlier local/uncommitted/no-authorization entries remain historical and are superseded for this publication only. Task accounting remains CAT-002/003 accepted done (2/6, BE 2/3); CAT-001 blocked. Original docs validation BLOCKED / NOT RUN; feature remains in-progress, all three Passed boxes unchecked. No new code tests run for publication, no PR/merge/deploy/next task.

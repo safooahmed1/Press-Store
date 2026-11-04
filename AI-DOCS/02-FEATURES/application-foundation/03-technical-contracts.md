@@ -260,3 +260,8 @@ including values in errors; AUTH services retain normalization/password-policy o
 the explicit AUTH bootstrap CLI consumes this reader. No environment file is loaded, no ordinary
 startup configuration is changed, and DB-FND-001 remains unchanged. ESLint's existing Node files
 add only scripts/bootstrap-admin*.js. See AUTH contracts §16 and AUTH-DEC-008 for provisioning policy.
+
+
+## 2026-11-04 — CAT-003 storage-context amendment (FND-DEC-011)
+
+The existing router-factory context additionally exposes storageConfig: frozen {root} or null for test contexts with no injected storage. startServer accepts an optional storageConfig argument. Production root is taken from validated productionConfig.uploadRoot; a conflicting override is rejected. Development validation/UPLOAD_ROOT reads live only in server/src/config/catalog-storage-config.js; default follows blueprint uploads/. Test mode defaults to null even if a host UPLOAD_ROOT exists. Callers writing test images must explicitly inject a new temporary fixture root. This adds no env-file loading or second pool, and does not alter STO-FND-001 put/delete/urlFor/compensation or FND production upload serving. CAT consumes the shared adapter in its approved manifest.

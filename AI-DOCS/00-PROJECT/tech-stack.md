@@ -40,3 +40,8 @@ Commit lockfile changes with the task that adds a dependency. Pin runtime compat
 ## 6. Stack Change Gate
 
 Any new dependency needs a bounded rationale, ownership, security check, and verification. Architecture, persistence, authentication, storage, or hosting changes need an approved `DEC-*` record and explicit user approval.
+
+
+## 2026-11-04 — Approved multipart parsing dependency
+
+CAT-DEC-006 authorizes one multipart parser for CAT-003. Selected runtime dependency: busboy 1.6.0 (pinned), transitive streamsearch 1.1.0 in lockfile, verified on project Node 24 tests. FND sharp remains the image decoder/normalizer; busboy only parses a bounded authenticated request. No alternate storage/validation stack, architecture change or unrelated package upgrade. Runtime npm audit result and installation advisory limits are recorded in CAT-003 verification evidence.

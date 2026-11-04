@@ -177,3 +177,8 @@ The admin endpoints preserve API-AUTH-002's URLs and safe adminId-only DTO. Miss
 current-session authentication returns AUTH_REQUIRED (401); valid customer-only authentication
 returns FORBIDDEN (403); valid admin authentication wins when both cookies are supplied. Logout
 is idempotent and scoped. Rate limiting and reusable guards remain AUTH-005, not a passed gate.
+
+
+## 2026-11-04 — CAT-003 fixed guard consumer handoff
+
+Under user-approved CAT-DEC-006, the existing AUTH-005 fixed-scope guard and its regression test are copied unchanged into the CAT development branch; original AUTH working files are untouched. createAuthGuards({sessions,cookies}) exposes requireAdmin/requireCustomer Express middleware. Matching scoped session is authoritative and wins when both valid cookies exist; an opposite-scope-only valid cookie is 403, no valid authentication is 401, storage errors fail closed. req.auth is a frozen actor derived only from the session. CAT also reuses the existing exported mutationBoundary from AUTH customer-routes for the unchanged Origin policy. No cookie/password/session policy or full AUTH-005 security/abuse gate is changed or newly claimed passed by this consumer handoff.

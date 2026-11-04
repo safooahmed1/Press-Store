@@ -108,3 +108,11 @@
 - **Tooling:** Extend only the Node ESLint file patterns to scripts/bootstrap-admin*.js. Invoke the operational CLI directly with Node; no package script or dependency change.
 - **Consumer:** AUTH owns scripts/bootstrap-admin.js, bootstrap services/repository SQL and admin routes/tests. See AUTH-DEC-007/008. No further shared ownership is transferred.
 - **Verification:** Configuration/CLI rejection and safe-output tests, bootstrap and HTTP tests on new disposable MySQL only, existing regression suite, lint/build/diff review. Missing original documentation validation remains blocked; no completion or publishing authorization.
+
+
+## FND-DEC-011 — Bounded storage context for CAT-003
+
+- **Status:** user-approved coordinated amendment, 2026-11-04; CAT-DEC-006 records the authorization.
+- **Owned source:** server/src/app/start-server.js, server/src/config/catalog-storage-config.js, its test, and one context assertion in foundation-runtime.integration.test.js only.
+- **Behavior:** startServer optionally accepts validated storageConfig and passes the frozen root config through existing contextual feature factories. Production always uses the already validated production uploadRoot and rejects a conflicting explicit root. Development reads UPLOAD_ROOT only through config, defaulting to the documented uploads directory. Test mode has no implicit storage target and requires explicit fixture injection for file writes.
+- **Boundaries:** No second DB pool, environment-file reader, change to DB-FND-001/storage normalization/public upload serving, production origin validation or frontend. Image persistence remains lazy inside the existing FND adapter, not during router construction. Existing no-storage test contexts cannot implicitly write application uploads.

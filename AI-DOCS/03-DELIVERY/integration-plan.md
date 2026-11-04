@@ -90,3 +90,17 @@ bootstrap security semantics and Node lint coverage. API-AUTH-002 paths/DTOs rem
 No FE source/fixture or shared runtime/DB contract changes. AUTH-005 still owns rate limiting,
 reusable feature guards and full browser/security acceptance. See §26 evidence and cleanup blockers;
 AUTH-003 is not done, and neither lane/feature integration nor publication is authorized.
+
+
+## 2026-11-04 — CAT-002 public surface handoff boundary
+
+CAT-DEC-004 authorizes backend-only early development against CAT-001 checkpoint 2c6bb4f. API-CAT-001 public reads are implemented; exact shape/filters/disposition are canonical CAT contracts §15, CAT-DEC-005 and A-011. No full contract freeze, FE acknowledgement, fixture update, consumer integration or merge is claimed. Price interpretation and deployment transaction isolation/query performance remain visible for owner/integration verification. No CAT-003 or frontend work authorized.
+
+
+## 2026-11-04 — CAT-003 bounded owner handoff
+
+CAT-DEC-006/FND-DEC-011 approve only backend admin development and bounded AUTH guard/FND storage-context seams. Canonical API/transport and CMD-CAT-001 details are CAT contracts §16. All three CAT backend implementations are local/published as explicitly recorded, but formal completion gates remain blocked on original docs validator. FE owner acknowledgement/fixtures, browser/proxy/upload serving, full CAT-006 consumer/security/history/recovery/hosting validation and normal integration baseline/merges remain open. No merge or source publication inferred.
+
+## 2026-11-04 — Acceptance does not satisfy CAT integration gates
+
+CAT-DEC-007 closes CAT-002/CAT-003 task tracking by user acceptance. CAT-001 remains blocked, and frozen owner integration/source publication, FE/browser/consumer/security/hosting/recovery/validator gates remain open. No ready-for-integration or merge-ready claim; no merge authorization.
