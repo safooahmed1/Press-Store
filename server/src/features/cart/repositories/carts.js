@@ -4,6 +4,21 @@ import { CartError, identity, MAX_CART_VERSION } from '../services/cart-input.js
 export function createCartRepository(database) {
   if (typeof database?.transaction !== 'function') throw new TypeError('Cart database required')
   return Object.freeze({
+    async lockForCheckout(tx, customerId) {
+      const [cart] = await tx.query(`SELECT cart_id AS cartId, version FROM carts
+        WHERE customer_id = ? FOR UPDATE`, [customerId])
+      if (!cart) return null
+      const items = await tx.query(`SELECT cart_item_id AS cartItemId, variant_id AS variantId, quantity
+        FROM cart_items WHERE cart_id = ? ORDER BY cart_item_id LIMIT 101 FOR UPDATE`, [cart.cartId])
+      return { cart, items }
+    },
+    async clearForCheckout(tx, { customerId, cartId, version }) {
+      const result = await tx.query(`UPDATE carts SET version = version + 1, updated_at = UTC_TIMESTAMP(6)
+        WHERE cart_id = ? AND customer_id = ? AND version = ? AND version < ?`,
+      [cartId, customerId, version, MAX_CART_VERSION])
+      if (result.affectedRows !== 1) throw new CartError('CART_CONFLICT')
+      await tx.query('DELETE FROM cart_items WHERE cart_id = ?', [cartId])
+    },
     async withLockedCart(customerId, work) {
       identity(customerId, 'customerId')
       return database.transaction(async (tx) => {

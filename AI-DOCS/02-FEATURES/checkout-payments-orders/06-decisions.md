@@ -1,5 +1,16 @@
 # Decisions — Checkout, Payments, and Orders
 
+## ORD-DEC-003 — Acknowledge CART-002 transaction handoff contract
+
+- **Status:** `approved`
+- **Date:** 2026-11-06
+- **Decision:** Under the user's approved CART-002/CAT locking amendment, coordinate the future
+  ORD consumer with CART's canonical read/clear contract and transaction-bound snapshot.
+- **Consequences:** Keep ORD-002/003 unstarted. Future implementation must compare its accepted
+  quote to fresh locked data, insert idempotent immutable history, then consume the exact cart
+  snapshot in the same transaction. No ORD business-rule, API or implementation change here.
+- **Affected contracts/tasks:** READ-CART-001, CMD-CART-001; ORD-002/003 future consumers.
+
 ## ORD-DEC-001 — Manual electronic verification and paid retention
 
 - **Status:** `approved`

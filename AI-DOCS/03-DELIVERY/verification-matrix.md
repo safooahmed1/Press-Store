@@ -1056,3 +1056,114 @@ mandatory documentation validation remains BLOCKED / NOT RUN: CART-001 stays blo
 feat(CART-001): add persistent customer cart APIs. No acceptance Passed box is promoted;
 CART-002 (including CAT-006 dependency), checkout readiness, ORD handoff, FE/INT, production
 DB migration, commit/checkpoint, push, PR, merge or deployment is claimed/started.
+
+
+## CART-002 verification appendix — 2026-11-06 early backend development
+
+### Approved preflight and source scope
+
+User explicitly approved the proposed development exception and CAT checkout-lock amendment.
+CART-DEC-005/CAT-DEC-013/ORD-DEC-003 document that authorization. Selected task CART-002, lane
+WS-CART-BE, expected/current branch work/CART-backend. The existing uncommitted verified CART-001
+and CAT-DEC-012 work was inventoried and preserved. CART-001/CAT-006 formal completion and the
+original documentation gate are not waived. This is not a new frozen integration baseline.
+
+Owned runtime delta for this task: new cart/services/checkout-carts.js; added checkout methods in
+cart/repositories/carts.js; bounded CAT checkout service/repository method and shared validation/
+projection helpers preserving the display method; new cart-checkout unit/MySQL tests and two CAT
+locking unit cases. CART/CAT canonical and ORD consumer docs plus named delivery/requirement
+pointers are coordinated. No ORD implementation, HTTP endpoint, FE, AUTH/FND implementation,
+new schema/migration, dependency/lock/config, old migration, other worktree or existing DB/env edit.
+
+Before-source copies of the three extended runtime files are under /tmp/press-cart002-before.
+Their SHA256 values before this task were: cart repository
+793437c1962eb01c54775dc9ecde05eaf4cd3cc32c67e90229bc406adfd7aafb; CAT repository
+75c2679944349defca27ebcf0717ed99173aa0ed4ac775d2828c802cd811b2cd; CAT service
+5e37e588c1eae76d5199e6533c7dd4924cb0197a080b694a13ba97fd732da9c6.
+Reviewed task-only comparisons against those copies alongside the complete worktree diff.
+
+Acceptance scope: AC-CART-002 backend current price/availability, rejection of empty/unavailable
+carts, exact version and transaction-bound clear, customer isolation, rollback and concurrency
+without stock mutation. Public CRUD remains unchanged; full feature/browser/ORD integration is not run.
+
+### Exact commands and observed final results
+
+Default cwd /home/tarek/.codex/worktrees/cart-backend/Press-Store. MySQL and Vite commands were
+approved outside sandbox where needed. Only fresh disposable MySQL fixtures and synthetic
+customer/product data were used; server/.env and existing application DBs were not accessed.
+
+| Check | Exact command/procedure | Observed result | Evidence |
+|---|---|---|---|
+| Focused unit/contracts | node --test server/src/features/cart/services/cart-checkout.test.js server/src/features/catalog/services/catalog-variants.test.js | PASS 13/13, 3 suites, zero failures/skips; includes six new CART and two new CAT cases plus five existing display-contract cases | /tmp/press-cart002-focused-unit.log |
+| Focused actual MySQL | FND_DISPOSABLE_MYSQL_TESTS=1 node --test server/src/features/cart/services/cart-checkout.integration.test.js | PASS 13/13, 1 suite, zero failures/cancellations/skips | /tmp/press-cart002-focused-integration.log |
+| Full unit | npm run test | PASS 179/179, 37 suites, no failures/skips | /tmp/press-cart002-full-unit.log |
+| Full actual-MySQL integration | FND_DISPOSABLE_MYSQL_TESTS=1 npm run test:integration | PASS 129/129, 23 suites, zero failures/cancellations/skips | cwd /tmp/press-cart002-verification-j88k46z_; /tmp/press-cart002-full-integration.log |
+| Lint | npm run lint | PASS exit 0 | /tmp/press-cart002-lint.log |
+| Build | npm run build | PASS exit 0, Vite 8.3.5, 78 modules | /tmp/press-cart002-build.log |
+| Diff/new-file review | git diff --check plus all 15 new CART/CAT contract files scanned for whitespace | PASS, no trailing whitespace or scope drift | final review/status |
+| Typecheck | No script exists | NOT AVAILABLE; existing JavaScript stack unchanged | package script surface |
+| Original docs validator | python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py . | exit 2, original file absent; BLOCKED / NOT RUN, not waived or replaced | observed missing-file error |
+| Host cleanup | ps -C mysqld -o pid,uid,args and test-directory inventory | Only unrelated /usr/sbin/mysqld PID 1713 UID 124; no disposable MySQL roots/processes or cart live-image roots | approved read-only host inventory |
+
+The non-hidden source mirror is byte-verified for 290 tracked/new task files, unchanged dependencies
+and the built dist. Snapshot SHA256 over ordered names/bytes:
+c39f21c1021b77e32516d3b787ea2f191c58d353462ade0b6563de24b90917b8. Metadata at
+/tmp/press-cart002-mirror.json. Runtime/test source stayed unchanged through the final full run;
+only final documentation annotations follow that snapshot. This avoids the previously reproduced
+FND .codex build-root static-serving issue without editing FND or claiming that path behavior passes.
+
+### Actual behavior and concurrency proofs
+
+- The trusted service receives only the caller transaction; no pool handle, separate transaction
+  or HTTP session override. Customer identity/version inputs and limits are validated. Missing/
+  empty/other-customer carts do not mint a snapshot or lazily create a checkout cart.
+- Frozen snapshots use CAT current final unit price and product metadata; exact base/final sums
+  are bounded safe JSON integers. Free discounts work; unsafe base subtotal rejects without clear.
+- Shared CAT product locks precede variant locks. Competing real FOR UPDATE NOWAIT probes against
+  cart, product and variant rows fail while the handoff holds them; identical queries succeed after
+  outer commit. This confirms blocking/release rather than a SQL syntax/privilege failure.
+- An existing old consistent-read snapshot does not supply stale prices: a separate CAT owner
+  service commits a price change, then checkout's current locking reads observe the new value.
+  Removed variants and soft-deleted products reject readiness with VARIANT_UNAVAILABLE.
+- Original snapshots are bound by WeakMap to service instance and transaction; cloned, forged,
+  cross-transaction, cross-instance, replayed and finished-transaction use cannot clear a cart.
+- Clear checks owner/cart/version, increments version once and deletes that cart's rows in the
+  caller transaction. A consumer exception after clear restores the full cart/version. A later
+  caught SQL constraint failure still prevents commit and restores it under DB-FND-001.
+- An old-tab mutation conflicts after consumption. A mutation committed first makes readiness
+  reject the stale version. No updates are lost or silently applied to a newer cart.
+- A 100-line cart read uses exactly five domain queries: cart, items, parent mapping, products,
+  variants. No N+1 catalog reads, numeric inventory, CAT write or ORD row is introduced.
+
+Re-read CART-002/AC-CART-002 and all linked caller/owner contracts after implementation. Reviewed
+complete prior/new source and docs for money, ownership, bounded SQL, lock order, stale snapshots,
+rollback, expired transaction handles, safe errors, debug artifacts and scope drift. Existing
+display projections and public CRUD are retained and exercised by the full regression suite.
+This is implementation self-review, not an independent agent review.
+
+### Limits, formal status and stop
+
+CART-002 backend code/tests are verified under the explicit development exception. Formal task
+completion remains blocked by CART-001/CAT-006 prerequisites and missing original docs validation.
+Feature 0/4, BE 0/2 complete; task statuses remain blocked, not ready-for-integration or merge-ready.
+Future ORD must compare accepted quotes and persist orders/idempotency before consuming the
+original snapshot; no production order/quote/idempotency implementation or end-to-end ORD pass
+is claimed. No UI/FE/INT acceptance checkbox, production concurrency/load/proxy/hosting acceptance
+or worktree-path FND static-serving pass. No application DB migration, new commit/checkpoint,
+push, PR, merge, deployment or next task. Planned subject remains
+feat(CART-002): add transactional cart checkout handoff; completion commit None.
+
+
+## 2026-11-06 — CART checkpoint execution disposition
+
+CART-001 preservation checkpoint is 8209be1bd256d13fbed49f0716bf4638262d1f27; its runtime/test source is the previously verified
+CART-001 snapshot (171 full unit / 116 mirror integration). It was staged from that snapshot
+without overwriting the current CART-002 worktree.
+CART-002 planned checkpoint: chore(CART-002): checkpoint verified transactional cart handoff.
+The final runtime/test source retains the 179-unit / 129-mirror-integration and focused proof
+evidence in the CART-002 appendix, unchanged for this documentation/Git-only publication.
+No application test rerun claimed. Both tasks remain blocked; no completion/validator/feature pass.
+Read-only git ls-remote found no origin/work/CART-backend or origin/feature/CART-integration.
+Publish the work branch non-force; do not create the missing integration baseline or choose an
+alternate PR target. Branch-plan's PR policy remains required for later remote integration.
+Actual second hash and push verification are reported after execution, with no circular follow-up commit.

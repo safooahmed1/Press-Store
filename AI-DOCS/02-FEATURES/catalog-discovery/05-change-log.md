@@ -41,3 +41,11 @@ CAT-DEC-007 records requested task-tracking closeout of both implemented/tested 
 ## 2026-11-04 — Current checkpoint publication disposition
 
 CAT-DEC-008 authorizes separate CAT-002/CAT-003 checkpoint commits and non-force push. CAT-002 checkpoint is 43ebb117945afe60babd86c12a55cd4091ea1514. CAT-003 planned subject is chore(CAT-003): checkpoint verified admin catalog management; resulting hash/push confirmation are reported from Git after execution, not invented in this record. Earlier local/uncommitted/no-authorization entries remain historical and are superseded for this publication only. Task accounting remains CAT-002/003 accepted done (2/6, BE 2/3); CAT-001 blocked. Original docs validation BLOCKED / NOT RUN; feature remains in-progress, all three Passed boxes unchecked. No new code tests run for publication, no PR/merge/deploy/next task.
+
+
+## 2026-11-06 — CART-002 checkout locking read
+
+CAT-DEC-013 approves bounded current locking reads on the caller transaction, products before
+variants, plus product/base/discount metadata for future order snapshots. Existing display reads
+and CAT HTTP/money/write behavior are preserved. No stock, new pool, migration or feature-
+completion claim. Focused unit and real-MySQL locking/concurrency evidence is recorded under CART-002.

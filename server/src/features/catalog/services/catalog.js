@@ -1,5 +1,19 @@
 import { CatalogError, exactFields, text, productInput, calculateFinalPrice, identity } from './catalog-input.js'
 
+function variantIdsForRead(variantIds, tx) {
+  if (!Array.isArray(variantIds) || variantIds.length > 100) throw new CatalogError('VALIDATION_FAILED')
+  const ids = Array.from(variantIds, (id) => identity(id))
+  if (new Set(ids).size !== ids.length) throw new CatalogError('VALIDATION_FAILED')
+  if (typeof tx?.query !== 'function') throw new TypeError('Catalog consumer transaction required')
+  return ids
+}
+
+function variantProjection(row) {
+  return { variantId: row.variantId, productId: row.productId, color: row.color, size: row.size,
+    finalPriceMinor: calculateFinalPrice(Number(row.priceMinor), row.discountPercent),
+    isAvailable: Boolean(Number(row.isAvailable)) }
+}
+
 // Server-internal domain surface only. CAT-003 owns HTTP/auth and mutation adapters.
 export function createCatalogService({ repository, storage }) {
   async function withImages(uploads, operation, paths = []) {
@@ -11,16 +25,18 @@ export function createCatalogService({ repository, storage }) {
   return Object.freeze({
     // READ-CAT-001: join the consumer transaction, including retained unavailable variants.
     async readVariants(variantIds, tx) {
-      if (!Array.isArray(variantIds) || variantIds.length > 100) throw new CatalogError('VALIDATION_FAILED')
-      const ids = Array.from(variantIds, (id) => identity(id))
-      if (new Set(ids).size !== ids.length) throw new CatalogError('VALIDATION_FAILED')
-      if (typeof tx?.query !== 'function') throw new TypeError('Catalog consumer transaction required')
+      const ids = variantIdsForRead(variantIds, tx)
       if (!ids.length) return []
       const rows = await repository.readVariants(ids, tx)
-      return rows.map((row) => ({ variantId: row.variantId, productId: row.productId,
-        color: row.color, size: row.size,
-        finalPriceMinor: calculateFinalPrice(Number(row.priceMinor), row.discountPercent),
-        isAvailable: Boolean(Number(row.isAvailable)) }))
+      return rows.map(variantProjection)
+    },
+    async readVariantsForCheckout(variantIds, tx) {
+      const ids = variantIdsForRead(variantIds, tx)
+      if (typeof tx.transaction === 'function') throw new TypeError('Catalog transaction-only handle required')
+      if (!ids.length) return []
+      const rows = await repository.readVariantsForCheckout(ids, tx)
+      return rows.map((row) => ({ ...variantProjection(row), productName: row.productName,
+        priceMinor: Number(row.priceMinor), discountPercent: Number(row.discountPercent) }))
     },
     async createBrand(input) {
       exactFields(input, ['name'])

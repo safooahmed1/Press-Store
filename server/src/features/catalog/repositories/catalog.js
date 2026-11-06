@@ -13,6 +13,28 @@ function classification(kind) {
 
 export function createCatalogRepository(database) {
   return Object.freeze({
+    async readVariantsForCheckout(variantIds, tx) {
+      const placeholders = variantIds.map(() => '?').join(', ')
+      // Variant ownership is immutable. This lookup establishes the parent lock set only;
+      // price, deletion and availability below come from current locking reads, not a snapshot.
+      const parents = await tx.query(`SELECT DISTINCT product_id AS productId FROM product_variants
+        WHERE variant_id IN (${placeholders}) ORDER BY product_id`, variantIds)
+      if (!parents.length) return []
+      const productIds = parents.map((row) => row.productId)
+      const products = await tx.query(`SELECT product_id AS productId, name AS productName,
+        price_minor AS priceMinor, discount_percent AS discountPercent, deleted_at AS deletedAt
+        FROM products WHERE product_id IN (${productIds.map(() => '?').join(', ')}) ORDER BY product_id FOR SHARE`, productIds)
+      const variants = await tx.query(`SELECT variant_id AS variantId, product_id AS productId,
+        color, size, is_available AS isAvailable FROM product_variants
+        WHERE variant_id IN (${placeholders}) ORDER BY variant_id FOR SHARE`, variantIds)
+      const byProduct = new Map(products.map((row) => [row.productId, row]))
+      return variants.flatMap((variant) => {
+        const product = byProduct.get(variant.productId)
+        return product ? [{ ...variant, productName: product.productName, priceMinor: product.priceMinor,
+          discountPercent: product.discountPercent,
+          isAvailable: Number(variant.isAvailable) === 1 && !product.deletedAt ? 1 : 0 }] : []
+      })
+    },
     async readVariants(variantIds, tx) {
       const placeholders = variantIds.map(() => '?').join(', ')
       return tx.query(`SELECT v.variant_id AS variantId, p.product_id AS productId,

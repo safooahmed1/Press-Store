@@ -498,6 +498,26 @@ CART-002/FE/INT and all publication/deployment remain untouched. Exact logs, sco
 and the existing .codex static-serving limitation: activation verification appendix.
 
 
+## 2026-11-06 — CART-002 approved early development
+
+User explicitly approved proceeding against the verified local CART-001/CAT baseline despite
+open CART-001 tooling and CAT-006 gates. Selected CART-002 BE only on work/CART-backend.
+CART-DEC-005/CAT-DEC-013/ORD-DEC-003 specify readiness, current locking CAT reads and transaction-
+bound exact clear, with consumer documentation only for ORD. Existing work preserved. No frontend,
+ORD implementation, platform/schema/dependency/config, existing DB/env, commit or remote change.
+Verification pending; original documentation validator remains missing, not waived.
+
+
+### CART-002 final backend verification and stop
+
+Focused units/contracts 13/13, focused actual-MySQL 13/13, full unit 179/179 and byte-verified
+non-hidden source-mirror integration 129/129 pass with zero failures/skips. Lint/build/whitespace
+and host cleanup pass. Current locking reads, transaction-bound immutable snapshots, exact
+version clear, rollback and bounded queries verified; no frontend or ORD code added.
+Original validator missing and CART-001/CAT-006 formal dependencies remain open; CART-002 blocked,
+no completion/checkpoint commit or publication. Exact scope/logs/limitations: CART-002 appendix.
+
+
 ## 2026-11-06 — User-authorized CART checkpoint publication
 
 CART-DEC-006 records the explicit request to save and upload CART backend work. Preserve CART-001
@@ -510,3 +530,18 @@ retained, not claimed rerun for publication. No frontend or unrelated worktree c
 PR-based remote integration still requires the documented feature/CART-integration baseline and
 gates; no new integration branch, alternate merge target, merge, deployment or release is created.
 Actual Git hashes and push confirmation follow execution, without a self-referencing follow-up commit.
+
+
+## 2026-11-06 — CART checkpoint execution disposition
+
+CART-001 preservation checkpoint is 8209be1bd256d13fbed49f0716bf4638262d1f27; its runtime/test source is the previously verified
+CART-001 snapshot (171 full unit / 116 mirror integration). It was staged from that snapshot
+without overwriting the current CART-002 worktree.
+CART-002 planned checkpoint: chore(CART-002): checkpoint verified transactional cart handoff.
+The final runtime/test source retains the 179-unit / 129-mirror-integration and focused proof
+evidence in the CART-002 appendix, unchanged for this documentation/Git-only publication.
+No application test rerun claimed. Both tasks remain blocked; no completion/validator/feature pass.
+Read-only git ls-remote found no origin/work/CART-backend or origin/feature/CART-integration.
+Publish the work branch non-force; do not create the missing integration baseline or choose an
+alternate PR target. Branch-plan's PR policy remains required for later remote integration.
+Actual second hash and push verification are reported after execution, with no circular follow-up commit.

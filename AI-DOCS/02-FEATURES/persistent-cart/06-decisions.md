@@ -1,5 +1,19 @@
 # Decisions — Persistent Cart
 
+## CART-DEC-005 — Approved early CART-002 development and handoff contract
+
+- **Status:** `approved`
+- **Date:** 2026-11-06
+- **Decision:** User approved developing CART-002 against the existing verified local CART-001
+  and CAT read baseline despite CART-001's missing-validator gate and unfinished CAT-006.
+  Approve CAT-DEC-013's locking read and the CART/ORD consumer contract coordination below.
+- **Consequences:** Development dependency exception only. Preserve all existing uncommitted
+  CART-001 work on work/CART-backend, feature/task acceptance and original validation gates.
+  No FE, ORD implementation, schema migration, platform/dependency change, commit/checkpoint,
+  push, merge or deployment is implied. Only fresh disposable MySQL fixtures may be used.
+- **Affected contracts/tasks:** READ-CART-001, CMD-CART-001, READ-CAT-001; CART-002. Canonical
+  callable shape, transaction lifetime, exact totals and error semantics are in technical contracts §16.
+
 ## CART-DEC-004 — Resume real CAT linking and backend activation
 
 - **Status:** `approved`

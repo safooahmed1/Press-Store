@@ -112,3 +112,12 @@ CAT-DEC-006/FND-DEC-011 approve only backend admin development and bounded AUTH 
 ## 2026-11-04 — Acceptance does not satisfy CAT integration gates
 
 CAT-DEC-007 closes CAT-002/CAT-003 task tracking by user acceptance. CAT-001 remains blocked, and frozen owner integration/source publication, FE/browser/consumer/security/hosting/recovery/validator gates remain open. No ready-for-integration or merge-ready claim; no merge authorization.
+
+
+## 2026-11-06 — CART-002 coordinated backend handoff
+
+CART-DEC-005/CAT-DEC-013/ORD-DEC-003 record the approved early developer exception and the
+owner/consumer callable contract. CAT owns current checkout locking reads; CART owns ready-cart
+snapshots/exact clear; future ORD must compose both inside its transaction. No HTTP/FE contract
+change, order code or full INT/feature acceptance. Verify locks, races, rollback and bounded queries
+against fresh MySQL fixtures. Preserve all earlier failed/unrun evidence and completion gates.

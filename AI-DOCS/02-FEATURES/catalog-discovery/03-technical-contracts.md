@@ -146,6 +146,29 @@ Money, availability, variant identity, flags, image limits, or public DTO change
 
 None.
 
+### READ-CAT-001 checkout locking read — CAT-DEC-013
+
+Approved for early CART-002 backend development on 2026-11-06. Add
+`createCatalogService({repository}).readVariantsForCheckout(variantIds, tx)` alongside the
+unchanged display reader. Inputs use the same 0–100 distinct canonical BIGINT string bounds.
+Require the caller's active DB-FND-001 transaction-only handle; a database/pool handle or missing
+handle is rejected. Empty IDs issue no SQL. No nested transaction or separate connection.
+
+CAT owns a bounded read sequence: map immutable variant identities to product IDs, lock those
+products in ascending primary-key order with FOR SHARE, then lock selected variants in ascending
+primary-key order with FOR SHARE. At most three batch queries, not one per variant. Product and
+variant locking reads obtain current committed values even if the caller previously established
+an older consistent-read snapshot. Locks remain until the outer transaction commits/rolls back.
+Admin product edits already lock product before variants; no curation lock or CAT write is added.
+Variant-to-product identity is immutable in existing CAT operations.
+
+Rows extend the display projection with productName, priceMinor and discountPercent, while
+retaining finalPriceMinor and isAvailable. Exact price rounding remains CAT-DEC-003. Unknown
+IDs are omitted, inactive or soft-deleted-product rows have isAvailable:false. This supplies
+metadata for ORD's future immutable snapshots; no order/quote/payment implementation is added.
+Lock/query errors propagate safely through DB-FND-001; never retry mutations automatically.
+CAT-006/full integration/hosting/deadlock-load gates and original docs validation remain open.
+
 ### READ-CAT-001 batch consumer contract — CAT-DEC-012
 
 Approved for CART-001 backend activation on 2026-11-06. The existing single-variant

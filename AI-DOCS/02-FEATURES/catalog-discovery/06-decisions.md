@@ -1,5 +1,18 @@
 # Decisions — Catalog and Discovery
 
+## CAT-DEC-013 — CART-002 transaction-scoped checkout read locks
+
+- **Status:** `approved`
+- **Date:** 2026-11-06
+- **Decision:** User approved early CART-002 development and the required CAT checkout-locking
+  amendment after the dependency/ownership preflight. Add the bounded service/repository read
+  described in READ-CAT-001, plus focused real-MySQL concurrency proofs.
+- **Consequences:** Hold shared product/variant locks through the caller's outer transaction;
+  preserve current display-read behavior and existing CAT write lock order. Add snapshot metadata
+  without changing HTTP/FE contracts, money calculation, numeric stock or any old migration.
+  This is not CAT-006 completion, a release gate waiver or permission to implement orders.
+- **Affected contracts/tasks:** READ-CAT-001; CART-002; future ORD-002/003 consumer documentation only.
+
 ## CAT-DEC-012 — CART-001 bounded current-variant batch projection
 
 - **Status:** `approved`

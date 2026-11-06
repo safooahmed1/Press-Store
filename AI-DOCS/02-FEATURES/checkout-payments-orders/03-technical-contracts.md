@@ -172,3 +172,14 @@ Money, order snapshots, payment/fulfillment states, idempotency, expiry, or owne
 ## 13. Assumptions and TODOs
 
 A-001 remains pending and must be confirmed or explicitly accepted at ORD-008 preflight.
+
+## 14. CART-002 consumer coordination — ORD-DEC-003
+
+User-approved CART-DEC-005/CAT-DEC-013 early backend development supplies READ-CART-001 and
+CMD-CART-001 as defined canonically in persistent-cart/03-technical-contracts.md §16.
+Future ORD-002/003 must pass its active DB-FND-001 transaction, a session-derived customer ID
+and the expected cart version. Use the fresh locked snapshot for quote comparison and immutable
+items/money, then call clearForCheckout with that exact snapshot after successful insertion.
+Cart selection version alone cannot detect price/discount changes. Order idempotency belongs to
+ORD; replay its stored result without consuming a later cart. Do not swallow transaction failures.
+No ORD schema, code, endpoint, quote fingerprint or payment/expiry policy is implemented here.

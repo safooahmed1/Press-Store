@@ -46,7 +46,7 @@ FND and UI are grandfathered existing feature branches. For AUTH and later featu
 | `work/HOME-backend` | backend | frozen HOME integration commit | WS-HOME-BE | HOME-001 | `feature/HOME-integration` | backend HOME suite; explicit merge | planned |
 | `work/HOME-frontend` | frontend | same frozen HOME integration commit | WS-HOME-FE | HOME-002–HOME-003 | `feature/HOME-integration` | client/a11y/responsive/build; explicit merge | planned |
 | `feature/CART-integration` | integration | updated `main` after CAT/AUTH/UI | WS-CART-INT | CART-004 | `main` | BE+FE ready; live CART gate | planned |
-| `work/CART-backend` | backend | frozen CART integration commit | WS-CART-BE | CART-001–CART-002 | `feature/CART-integration` | backend cart suite; explicit merge | planned |
+| `work/CART-backend` | backend | frozen CART integration commit | WS-CART-BE | CART-001–CART-002 | `feature/CART-integration` | backend cart suite; explicit merge | Local development baseline a6603ca under CART-DEC-002; task checkpoints/non-force branch publication authorized CART-DEC-006. Not merge-ready; exact integration target remains required. |
 | `work/CART-frontend` | frontend | same frozen CART integration commit | WS-CART-FE | CART-003 | `feature/CART-integration` | client/responsive/build; explicit merge | planned |
 | `feature/ORD-integration` | integration | updated `main` after CART/SET | WS-ORD-INT | ORD-005, ORD-008 | `main` | BE+FE ready; live order E2E; A-001 | planned |
 | `work/ORD-backend` | backend | frozen ORD integration commit | WS-ORD-BE | ORD-001–ORD-003, ORD-006, ORD-009, ORD-011 | `feature/ORD-integration` | backend order/payment/job suite; explicit merge | planned |
@@ -157,6 +157,14 @@ CART-DEC-004 supersedes only the earlier linking stop: continue the same work/CA
 and approved a6603ca baseline with CAT-DEC-012's bounded owner amendment. No new branch,
 cross-worktree merge, remote operation or formal frozen integration baseline. CART-002/FE/INT
 remain unauthorized; original documentation and completion gates remain required.
+
+
+## 2026-11-06 — CART-002 approved early backend continuation
+
+Continue work/CART-backend with its existing local verified CART-001 and CAT amendments intact.
+CART-DEC-005 approves development only despite CART-001/CAT-006 formal gates. No branch creation,
+freeze, cross-worktree transfer or merge. Planned subject: feat(CART-002): add transactional cart
+checkout handoff. No completion commit until all task gates pass; no incomplete checkpoint authorized.
 
 
 ## 2026-11-06 — User-authorized CART checkpoint publication

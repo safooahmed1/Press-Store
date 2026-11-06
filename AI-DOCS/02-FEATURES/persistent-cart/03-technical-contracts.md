@@ -17,8 +17,8 @@
 | Contract ID | Type | Name | Consumers | Canonical Section |
 |---|---|---|---|---|
 | API-CART-001 | API | Current customer's cart CRUD | Cart/Product Details UI | §3 |
-| READ-CART-001 | service | Lock and read checkout-ready customer cart | ORD | §4 |
-| CMD-CART-001 | service | Clear exact cart version after order creation | ORD | §4 |
+| READ-CART-001 | service | Lock and read checkout-ready customer cart | ORD | §4, §16 |
+| CMD-CART-001 | service | Clear exact cart version after order creation | ORD | §4, §16 |
 
 **Consumes**
 | Contract ID | Owner Feature | Used By | Required Version/Behavior |
@@ -192,3 +192,42 @@ No migration is run on application startup or against an existing application da
 The quantity/version/response/error rules from §14 remain effective. Checkout readiness and ORD
 transactional handoff still belong to CART-002; no FE/browser/full-feature or CAT-006 pass is claimed.
 Original mandatory documentation validation remains an open completion gate.
+
+## 16. CART-002 readiness and transactional handoff — CART-DEC-005
+
+Approved early backend development only; CART-001 and CAT-006 formal gates remain open.
+`createCartCheckoutService({database})` composes the CART repository and CAT-DEC-013 service.
+No new HTTP endpoint is added and API-CART-001 remains unchanged. These methods are trusted
+server-only interfaces for the future ORD caller, whose customer ID must come from AUTH.
+
+- READ-CART-001: `readForCheckout(tx, {customerId, expectedCartVersion})` uses an existing active
+  DB-FND-001 transaction-only handle; no pool handle/nested transaction. Inputs reject extra
+  fields, noncanonical IDs and invalid versions. Lock the existing customer-owned cart and its
+  bounded items FOR UPDATE; do not lazily create a cart for checkout. Missing/empty cart is
+  CART_EMPTY, stale/exhausted version is CART_CONFLICT. Revalidate positive bounded quantities,
+  unique variants/line count and current CAT data under CAT's product/variant shared locks.
+  Missing/inactive/deleted variants are VARIANT_UNAVAILABLE; invalid provider data fails closed.
+- Return a deeply frozen snapshot: cartId, numeric version, items and subtotalMinor/discountMinor/
+  totalMinor. Items contain cartItemId/productId/productName/variantId/color/size/quantity,
+  priceMinor/discountPercent/currentUnitPriceMinor. CAT alone calculates final unit prices.
+  Exact integer sums use per-unit final prices multiplied by quantities; discountMinor is base
+  subtotal minus final total. Reject unsafe JSON subtotal/total rather than rounding/truncating.
+- CMD-CART-001: `clearForCheckout(tx, snapshot)` accepts only the original snapshot produced
+  by this service instance on that same transaction. Cloned/forged/cross-transaction/replayed
+  snapshots are CART_CONFLICT. It checks the locked cart's owner/ID/version, advances version
+  once, and deletes only that cart's items. No new transaction or independent commit. The caller
+  must insert its order/items/idempotency result before this command and must propagate failures.
+  A rollback after clear restores the entire cart/version; a finished transaction cannot clear later.
+- Selection version is not a price/quote fingerprint. ORD must compare its accepted quote against
+  the fresh snapshot before order insertion; ORD owns QUOTE_CHANGED and idempotent order replay.
+  Replaying an order must return its stored result, never clear a later replacement cart.
+- Lock order: customer cart, its items, CAT products in ID order, CAT variants in ID order.
+  The cart lock prevents another tab mutating rows during handoff. CAT locks prevent price,
+  availability or soft-delete changes until outer commit/rollback. No stock field/write or
+  reservation is introduced. Lock errors fail the transaction without blind retries.
+
+Errors are server-domain CartError codes: CART_EMPTY, CART_CONFLICT, VARIANT_UNAVAILABLE,
+VALIDATION_FAILED and CATALOG_UNAVAILABLE. ORD owns their eventual HTTP mapping; no new
+public API transport contract is invented. Input/transaction misuse is rejected before writes.
+Tests may simulate the consumer transaction and rollback; no ORD tables or production order
+implementation are created. Full feature/FE/INT, CAT-006 and original docs validation remain required.

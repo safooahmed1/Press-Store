@@ -169,3 +169,11 @@ REQ-CART-004/005 completion or CAT-006 waiver is implied.
 | Requirements with exactly one owner | 145 |
 | Requirements mapped to one or more tasks | 145 |
 | Initial status `planned` | 145 |
+
+
+## 2026-11-06 — CART-002 backend evidence pointer
+
+REQ-CART-003/004/005 retain their existing requirements and owners. Approved early CART-002
+implementation under CART-DEC-005 supplies transaction-scoped readiness/clear and tests only;
+feature/FE/INT acceptance remains separate. See the CART-002 verification appendix for observed
+results and open gates. No numeric inventory or new business requirement is introduced.
