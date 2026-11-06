@@ -1,5 +1,15 @@
 # Change Log — Catalog and Discovery
 
+## 2026-11-06 — READ-CAT-001 batch consumer amendment for CART-001
+
+CAT-DEC-012 authorizes the additive service/repository projection on the caller transaction,
+including retained inactive/deleted-product variants and exact existing price calculation.
+Added focused validation/query-bound tests and actual-MySQL transaction-local read/rollback proofs.
+Adjusted only the admin migration-upgrade test's historical prefix for later CART discovery.
+No CAT HTTP API, frontend, stock model, existing migration/history or other worktree changed.
+This does not complete CAT-006 or waive original documentation validation. Evidence: CART-001
+real-backend-activation appendix in the delivery verification matrix.
+
 No implementation activity recorded.
 
 

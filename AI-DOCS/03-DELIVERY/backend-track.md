@@ -20,7 +20,7 @@ This is the Backend developer entry point, not a second specification. Canonical
 | 2 | CAT | WS-CAT-BE | CAT-001–CAT-003 | AUTH guard; FND DB/storage/HTTP | `work/CAT-backend` | `server/src/features/catalog/**` | CAT-002/003 accepted done (CAT-DEC-007); checkpoint commit/push authorized CAT-DEC-008. CAT-002 checkpoint 43ebb11; CAT-003 pending execution record. CAT-001 blocked, validator/full gates open. |
 | 3 | SET | WS-SET-BE | SET-001 | AUTH guard; FND DB/HTTP | `work/SET-backend` | `server/src/features/settings/**` | planned; parallel-safe with CAT-BE after dependencies |
 | 4 | HOME | WS-HOME-BE | HOME-001 | CAT admin/curation contract; FND storage | `work/HOME-backend` | `server/src/features/homepage/**` | planned |
-| 5 | CART | WS-CART-BE | CART-001–CART-002 | AUTH and CAT read contracts | `work/CART-backend` | `server/src/features/cart/**` | planned; parallel-safe with HOME-BE |
+| 5 | CART | WS-CART-BE | CART-001–CART-002 | AUTH and CAT read contracts | `work/CART-backend` | `server/src/features/cart/**` | CART-001 backend verified (171 unit/116 mirror integration), task blocked on original docs validator; checkpoint publication authorized CART-DEC-006. No completion/feature readiness. |
 | 6 | ORD | WS-ORD-BE | ORD-001–ORD-003, ORD-006, ORD-009, ORD-011 | CART/CAT/SET/AUTH/FND contracts | `work/ORD-backend` | `server/src/features/orders/**` | planned |
 | 7 | CUS | WS-CUS-BE | CUS-001 | AUTH and ORD read contracts | `work/CUS-backend` | `server/src/features/customers/**` | planned |
 | 8 | ADM | WS-ADM-BE | ADM-004 | CAT/ORD/CUS read projections | `work/ADM-backend` | `server/src/features/admin-dashboard/**` | planned |

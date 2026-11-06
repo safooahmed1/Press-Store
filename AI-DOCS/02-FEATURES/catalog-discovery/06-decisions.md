@@ -1,5 +1,21 @@
 # Decisions — Catalog and Discovery
 
+## CAT-DEC-012 — CART-001 bounded current-variant batch projection
+
+- **Status:** `approved`
+- **Date:** 2026-11-06
+- **Decision:** The user's selection of item 1 explicitly resumes CART-001 real CAT linking,
+  route registration and migration activation. Add READ-CAT-001 batch projection as defined
+  in technical contracts, consumed by CART's manifest on the same DB-FND-001 transaction.
+- **Owned amendment:** CAT service/repository and focused tests; the existing CAT admin
+  migration-upgrade fixture must apply its complete ordered prefix before cat_004, then the
+  full discovered list, so later CART migrations cannot precede the withheld cat_004 step.
+  No applied migration, FND runner, CAT HTTP behavior or other worktree is changed.
+- **Consequences:** Supersedes the earlier CART-DEC-003 linking stop only for CART-001.
+  No CART-002, checkout/ORD consistency, FE work, CAT-006 completion, release, remote write or
+  validator waiver. IDs 009–011 exist in separate owner worktrees and are not reassigned here.
+- **Affected contracts/tasks:** READ-CAT-001, API-CART-001; CART-001. ORD remains a future consumer.
+
 ## CAT-DEC-001 — Boolean variant availability and historical-safe deletion
 
 - **Status:** `approved`

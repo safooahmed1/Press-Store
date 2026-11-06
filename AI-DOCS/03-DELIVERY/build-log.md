@@ -453,3 +453,60 @@ CAT-002 source-only baseline was previously verified with 153 unit / 85 isolated
 ## 2026-11-04 — Current checkpoint publication disposition
 
 CAT-DEC-008 authorizes separate CAT-002/CAT-003 checkpoint commits and non-force push. CAT-002 checkpoint is 43ebb117945afe60babd86c12a55cd4091ea1514. CAT-003 planned subject is chore(CAT-003): checkpoint verified admin catalog management; resulting hash/push confirmation are reported from Git after execution, not invented in this record. Earlier local/uncommitted/no-authorization entries remain historical and are superseded for this publication only. Task accounting remains CAT-002/003 accepted done (2/6, BE 2/3); CAT-001 blocked. Original docs validation BLOCKED / NOT RUN; feature remains in-progress, all three Passed boxes unchecked. No new code tests run for publication, no PR/merge/deploy/next task.
+
+
+## 2026-11-06 — CART-001 independent backend portion
+
+Selected CART-001 BE only. User approved baseline a6603ca, quantity 1–99, 100-line maximum and
+version comparison for all mutations (CART-DEC-002), then explicitly stopped proposed real CAT
+batch-read linking (CART-DEC-003). Isolated branch work/CART-backend preserves all other worktrees.
+Added CART-owned staged SQL, locking repository, CRUD service/router factories and disposable-MySQL
+tests with test-only catalog projection injection. No manifest, production adapter/mock, CAT/FND/FE
+source change, readiness/ORD handoff, existing application DB/env, commit/push/merge/deploy or next task.
+Exact observed successes/failures and remaining gates are in the CART-001 verification appendix.
+Original mandatory documentation validator is absent, BLOCKED / NOT RUN. No task-completion claim.
+
+
+### CART-001 final independent verification and stop
+
+Focused unit 5/5; actual-MySQL CART 14/14 (selector reports 27 with unselected-file wrappers);
+full unit 166/166; full integration on byte-verified non-hidden /tmp source mirror 109/109, no skips.
+Lint/build/whitespace and disposable-fixture cleanup pass. Earlier failed runs, fixed session fixture,
+staged migration-discovery decision and isolated .codex static-serving limitation are retained in the
+CART-001 verification appendix. Original validator absent, BLOCKED / NOT RUN. User-stopped real CAT
+linking/manifest/migration activation remain open. CART-001 blocked, feature 0/4, no commit or next task.
+
+## 2026-11-06 — CART-001 real backend activation
+
+User selected item 1: implement the bounded CAT owner/consumer amendment and activate CART
+routes/migration on the same work/CART-backend. CART-DEC-004/CAT-DEC-012 supersede the earlier
+linking stop. Added the batch projection on the caller transaction, real manifest binding,
+unchanged SQL registration and bounded CAT upgrade-test prefix correction. No other worktree,
+AUTH/FND/FE source, dependency or old migration changed; no application DB/env use.
+Observed focused units 10/10, focused actual-MySQL tests 21/21, full unit 171/171, lint/build pass.
+Final full regression and gate disposition follow in the activation verification appendix.
+Original validator is still absent, BLOCKED / NOT RUN. No completion/checkpoint commit or publication.
+
+
+### CART-001 activation — final verification and stop
+
+Final focused units 10/10, focused real-MySQL/HTTP 21/21, full unit 171/171 and exact non-hidden
+source-mirror integration 116/116 pass, zero skips/failures. Lint/build/whitespace/host cleanup pass.
+Real CAT binding, manifest routes and unchanged SQL registration are verified. Original docs
+validator remains absent (BLOCKED / NOT RUN), CART-001 blocked with no completion commit.
+CART-002/FE/INT and all publication/deployment remain untouched. Exact logs, scope, snapshot
+and the existing .codex static-serving limitation: activation verification appendix.
+
+
+## 2026-11-06 — User-authorized CART checkpoint publication
+
+CART-DEC-006 records the explicit request to save and upload CART backend work. Preserve CART-001
+and CART-002 as two separate checkpoints on work/CART-backend, then non-force push that branch.
+Planned subjects: chore(CART-001): checkpoint verified persistent cart APIs;
+chore(CART-002): checkpoint verified transactional cart handoff.
+This is preservation of blocked task work, not a completion/feature/validator pass. Existing observed
+CART-001 171 unit/116 mirror integration and CART-002 179 unit/129 mirror integration evidence is
+retained, not claimed rerun for publication. No frontend or unrelated worktree changes included.
+PR-based remote integration still requires the documented feature/CART-integration baseline and
+gates; no new integration branch, alternate merge target, merge, deployment or release is created.
+Actual Git hashes and push confirmation follow execution, without a self-referencing follow-up commit.

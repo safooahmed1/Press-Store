@@ -111,3 +111,84 @@ Variant identity, persistence, version, current-price, or order handoff changes 
 ## 13. Assumptions and TODOs
 
 None.
+
+
+## 14. CART-001 independent backend development — 2026-11-06
+
+CART-DEC-002 approves the published CAT baseline, bounds and version policy. CART-DEC-003
+records the user's explicit instruction to implement only the independent portion and stop real CAT
+wiring. This is not a full contract freeze, production adapter, API availability or acceptance pass.
+
+- Branch `work/CART-backend`, isolated from checkpoint `a6603ca5f2b5eb54b75e530906cee42821ec371e`.
+  Existing FND/AUTH accepted dependency decisions and CAT backend checkpoints support local development;
+  no CAT-006, feature merge/readiness, original validator or release gate is waived.
+- Per-line quantity is numeric integer 1–99 and maximum distinct variants is 100. Adds merge the same
+  variant; merged quantities above 99 reject without changing data. Session-derived ownership only.
+- Every mutation requires numeric `expectedCartVersion` (1–4294967295). Add takes variantId/quantity/version,
+  patch takes quantity/version, remove and clear take a JSON body containing only expectedCartVersion.
+  PATCH/DELETE item IDs are canonical positive unsigned BIGINT decimal strings. All paths are under
+  `/api/v1/cart`; queries and extra body fields, prices, availability and owner overrides are rejected.
+  Success returns the canonical full cart envelope with numeric version and safe integer money; HTTP 200.
+  GET returns a lazily created empty cart at version 1. No automatic mutation retries.
+- The cart's unique customer key serializes lazy creation, then cart/item row locks serialize operations
+  within DB-FND-001. Selection changes increment version; no-op patch, missing-item delete and empty clear
+  preserve it. Every request still compares versions first, so stale retries return CART_CONFLICT.
+  Version exhaustion conflicts and rolls back the selection change. Wrong-owner PATCH returns generic
+  NOT_FOUND (404); wrong-owner DELETE has the same no-op behavior as an absent item, without disclosure.
+- Prices are obtained through one injected bounded batch inside that same transaction; GET refreshes
+  cached prices without advancing the selection version. BigInt arithmetic rejects unsafe JSON totals
+  with VALIDATION_FAILED, rolling back any mutation. Unavailable retained rows stay visible at supplied
+  current prices; totalMinor sums displayed rows and is not a checkout-ready total. CART-002 readiness
+  and READ-CART-001/CMD-CART-001 transactional order handoff are not implemented.
+- `createCartRouter({database,config,appOrigin,readVariants})` consumes unchanged AUTH guard/Origin and
+  HTTP-FND-001. Authentication is customer-only, opposite-scope 403, absent/expired 401; private responses
+  are no-store. Mutation Origin/CSRF policy is unchanged, including configured production HTTPS origin.
+  Unknown internal/provider/storage exceptions remain safe INTERNAL_ERROR. Incomplete/invalid injected
+  catalog projections return provisional CATALOG_UNAVAILABLE (503), not a stale-price fallback.
+- `readVariants(ids, tx)` is a CART consumer injection seam only, NOT an implemented/frozen CAT export.
+  Proposed return rows are `{variantId,productId,color,size,finalPriceMinor,isAvailable}` for each existing
+  ID, including unavailable/deleted-product variants. Missing newly added ID is VARIANT_UNAVAILABLE;
+  missing already persisted IDs fail closed. Real CAT owner work remains unapproved and unimplemented.
+  Tests inject deterministic projection fixtures only. No direct CAT SQL exists in CART production source.
+- No `manifest.js` is supplied; the production application has no CART route registration or mock data.
+  The SQL is staged at `server/src/features/cart/schemas/persistent-cart_001_create_carts.sql`, outside
+  automatic migration discovery. Tests explicitly append it to loadMigrations() before runMigrations().
+  Its canonical feature-name prefix sorts after CAT migrations, supporting customer/variant restrictive
+  FKs without changing FND ordering or immutable history. Moving it to `migrations/` and reconciling the
+  CAT admin upgrade fixture's fixed prefix require a later authorized integration change.
+- Schema: carts has BIGINT cart/customer IDs, unique customer, positive unsigned INT version and UTC
+  timestamps. cart_items has BIGINT IDs/cart/variant/cache price, quantity CHECK 1–99, safe nonnegative
+  price CHECK, unique cart+variant, restrictive cart/variant FKs and variant index. The 100-line limit
+  is enforced under the cart lock. No stock column, stock update, cascade or cross-owner write.
+  Forward-only additive SQL; no production application, automatic DOWN or partial-DDL recovery authorized.
+
+Original API examples remain illustrative. The approved per-operation version policy above supersedes
+the earlier PATCH-only wording for local backend development. No frontend implementation is authorized.
+
+## 15. CART-001 real backend activation — CART-DEC-004, 2026-11-06
+
+This section supersedes §14's independent-only/no-manifest/staged-SQL disposition; earlier evidence
+and decisions remain historical. CAT-DEC-012 now owns the implemented READ-CAT-001 batch shape
+and validation policy in catalog-discovery/03-technical-contracts.md. CART's manifest creates that
+CAT service using the existing lifecycle-owned database and supplies its readVariants method to
+createCartRouter. CART passes its active DB-FND-001 transaction to the service. There is no
+production fixture, separate catalog pool, direct CAT SQL or fallback to cached unavailable data.
+
+The existing FND discovery seam now mounts `/api/v1/cart` and its documented CRUD children.
+The unchanged SQL content is registered at
+`server/src/features/cart/migrations/persistent-cart_001_create_carts.sql`; normal discovery finds
+it exactly once after AUTH/CAT. SHA256 of the unchanged staged content is
+`5e138e7a5c07866c02244e2f1dc29121654020fe99afa72e1f7ca687c8c9a192`.
+Its staging comments describe the earlier hold. No applied owner migration/history is edited.
+The CAT admin test now applies the complete prefix preceding cat_004 before testing its upgrade,
+preserving FND out-of-order protection with this later feature migration. No runner change.
+
+Live backend tests use discovered manifests, actual auth sessions, owner CAT admin APIs and
+new disposable MySQL databases. Real prices, inactive variants, soft deletion, duplicate add,
+version conflicts, isolation, logout/login and process/pool restart are exercised without catalog
+projection fixtures in that suite. Existing independent fault-injection tests remain labeled as such.
+No migration is run on application startup or against an existing application database.
+
+The quantity/version/response/error rules from §14 remain effective. Checkout readiness and ORD
+transactional handoff still belong to CART-002; no FE/browser/full-feature or CAT-006 pass is claimed.
+Original mandatory documentation validation remains an open completion gate.

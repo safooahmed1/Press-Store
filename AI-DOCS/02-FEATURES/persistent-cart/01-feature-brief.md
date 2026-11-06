@@ -6,7 +6,7 @@
 - **Kind:** `business`
 - **Parent Feature:** `None`
 - **Owner:** `WS-CART-BE`, `WS-CART-FE`, `WS-CART-INT`
-- **Status:** `planned`
+- **Status:** `in-progress`
 
 ## 2. Summary
 

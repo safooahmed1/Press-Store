@@ -1,4 +1,4 @@
-import { CatalogError, exactFields, text, productInput, calculateFinalPrice } from './catalog-input.js'
+import { CatalogError, exactFields, text, productInput, calculateFinalPrice, identity } from './catalog-input.js'
 
 // Server-internal domain surface only. CAT-003 owns HTTP/auth and mutation adapters.
 export function createCatalogService({ repository, storage }) {
@@ -9,6 +9,19 @@ export function createCatalogService({ repository, storage }) {
   }
 
   return Object.freeze({
+    // READ-CAT-001: join the consumer transaction, including retained unavailable variants.
+    async readVariants(variantIds, tx) {
+      if (!Array.isArray(variantIds) || variantIds.length > 100) throw new CatalogError('VALIDATION_FAILED')
+      const ids = Array.from(variantIds, (id) => identity(id))
+      if (new Set(ids).size !== ids.length) throw new CatalogError('VALIDATION_FAILED')
+      if (typeof tx?.query !== 'function') throw new TypeError('Catalog consumer transaction required')
+      if (!ids.length) return []
+      const rows = await repository.readVariants(ids, tx)
+      return rows.map((row) => ({ variantId: row.variantId, productId: row.productId,
+        color: row.color, size: row.size,
+        finalPriceMinor: calculateFinalPrice(Number(row.priceMinor), row.discountPercent),
+        isAvailable: Boolean(Number(row.isAvailable)) }))
+    },
     async createBrand(input) {
       exactFields(input, ['name'])
       return repository.createClassification('brand', text(input.name))

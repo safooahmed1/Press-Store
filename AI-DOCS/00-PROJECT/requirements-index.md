@@ -1,5 +1,12 @@
 # Requirements Index
 
+## 2026-11-06 — CART backend evidence pointer
+
+REQ-CART-001/002/003 retain their existing ownership and task coverage. CART-DEC-004 and
+CAT-DEC-012 add real backend contract evidence, recorded in the CART-001 activation appendix
+of verification-matrix.md. No new requirement, full-feature status promotion, FE acceptance,
+REQ-CART-004/005 completion or CAT-006 waiver is implied.
+
 ## Status Values
 
 `planned` · `in-progress` · `implemented` · `verified` · `blocked`

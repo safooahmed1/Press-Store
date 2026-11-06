@@ -146,6 +146,28 @@ Money, availability, variant identity, flags, image limits, or public DTO change
 
 None.
 
+### READ-CAT-001 batch consumer contract — CAT-DEC-012
+
+Approved for CART-001 backend activation on 2026-11-06. The existing single-variant
+`requireAvailableVariant` contract remains unchanged. The additive server-only method
+`createCatalogService({repository}).readVariants(variantIds, tx)` accepts 0–100 distinct
+canonical positive unsigned BIGINT string IDs and the caller's active DB-FND-001 transaction.
+It validates before SQL; invalid IDs, duplicates or an oversized batch reject with
+`CatalogError('VALIDATION_FAILED')`. A missing transaction handle rejects without a database call.
+An empty batch returns `[]` without SQL. A nonempty batch performs one parameterized CAT-owned
+join using that handle, without opening a pool or nested transaction.
+
+Each existing variant returns `{variantId,productId,color,size,finalPriceMinor,isAvailable}`.
+Rows are ordered by variant ID; unknown IDs are omitted. Inactive variants and variants of
+soft-deleted products remain in the projection with `isAvailable:false`, allowing CART to retain
+their explanation/removal state. `finalPriceMinor` uses the existing exact CAT rounding policy;
+zero final prices are valid. Missing newly added IDs are mapped to VARIANT_UNAVAILABLE by CART.
+Database errors propagate to the safe HTTP boundary; no stale-price fallback or CAT writes.
+
+The read participates in the caller's normal transaction snapshot. It does not lock CAT rows,
+reserve stock, or implement checkout consistency, READ-CART-001 or CMD-CART-001. Those remain
+CART-002/CAT-006/ORD integration gates. No public/admin API or frontend fixture shape changes.
+
 
 ## 14. CAT-001 backend domain implementation — 2026-11-04
 

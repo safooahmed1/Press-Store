@@ -870,3 +870,189 @@ Bounded closeout checks: task rows CAT-002/003 done by acceptance; CAT-001 block
 ## 2026-11-04 — Current checkpoint publication disposition
 
 CAT-DEC-008 authorizes separate CAT-002/CAT-003 checkpoint commits and non-force push. CAT-002 checkpoint is 43ebb117945afe60babd86c12a55cd4091ea1514. CAT-003 planned subject is chore(CAT-003): checkpoint verified admin catalog management; resulting hash/push confirmation are reported from Git after execution, not invented in this record. Earlier local/uncommitted/no-authorization entries remain historical and are superseded for this publication only. Task accounting remains CAT-002/003 accepted done (2/6, BE 2/3); CAT-001 blocked. Original docs validation BLOCKED / NOT RUN; feature remains in-progress, all three Passed boxes unchecked. No new code tests run for publication, no PR/merge/deploy/next task.
+
+
+## CART-001 verification appendix — 2026-11-06 independent backend portion
+
+### Authorized scope and preflight
+
+- Selected task CART-001 / WS-CART-BE only. AC-CART-001 persistence/self-ownership/merge rules
+  are tested at the independent backend boundary; full AC-CART-001 UI/live integration remains unchecked.
+  AC-CART-002 and READ-CART-001/CMD-CART-001 full readiness/order handoff remain CART-002/INT scope.
+- User approved baseline a6603ca5f2b5eb54b75e530906cee42821ec371e, quantity 1–99, 100 lines and
+  expectedCartVersion for all mutations (CART-DEC-002). User explicitly declined the required CAT
+  batch-read amendment and chose independent work with linking stopped (CART-DEC-003).
+- Expected/current branch work/CART-backend, isolated worktree
+  /home/tarek/.codex/worktrees/cart-backend/Press-Store. Started clean. Existing AUTH/CAT/SET/HOME
+  worktree changes preserved; no transfers, source merges, stashes or remote operations.
+- Owned source: server/src/features/cart/** including co-located tests. Owned docs: CART feature
+  brief/contracts/backlog/change-log/decisions and named delivery records. Forbidden source: src/**,
+  CAT/AUTH/FND/HOME/SET/ORD implementations, root/package/lock/config, existing DB/env and uploads.
+- Existing dependency tree reused via node_modules symlink to the CAT worktree; no install or package change.
+  JavaScript/ESM, existing mysql2/Express, DB-FND-001, AUTH guards/Origin, HTTP-FND-001 unchanged.
+- Schema is staged outside automatic discovery under cart/schemas/. Tests explicitly apply it through
+  runMigrations(), verifying fresh and baseline-upgrade ordering/FKs without changing owner histories.
+  No manifest, production mock/default reader, cart application route or real CAT adapter exists.
+
+### Exact commands and final observations
+
+Commands below ran in /home/tarek/.codex/worktrees/cart-backend/Press-Store except the explicitly named
+temporary source mirror. Unrestricted execution was approved where Vite writes/loopback/MySQL required it.
+No check used server/.env or an existing application database.
+
+| Check | Exact command/procedure | Observed result | Evidence |
+|---|---|---|---|
+| Focused CART unit | node --test server/src/features/cart/services/cart-input.test.js | PASS 5/5, 1 suite, no failures/skips | /tmp/press-cart001-focused-unit-final.log |
+| Prescribed unit selector | npm run test -- cart | PASS reported 37/37 at initial four-unit stage; includes unrelated unselected-file wrappers and one matched UI case, not 37 CART tests | execution output; superseded CART count is 5 direct tests above |
+| Focused CART MySQL/API | FND_DISPOSABLE_MYSQL_TESTS=1 npm run test:integration -- cart | PASS 14 real CART cases in 2 suites; runner reports 27 pass including 13 unrelated unselected-file wrappers; zero failures/cancellations/skips | /tmp/press-cart001-focused-integration-final.log |
+| Full unit | npm run test | PASS 166/166, 34 suites, no failures/skips | /tmp/press-cart001-full-unit-final.log |
+| Full actual-MySQL integration, non-hidden exact-source mirror | FND_DISPOSABLE_MYSQL_TESTS=1 npm run test:integration | PASS 109/109, 20 suites, zero failures/cancellations/skips | cwd /tmp/press-cart001-verification-0ne_ipdo; /tmp/press-cart001-mirror-full-integration.log |
+| Lint | npm run lint | PASS exit 0 | command output, final run after source review |
+| Build | npm run build | PASS exit 0, Vite 8.3.5, 78 transformed modules | /tmp/press-cart001-build.log |
+| Whitespace/scope | git diff --check plus review of all tracked diffs and every new CART source/test/SQL file | PASS; changes limited to CART source and named docs | final git status/review |
+| Typecheck | No typecheck script exists in package.json | NOT AVAILABLE; no TypeScript migration added | unchanged script surface |
+| Original documentation validator | python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py . | exit 2: file absent, BLOCKED / NOT RUN; no substitute used | observed missing-file error |
+| Production-path diagnosis, no features | node /tmp/press-cart001-production-check.mjs | Default .codex dist root => 500/no React root; identical build in non-hidden temporary root => 200/React root; /api/v1/cart => 404 in both, zero manifests | /tmp/press-cart001-production-check.log |
+| Host cleanup | ps -C mysqld -o pid,uid,args and temporary-fixture directory inventory after tests | Only unrelated /usr/sbin/mysqld PID 1713 UID 124; no /tmp/press-fnd002-mysql-* roots or disposable processes; production-check temporary directory removed | approved host inventory; system server untouched |
+
+The source mirror was generated by /tmp/press-cart001-source-mirror.py: copied 283 tracked-source/new
+CART files byte-for-byte and reused the unchanged dependency tree and built dist. Snapshot SHA256
+55ab4e7d8432fe22020e5c4227c6b1974dc30f037226afa811a19a77a5ec7359 covers ordered file names and
+bytes, before this final evidence-only annotation. No source/test change occurred between mirror creation
+and full integration. This mirror run is not a pass of the worktree-path-specific static serving behavior.
+
+### Behavior actually exercised
+
+- Unique lazy cart under concurrent first reads; one row per variant; add/merge/patch/remove/clear;
+  no-op semantics and current-version conflict response before mutation.
+- Quantity 1–99, maximum 100 distinct lines, existing-row merge at capacity, safe exact totals,
+  over-limit and version-exhaustion rollback, no partial writes on late database failure.
+- Real AUTH session guard, anonymous/admin/duplicate-cookie/expired-session rejection, self-owned
+  resources, other-account isolation and no caller owner/price/availability override.
+- Strict query/body/ID validation, JSON requirements, same-origin/Fetch-Metadata rejection and configured
+  production Origin despite spoofed forwarded headers. Canonical safe envelopes, no-store/no new cookie.
+- Real logout/login and reconstruction of the MySQL pool preserve the customer cart.
+- Real MySQL unique/check/FK constraints and preserved pre-existing owner data during staged upgrade.
+- Test-only catalog batch injection receives the existing transaction, updates cached display prices,
+  retains unavailable rows, rejects unavailable additions/updates and fails closed on malformed/missing
+  provider data. This is explicitly NOT evidence of live CAT changes or full READ-CAT-001 consistency.
+- No stock fields or CAT writes; no frontend, readiness calculation, order creation or ORD handoff.
+
+### Failed attempts retained; not reported as passes
+
+1. Initial sandbox npm run test -- cart: Vite could not write .vite-temp (EROFS); approved unrestricted
+   rerun passed. A direct sandbox test invocation reported only a file wrapper and is not used as unit evidence.
+2. First full integration, /tmp/press-cart001-full-integration.log: 107 total, 95 pass, 2 fail, 10 cancelled.
+   Auto-discovered CART SQL sorted after a CAT test's assumed fixed migration prefix; its second step
+   correctly stopped with MIGRATION_OUT_OF_ORDER. Production tests also lacked dist/index.html before build.
+   Resolved entirely inside CART scope by staging SQL outside discovery while real linking is stopped;
+   tests apply it explicitly, without editing FND history, bypassing ordering or changing CAT tests. Build passed.
+3. Next worktree full integration, /tmp/press-cart001-full-integration-final.log: 109 total, 107 pass,
+   2 fail, no cancellations/skips. Expired-session fixture had moved expiry before creation, correctly
+   violating AUTH's time constraint; fixed via AUTH's existing clock injection, not by changing constraints.
+   Remaining FND production HTML failure is independently reproduced with zero feature manifests and
+   isolated to hidden .codex build-root serving. No FND change authorized or made. Final focused CART
+   rerun passes all 14; final full non-hidden source-mirror rerun passes all 109.
+
+### Disposition
+
+CART-001 is blocked/incomplete, CART feature 0/4, BE 0/2 complete. Independent portion verified only.
+Real CAT owner batch contract/adapter, manifest activation and staged migration registration remain
+explicitly stopped by user; original documentation validation remains BLOCKED / NOT RUN.
+Worktree-path production static serving remains an observed environmental limitation, not a claimed pass.
+No required feature Passed checkbox changed, no completion/checkpoint commit, push, merge, deployment,
+application DB/env access, CART-002 or next task. Planned completion subject remains informational:
+feat(CART-001): add persistent customer cart APIs. Completion commit: None.
+
+
+## CART-001 real backend activation appendix — 2026-11-06
+
+### Authorization, scope and current contract
+
+The user selected remaining item 1 after the independent stage: complete CART-001's CAT batch
+service binding, routes and migration activation. CART-DEC-004 and CAT-DEC-012 supersede the
+previous real-linking stop. Earlier results/decisions remain historical, not rewritten.
+
+Selected task remains CART-001 / WS-CART-BE, branch work/CART-backend at the approved a6603ca
+baseline with the existing local CART work preserved. FND/AUTH accepted development prerequisites
+and the approved CAT snapshot remain the baseline; no formal CAT-006 or feature/INT gate is waived.
+
+Owned code is server/src/features/cart/** plus the specifically authorized CAT amendment:
+services/catalog.js, repositories/catalog.js, new catalog-variants unit/integration tests and
+only the historical-prefix selection in routes/catalog-admin.integration.test.js. CAT owns
+READ-CAT-001 in its technical contract; CART's manifest consumes it on the caller transaction.
+Named owner/consumer and delivery docs/requirement evidence pointers are updated together.
+No src/**, AUTH/FND implementation, dependency/lock/config, old migration, other worktree or
+existing application DB/env source changed. No branch merge, remote write or deployment.
+
+The SQL moved into normal migration discovery byte-for-byte with SHA256
+5e138e7a5c07866c02244e2f1dc29121654020fe99afa72e1f7ca687c8c9a192. No old history changed.
+Fresh and upgraded disposable fixtures apply it through the unchanged FND runner. The bounded
+CAT admin fixture now applies the complete prefix before its withheld cat_004 upgrade, then
+all discovered migrations; out-of-order protections are retained rather than bypassed.
+The discovered app verifies startup does not change migration history.
+
+### Final commands and observed evidence
+
+Commands run in /home/tarek/.codex/worktrees/cart-backend/Press-Store unless noted. MySQL and
+Vite commands were explicitly approved outside the sandbox where required; only newly created
+disposable databases and temporary upload roots were used. No server/.env/application DB access.
+
+| Check | Exact command/procedure | Final observation | Log/artifact |
+|---|---|---|---|
+| Focused boundaries | node --test server/src/features/catalog/services/catalog-variants.test.js server/src/features/cart/services/cart-input.test.js | PASS 10/10, 2 suites, no failures/skips | /tmp/press-cart001-wired-focused-unit-final2.log |
+| Focused real MySQL/HTTP | FND_DISPOSABLE_MYSQL_TESTS=1 node --test server/src/features/catalog/services/catalog-variants.integration.test.js server/src/features/cart/routes/cart-catalog-live.integration.test.js server/src/features/cart/routes/cart-core.integration.test.js | PASS 21/21, 4 suites, no failures/cancellations/skips | /tmp/press-cart001-wired-focused-integration.log |
+| Full unit | npm run test | PASS 171/171, 35 suites, no failures/skips | /tmp/press-cart001-wired-full-unit-final.log |
+| Full actual-MySQL integration | FND_DISPOSABLE_MYSQL_TESTS=1 npm run test:integration | PASS 116/116, 22 suites, zero failures/cancellations/skips | cwd /tmp/press-cart001-wired-verification-yt7me0n2; /tmp/press-cart001-wired-full-integration-final.log |
+| Lint | npm run lint | PASS exit 0 after final source review | /tmp/press-cart001-wired-lint-final.log |
+| Build | npm run build | PASS exit 0, Vite 8.3.5, 78 modules | /tmp/press-cart001-wired-build.log |
+| Diff/whitespace | git diff --check plus explicit new-file whitespace/scope review | PASS; 12 new CART/contract files checked, no trailing whitespace | final review/status |
+| Typecheck | No typecheck script exists | NOT AVAILABLE; existing JavaScript stack unchanged | package script surface |
+| Original docs validator | python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py . | exit 2, original file absent; BLOCKED / NOT RUN, no substitute | observed missing-file output |
+| Host cleanup | ps -C mysqld -o pid,uid,args plus directory inventory after final tests | Only unrelated /usr/sbin/mysqld PID 1713 UID 124; no disposable MySQL roots/processes or press-cart001-live-images directories | approved read-only host inventory |
+
+Final source mirror contains 287 tracked/new task files, byte-verified against the worktree,
+plus the unchanged dependencies and built dist. Snapshot SHA256 over ordered file names/bytes:
+1c20d489d74395709bd62704957a326442b9204774a7c3b4fdcbe624ab167ac0. Metadata:
+/tmp/press-cart001-wired-mirror.json. Only evidence documentation changed after this final
+source snapshot. The non-hidden mirror is required because the earlier independently proved
+FND static-page serving failure remains with a .codex build root; no FND fix is authorized.
+This mirror pass is not a pass of that worktree-path-specific behavior.
+
+### New real contract coverage and second pass
+
+Five live scenarios start the actual app using normal manifest discovery (no catalog read fixture),
+real AUTH registration/sessions and CAT admin HTTP APIs. They verify customer-only CRUD/isolation,
+current exact price after admin edit, retained inactive and soft-deleted variants, unknown variant
+rejection, safe removal, concurrent same-version writers, CSRF and owner/price overrides, plus
+real logout/login and full application/database-pool restart persistence. Existing 14 independent
+CART cases remain explicitly fixture-injected fault/limit/rollback evidence, not reclassified as live CAT.
+
+Two CAT actual-MySQL cases prove a 100-ID batch uses one domain query and sees transaction-local
+price/deletion changes that roll back with the caller. Unit tests reject malformed/duplicate/sparse/
+oversized ID arrays before SQL and forbid separate queries/nested transactions. Existing exact
+price calculation is reused; no stock field or stock write added.
+
+Re-read CART-001 and AC-CART-001, the feature ownership/API contracts and approved amendment.
+Reviewed the complete pre-existing CART diff, every new manifest/service/test and CAT owner delta
+for session-derived actors, parameterization, bounded reads, exact money/overflow rollback, variant
+history, error envelopes, transaction reuse, no production mocks, debug artifacts and scope drift.
+Reviewed immutable SQL checksum and upgrade ordering. Source review tightened sparse-array ID
+validation with Array.from and added that boundary case; final focused/full unit and full integration
+were rerun after it. Final full source mirror was stable during the final run. No independent agent
+review is claimed. This is a backend task check, not FE/browser/full-feature or CAT-006 acceptance.
+
+### Earlier attempts and remaining disposition
+
+The restricted direct-unit invocation reported only two file wrappers with no test suites and is
+not used as behavioral evidence; approved unrestricted execution ran all ten actual tests.
+An earlier full integration run also passed 116/116 before the final boundary hardening; only
+the final stable-source run above is used for closeout. All earlier independent-stage failures
+and the worktree-path FND limitation remain recorded in the preceding appendix.
+
+Real CAT linking, route discovery and migration registration blockers are resolved. Original
+mandatory documentation validation remains BLOCKED / NOT RUN: CART-001 stays blocked, feature
+0/4 and BE 0/2 complete, completion commit None. Planned subject remains
+feat(CART-001): add persistent customer cart APIs. No acceptance Passed box is promoted;
+CART-002 (including CAT-006 dependency), checkout readiness, ORD handoff, FE/INT, production
+DB migration, commit/checkpoint, push, PR, merge or deployment is claimed/started.

@@ -141,3 +141,33 @@ CAT-DEC-007 supersedes earlier blocked task-tracking status for CAT-002/003 only
 ## 2026-11-04 — Current checkpoint publication disposition
 
 CAT-DEC-008 authorizes separate CAT-002/CAT-003 checkpoint commits and non-force push. CAT-002 checkpoint is 43ebb117945afe60babd86c12a55cd4091ea1514. CAT-003 planned subject is chore(CAT-003): checkpoint verified admin catalog management; resulting hash/push confirmation are reported from Git after execution, not invented in this record. Earlier local/uncommitted/no-authorization entries remain historical and are superseded for this publication only. Task accounting remains CAT-002/003 accepted done (2/6, BE 2/3); CAT-001 blocked. Original docs validation BLOCKED / NOT RUN; feature remains in-progress, all three Passed boxes unchecked. No new code tests run for publication, no PR/merge/deploy/next task.
+
+
+## 2026-11-06 — CART-001 approved isolated local-development baseline
+
+CART-DEC-002 approves work/CART-backend from published CAT snapshot a6603ca5f2b5eb54b75e530906cee42821ec371e,
+created in /home/tarek/.codex/worktrees/cart-backend/Press-Store. No frozen CART integration branch is
+claimed or created. Original AUTH/CAT/SET/HOME worktrees and their uncommitted work remain untouched.
+CART-DEC-003 limits this to independent backend development: no real CAT adapter, manifest, migration
+activation, FE work, next task, completion commit, push, PR, merge or deployment.
+
+### CART-001 real backend activation authorized — 2026-11-06
+
+CART-DEC-004 supersedes only the earlier linking stop: continue the same work/CART-backend
+and approved a6603ca baseline with CAT-DEC-012's bounded owner amendment. No new branch,
+cross-worktree merge, remote operation or formal frozen integration baseline. CART-002/FE/INT
+remain unauthorized; original documentation and completion gates remain required.
+
+
+## 2026-11-06 — User-authorized CART checkpoint publication
+
+CART-DEC-006 records the explicit request to save and upload CART backend work. Preserve CART-001
+and CART-002 as two separate checkpoints on work/CART-backend, then non-force push that branch.
+Planned subjects: chore(CART-001): checkpoint verified persistent cart APIs;
+chore(CART-002): checkpoint verified transactional cart handoff.
+This is preservation of blocked task work, not a completion/feature/validator pass. Existing observed
+CART-001 171 unit/116 mirror integration and CART-002 179 unit/129 mirror integration evidence is
+retained, not claimed rerun for publication. No frontend or unrelated worktree changes included.
+PR-based remote integration still requires the documented feature/CART-integration baseline and
+gates; no new integration branch, alternate merge target, merge, deployment or release is created.
+Actual Git hashes and push confirmation follow execution, without a self-referencing follow-up commit.

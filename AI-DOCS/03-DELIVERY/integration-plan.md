@@ -1,5 +1,13 @@
 # Integration Plan
 
+## 2026-11-06 — CART-001 authorized backend owner/consumer amendment
+
+CART-DEC-004 and CAT-DEC-012 authorize READ-CAT-001 batch projection and its CART manifest
+consumer on work/CART-backend, plus registration of the previously staged CART SQL and bounded
+CAT upgrade-fixture ordering correction. The CAT technical contract owns the batch shape;
+CART references it. This additive server-only change leaves FE APIs/fixtures unchanged.
+Verify a real discovered app and real disposable MySQL; no checkout/ORD handoff or CAT-006 pass.
+
 ## 1. Integration Principles
 
 Merge owner contracts before consumers, never redefine an interface, preserve task commits/evidence, run post-merge checks, and stop for explicit merge authorization. For AUTH and later features, BE and FE start from the same frozen integration commit. Either lane may become `ready-for-integration` first; feature completion is impossible until the real API INT gate passes. Feature completion is `merge-ready`, not merged or released.

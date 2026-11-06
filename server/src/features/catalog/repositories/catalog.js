@@ -13,6 +13,14 @@ function classification(kind) {
 
 export function createCatalogRepository(database) {
   return Object.freeze({
+    async readVariants(variantIds, tx) {
+      const placeholders = variantIds.map(() => '?').join(', ')
+      return tx.query(`SELECT v.variant_id AS variantId, p.product_id AS productId,
+        v.color, v.size, p.price_minor AS priceMinor, p.discount_percent AS discountPercent,
+        (v.is_available = TRUE AND p.deleted_at IS NULL) AS isAvailable
+        FROM product_variants v JOIN products p ON p.product_id = v.product_id
+        WHERE v.variant_id IN (${placeholders}) ORDER BY v.variant_id`, variantIds)
+    },
     async createClassification(kind, name, imagePath = null) {
       const { table, key } = classification(kind)
       return database.transaction(async (tx) => {
