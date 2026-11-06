@@ -265,3 +265,8 @@ add only scripts/bootstrap-admin*.js. See AUTH contracts §16 and AUTH-DEC-008 f
 ## 2026-11-04 — CAT-003 storage-context amendment (FND-DEC-011)
 
 The existing router-factory context additionally exposes storageConfig: frozen {root} or null for test contexts with no injected storage. startServer accepts an optional storageConfig argument. Production root is taken from validated productionConfig.uploadRoot; a conflicting override is rejected. Development validation/UPLOAD_ROOT reads live only in server/src/config/catalog-storage-config.js; default follows blueprint uploads/. Test mode defaults to null even if a host UPLOAD_ROOT exists. Callers writing test images must explicitly inject a new temporary fixture root. This adds no env-file loading or second pool, and does not alter STO-FND-001 put/delete/urlFor/compensation or FND production upload serving. CAT consumes the shared adapter in its approved manifest.
+
+
+## 2026-11-06 — HOME reuses approved nested mount composition
+
+HOME-DEC-002 authorizes reusing the exact FND-DEC-012 loader/test changes and CAT-DEC-009 resource-scoped guards/fixture-prefix changes from the SET worktree. /admin/homepage is an independent nested mount; CAT falls through for it, retaining guards on CAT resources. No SET feature/migration/business implementation, new environment reader, pool or dependency is transferred. Original SET work remains separate/unmodified, and full owner integration remains open.

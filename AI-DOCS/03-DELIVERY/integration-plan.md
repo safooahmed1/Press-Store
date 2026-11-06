@@ -104,3 +104,8 @@ CAT-DEC-006/FND-DEC-011 approve only backend admin development and bounded AUTH 
 ## 2026-11-04 — Acceptance does not satisfy CAT integration gates
 
 CAT-DEC-007 closes CAT-002/CAT-003 task tracking by user acceptance. CAT-001 remains blocked, and frozen owner integration/source publication, FE/browser/consumer/security/hosting/recovery/validator gates remain open. No ready-for-integration or merge-ready claim; no merge authorization.
+
+
+## 2026-11-06 — HOME-001 CAT owner/consumer handoff
+
+HOME-DEC-002/CAT-DEC-011 define ordered public content, nullable banner1/banner2, internal CTA whitelist, bounded CAT reads and atomic global-revision selection replacement. Canonical contracts HOME §14 / CAT §17; A-014 details bounds. No frontend source, full frozen owner/fixture acknowledgement, real UI/browser/carousel/consumer integration or full HOME-004 acceptance claimed. SET source is not in this HOME branch; final verification covers all source present on the approved CAT-derived HOME baseline. Global FND migration ordering remains unchanged; deployment across later feature prefixes/partially applied DDL needs its existing separately approved operational process, not history edits or automatic retries.

@@ -31,3 +31,8 @@ CAT-DEC-007 records requested task-tracking closeout of both implemented/tested 
 ## 2026-11-04 — Current checkpoint publication disposition
 
 CAT-DEC-008 authorizes separate CAT-002/CAT-003 checkpoint commits and non-force push. CAT-002 checkpoint is 43ebb117945afe60babd86c12a55cd4091ea1514. CAT-003 planned subject is chore(CAT-003): checkpoint verified admin catalog management; resulting hash/push confirmation are reported from Git after execution, not invented in this record. Earlier local/uncommitted/no-authorization entries remain historical and are superseded for this publication only. Task accounting remains CAT-002/003 accepted done (2/6, BE 2/3); CAT-001 blocked. Original docs validation BLOCKED / NOT RUN; feature remains in-progress, all three Passed boxes unchecked. No new code tests run for publication, no PR/merge/deploy/next task.
+
+
+## 2026-11-06 — Approved HOME consumer amendment
+
+CAT-DEC-011 adds bounded READ-CAT-002 projections and atomic globally versioned selection replacement under existing lock, with additive cat_005 revision and coordinated legacy flag writers. Reuses already approved CAT-DEC-009 route scoping/fixture prefix, extends migration discovery regression expectation. No HOME direct CAT writes, old SQL edits, dependencies, frontend or publication. Evidence is HOME-001 verification appendix; original CAT worktree/acceptance closeout remains separate and unchanged.

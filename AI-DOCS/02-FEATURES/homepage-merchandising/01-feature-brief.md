@@ -6,7 +6,7 @@
 - **Kind:** `business`
 - **Parent Feature:** `None`
 - **Owner:** `WS-HOME-BE`, `WS-HOME-FE`, `WS-HOME-INT`
-- **Status:** `planned`
+- **Status:** `in-progress`
 
 ## 2. Summary
 
@@ -93,3 +93,5 @@ CAT projections/flag command and category/product routes; FND storage; AUTH admi
 ## 13. Assumptions and TODOs
 
 None.
+
+HOME-001 backend implementation is local and verified under HOME-DEC-002; original mandatory documentation validation remains BLOCKED / NOT RUN. Both banners may be null when absent/inactive, including banner1, by explicit user approval. FE/INT/feature acceptance remains separate.

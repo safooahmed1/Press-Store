@@ -34,7 +34,7 @@ describe('catalog admin real MySQL CRUD, uploads and security', {
     database = createDatabase(fixture.config)
     root = await mkdtemp(path.join(tmpdir(), 'press-cat003-images-'))
     const migrations = await loadMigrations()
-    await runMigrations({ config: fixture.config, migrations: migrations.filter(({ name }) => name !== 'cat_004_create_curation_state.sql') })
+    await runMigrations({ config: fixture.config, migrations: migrations.filter(({ name }) => name < 'cat_004_create_curation_state.sql') })
     await runMigrations({ config: fixture.config, migrations })
     await runMigrations({ config: fixture.config, migrations })
     const now = new Date()

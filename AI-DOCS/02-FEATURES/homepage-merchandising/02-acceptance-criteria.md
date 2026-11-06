@@ -50,3 +50,8 @@ Hero controls/announcements, pause/reduced motion, image alt text, section headi
 | Integration | `npm run test:integration -- homepage` | yes | public/admin/CAT/storage cases pass |
 | UI/accessibility | homepage tests plus carousel/viewport procedure | yes | Required states pass |
 | Lint/build | `npm run lint && npm run build` | yes | Exit 0 |
+
+
+## 2026-11-06 — Backend verification only
+
+HOME-001 appendix provides API/content/limit/CAT/storage/security evidence only. The approved policy makes either disabled/absent banner null, including banner1; initial missing hero is unavailable. Both full-feature Passed boxes remain unchecked pending FE/carousel/browser/CAT consumer/full HOME-004/hosting/recovery/original docs validation gates. No fixture/UI/production success is invented.

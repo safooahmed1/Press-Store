@@ -131,3 +131,35 @@ Section order, limits, CTA safety, curation ownership, or projection shape chang
 ## 13. Assumptions and TODOs
 
 None.
+
+
+## 14. HOME-001 approved backend implementation — 2026-11-06
+
+Authorization: HOME-DEC-002, CAT-DEC-011, reused FND-DEC-012/CAT-DEC-009. Isolated work/HOME-backend starts from published a6603ca and reuses only four approved FND/CAT composition/fixture files from SET. SET feature/work remains separate. A-014 records noncritical transport/order bounds. No full frozen integration baseline or feature acceptance is implied.
+
+| API under /api/v1 | Methods / input | Result |
+|---|---|---|
+| /homepage | GET, no query | Ordered safe projection heroSlides,bestSellers,banner1,categories,banner2,newArrivals |
+| /admin/homepage | GET page/pageSize | Paginated heroSlides, banner1/banner2 or null, selections plus meta |
+| /admin/homepage/hero-slides | GET pagination, POST multipart data JSON + one images file | List; POST 201 resourceId/version/cleanupPending |
+| /admin/homepage/hero-slides/:id | GET; PUT full metadata/current numeric version with optional replacement image; DELETE JSON {version} | Safe row, mutation resourceId/version/cleanupPending or delete cleanupPending |
+| /admin/homepage/banners | GET | items with placement,text,isActive,version |
+| /admin/homepage/banners/:placement | PUT {text,isActive,version}, banner_1/banner_2 only | resourceId/version, 200; version 0 provisions missing slot |
+| /admin/homepage/curation | GET | version,bestSellerProductIds,newArrivalProductIds |
+| /admin/homepage/curation/:kind | PUT {productIds,version}, best-sellers/new-arrivals | resourceId/version from atomic CAT command, 200 |
+
+IDs are canonical positive unsigned BIGINT strings, versions numeric. PUT replaces editable metadata; no body image path, actor/role or stock field accepted. Unknown queries/payloads/URLs are 422; unsupported media 415; oversized transport retains FND/CAT 413. Missing slide/product 404, stale EDIT_CONFLICT 409, hero count outside 1–3 HERO_ACTIVE_LIMIT 409, ninth selection CURATED_LIMIT 409. Public failure of any required owner projection or initial zero hero is 503 HOMEPAGE_UNAVAILABLE, without partial response/driver/path details. All responses no-store; no endpoint sets/clears auth cookies.
+
+Hero POST must first create one active slide; all subsequent writes lock HOME singleton before row/count checks and retain 1–3 active slides. Inactive slides may exist and are only in paginated admin reads. Public selects at most four to detect invalid over-limit data, emits at most three active ordered slide DTOs {slideId,imageUrl,title,subtitle,buttonText,buttonLink,displayOrder}; no inactive/version/internal path fields. Metadata is revalidated before public projection. CTA whitelist is /products or canonical /products/:id; list filters reuse CAT public-query validation, no duplicate keys, unknown filters, fragments, external/protocol-relative/admin/encoded-traversal routes or literal controls. Encoded output also fits storage bound.
+
+Banners are fixed two CHECK/PK placements with versioned first PUT/update. Both disabled/absent slots return null, explicitly including banner1 under HOME-DEC-002; active DTO is {text}. No banner image or extra placement, and fixed section keys/order remain unchanged. SQL has no seeded marketing content; initial admin state is empty until explicit protected configuration.
+
+HOME public service independently loads HOME snapshot and CAT-owned projection through named service, builds exactly the fixed public shape and fails safely if required read fails. CAT provides max-eight available curated purchase summaries and bounded existing categories; no duplicate category/product CRUD. Temporarily unavailable flagged product IDs remain selected privately but disappear from public purchase displays; deleted products cannot be selected and CAT delete updates revision. No cross-owner globally atomic read instant/production isolation guarantee is claimed, only owner transactions and safe projection assembly.
+
+CAT replacement holds existing curation singleton through CAS/target validation/whole-set flag updates/product-version increments/revision commit. Both lists share a global numeric revision. Existing single-product flag writers participate, preventing stale HOME list replacement from overwriting intervening CAT choices. No HOME repository product/category queries or writes, nor duplicate selection table. Existing individual setFlags API is additive-compatible; required cat_005 migration is explicit before new code writes.
+
+Admin scope and mutation Origin checks precede multipart/file work. Reuse AUTH guard/cookies/session and configured production origin, ignoring forwarded hosts; absent/expired 401, customer-only 403, valid admin precedence. One hero image required on create, at most one replacement, normalized by FND. Existing bounded CAT multipart parser is reused without protocol duplication; it may buffer up to its existing four-file envelope, but HOME rejects multiple files before storage. No new dependency/env reader/pool.
+
+New files wrap DB transaction in FND compensation; old images are deleted only after commit and successful exit from new-file compensation scope. Cleanup failure returns cleanupPending:true without leaking paths or deleting committed new data. This is not a distributed crash-atomic transaction; lost commit acknowledgement/process crashes and orphan inventory need explicit approved reconciliation, no blind retries/job. Hard hero deletion has no order references; product history remains CAT-owned.
+
+Additive home_001 creates homepage_states, hero_slides and promotion_banners. cat_005 adds CAT revision only. Existing migration SQL/checksums are unchanged and no startup migrations run. MySQL partial DDL retains FND interruption/recovery rules; only disposable fixtures were migrated. Full HOME-004 FE/browser/consumer/security/visual/hosting/recovery/load checks and original docs validator remain open. No implementation acceptance checkbox is passed for the whole feature.

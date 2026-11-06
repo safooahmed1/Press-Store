@@ -19,7 +19,7 @@ const product = (categoryId, brandId, extra = {}) => ({ name: 'Jacket', descript
 describe('catalog migration discovery', () => {
   it('discovers immutable forward migrations through FND without startup wiring', async () => {
     const names = (await loadMigrations()).filter(({ name }) => name.startsWith('cat_')).map(({ name }) => name)
-    assert.deepEqual(names, ['cat_001_create_classifications.sql', 'cat_002_create_products.sql', 'cat_003_create_images_variants.sql', 'cat_004_create_curation_state.sql'])
+    assert.deepEqual(names, ['cat_001_create_classifications.sql', 'cat_002_create_products.sql', 'cat_003_create_images_variants.sql', 'cat_004_create_curation_state.sql', 'cat_005_add_curation_revision.sql'])
   })
 })
 

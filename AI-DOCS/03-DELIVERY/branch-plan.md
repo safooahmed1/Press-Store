@@ -43,7 +43,7 @@ FND and UI are grandfathered existing feature branches. For AUTH and later featu
 | `work/SET-backend` | backend | frozen SET integration commit | WS-SET-BE | SET-001 | `feature/SET-integration` | backend settings suite; explicit merge | planned |
 | `work/SET-frontend` | frontend | same frozen SET integration commit | WS-SET-FE | SET-002 | `feature/SET-integration` | form/a11y/build; explicit merge | planned |
 | `feature/HOME-integration` | integration | updated `main` after CAT/AUTH/UI | WS-HOME-INT | HOME-004 | `main` | BE+FE ready; live HOME gate | planned |
-| `work/HOME-backend` | backend | frozen HOME integration commit | WS-HOME-BE | HOME-001 | `feature/HOME-integration` | backend HOME suite; explicit merge | planned |
+| `work/HOME-backend` | backend | frozen HOME integration commit | WS-HOME-BE | HOME-001 | `feature/HOME-integration` | backend HOME suite; explicit merge | HOME-001 checkpoint/push explicitly authorized HOME-DEC-003. HOME-001 remains formally blocked, feature 0/4; this does not accept or close the task. Original docs validation/full feature gates remain open; no merge/deploy authorization. |
 | `work/HOME-frontend` | frontend | same frozen HOME integration commit | WS-HOME-FE | HOME-002–HOME-003 | `feature/HOME-integration` | client/a11y/responsive/build; explicit merge | planned |
 | `feature/CART-integration` | integration | updated `main` after CAT/AUTH/UI | WS-CART-INT | CART-004 | `main` | BE+FE ready; live CART gate | planned |
 | `work/CART-backend` | backend | frozen CART integration commit | WS-CART-BE | CART-001–CART-002 | `feature/CART-integration` | backend cart suite; explicit merge | planned |
@@ -141,3 +141,15 @@ CAT-DEC-007 supersedes earlier blocked task-tracking status for CAT-002/003 only
 ## 2026-11-04 — Current checkpoint publication disposition
 
 CAT-DEC-008 authorizes separate CAT-002/CAT-003 checkpoint commits and non-force push. CAT-002 checkpoint is 43ebb117945afe60babd86c12a55cd4091ea1514. CAT-003 planned subject is chore(CAT-003): checkpoint verified admin catalog management; resulting hash/push confirmation are reported from Git after execution, not invented in this record. Earlier local/uncommitted/no-authorization entries remain historical and are superseded for this publication only. Task accounting remains CAT-002/003 accepted done (2/6, BE 2/3); CAT-001 blocked. Original docs validation BLOCKED / NOT RUN; feature remains in-progress, all three Passed boxes unchecked. No new code tests run for publication, no PR/merge/deploy/next task.
+
+
+## 2026-11-06 — HOME-001 approved early baseline
+
+HOME-DEC-002 permits work/HOME-backend from published a6603ca5f2b5eb54b75e530906cee42821ec371e in /home/tarek/projects/Press-Store-HOME-backend without the normal frozen HOME integration baseline. Only four approved FND/CAT composition/fixture files are copied from SET; SET settings source/migration and all its uncommitted work remain separate, no merge/cherry-pick. CAT-DEC-011 owns the additional HOME consumer amendment. Existing CAT closeout/SET/AUTH worktrees and stashes preserved. No completion/validator waiver, frontend, commit/push/merge/deploy or next task.
+
+
+## 2026-11-06 — User-authorized HOME-001 checkpoint publication
+
+The user explicitly requested uploading SET and HOME to GitHub. HOME-DEC-003 authorizes one preservation checkpoint for HOME-001 and non-force push of work/HOME-backend to origin, separately from the other worktree. Planned subject: `chore(HOME-001): checkpoint verified homepage APIs`. HOME-001 remains formally blocked, feature 0/4; this does not accept or close the task. Original required docs validation remains BLOCKED / NOT RUN; all full feature/FE/INT/hosting/recovery/security/merge gates and unchecked acceptance boxes remain unchanged.
+
+Existing observed verification: 168 unit / 105 isolated integration, lint/build/diff passed, no failed/cancelled/skipped tests. No new code checks claimed during this docs/Git-only publication. Include only this task's source/tests/approved shared-owner amendments/docs. Preserve original CAT/AUTH and the other feature's work; no frontend, DB/env access, PR/merge/deployment or next task. The resulting checkpoint hash and observed push result are reported after execution rather than invented in a self-referencing follow-up commit. Earlier local/uncommitted/no-publication statements remain historical, superseded only for this authorized publication.

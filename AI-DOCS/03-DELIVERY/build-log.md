@@ -14,7 +14,7 @@
 | AUTH | feature | in-progress | `feature/AUTH-identity-accounts` | 0/5 | 2026-11-02: AUTH-003 full rerun unit 140/140, actual-MySQL integration 71/71 (no skips), lint/build/diff and cleanup pass; verification-matrix §27 | AUTH-001/002/003 blocked on original validator; no commit authorized |
 | CAT | feature | planned | `feature/CAT-catalog-discovery` | 0/6 | Planning only; no implementation evidence | Dependencies not implemented |
 | SET | feature | planned | `feature/SET-store-settings` | 0/3 | Planning only; no implementation evidence | A-004 optional social scope |
-| HOME | feature | planned | `feature/HOME-homepage-merchandising` | 0/4 | Planning only; no implementation evidence | Dependencies not implemented |
+| HOME | feature | in-progress | `work/HOME-backend` (BE); integration branch planned | 0/4 | HOME-001 local backend verification; HOME-DEC-002/CAT-DEC-011 | Original docs validator BLOCKED / NOT RUN; FE/INT/full feature gates open |
 | CART | feature | planned | `feature/CART-persistent-cart` | 0/4 | Planning only; no implementation evidence | Dependencies not implemented |
 | ORD | feature | planned | `feature/ORD-checkout-payments-orders` | 0/8 | Planning only; no implementation evidence | A-001 before ORD-008; dependencies not implemented |
 | CUS | feature | planned | `feature/CUS-customer-directory` | 0/3 | Planning only; no implementation evidence | ORD read contract not implemented |
@@ -53,7 +53,7 @@
 | AUTH | feature | in-progress | `feature/AUTH-integration` | 0/5 | 2026-11-02: AUTH-003 full rerun unit 140/140, actual-MySQL integration 71/71 (no skips), lint/build/diff and cleanup pass; verification-matrix §27 | AUTH-001/002/003 blocked on original validator; no commit authorized |
 | CAT | feature | planned | `feature/CAT-integration` | 0/6 | DEC-008 splits BE/FE/INT; no implementation evidence | Dependencies not implemented |
 | SET | feature | planned | `feature/SET-integration` | 0/3 | DEC-008 splits BE/FE/INT; no implementation evidence | A-004 optional social scope |
-| HOME | feature | planned | `feature/HOME-integration` | 0/4 | DEC-008 splits BE/FE/INT; no implementation evidence | Dependencies not implemented |
+| HOME | feature | in-progress | `work/HOME-backend` (BE); integration branch planned | 0/4 | HOME-001 local backend verification; HOME-DEC-002/CAT-DEC-011 | Original docs validator BLOCKED / NOT RUN; FE/INT/full feature gates open |
 | CART | feature | planned | `feature/CART-integration` | 0/4 | DEC-008 splits BE/FE/INT; no implementation evidence | Dependencies not implemented |
 | ORD | feature | planned | `feature/ORD-integration` | 0/11 | ORD-009/010/011 split mixed API/UI/job work; no implementation evidence | A-001 before ORD-011/008; dependencies not implemented |
 | CUS | feature | planned | `feature/CUS-integration` | 0/3 | DEC-008 splits BE/FE/INT; no implementation evidence | ORD read contract not implemented |
@@ -453,3 +453,19 @@ CAT-002 source-only baseline was previously verified with 153 unit / 85 isolated
 ## 2026-11-04 — Current checkpoint publication disposition
 
 CAT-DEC-008 authorizes separate CAT-002/CAT-003 checkpoint commits and non-force push. CAT-002 checkpoint is 43ebb117945afe60babd86c12a55cd4091ea1514. CAT-003 planned subject is chore(CAT-003): checkpoint verified admin catalog management; resulting hash/push confirmation are reported from Git after execution, not invented in this record. Earlier local/uncommitted/no-authorization entries remain historical and are superseded for this publication only. Task accounting remains CAT-002/003 accepted done (2/6, BE 2/3); CAT-001 blocked. Original docs validation BLOCKED / NOT RUN; feature remains in-progress, all three Passed boxes unchecked. No new code tests run for publication, no PR/merge/deploy/next task.
+
+
+## 2026-11-06 — HOME-001 backend implemented / formal completion blocked
+
+HOME-DEC-002/CAT-DEC-011 approve CAT-derived early baseline a6603ca on work/HOME-backend and coordinated owner read/atomic-selection/revision amendment, with reused FND-DEC-012/CAT-DEC-009 mount seams only from SET. Added hero/banner schema, protected content APIs, ordered safe public projection, image compensation/post-commit cleanup, internal CTA whitelist, nullable banners and 1–3 active hero / max-eight selection invariants. Existing CAT single-product flag writers coordinate revision; HOME owns no CAT table writes. SET source/work remains separate, no dependency/frontend changes.
+
+Final observed results: focused 15/15, full unit 168/168 (35 suites), full disposable-MySQL integration 105/105 (19 suites), all zero failed/cancelled/skipped; lint/build/diff passed. Initial successful checks were repeated after review-discovered encoded CTA-length/newline-ID boundary fixes with regression assertions. Exact final commands/logs, owner rollback/legacy compatibility/restart/security evidence and limits are in HOME-001 verification appendix.
+
+Final host cleanup inventory: only unrelated system MySQL PID 1713 UID 124; no disposable DB/image fixture roots. Original CAT/SET/AUTH worktree changes and stashes preserved, no old SQL or package/lock edits. Required original docs validator still missing (exit 2, BLOCKED / NOT RUN), HOME-001 blocked and feature 0/4, both feature acceptance boxes unchecked. No commit/push/merge/deploy, existing DB/env access, FE/INT completion or next task. Planned subject feat(HOME-001): add homepage content API; completion commit None.
+
+
+## 2026-11-06 — User-authorized HOME-001 checkpoint publication
+
+The user explicitly requested uploading SET and HOME to GitHub. HOME-DEC-003 authorizes one preservation checkpoint for HOME-001 and non-force push of work/HOME-backend to origin, separately from the other worktree. Planned subject: `chore(HOME-001): checkpoint verified homepage APIs`. HOME-001 remains formally blocked, feature 0/4; this does not accept or close the task. Original required docs validation remains BLOCKED / NOT RUN; all full feature/FE/INT/hosting/recovery/security/merge gates and unchecked acceptance boxes remain unchanged.
+
+Existing observed verification: 168 unit / 105 isolated integration, lint/build/diff passed, no failed/cancelled/skipped tests. No new code checks claimed during this docs/Git-only publication. Include only this task's source/tests/approved shared-owner amendments/docs. Preserve original CAT/AUTH and the other feature's work; no frontend, DB/env access, PR/merge/deployment or next task. The resulting checkpoint hash and observed push result are reported after execution rather than invented in a self-referencing follow-up commit. Earlier local/uncommitted/no-publication statements remain historical, superseded only for this authorized publication.

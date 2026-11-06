@@ -87,3 +87,20 @@ describe('foundation contextual feature factories', () => {
     }
   })
 })
+
+
+describe('foundation validated multi-segment resource mounts', () => {
+  it('composes a nested mount beside a parent without allowing exact duplicates', () => {
+    const parent = { id: 'catalog-admin', path: '/admin', router() {} }
+    const nested = { id: 'settings-admin', path: '/admin/settings', router() {} }
+    const calls = []
+    registerFeatureRouters({ use: (...args) => calls.push(args) }, [parent, nested])
+    assert.deepEqual(calls.map(([path]) => path), ['/admin', '/admin/settings'])
+    assert.throws(() => registerFeatureRouters({ use() { assert.fail() } }, [nested, { ...nested, id: 'other' }]), /Invalid or duplicate/)
+  })
+  it('rejects malformed, traversal, encoded or reserved nested mounts before attaching any router', () => {
+    for (const path of ['/admin//settings', '/admin/../settings', '/admin/settings/', '/admin/%73ettings', '/health/settings', '/admin/:id', '/Admin/settings', '/admin/settings\n']) {
+      assert.throws(() => registerFeatureRouters({ use() { assert.fail() } }, [{ id: 'settings', path, router() {} }]), /Invalid or duplicate/)
+    }
+  })
+})
