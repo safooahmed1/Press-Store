@@ -116,3 +116,11 @@
 - **Owned source:** server/src/app/start-server.js, server/src/config/catalog-storage-config.js, its test, and one context assertion in foundation-runtime.integration.test.js only.
 - **Behavior:** startServer optionally accepts validated storageConfig and passes the frozen root config through existing contextual feature factories. Production always uses the already validated production uploadRoot and rejects a conflicting explicit root. Development reads UPLOAD_ROOT only through config, defaulting to the documented uploads directory. Test mode has no implicit storage target and requires explicit fixture injection for file writes.
 - **Boundaries:** No second DB pool, environment-file reader, change to DB-FND-001/storage normalization/public upload serving, production origin validation or frontend. Image persistence remains lazy inside the existing FND adapter, not during router construction. Existing no-storage test contexts cannot implicitly write application uploads.
+
+
+## FND-DEC-012 — Validated nested resource mounts for SET-001
+
+- Status: user-approved bounded amendment, 2026-11-04; SET-DEC-002 records authorization.
+- Source scope: server/src/app/feature-manifests.js and foundation-manifests.test.js only.
+- Permit multiple canonical lowercase kebab-case path segments (e.g. /admin/settings), retain exact-path/ID uniqueness and whole-registry validation before composition/factories. Reject empty, traversal, parameter, encoded, trailing slash/whitespace segments and the reserved health namespace.
+- A parent prefix may coexist with a nested independent resource; parent feature routers must fall through for paths they do not own. CAT-DEC-009 moves CAT guard/origin middleware to its own child resources without changing their policy. No shared admin aggregator, new lifecycle interface, pool or dependency.

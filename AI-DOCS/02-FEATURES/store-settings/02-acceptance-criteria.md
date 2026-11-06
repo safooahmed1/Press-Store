@@ -50,3 +50,13 @@ Settings form labels/errors/pending state and mobile layout pass UI contracts.
 | Integration | `npm run test:integration -- settings` | yes | admin/public/privacy/conflict cases pass |
 | UI | settings form and footer state tests | yes | Required states pass |
 | Lint/build | `npm run lint && npm run build` | yes | Exit 0 |
+
+
+## 2026-11-04 — SET-001 backend evidence boundary
+
+Backend migration/admin/public/privacy/version/restart/Origin tests are recorded in SET-001 verification appendix. Required form/browser/live footer/ORD/CUS consumer integration remains separately owned and unrun; neither feature Passed checkbox is checked. Original mandatory docs validator remains BLOCKED / NOT RUN; implementation is not feature completion.
+
+
+## 2026-11-06 — User-accepted SET backend closeout
+
+SET-DEC-004 supersedes earlier blocked task-accounting status for SET-001. SET backend is 1/1 accepted, feature 1/3. Original docs validation remains BLOCKED / NOT RUN; all feature acceptance criteria and FE/browser/consumer/privacy/hosting/recovery/integration gates remain open. Both feature Passed boxes stay unchecked and feature remains in-progress, not merge-ready or release-verified. Implementation/docs remain local and uncommitted; completion commit None. Documentation-only closeout, no new source/tests/packages, code checks, frontend, existing DB/env access, commit/push/merge/deploy or next task. Earlier observed verification/failure history and separate CAT/AUTH work remain preserved.

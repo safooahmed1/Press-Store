@@ -71,3 +71,11 @@
 - **CAT-002:** Created checkpoint 43ebb117945afe60babd86c12a55cd4091ea1514, `chore(CAT-002): checkpoint verified public catalog APIs`. It contains public read implementation and its public-only manifest plus publication record.
 - **CAT-003:** Planned subject `chore(CAT-003): checkpoint verified admin catalog management`, containing approved admin/shared changes and canonical implementation/acceptance records. Its resulting hash and observed push result are reported after execution rather than invented or followed by a self-referencing hash-only commit.
 - **Status integrity:** CAT-002/CAT-003 remain done by explicit user acceptance (CAT-DEC-007), not by a fabricated validator pass. CAT-001 stays blocked; CAT is 2/6 accepted tasks. Original documentation validator remains BLOCKED / NOT RUN, and all feature/owner/FE/INT/security/hosting/recovery acceptance remains unchanged/open. No PR/merge/deployment or next task authorized.
+
+
+## CAT-DEC-009 — Scope CAT admin middleware to owned resources for SET
+
+- Status: user-approved coordinated amendment, 2026-11-04; SET-DEC-002.
+- Move existing CAT admin guard/Origin middleware from its broad /admin router to its products/categories/brands child routers. All CAT resources retain the same session/Origin checks; unrelated /admin/settings falls through to its own independent authenticated SET mount.
+- Update only the CAT admin integration fixture's initial migration prefix as necessary: seed migrations strictly before cat_004, then upgrade with all later names. A new SET migration exposed that excluding only cat_004 while applying newer SET first violated FND global ordering. Preserve FND out-of-order rejection; no migration history/SQL modification or live-DB repair.
+- No CAT business/data/permission change or acceptance/feature-ready claim; normal full CAT regressions remain required and observed in SET-001 verification.

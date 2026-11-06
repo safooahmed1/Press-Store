@@ -104,3 +104,13 @@ CAT-DEC-006/FND-DEC-011 approve only backend admin development and bounded AUTH 
 ## 2026-11-04 — Acceptance does not satisfy CAT integration gates
 
 CAT-DEC-007 closes CAT-002/CAT-003 task tracking by user acceptance. CAT-001 remains blocked, and frozen owner integration/source publication, FE/browser/consumer/security/hosting/recovery/validator gates remain open. No ready-for-integration or merge-ready claim; no merge authorization.
+
+
+## 2026-11-04 — SET-001 consumer/owner handoff
+
+Approved SET-DEC-002/003, FND-DEC-012 and CAT-DEC-009 provide backend-only nested settings mount and policy. API/consumer shapes are canonical SET contracts §14; A-004 optional networks approved. Full FE fixture acknowledgement, footer/checkout/WhatsApp consumer wiring, browser/privacy/full SET-003 and production acceptance remain open. The observed CAT fixture migration-order failure was fixed by seeding an ordered prefix; FND global out-of-order validation was not relaxed and no deployed database recovery was attempted. Existing/future feature migrations must respect its ordering contract; later migration strategy changes need separate approval.
+
+
+## 2026-11-06 — User-accepted SET backend closeout
+
+SET-DEC-004 supersedes earlier blocked task-accounting status for SET-001. SET backend is 1/1 accepted, feature 1/3. Original docs validation remains BLOCKED / NOT RUN; all feature acceptance criteria and FE/browser/consumer/privacy/hosting/recovery/integration gates remain open. Both feature Passed boxes stay unchecked and feature remains in-progress, not merge-ready or release-verified. Implementation/docs remain local and uncommitted; completion commit None. Documentation-only closeout, no new source/tests/packages, code checks, frontend, existing DB/env access, commit/push/merge/deploy or next task. Earlier observed verification/failure history and separate CAT/AUTH work remain preserved.

@@ -40,8 +40,9 @@ function validateRegistry(manifests, factories = false) {
       || !(typeof feature.router === 'function' && feature.createRouter === undefined
         || factories && typeof feature.createRouter === 'function' && feature.router === undefined)
       || typeof feature.path !== 'string'
-      || !/^\/[a-z]+(?:-[a-z]+)*$/.test(feature.path)
-      || feature.path === '/health' || paths.has(feature.path)) {
+      || feature.path !== feature.path.trim()
+      || !/^\/[a-z]+(?:-[a-z]+)*(?:\/[a-z]+(?:-[a-z]+)*)*$/.test(feature.path)
+      || feature.path.split('/')[1] === 'health' || paths.has(feature.path)) {
       throw new Error('Invalid or duplicate server feature manifest')
     }
     ids.add(feature.id)

@@ -35,10 +35,10 @@ export function createAdminCatalogRouter({ database, config, appOrigin, storage,
   const origins = mutationBoundary(config.nodeEnv === 'production', appOrigin)
   const service = createAdminCatalogService({ repository: createAdminCatalogRepository(database), storage, onCleanupFailure })
   const admin = Router()
-  admin.use(guard)
-  admin.use((req, res, next) => ['POST', 'PUT', 'PATCH', 'DELETE'].includes(req.method) ? origins(req, res, next) : next())
   for (const [path, kind] of [['products', 'product'], ['categories', 'category'], ['brands', 'brand']]) {
     const resource = Router()
+    resource.use(guard)
+    resource.use((req, res, next) => ['POST', 'PUT', 'PATCH', 'DELETE'].includes(req.method) ? origins(req, res, next) : next())
     resource.get('/', pagination, async (req, res) => {
       const filters = req.validated.query
       const result = kind === 'product' ? await service.listProducts(filters) : await service.listClassifications(kind, filters)
