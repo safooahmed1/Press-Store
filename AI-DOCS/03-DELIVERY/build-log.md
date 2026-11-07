@@ -688,3 +688,17 @@ ORD-DEC-016 records ORD-006 acceptance for backend tracking and publication to
 `origin/Back-end`. ORD is 4/11 accepted (BE 4/6).
 Planned subject: `chore(ORD-006): checkpoint admin order operations`.
 Formal integration and original documentation validation remain open.
+
+## 2026-11-07 — ORD-009 customer history verified on Back-end
+
+Mounted the customer history list and detail through the existing orders manifest.
+Verified session isolation, cancellation filtering, snapshot privacy, and existing order
+creation and admin operations. Passed 18 focused, 213 unit, and 178 integration tests,
+lint, and build. Formal integration and original documentation validation remain open.
+
+## 2026-11-07 — ORD-009 backend tracking acceptance and checkpoint
+
+ORD-DEC-018 records ORD-009 acceptance for backend tracking and publication to
+`origin/Back-end`. ORD is 5/11 accepted (BE 5/6).
+Planned subject: `chore(ORD-009): checkpoint customer order history`.
+Formal integration and original documentation validation remain open.

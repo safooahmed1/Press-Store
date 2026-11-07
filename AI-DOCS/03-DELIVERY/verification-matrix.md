@@ -1513,3 +1513,30 @@ The checkpoint source matched the tested activation snapshot. The 10 focused sta
 6 focused admin API, 213 unit, and 172 integration results above are the evidence
 for ORD-DEC-016. Git diff whitespace checks passed. Formal integration and original
 documentation validation remain open.
+
+## 2026-11-07 — ORD-009 customer history on Back-end
+
+Verified the normal application startup and migration discovery on a disposable
+archive of `Back-end` at `4f117f9` with the ORD-009 changes.
+
+| Check | Command | Result |
+|---|---|---|
+| Focused history and regression APIs | `FND_DISPOSABLE_MYSQL_TESTS=1 node --test --test-isolation=none server/src/features/orders/customer/customer-orders.integration.test.js server/src/features/orders/checkout/order-create.integration.test.js server/src/features/orders/admin/admin-orders.integration.test.js` | 18/18 passed, including 6 customer history cases |
+| Full unit | `npm test` | 213/213 passed |
+| Full integration | `FND_DISPOSABLE_MYSQL_TESTS=1 npm run test:integration` | 178/178 passed |
+| Lint and build | `npm run lint` and `npm run build` | Both exited 0 |
+| Original docs validator | `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .` | Exit 2 because the script is missing |
+
+Customer API cases covered session authorization, no-store responses, owned pagination,
+empty history, indistinguishable missing/foreign/cancelled detail errors, immutable
+item snapshots, pickup guidance, and removal of the unpaid notice after delivery.
+The response and log review found no wallet sender number or private audit data in
+customer responses. No failures, cancellations, or skips in the successful runs.
+Formal verification on `feature/ORD-integration` and original documentation validation remain open.
+
+### 2026-11-07 — ORD-009 backend tracking acceptance
+
+The checkpoint source matched the tested activation snapshot. The 18 focused,
+213 unit, and 178 integration results above are the evidence for ORD-DEC-018.
+Git diff whitespace checks passed. Formal integration and original documentation
+validation remain open.

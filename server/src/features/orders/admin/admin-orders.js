@@ -1,15 +1,9 @@
 import { checkoutPickup } from '../checkout/checkout-quote.js'
+import { orderPagination } from '../domain/order-pagination.js'
 import { transitionOrder } from '../domain/order-state.js'
 import { fields, identity, OrderError, version } from '../domain/order-values.js'
 
 export const adminOrderActions = Object.freeze(['verify-payment', 'prepare', 'deliver'])
-
-function pageNumber(value, fallback, maximum) {
-  if (value === undefined) return fallback
-  if (typeof value !== 'string' || !/^[1-9][0-9]*$/.test(value) || String(Number(value)) !== value
-    || Number(value) > maximum) throw new OrderError('VALIDATION_FAILED')
-  return Number(value)
-}
 
 function customerContact(customer) {
   if (!customer) throw new Error('Order customer missing')
@@ -32,9 +26,7 @@ export function createAdminOrderService({ database, repository, readItems, readC
   readStoreContact, clock = () => new Date() }) {
   return Object.freeze({
     async list(query) {
-      fields(query, ['page', 'pageSize'])
-      const page = pageNumber(query.page, 1, 100000)
-      const pageSize = pageNumber(query.pageSize, 20, 50)
+      const { page, pageSize } = orderPagination(query)
       const { rows, total } = await repository.list({ page, pageSize })
       const contacts = new Map()
       const items = []

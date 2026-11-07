@@ -1,5 +1,11 @@
 # Assumptions Register
 
+## A-017 — Customer order history sort and paging
+
+Active noncritical implementation assumption, 2026-11-07, ORD-009. The customer's order
+history sorts by newest creation time first, then descending order ID. It shares the
+100,000 page limit and the 20 default and 50 maximum page sizes used by ORD admin reads.
+
 ## A-016 — ORD admin list defaults
 
 Active noncritical implementation assumption, 2026-11-07, ORD-006. The admin list orders

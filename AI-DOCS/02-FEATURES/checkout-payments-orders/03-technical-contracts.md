@@ -90,7 +90,7 @@ Request:
 
 Success response:
 ```json
-{"data":{"items":[{"orderNumber":"PS-...","createdAt":"ISO-8601","totalMinor":320000,"paymentMethod":"cash","paymentStatus":"unpaid","fulfillmentStatus":"placed"}]},"meta":{"page":1,"pageSize":20,"total":1}}
+{"data":{"items":[{"orderId":"1","orderNumber":"PS-...","createdAt":"ISO-8601","totalMinor":320000,"paymentMethod":"cash","paymentStatus":"unpaid","fulfillmentStatus":"placed"}]},"meta":{"page":1,"pageSize":20,"total":1}}
 ```
 
 | Error Code | HTTP/Transport Status | Condition | Client Behavior |
@@ -347,3 +347,20 @@ take only `expectedVersion`. They use a locked order row, the existing state dom
 and a version-qualified update in the same DB-FND-001 transaction. An achieved action
 returns the current state without rewriting audit fields. Unachieved actions with an
 old version return `ORDER_CONFLICT`. List and detail responses are served with `no-store`.
+
+## 21. ORD-009 customer history on Back-end — ORD-DEC-017
+
+`GET /api/v1/orders` returns the customer list shape in section 3. The numeric order ID
+is serialized as a string for detail navigation. Pagination totals count the customer's
+non-cancelled orders only. See A-017 for ordering and page limits.
+
+`GET /api/v1/orders/:id` returns `{data:{order}}` with the list fields, subtotal and discount
+in minor units, immutable item snapshots, and `pickup`. Pickup includes the existing
+preparation guidance and, for unpaid cash, the collection notice and `cashExpiresAt`.
+Wallet sender data, audit fields, and idempotency data stay private. Delivered orders
+remain in history.
+
+Both reads require AUTH-AUTH-001, take the owner from the session, and serve `no-store`.
+The order lookup returns the same `ORDER_NOT_FOUND` for missing, foreign, and cancelled
+orders. It filters owner and cancellation in SQL before one bounded item query.
+The customer router shares the existing `/orders` mount with the creation route.

@@ -1,5 +1,24 @@
 # Decisions — Checkout, Payments, and Orders
 
+## ORD-DEC-018 — User acceptance of ORD-009 for backend task tracking
+
+- **Status:** `approved by user`
+- **Date:** 2026-11-07
+- **Decision:** Record ORD-009 as `done` for backend tracking and publish the verified
+  customer history APIs on `Back-end` under ORD-DEC-017.
+- **Checkpoint:** Planned subject `chore(ORD-009): checkpoint customer order history`.
+- **Scope:** Formal verification on `feature/ORD-integration` and original documentation
+  validation remain open.
+
+## ORD-DEC-017 — Local customer order history on Back-end
+
+- **Status:** Local implementation
+- **Date:** 2026-11-07
+- **Decision:** Continue the ORD backend lane on combined `Back-end` at `4f117f9`.
+  Use the existing ORD schema, AUTH-AUTH-001, and the normal `/orders` manifest mount.
+- **Boundary:** Scope covers ORD-009 backend implementation and disposable verification.
+  Formal integration and original documentation validation remain open.
+
 ## ORD-DEC-016 — User acceptance of ORD-006 for backend task tracking
 
 - **Status:** `approved by user`

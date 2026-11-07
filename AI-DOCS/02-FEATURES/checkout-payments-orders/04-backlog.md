@@ -23,7 +23,7 @@ ORD-005 and ORD-008 keep their stable IDs but become INT coordination/verificati
 
 | Order | Task ID | Parent/Sub-feature | Workstream | Summary | Requirement IDs | Depends On | Owned Paths | Verification | Status | Branch | Commit Ref | Evidence |
 |---:|---|---|---|---|---|---|---|---|---|---|---|---|
-| 4a | ORD-009 | ORD/customer-history-api | WS-ORD-BE | Implement customer-owned paginated order list/detail API | REQ-ORD-001, REQ-ORD-002, REQ-ORD-003, REQ-ORD-005, REQ-SCOPE-017 | ORD-001, AUTH-AUTH-001 | `server/src/features/orders/customer/**` | API isolation/pagination tests | `not-started` | `work/ORD-backend` | — | — |
+| 4a | ORD-009 | ORD/customer-history-api | WS-ORD-BE | Implement customer-owned paginated order list/detail API | REQ-ORD-001, REQ-ORD-002, REQ-ORD-003, REQ-ORD-005, REQ-SCOPE-017 | ORD-001, AUTH-AUTH-001 | `server/src/features/orders/customer/**` | API isolation/pagination tests | `done` | `work/ORD-backend` | ORD-DEC-018 tracking acceptance and Back-end checkpoint `chore(ORD-009): checkpoint customer order history`. | Accepted for backend tracking after verification on Back-end. See the verification matrix for results and open gates. |
 | 4b | ORD-010 | ORD/customer-history-ui | WS-ORD-FE | Build responsive Your Orders list/detail capability | REQ-ORD-001, REQ-ORD-002, REQ-ORD-003, REQ-ORD-005, REQ-SCOPE-017 | Frozen API-ORD-002, UI-003 | `src/features/orders/customer/**` | component/a11y/responsive tests with contract fixtures | `not-started` | `work/ORD-frontend` | — | — |
 | 7a | ORD-011 | ORD/expiry-job | WS-ORD-BE | Implement rerunnable unpaid-cash expiry job with race-safe state guards | REQ-PAY-012, REQ-ORD-004, REQ-ORD-005, REQ-ORD-006 | ORD-003, A-001 confirmed/accepted, JOB-FND-001 | `server/src/features/orders/jobs/**` | clock/race/rerun tests | `not-started` | `work/ORD-backend` | — | — |
 
@@ -43,11 +43,12 @@ The original ORD-005 mixed server/client scope is superseded by ORD-009/ORD-010;
 | ORD-002 formal verification | The formal CART, CAT, and SET integrations and original docs validation remain open after tracking acceptance | Dependency and tooling owners | Verify on the documented ORD integration baseline and restore the original validator |
 | ORD-003 formal verification | The creation router and ORD migrations are verified on Back-end. Tracking acceptance leaves the formal ORD baseline and original docs validation open | Dependency and tooling owners | Verify on the documented ORD integration baseline and run the original validator |
 | ORD-006 formal verification | Admin order APIs are verified on Back-end. Tracking acceptance leaves formal ORD integration and original documentation validation open | Dependency and tooling owners | Verify on the documented ORD integration baseline and run the original validator |
+| ORD-009 formal verification | Customer order reads are verified on Back-end. Tracking acceptance leaves formal integration and original documentation validation open | Dependency and tooling owners | Verify on the documented ORD integration baseline and run the original validator |
 
 ## Completion Summary
 
-- **Completed for tracking:** 4/11 by user acceptance (BE 4/6).
-- **Next planned BE task:** `ORD-009`, pending authorization and dependency preflight.
+- **Completed for tracking:** 5/11 by user acceptance (BE 5/6).
+- **Next planned BE task:** `ORD-011`, pending authorization and dependency preflight.
 - **Feature status:** `in-progress`
 
 ## 2026-11-06 — ORD-001 local preflight

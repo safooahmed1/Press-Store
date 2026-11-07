@@ -87,3 +87,15 @@ remain open.
 ORD-DEC-016 records acceptance of the verified Back-end admin order APIs for task
 tracking. ORD BE is 4/6 accepted. Formal integration and original documentation
 validation remain open.
+
+## 2026-11-07 — ORD-009 customer order history
+
+Added paginated customer order reads and immutable details to the normal `/orders`
+mount. Session ownership and cancellation are enforced by the database queries.
+ORD-DEC-017 records the combined Back-end baseline and remaining formal gates.
+
+## 2026-11-07 — ORD-009 backend tracking acceptance
+
+ORD-DEC-018 records acceptance of the verified Back-end customer history APIs
+for task tracking. ORD BE is 5/6 accepted. Formal integration and original
+documentation validation remain open.

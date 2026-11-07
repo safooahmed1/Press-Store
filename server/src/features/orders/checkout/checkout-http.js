@@ -17,18 +17,26 @@ const errors = {
   IDEMPOTENCY_CONFLICT: [409, 'Idempotency key already used for a different request'],
 }
 
-export function checkoutCustomerBoundary({ database, config, appOrigin }) {
+export function orderCustomerGuard({ database, config }) {
   if (!['development', 'test', 'production'].includes(config?.nodeEnv)) {
     throw new TypeError('Checkout runtime context required')
   }
   const production = config.nodeEnv === 'production'
   const sessions = createSessionService({ repository: createSessionRepository(database) })
   const cookies = createSessionCookies({ production })
-  const { requireCustomer } = createAuthGuards({ sessions, cookies })
-  return [requireCustomer, mutationBoundary(production, appOrigin), requireJson, (req, res, next) => {
-    if (Object.keys(req.query).length) throw new OrderError('VALIDATION_FAILED')
-    next()
-  }]
+  return createAuthGuards({ sessions, cookies }).requireCustomer
+}
+
+export function checkoutCustomerBoundary({ database, config, appOrigin }) {
+  return [
+    orderCustomerGuard({ database, config }),
+    mutationBoundary(config.nodeEnv === 'production', appOrigin),
+    requireJson,
+    (req, res, next) => {
+      if (Object.keys(req.query).length) throw new OrderError('VALIDATION_FAILED')
+      next()
+    },
+  ]
 }
 
 export function checkoutErrorBoundary(validationMessage = errors.VALIDATION_FAILED[1]) {

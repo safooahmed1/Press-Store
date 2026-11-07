@@ -255,3 +255,9 @@ continues to target `feature/ORD-integration`.
 ORD-DEC-015 records admin order implementation on combined `Back-end` at `8be8ea8`.
 The assigned lane branch remains `work/ORD-backend` and formal integration continues
 to target `feature/ORD-integration`.
+
+## 2026-11-07 — ORD-009 local backend baseline
+
+ORD-DEC-017 records customer order history implementation on combined `Back-end`
+at `4f117f9`. The assigned lane branch remains `work/ORD-backend` and formal
+integration continues to target `feature/ORD-integration`.
