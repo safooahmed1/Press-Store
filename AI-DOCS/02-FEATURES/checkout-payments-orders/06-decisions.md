@@ -1,5 +1,16 @@
 # Decisions — Checkout, Payments, and Orders
 
+## ORD-DEC-011 — User acceptance of ORD-002 for backend task tracking
+
+- **Status:** `approved by user`
+- **Date:** 2026-11-07
+- **Decision:** Record ORD-002 as `done` for backend task tracking based on verified quote
+  behavior on `Back-end` at `8a6b060`. This supersedes the blocked tracking status under
+  ORD-DEC-010. The verification matrix records the checks on that commit.
+- **Scope:** Formal CART, CAT, and SET integration on the documented ORD baseline and
+  original documentation validation remain open. This decision applies to ORD-002
+  tracking only. Formal completion commit remains pending.
+
 ## ORD-DEC-010 — Local checkout activation on the combined Back-end branch
 
 - **Status:** Local implementation

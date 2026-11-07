@@ -49,3 +49,9 @@ Application mounting remains deferred under ORD-DEC-008.
 ORD-DEC-010 records mounting the existing quote router using the real CART and SET services
 on the combined backend branch. Verification exercises FND discovery and customer-session
 requests through the normal server entry point. The formal integration and validator gates remain open.
+
+## 2026-11-07 — ORD-002 backend tracking acceptance
+
+ORD-DEC-011 records user acceptance of ORD-002 for backend tracking based on verification
+of `Back-end` at `8a6b060`. ORD BE is 2/6 accepted. The formal ORD integration baseline
+and original docs validator remain open.

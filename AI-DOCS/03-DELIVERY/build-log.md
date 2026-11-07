@@ -641,3 +641,13 @@ original docs validation remain open. Completion commit: None.
 
 The user requested a checkpoint for the verified activation on `Back-end`.
 Planned subject: `chore(ORD-002): checkpoint checkout activation`.
+
+## 2026-11-07 — ORD-002 backend tracking acceptance
+
+The user accepted ORD-002 for backend tracking under ORD-DEC-011 after reviewing the
+`Back-end` verification and remaining gates. ORD is 2/11 accepted (BE 2/6). See the
+verification matrix for the checks on `8a6b060`. Formal integration, original documentation
+validation, and the completion commit remain pending.
+
+The user authorized a documentation checkpoint and push to `origin/Back-end`.
+Planned subject: `docs(ORD-002): record backend tracking acceptance`.

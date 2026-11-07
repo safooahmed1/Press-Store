@@ -1409,3 +1409,22 @@ The non-hidden mirror matched the application source byte for byte. `npm test` p
 skips, and `npm run build`, `npm run lint`, and `git diff --check` exited 0. No existing
 application database was used. Formal feature integration remains open.
 The original docs validator invocation exited 2 because the script was absent. Completion commit: None.
+
+### 2026-11-07 — ORD-002 verification on Back-end and tracking acceptance
+
+A disposable archive of `Back-end` at `8a6b060` was verified with a fresh disposable
+MySQL database. The successful run allowed localhost connections for the fixture and
+HTTP server.
+
+| Check | Command | Result |
+|---|---|---|
+| Focused unit | `node --test --test-isolation=none server/src/features/orders/checkout/checkout-quote.test.js` | 6/6 passed |
+| Focused quote API | `FND_DISPOSABLE_MYSQL_TESTS=1 node --test --test-isolation=none server/src/features/orders/checkout/checkout-quote.integration.test.js` | 4/4 passed |
+| Full unit | `npm test` | 213/213 passed |
+| Full integration | `FND_DISPOSABLE_MYSQL_TESTS=1 npm run test:integration` | 160/160 passed |
+| Build and lint | `npm run build` and `npm run lint` | Both exited 0 |
+| Original docs validator | `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .` | Exit 2 because the script is missing |
+
+The test suites reported zero failures and zero skips on the successful run. The user
+accepted ORD-002 for backend tracking under ORD-DEC-011. Formal verification on
+`feature/ORD-integration` and original documentation validation remain open.
