@@ -196,3 +196,11 @@ ORD-DEC-007 authorizes `chore(ORD-001): checkpoint verified order schema and dom
 non-force push of `work/ORD-backend` only. The remote head check found neither that branch
 nor `feature/ORD-integration` before publication. A future integration pull request requires
 the documented integration target. Report the resulting checkpoint hash and remote ref after Git verifies them.
+
+## 2026-11-07 — ORD-002 local development exception
+
+ORD-DEC-008 authorizes quote service development on `work/ORD-backend` from published
+ORD-001 checkpoint 59861e6. The clean ORD worktree is separate from the local CART
+closeout changes. The SET owner modules and published CART test fix are used in an
+isolated test composition. The `feature/ORD-integration` baseline and its merge gates
+remain required for runtime wiring.

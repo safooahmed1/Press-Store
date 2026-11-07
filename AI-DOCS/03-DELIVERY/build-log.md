@@ -578,3 +578,16 @@ The user authorized publishing ORD-001 under ORD-DEC-007. Planned checkpoint sub
 `chore(ORD-001): checkpoint verified order schema and domain`. Preserve the staged SQL,
 existing verification evidence and ORD-DEC-006 task acceptance. The authorized remote write
 is a non-force push of `work/ORD-backend`; actual hash and remote-ref verification follow Git execution.
+
+## 2026-11-07 — ORD-002 local quote
+
+ORD-DEC-008 approves the local BE quote with published CART, CAT and SET owner services
+in isolated verification. The implementation, co-located tests and ORD documentation are
+scoped to the quote. HTTP mounting and production composition await integrated dependencies.
+Planned subject: `feat(ORD-002): implement checkout quote`. Completion commit: None.
+
+## 2026-11-07 — ORD-002 isolated HTTP verification
+
+The local router is composed with real AUTH, CART, CAT and SET services in a disposable
+HTTP test app. The application mount awaits the owner integrations under ORD-DEC-008.
+See the verification matrix for the final run and remaining gates.

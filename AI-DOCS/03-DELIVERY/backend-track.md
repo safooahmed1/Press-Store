@@ -21,7 +21,7 @@ This is the Backend developer entry point, not a second specification. Canonical
 | 3 | SET | WS-SET-BE | SET-001 | AUTH guard; FND DB/HTTP | `work/SET-backend` | `server/src/features/settings/**` | planned; parallel-safe with CAT-BE after dependencies |
 | 4 | HOME | WS-HOME-BE | HOME-001 | CAT admin/curation contract; FND storage | `work/HOME-backend` | `server/src/features/homepage/**` | planned |
 | 5 | CART | WS-CART-BE | CART-001–CART-002 | AUTH and CAT read contracts | `work/CART-backend` | `server/src/features/cart/**` | CART-001/CART-002 backend implementations verified: full unit 179/179, mirror integration 129/129, lint/build/cleanup pass. Formal task gates/docs validator remain blocked; no completion commits, FE or ORD implementation. |
-| 6 | ORD | WS-ORD-BE | ORD-001–ORD-003, ORD-006, ORD-009, ORD-011 | CART/CAT/SET/AUTH/FND contracts | `work/ORD-backend` | `server/src/features/orders/**` | ORD-001 accepted for task tracking under ORD-DEC-006, BE 1/6. Migration activation and docs validation remain open. ORD-002 awaits dependencies. |
+| 6 | ORD | WS-ORD-BE | ORD-001–ORD-003, ORD-006, ORD-009, ORD-011 | CART/CAT/SET/AUTH/FND contracts | `work/ORD-backend` | `server/src/features/orders/**` | ORD-001 accepted under ORD-DEC-006. ORD-002 local quote under ORD-DEC-008. HTTP wiring and dependency integration are pending. |
 | 7 | CUS | WS-CUS-BE | CUS-001 | AUTH and ORD read contracts | `work/CUS-backend` | `server/src/features/customers/**` | planned |
 | 8 | ADM | WS-ADM-BE | ADM-004 | CAT/ORD/CUS read projections | `work/ADM-backend` | `server/src/features/admin-dashboard/**` | planned |
 
