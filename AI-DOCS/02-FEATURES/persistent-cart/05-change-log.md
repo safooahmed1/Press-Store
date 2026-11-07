@@ -66,3 +66,9 @@ retained, not claimed rerun for publication. No frontend or unrelated worktree c
 PR-based remote integration still requires the documented feature/CART-integration baseline and
 gates; no new integration branch, alternate merge target, merge, deployment or release is created.
 Actual Git hashes and push confirmation follow execution, without a self-referencing follow-up commit.
+
+## 2026-11-07 — CART upgrade fixture correction
+
+The fixture now applies only the historical migration prefix through CART. The upgrade
+and repeat passed with SET and ORD SQL discoverable. Full CART integration in that
+disposable composition passed 32/32. See CART-DEC-008 and the verification matrix.

@@ -1238,3 +1238,22 @@ Source/tests match the verified mirror; `git diff --check` passed and no new cod
 The original validator invocation exited 2 because the script was absent. A read-only
 `git ls-remote --heads` found neither `work/ORD-backend` nor `feature/ORD-integration`.
 The actual checkpoint hash and remote result are reported after execution.
+
+## 2026-11-07 — CART historical upgrade fixture
+
+| Check | Exact command or procedure | Result |
+|---|---|---|
+| Focused upgrade on CART | `FND_DISPOSABLE_MYSQL_TESTS=1 node --test --test-isolation=none --test-name-pattern='cart migration upgrade and discovery isolation' server/src/features/cart/routes/cart-core.integration.test.js` | Exit 0, 1 passed |
+| CART integration with later migrations discoverable | `FND_DISPOSABLE_MYSQL_TESTS=1 node --test --test-isolation=none server/src/features/cart/routes/cart-core.integration.test.js server/src/features/cart/routes/cart-catalog-live.integration.test.js server/src/features/cart/services/cart-checkout.integration.test.js` | Exit 0, 32 passed, 0 failed, 0 cancelled, 0 skipped |
+| Lint and whitespace | `npm run lint` and `git diff --check` | Exit 0 |
+
+The isolated composition used ORD checkpoint 59861e6, the patched CART test byte-for-byte,
+and SET checkpoint 0ac8db7 for settings and its approved runtime files. The copy exposed
+SET and all three ORD SQL files to normal discovery. The first combined run passed the
+upgrade and other database checks but cancelled five app tests because the SET manifest
+support was absent from the copy. Adding the published FND registry and CAT admin route
+files from SET to the copy resolved that setup failure. No merge, SQL change, or runtime
+change was made in the worktree. The fixture retains its existing data-preservation and
+no-op repeat assertions. CAT-006 and ORD integration remain open.
+The original docs validator exited 2 because its script was absent. The user later authorized
+publishing the verified test correction as a checkpoint under CART-DEC-008.

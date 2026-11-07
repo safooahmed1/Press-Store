@@ -546,7 +546,6 @@ Publish the work branch non-force; do not create the missing integration baselin
 alternate PR target. Branch-plan's PR policy remains required for later remote integration.
 Actual second hash and push verification are reported after execution, with no circular follow-up commit.
 
-
 ## 2026-11-06 — ORD-001 approved schema/domain development
 
 User approved the CART checkpoint baseline and API idempotent-repeat policy (ORD-DEC-004).
@@ -578,3 +577,9 @@ The user authorized publishing ORD-001 under ORD-DEC-007. Planned checkpoint sub
 `chore(ORD-001): checkpoint verified order schema and domain`. Preserve the staged SQL,
 existing verification evidence and ORD-DEC-006 task acceptance. The authorized remote write
 is a non-force push of `work/ORD-backend`; actual hash and remote-ref verification follow Git execution.
+
+## 2026-11-07 — CART upgrade fixture correction
+
+CART-DEC-008 authorizes the test-only fix on `work/CART-backend`. Focused upgrade
+passed 1/1 on the branch, and the disposable composition with SET and ORD migrations
+passed all 32 CART integration tests. Lint and diff checks passed. See the verification matrix.
