@@ -249,3 +249,9 @@ and `feature/ORD-integration` remains the formal integration target.
 ORD-DEC-013 records normal ORD migration discovery and creation routing on local Back-end
 with fresh and forward-upgrade verification on disposable MySQL. Formal verification
 continues to target `feature/ORD-integration`.
+
+## 2026-11-07 — ORD-006 local backend baseline
+
+ORD-DEC-015 records admin order implementation on combined `Back-end` at `8be8ea8`.
+The assigned lane branch remains `work/ORD-backend` and formal integration continues
+to target `feature/ORD-integration`.

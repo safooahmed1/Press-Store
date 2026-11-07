@@ -12,7 +12,9 @@ export function fields(value, allowed) {
 
 export function identity(value) {
   if (typeof value !== 'string' || !/^[1-9][0-9]{0,19}$/.test(value)
-    || BigInt(value) > 18446744073709551615n) throw new OrderError('VALIDATION_FAILED')
+    || BigInt(value).toString() !== value || BigInt(value) > 18446744073709551615n) {
+    throw new OrderError('VALIDATION_FAILED')
+  }
   return value
 }
 

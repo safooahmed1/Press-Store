@@ -1,5 +1,25 @@
 # Decisions — Checkout, Payments, and Orders
 
+## ORD-DEC-016 — User acceptance of ORD-006 for backend task tracking
+
+- **Status:** `approved by user`
+- **Date:** 2026-11-07
+- **Decision:** Record ORD-006 as `done` for backend tracking and publish the verified
+  admin order APIs on `Back-end` under ORD-DEC-015.
+- **Checkpoint:** Planned subject `chore(ORD-006): checkpoint admin order operations`.
+- **Scope:** Formal verification on `feature/ORD-integration` and original documentation
+  validation remain open.
+
+## ORD-DEC-015 — Local admin order operations on Back-end
+
+- **Status:** Local implementation
+- **Date:** 2026-11-07
+- **Decision:** Continue the ORD backend lane on combined `Back-end` at `8be8ea8`.
+  Use the existing ORD schema and state domain, AUTH-AUTH-002 and READ-AUTH-001,
+  and the SET contact projection. Mount the admin order router through FND discovery.
+- **Boundary:** Scope covers ORD-006 backend implementation and disposable verification.
+  Formal ORD integration and original documentation validation remain open.
+
 ## ORD-DEC-014 — User acceptance of ORD-003 for backend task tracking
 
 - **Status:** `approved by user`

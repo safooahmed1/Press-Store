@@ -326,3 +326,24 @@ the existing lifecycle database and AUTH customer session boundary.
 The local upgrade baseline is pre-ORD `Back-end` at `d53f3fe`. The user identified the
 older CART-only databases as disposable fixtures. That older history still requires
 separate reconciliation if ever used for a retained database.
+
+## 20. ORD-006 admin reads and actions on Back-end — ORD-DEC-015
+
+`GET /api/v1/admin/orders` accepts `page` and `pageSize` (A-016). It returns
+`{data:{items},meta:{page,pageSize,total}}`, including cancelled orders for audit.
+Each item contains the order ID and number, customer summary, WhatsApp URL,
+creation time, total, summed item quantities, payment and fulfillment state, and version.
+The list aggregates item quantities for the selected page and calls READ-AUTH-001
+once per distinct customer on that page.
+
+`GET /api/v1/admin/orders/:id` returns `{data:{order}}` with immutable line snapshots
+and totals, customer summary and WhatsApp URL, payment method, state, version, timestamps,
+audit actors, and pickup guidance. Wallet sender data is restricted to admin detail.
+Pickup contact uses READ-SET-002 and is null when SET is unavailable. The customer
+WhatsApp link uses the digit-only international form of the stored AUTH number.
+
+All routes require AUTH-AUTH-002. Actions also enforce Origin and JSON boundaries and
+take only `expectedVersion`. They use a locked order row, the existing state domain,
+and a version-qualified update in the same DB-FND-001 transaction. An achieved action
+returns the current state without rewriting audit fields. Unachieved actions with an
+old version return `ORDER_CONFLICT`. List and detail responses are served with `no-store`.

@@ -673,3 +673,18 @@ ORD is 3/11 accepted (BE 3/6). The checkpoint records the order creation code, n
 migration discovery, the approved SET fixture adjustment, and observed test evidence.
 Planned subject: `chore(ORD-003): checkpoint activated order creation`.
 Formal integration and original documentation validation remain open.
+
+## 2026-11-07 — ORD-006 admin order APIs verified on Back-end
+
+Mounted the admin list, detail, and three mutation endpoints through FND discovery.
+Actions reuse the existing state machine and persist version and audit changes
+in one transaction. Passed 10 focused state, 6 focused admin API, 213 full unit,
+and 172 full integration tests, lint, and build. Formal integration and original
+documentation validation remain open. Completion commit remains pending.
+
+## 2026-11-07 — ORD-006 backend tracking acceptance and checkpoint
+
+ORD-DEC-016 records ORD-006 acceptance for backend tracking and publication to
+`origin/Back-end`. ORD is 4/11 accepted (BE 4/6).
+Planned subject: `chore(ORD-006): checkpoint admin order operations`.
+Formal integration and original documentation validation remain open.

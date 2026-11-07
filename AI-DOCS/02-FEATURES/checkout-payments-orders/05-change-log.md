@@ -74,3 +74,16 @@ from pre-ORD Back-end were verified on disposable MySQL. Formal gates remain ope
 ORD-DEC-014 records acceptance of the verified Back-end activation for task tracking.
 ORD BE is 3/6 accepted. Formal integration and original documentation validation
 remain open.
+
+## 2026-11-07 — ORD-006 admin order APIs
+
+Added admin-only order list and detail, manual payment verification, preparation,
+delivery, and WhatsApp links from the stored customer number. ORD-DEC-015 records the
+combined Back-end baseline. Formal integration and original documentation validation
+remain open.
+
+## 2026-11-07 — ORD-006 backend tracking acceptance
+
+ORD-DEC-016 records acceptance of the verified Back-end admin order APIs for task
+tracking. ORD BE is 4/6 accepted. Formal integration and original documentation
+validation remain open.

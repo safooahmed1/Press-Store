@@ -1,6 +1,10 @@
+import { createIdentityRepository } from '../auth/repositories/identities.js'
 import { createCartCheckoutService } from '../cart/services/checkout-carts.js'
 import { createSettingsRepository } from '../settings/repositories/settings.js'
 import { createSettingsService } from '../settings/services/settings.js'
+import { createAdminOrderRepository } from './admin/admin-order-repository.js'
+import { createAdminOrderRouter } from './admin/admin-order-router.js'
+import { createAdminOrderService } from './admin/admin-orders.js'
 import { createCheckoutQuoteRouter } from './checkout/checkout-quote-router.js'
 import { createCheckoutQuoteService } from './checkout/checkout-quote.js'
 import { createOrderRouter } from './checkout/order-create-router.js'
@@ -34,6 +38,21 @@ export const feature = [
         repository: createOrderSubmissionRepository(database),
       })
       return createOrderRouter({ ...context, orderService })
+    },
+  },
+  {
+    id: 'admin-orders',
+    path: '/admin/orders',
+    createRouter(context) {
+      const { database } = context
+      const service = createAdminOrderService({
+        database,
+        repository: createAdminOrderRepository(database),
+        readItems: createOrderSubmissionRepository(database).readItems,
+        readCustomerSummary: createIdentityRepository(database).readCustomerSummary,
+        readStoreContact: createSettingsService({ repository: createSettingsRepository(database) }).contact,
+      })
+      return createAdminOrderRouter({ ...context, service })
     },
   },
 ]

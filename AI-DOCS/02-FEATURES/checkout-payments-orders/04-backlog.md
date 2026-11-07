@@ -13,7 +13,7 @@
 | 3 | ORD-003 | ORD/order-core | WS-ORD-BE | Implement idempotent atomic order creation, revalidation, snapshots, and cart clear | REQ-PAY-001, REQ-PAY-010, REQ-PAY-011, REQ-ORD-013, REQ-ORD-014 | ORD-002, CMD-CART-001 | order create services/routes | transaction/idempotency/race tests | `done` | `work/ORD-backend` | ORD-DEC-014 tracking acceptance and Back-end checkpoint `chore(ORD-003): checkpoint activated order creation`. | Accepted for backend tracking after normal activation and disposable verification on Back-end. See the verification matrix for results and open gates. |
 | 4 | ORD-004 | ORD/checkout-ui | WS-ORD-FE | Build responsive checkout review, conditional payment, guidance, and confirmation | REQ-PAY-001, REQ-PAY-002, REQ-PAY-003, REQ-PAY-004, REQ-PAY-005, REQ-PAY-006, REQ-PAY-007, REQ-PAY-008 | ORD-002, ORD-003, UI-003 | `src/features/orders/checkout/**` | component/a11y/E2E tests | `not-started` | `work/ORD-frontend` | — | — |
 | 5 | ORD-005 | ORD/customer-history | WS-ORD-INT | Integrate customer order list/detail API with responsive pages | REQ-ORD-001, REQ-ORD-002, REQ-ORD-003, REQ-ORD-005, REQ-SCOPE-017 | ORD-009, ORD-010 | `tests/integration/orders/customer-history/**` | live API/client isolation and UI checks | `not-started` | `feature/ORD-integration` | — | — |
-| 6 | ORD-006 | ORD/admin-api | WS-ORD-BE | Implement admin list/detail, manual payment, prepare/deliver, and WhatsApp contracts | REQ-PAY-009, REQ-PAY-010, REQ-ORD-007, REQ-ORD-008, REQ-ORD-009, REQ-ORD-011, REQ-ORD-012, REQ-ORD-015 | ORD-001, READ-SET-002, AUTH-AUTH-002 | order admin server paths | action/state/deep-link tests | `not-started` | `work/ORD-backend` | — | — |
+| 6 | ORD-006 | ORD/admin-api | WS-ORD-BE | Implement admin list/detail, manual payment, prepare/deliver, and WhatsApp contracts | REQ-PAY-009, REQ-PAY-010, REQ-ORD-007, REQ-ORD-008, REQ-ORD-009, REQ-ORD-011, REQ-ORD-012, REQ-ORD-015 | ORD-001, READ-SET-002, AUTH-AUTH-002 | order admin server paths | action/state/deep-link tests | `done` | `work/ORD-backend` | ORD-DEC-016 tracking acceptance and Back-end checkpoint `chore(ORD-006): checkpoint admin order operations`. | Accepted for backend tracking after verification on Back-end. See the verification matrix for results and open gates. |
 | 7 | ORD-007 | ORD/admin-ui | WS-ORD-FE | Build responsive admin Orders list/detail and clear daily actions | REQ-ORD-007, REQ-ORD-008, REQ-ORD-009, REQ-ORD-010, REQ-ORD-011, REQ-ORD-012 | ORD-006, UI-004 | `src/features/orders/admin/**` | admin component/responsive tests | `not-started` | `work/ORD-frontend` | — | — |
 | 8 | ORD-008 | ORD/expiry-verification | WS-ORD-INT | Complete full live cross-feature/order expiry E2E suite | REQ-PAY-012, REQ-ORD-004, REQ-ORD-005, REQ-ORD-006 | ORD-003–ORD-007, ORD-011, A-001 confirmed/accepted | order integration/E2E tests and evidence | full clock/race/E2E/build checks | `not-started` | `feature/ORD-integration` | — | — |
 
@@ -42,11 +42,12 @@ The original ORD-005 mixed server/client scope is superseded by ORD-009/ORD-010;
 | ORD-001 formal verification | Normal discovery and pre-ORD Back-end upgrade verified under ORD-DEC-013. Formal validation and hosting migration checks remain open | Dependency and tooling owners | Verify on the formal baseline with the original validator available |
 | ORD-002 formal verification | The formal CART, CAT, and SET integrations and original docs validation remain open after tracking acceptance | Dependency and tooling owners | Verify on the documented ORD integration baseline and restore the original validator |
 | ORD-003 formal verification | The creation router and ORD migrations are verified on Back-end. Tracking acceptance leaves the formal ORD baseline and original docs validation open | Dependency and tooling owners | Verify on the documented ORD integration baseline and run the original validator |
+| ORD-006 formal verification | Admin order APIs are verified on Back-end. Tracking acceptance leaves formal ORD integration and original documentation validation open | Dependency and tooling owners | Verify on the documented ORD integration baseline and run the original validator |
 
 ## Completion Summary
 
-- **Completed for tracking:** 3/11 by user acceptance (BE 3/6).
-- **Next planned BE task:** `ORD-006`, pending authorization and dependency preflight.
+- **Completed for tracking:** 4/11 by user acceptance (BE 4/6).
+- **Next planned BE task:** `ORD-009`, pending authorization and dependency preflight.
 - **Feature status:** `in-progress`
 
 ## 2026-11-06 — ORD-001 local preflight

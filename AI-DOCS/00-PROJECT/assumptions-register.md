@@ -1,5 +1,12 @@
 # Assumptions Register
 
+## A-016 — ORD admin list defaults
+
+Active noncritical implementation assumption, 2026-11-07, ORD-006. The admin list orders
+by descending order ID. `itemCount` adds item quantities, and numbered pages are bounded at
+100,000. The existing page size defaults to 20 and caps at 50. See API-ORD-003 in the
+ORD technical contract for the response fields.
+
 ## A-015 — ORD snapshot text/storage bounds
 
 Active noncritical implementation assumption, 2026-11-06, ORD-001. Order numbers use nonempty

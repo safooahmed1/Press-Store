@@ -1483,3 +1483,33 @@ The checkpoint source matched the tested activation snapshot. The 27 focused, 21
 and 166 integration results above are the evidence for ORD-DEC-014. Git diff whitespace
 checks passed. The original validator command still exited 2 because its script was
 missing. Formal integration and original documentation validation remain open.
+
+## 2026-11-07 — ORD-006 admin order APIs on Back-end
+
+Verified a disposable archive of `Back-end` at `8be8ea8` with the ORD-006 changes and
+normal startup and migration discovery. The first focused run cancelled six tests
+because the suite setup called a test-context cleanup helper from a suite hook.
+The suite now owns its temporary upload root and removes it in teardown.
+
+| Check | Command | Result |
+|---|---|---|
+| Focused state | `node --test --test-isolation=none server/src/features/orders/domain/orders-state.test.js` | 10/10 passed |
+| Focused admin API | `FND_DISPOSABLE_MYSQL_TESTS=1 node --test --test-isolation=none server/src/features/orders/admin/admin-orders.integration.test.js` | 6/6 passed |
+| Full unit | `npm test` | 213/213 passed |
+| Full integration | `FND_DISPOSABLE_MYSQL_TESTS=1 npm run test:integration` | 172/172 passed |
+| Lint and build | `npm run lint` and `npm run build` | Both exited 0 |
+| Original docs validator | `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .` | Exit 2 because the script is missing |
+
+The successful API run covered admin authorization, Origin and input guards, list
+pagination, archived order snapshots, AUTH-based WhatsApp links, and restricted wallet
+data. The manual verification flow was exercised through the API for Wallet EG and
+InstaPay. It verified pending-payment rejection, cash payment on pickup, direct delivery,
+audit-preserving repeats, competing mutations, and rollback after a write. Formal
+integration on `feature/ORD-integration` and original documentation validation remain open.
+
+### 2026-11-07 — ORD-006 backend tracking acceptance
+
+The checkpoint source matched the tested activation snapshot. The 10 focused state,
+6 focused admin API, 213 unit, and 172 integration results above are the evidence
+for ORD-DEC-016. Git diff whitespace checks passed. Formal integration and original
+documentation validation remain open.
