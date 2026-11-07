@@ -1,5 +1,18 @@
 # Decisions — Persistent Cart
 
+## CART-DEC-008 — Bound the CART upgrade fixture to its historical migration
+
+- **Status:** `approved by user`
+- **Date:** 2026-11-07
+- **Decision:** Correct the CART upgrade test after SET discovery reproduced
+  `MIGRATION_OUT_OF_ORDER`. The source fixture uses the migration list before the initial CART
+  SQL. The target and repeat use the list through that same SQL, excluding later features.
+- **Scope:** Test-only correction on `work/CART-backend`. This supersedes the earlier instruction
+  to leave that specific test untouched. Runtime code, migration SQL, public contracts, integration
+  gates, and feature acceptance are unchanged.
+- **Publication:** User authorized publication of the test correction and its evidence on
+  `work/CART-backend`. Planned checkpoint subject: `test(CART-001): isolate the cart migration upgrade fixture`.
+
 ## CART-DEC-005 — Approved early CART-002 development and handoff contract
 
 - **Status:** `approved`

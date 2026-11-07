@@ -545,3 +545,9 @@ Read-only git ls-remote found no origin/work/CART-backend or origin/feature/CART
 Publish the work branch non-force; do not create the missing integration baseline or choose an
 alternate PR target. Branch-plan's PR policy remains required for later remote integration.
 Actual second hash and push verification are reported after execution, with no circular follow-up commit.
+
+## 2026-11-07 — CART upgrade fixture correction
+
+CART-DEC-008 authorizes the test-only fix on `work/CART-backend`. Focused upgrade
+passed 1/1 on the branch, and the disposable composition with SET and ORD migrations
+passed all 32 CART integration tests. Lint and diff checks passed. See the verification matrix.

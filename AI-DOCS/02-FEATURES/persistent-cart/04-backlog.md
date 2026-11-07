@@ -107,3 +107,10 @@ remain in their respective verification appendices. No completion/merge/PR targe
 Current blocked task, 171 full unit/116 exact-source mirror integration and lint/build/cleanup evidence
 retained. Original validator absent; no completion claim. User authorized checkpoint publication
 under CART-DEC-006. CART-002 is preserved separately in the next checkpoint.
+
+## 2026-11-07 — CART-001 upgrade test correction
+
+CART-DEC-008 limits the fixture to the initial CART migration. The focused test passed on
+the CART branch and with later SET and ORD migrations discoverable in an isolated copy.
+All 32 CART integration tests passed in the combined copy. See the verification matrix.
+The fix leaves task tracking and published checkpoint references unchanged.

@@ -311,14 +311,18 @@ describe('cart migration upgrade and discovery isolation', {
     const database = createDatabase(fixture.config)
     try {
       const migrations = await cartMigrations()
-      const baseline = migrations.filter(({ name }) => !name.startsWith('persistent-cart_'))
+      const cartMigrationName = 'persistent-cart_001_create_carts.sql'
+      const cartMigrationIndex = migrations.findIndex(({ name }) => name === cartMigrationName)
+      assert.notEqual(cartMigrationIndex, -1, 'The initial CART migration must be discoverable')
+      const baseline = migrations.slice(0, cartMigrationIndex)
+      const throughCart = migrations.slice(0, cartMigrationIndex + 1)
       await runMigrations({ config: fixture.config, migrations: baseline })
       const [{ count: before }] = await database.query('SELECT COUNT(*) AS count FROM migration_records')
       await database.query(`INSERT INTO brands (name, created_at, updated_at) VALUES ('Upgrade fixture', UTC_TIMESTAMP(6), UTC_TIMESTAMP(6))`)
-      const upgraded = await runMigrations({ config: fixture.config, migrations })
-      assert.deepEqual(upgraded.applied, ['persistent-cart_001_create_carts.sql'])
+      const upgraded = await runMigrations({ config: fixture.config, migrations: throughCart })
+      assert.deepEqual(upgraded.applied, [cartMigrationName])
       assert.equal((await database.query('SELECT name FROM brands'))[0].name, 'Upgrade fixture')
-      assert.deepEqual((await runMigrations({ config: fixture.config, migrations })).applied, [])
+      assert.deepEqual((await runMigrations({ config: fixture.config, migrations: throughCart })).applied, [])
       const [{ count: after }] = await database.query('SELECT COUNT(*) AS count FROM migration_records')
       assert.equal(BigInt(after), BigInt(before) + 1n)
     } finally {
