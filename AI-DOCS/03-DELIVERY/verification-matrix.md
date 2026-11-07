@@ -1167,3 +1167,74 @@ Read-only git ls-remote found no origin/work/CART-backend or origin/feature/CART
 Publish the work branch non-force; do not create the missing integration baseline or choose an
 alternate PR target. Branch-plan's PR policy remains required for later remote integration.
 Actual second hash and push verification are reported after execution, with no circular follow-up commit.
+
+## ORD-001 verification appendix — 2026-11-07
+
+### Commands and observed results
+
+| Check | Exact command | Observed result |
+|---|---|---|
+| Focused ORD unit | `node --test --test-isolation=none server/src/features/orders/domain/orders-state.test.js server/src/features/orders/domain/orders-snapshots.test.js` | Exit 0, 15/15 passed in 2 suites |
+| Focused ORD MySQL | `FND_DISPOSABLE_MYSQL_TESTS=1 node --test --test-isolation=none server/src/features/orders/domain/orders-domain.integration.test.js` | Exit 0, 8/8 passed in 2 suites on local disposable MySQL 8.4.11 |
+| Lint | `npm run lint` | Exit 0 in the worktree |
+| Full unit | `npm test` | Exit 0, 194/194 passed in 39 suites in the source mirror; existing jsdom canvas notices did not fail tests |
+| Build | `npm run build` | Exit 0, Vite built 78 modules in the source mirror |
+| Full integration | `FND_DISPOSABLE_MYSQL_TESTS=1 npm run test:integration` | Exit 0, 137/137 passed in 25 suites, 0 skipped, in the source mirror with its built assets |
+| Diff whitespace | `git diff --check` | Exit 0 |
+| Original docs validator | `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .` | Exit 2, original script missing; validation blocked |
+
+The non-hidden source mirror at `/tmp/press-ord001-verify-opqhz0j6` avoids the known FND
+static-serving issue under the hidden worktree path. The 299 tracked and unignored task files
+were copied and byte-compared before the build. The pre-evidence manifest SHA-256 was
+`a7585c3b39e70a38ad8b41f4a608caa3e7dd2b4058de496da4f432568b54589a`.
+Only evidence documentation changed after mirroring. The sandbox command
+`FND_DISPOSABLE_MYSQL_TESTS=1 npm run test:integration -- --help` reported 18 file wrappers
+and 0 suites, so it is excluded from pass counts. Typecheck has no package script or project
+configuration in this JavaScript baseline.
+
+### Exercised behavior and remaining gates
+
+Reviewed ORD-001, linked acceptance criteria, SQL, domain, tests and the documentation diff.
+The focused tests covered method-specific payment and fulfillment, unchanged achieved repeats,
+invalid actors/versions, exact money and immutable snapshots. Disposable fixtures proved fresh
+DDL, upgrade and no-op rerun with original checksums/data, duplicate-key concurrency, customer
+ownership, catalog edit/soft-delete retention, audit guards and transaction rollback.
+The normal runner in the full suite excluded the pending ORD SQL. The unchanged CART upgrade
+test passed with that normal discovery path. ORD applied its SQL only through explicit fixture
+lists. Production migration permissions and ordinary ORD activation remain unverified.
+
+ORD-001 remains blocked on activation under ORD-DEC-005 and the missing original validator.
+Feature acceptance checkboxes remain open. A-001 and downstream checkout, APIs and expiry
+verification remain separate. Completion commit: None. Next ready BE task: None.
+
+### 2026-11-07 activation reproduction
+
+Copied the three ORD SQL files into normal discovery in a disposable source copy only and
+byte-compared the CART test to the worktree. Ran the command below with disposable MySQL.
+
+```sh
+FND_DISPOSABLE_MYSQL_TESTS=1 node --test --test-isolation=none --test-name-pattern='cart migration upgrade and discovery isolation' server/src/features/cart/routes/cart-core.integration.test.js
+```
+
+Exit 1, 0 passed and 1 failed with `MIGRATION_OUT_OF_ORDER` at the second migration run.
+The CART fixture applies every discovered migration except CART as its starting history, so it
+records ORD ahead of CART. FND then rejects adding CART behind already-applied migrations.
+A CART fixture fix would bound both lists to the historical CART target. Keeping the fixture
+unchanged per ORD-DEC-005 leaves ORD activation blocked. The worktree SQL stays in `pending/`.
+The mandatory docs validator was attempted again and exited 2 because the original file is absent.
+
+### 2026-11-07 ORD-001 user acceptance
+
+ORD-DEC-006 supersedes the earlier blocked status for task tracking only. `git diff --check`
+passed, and the ORD source and tests matched the verified mirror byte for byte. No code tests
+were rerun for this documentation update. The original validator command again exited 2 because
+the script was absent. The observed activation failure and integration gates remain open.
+Completion commit: None.
+
+### 2026-11-07 ORD-001 checkpoint preparation
+
+ORD-DEC-007 authorizes one checkpoint and a non-force push of `work/ORD-backend`.
+Source/tests match the verified mirror; `git diff --check` passed and no new code tests ran.
+The original validator invocation exited 2 because the script was absent. A read-only
+`git ls-remote --heads` found neither `work/ORD-backend` nor `feature/ORD-integration`.
+The actual checkpoint hash and remote result are reported after execution.

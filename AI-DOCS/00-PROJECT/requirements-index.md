@@ -177,3 +177,11 @@ REQ-CART-003/004/005 retain their existing requirements and owners. Approved ear
 implementation under CART-DEC-005 supplies transaction-scoped readiness/clear and tests only;
 feature/FE/INT acceptance remains separate. See the CART-002 verification appendix for observed
 results and open gates. No numeric inventory or new business requirement is introduced.
+
+
+## 2026-11-06 — ORD-001 evidence pointer
+
+REQ-PAY-009/010/012 and REQ-ORD-002/013/015 retain their existing owner/task coverage.
+ORD-DEC-004 resolves achieved-action repeats consistently with API-ORD-003. ORD-001 adds
+only local staged schema and domain validation evidence; APIs/full feature acceptance remain
+separate. See the ORD-001 verification appendix. A-001 cash cutoff is not confirmed by this task.

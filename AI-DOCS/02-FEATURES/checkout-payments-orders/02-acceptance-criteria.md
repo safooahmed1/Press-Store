@@ -22,7 +22,7 @@ The feature is not complete until every required criterion passes and has eviden
 - **Given:** electronic pending and cash unpaid orders
 - **When:** admin verifies or pickup actions occur
 - **Then:** only admin can mark electronic paid, no proof/reference is required, pending electronic cannot be prepared/delivered, cash becomes paid on delivery, and paid orders never expire
-- **Negative/edge behavior:** repeat/invalid transitions conflict without changing timestamps
+- **Negative/edge behavior:** achieved-action repeats return current state without changing timestamps/version; incompatible transitions conflict (ORD-DEC-004 supersedes the earlier conflicting repeat wording)
 - **Evidence:** admin action API/state-machine tests
 - [ ] Passed
 

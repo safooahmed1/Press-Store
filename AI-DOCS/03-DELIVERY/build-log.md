@@ -545,3 +545,36 @@ Read-only git ls-remote found no origin/work/CART-backend or origin/feature/CART
 Publish the work branch non-force; do not create the missing integration baseline or choose an
 alternate PR target. Branch-plan's PR policy remains required for later remote integration.
 Actual second hash and push verification are reported after execution, with no circular follow-up commit.
+
+
+## 2026-11-06 — ORD-001 approved schema/domain development
+
+User approved the CART checkpoint baseline and API idempotent-repeat policy (ORD-DEC-004).
+Created work/ORD-backend from 0e3937b with a clean worktree. User then declined the scoped CART
+upgrade-test adjustment; ORD-DEC-005 stages SQL outside immediate discovery and keeps all CART
+source/tests unchanged. Added pure state/snapshot models and additive schema/constraints/history
+triggers for fixture verification only. A-015 records storage bounds; A-001 cutoff stays pending.
+No ORD API/manifest/quote/create/job, frontend, other owner source, dependencies/config or existing
+DB/env change. Verification pending; original docs validator remains absent. No commit/push/merge/deploy.
+
+## 2026-11-07 — ORD-001 verification and disposition
+
+Passed 15 focused domain tests and 8 focused tests on disposable MySQL 8.4.11. Full unit
+194/194, full mirror integration 137/137, lint, build and diff checks passed. The unchanged
+CART upgrade test passed in the full suite. See the ORD-001 verification appendix.
+The original docs validator exited 2 because its script is missing. Ordinary ORD migration
+discovery is deferred under ORD-DEC-005. ORD-001 is blocked, BE 0/6 complete, no next ready
+BE task and no completion commit. Planned subject: feat(ORD-001): add order schema and domain invariants.
+
+## 2026-11-07 — ORD-001 user acceptance
+
+Recorded ORD-DEC-006 in the feature backlog and delivery views. ORD-001 is accepted for task
+tracking, BE 1/6 and ORD 1/11. Code and migrations stay local and migration activation remains
+open. ORD-002 awaits its dependencies. See the ORD-001 acceptance entry in the verification matrix.
+
+## 2026-11-07 — ORD-001 checkpoint preparation
+
+The user authorized publishing ORD-001 under ORD-DEC-007. Planned checkpoint subject is
+`chore(ORD-001): checkpoint verified order schema and domain`. Preserve the staged SQL,
+existing verification evidence and ORD-DEC-006 task acceptance. The authorized remote write
+is a non-force push of `work/ORD-backend`; actual hash and remote-ref verification follow Git execution.

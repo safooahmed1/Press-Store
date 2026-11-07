@@ -121,3 +121,12 @@ owner/consumer callable contract. CAT owns current checkout locking reads; CART 
 snapshots/exact clear; future ORD must compose both inside its transaction. No HTTP/FE contract
 change, order code or full INT/feature acceptance. Verify locks, races, rollback and bounded queries
 against fresh MySQL fixtures. Preserve all earlier failed/unrun evidence and completion gates.
+
+
+## 2026-11-06 — ORD-001 independent core baseline
+
+ORD-DEC-004 allows the first ORD BE task on the verified CART checkpoint without creating a
+frozen ORD integration baseline. ORD-DEC-005 records that CART source/tests must remain unchanged;
+ORD SQL stays staged and is explicitly applied only in ORD disposable fixtures. No new shared
+API/caller contract is consumed at runtime in this task. Ordinary migration activation and full
+CART/CAT/SET/AUTH/FE integration/feature gates remain later work; no source transfer or merge.

@@ -183,3 +183,61 @@ items/money, then call clearForCheckout with that exact snapshot after successfu
 Cart selection version alone cannot detect price/discount changes. Order idempotency belongs to
 ORD; replay its stored result without consuming a later cart. Do not swallow transaction failures.
 No ORD schema, code, endpoint, quote fingerprint or payment/expiry policy is implemented here.
+
+## 15. ORD-001 local domain and staged schema — 2026-11-06
+
+ORD-DEC-004 approves the CART checkpoint baseline and resolves repeat-action semantics.
+ORD-DEC-005 keeps CART unchanged and defers automatic ORD migration discovery. Only ORD-owned
+domain/migration/test files and named documentation change; no ORD API/manifest is added.
+
+### Storage and immutable facts
+
+Three forward-only SQL files are staged in `server/src/features/orders/migrations/pending/`.
+Tests append them explicitly to loadMigrations(); no startup or existing application DB use.
+The `store-orders` prefix sorts after the published persistent-cart baseline without changing
+the FND runner or old migration names/checksums. Activation remains a separate integration gate.
+
+Orders store customer FK, unique bounded ASCII orderNumber, method/sender number, integer EGP
+subtotal/discount/total and coherent payment/fulfillment/audit state. Item snapshots retain product/
+variant IDs where available, productName/color/size, quantity, base/final unit minor prices and
+discount percentage. Values follow the current CAT/CART bounds. A-015 records only storage text
+bounds, not new business rules. Snapshot construction consumes trusted READ-CART-001 data;
+it never accepts client-authoritative prices or recalculates CAT's discount policy.
+
+SQL checks protect safe nonnegative integer money, row totals and coherent status/timestamp
+pairs. Aggregate item/order totals are validated by the pure snapshot builder; the future ORD-003
+transaction must insert the complete matching set. Product/variant FKs are restrictive; names/
+money remain independent immutable snapshot facts rather than mutable catalog projections.
+Idempotency records contain 32-byte key/request digests, unique customer/key and unique order,
+with a composite order/customer FK preventing cross-customer association. Raw keys, request
+payloads and secrets are not stored. Hash/canonical request generation belongs to ORD-003.
+
+ORD-owned triggers prevent changing/deleting item snapshots or idempotency records, deleting
+order history, or updating an order's owner/number/method/sender/money/creation facts. Audit
+timestamps/actors already set cannot be rewritten. Mutable state changes require the next version;
+a true no-op leaves version/updatedAt unchanged. Tests verify these on disposable MySQL only.
+Trigger/DDL privileges and production MySQL compatibility remain unverified hosting gates.
+
+### State domain
+
+Initial cash is unpaid/placed and requires an explicitly provided future cashExpiresAt. Electronic
+methods start payment_pending/placed with no expiry; Wallet alone requires a normalized sender
+number. No seven-day default or expiry worker is implemented; A-001 stays pending.
+
+Pure transitions require a trusted fixed admin actor for verify/prepare/deliver, and a system actor
+for expiry. Electronic pending cannot prepare/deliver. Cash may prepare unpaid and becomes paid
+on delivery, clearing its expiry; electronic payment is verified by the admin first. Direct pickup
+without preparation is allowed. Only unpaid cash past its supplied deadline may cancel.
+
+An achieved action is recognized by its existing audit timestamp and returns the current state
+unchanged, even if the client repeats the original version; authorization remains mandatory.
+This includes a historically achieved prepare on a later state, while prepare after direct delivery
+without a prepared timestamp is incompatible. New transitions compare expectedVersion and reject
+backward clocks/version exhaustion. No-op repeats do not invent audit times or increment version.
+This implements the approved idempotent-repeat API semantics; endpoint persistence/guards remain ORD-006.
+
+New state/snapshot results are deeply frozen and use UTC ISO timestamp strings. SQL timestamps
+use UTC DATETIME(6). Errors are safe domain codes, without SQL or sensitive payloads. Domain
+state decisions are not a production authorization boundary or a substitute for future AUTH guards.
+No order creation, request replay service, quote fingerprint, payment verification endpoint, job,
+external payment API, stock mutation, frontend or full-feature acceptance is implemented here.

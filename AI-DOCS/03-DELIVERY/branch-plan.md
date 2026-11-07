@@ -179,3 +179,20 @@ retained, not claimed rerun for publication. No frontend or unrelated worktree c
 PR-based remote integration still requires the documented feature/CART-integration baseline and
 gates; no new integration branch, alternate merge target, merge, deployment or release is created.
 Actual Git hashes and push confirmation follow execution, without a self-referencing follow-up commit.
+
+
+## 2026-11-06 — ORD-001 approved local baseline
+
+ORD-DEC-004 authorizes work/ORD-backend from published CART checkpoint
+0e3937b753038db37491c23dfc8ae951a5be54da. Reuse the clean current checkout; no separate worktree
+or feature/ORD-integration branch created. This is not the ordinary frozen integration baseline.
+Only ORD-001 code/schema development is authorized, with SQL staged under ORD-DEC-005 and all
+original completion/hosting/merge gates retained. Previous CART publication authorization does
+not extend to ORD. No push/checkpoint, merge, deployment or next task authorized.
+
+## 2026-11-07 — ORD-001 checkpoint publication
+
+ORD-DEC-007 authorizes `chore(ORD-001): checkpoint verified order schema and domain` and a
+non-force push of `work/ORD-backend` only. The remote head check found neither that branch
+nor `feature/ORD-integration` before publication. A future integration pull request requires
+the documented integration target. Report the resulting checkpoint hash and remote ref after Git verifies them.

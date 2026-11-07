@@ -1,5 +1,16 @@
 # Assumptions Register
 
+## A-015 — ORD snapshot text/storage bounds
+
+Active noncritical implementation assumption, 2026-11-06, ORD-001. Order numbers use nonempty
+ASCII storage up to 64 characters; their generation format is deferred to ORD-003. Wallet-sender
+storage is at most 16 ASCII characters in canonical E.164 shape; permitted-country/input
+normalization policy remains ORD-002 scope, not a newly accepted payment policy. Snapshot
+product names use 255 Unicode code points and color/size 100, matching existing CAT bounds.
+These are bounded storage choices, not PRD limits or a user-confirmed order-number format.
+IDs 013/014 exist in the separate SET/HOME owner worktrees and are not reassigned here.
+Money, payment/fulfillment and repeat-action policy remain canonical ORD decisions, not assumptions.
+
 | Assumption ID | Status | Affected Doc | Assumption | Confirmation Needed |
 |---|---|---|---|---|
 | A-001 | Pending Confirmation | ORD contracts, checkout copy, cleanup job | “3–7 days” means an unpaid Cash on Pickup order auto-cancels at the maximum boundary: exactly 7 calendar days after creation; no automatic cancellation occurs on day 3. | Confirm the exact automatic cutoff or replace it with another deterministic rule. |
