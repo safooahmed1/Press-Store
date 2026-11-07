@@ -1,5 +1,19 @@
 # Decisions — Checkout, Payments, and Orders
 
+## ORD-DEC-010 — Local checkout activation on the combined Back-end branch
+
+- **Status:** Local implementation
+- **Date:** 2026-11-07
+- **Decision:** Complete the local checkout wiring in the combined `Back-end` worktree after
+  the user requested finishing ORD-002. The combined branch contains the published CART, CAT
+  and SET backend services. The ORD manifest composes those services using the existing FND
+  lifecycle database and AUTH customer boundary.
+- **Boundary:** This satisfies local application mounting on `Back-end`. The documented ORD
+  integration baseline, owner acceptance, original documentation validation, and completion
+  gate remain open. ORD-001 migration discovery and ORD-003 confirmation are unchanged.
+- **Checkpoint:** The user requested a commit for the verified application mount on
+  `Back-end`. Planned subject: `chore(ORD-002): checkpoint checkout activation`.
+
 ## ORD-DEC-009 — ORD-002 checkpoint and local Back-end inclusion
 
 - **Status:** `approved by user`

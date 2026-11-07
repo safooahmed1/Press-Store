@@ -231,3 +231,9 @@ ORD-001 checkpoint 59861e6. The clean ORD worktree is separate from the local CA
 closeout changes. The SET owner modules and published CART test fix are used in an
 isolated test composition. The `feature/ORD-integration` baseline and its merge gates
 remain required for runtime wiring.
+
+## 2026-11-07 — ORD-002 local mount on the combined branch
+
+ORD-DEC-010 records local quote activation on the user-requested `Back-end` branch from
+merge commit aa2ff39. The named feature integration targets and acceptance gates remain
+required for formal completion.

@@ -631,3 +631,13 @@ Planned subject: `feat(ORD-002): implement checkout quote`. Completion commit: N
 The local router is composed with real AUTH, CART, CAT and SET services in a disposable
 HTTP test app. The application mount awaits the owner integrations under ORD-DEC-008.
 See the verification matrix for the final run and remaining gates.
+
+## 2026-11-07 — ORD-002 local application activation
+
+Mounted the quote router through FND discovery on the combined Back-end worktree
+under ORD-DEC-010. The disposable server suite passed 4/4. The exact runtime mirror
+passed 213 unit and 160 integration tests, lint and build. Formal integration and
+original docs validation remain open. Completion commit: None.
+
+The user requested a checkpoint for the verified activation on `Back-end`.
+Planned subject: `chore(ORD-002): checkpoint checkout activation`.

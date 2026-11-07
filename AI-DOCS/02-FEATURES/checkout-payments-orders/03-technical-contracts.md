@@ -277,3 +277,12 @@ JSON boundaries. It rejects query parameters and uses the framework's standard n
 session and error behavior. The named checkout conflicts use 409. Invalid input uses 422
 and catalog unavailability uses 503. There is no feature manifest or application mount until
 the dependency integration gate under ORD-DEC-008.
+
+## 17. ORD-002 local application mount — ORD-DEC-010
+
+On the combined `Back-end` branch, the ORD manifest now mounts the same checkout router
+under `/checkout` through FND discovery. The factory shares FND's existing database with
+the published CART and SET owner services. Its contract and AUTH customer boundary are the
+same as section 16. The disposable integration suite now starts the real application and
+uses the standard FND MySQL test opt-in. This local composition is separate from formal
+feature integration and release acceptance.

@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict'
 import { after, before, describe, it } from 'node:test'
+import { startServer } from '../../../app/start-server.js'
 import { localDatabaseTestsEnabled } from '../../../config/database-config.js'
 import { createSessionRepository } from '../../../platform/auth/session-repository.js'
 import { createSessionService } from '../../../platform/auth/sessions.js'
@@ -7,6 +8,7 @@ import { createDatabase } from '../../../platform/db/database.js'
 import { loadMigrations } from '../../../platform/db/migration-files.js'
 import { runMigrations } from '../../../platform/db/migrate.js'
 import { startDisposableMysql } from '../../../platform/db/testing/disposable-mysql.js'
+import { createLogger } from '../../../platform/observability/logger.js'
 import { createCartCheckoutService } from '../../cart/services/checkout-carts.js'
 import { createCartService } from '../../cart/services/carts.js'
 import { createCartRepository } from '../../cart/repositories/carts.js'
@@ -14,29 +16,23 @@ import { createCatalogService } from '../../catalog/services/catalog.js'
 import { createCatalogRepository } from '../../catalog/repositories/catalog.js'
 import { createAdminCatalogService } from '../../catalog/services/admin-catalog.js'
 import { createAdminCatalogRepository } from '../../catalog/repositories/admin-catalog.js'
+import { createSettingsRepository } from '../../settings/repositories/settings.js'
+import { createSettingsService } from '../../settings/services/settings.js'
 import { createCheckoutQuoteService } from './checkout-quote.js'
-import { createCheckoutQuoteRouter } from './checkout-quote-router.js'
-import { startTestApp } from '../../../../../tests/helpers/http-server.js'
+import { temporaryDirectory } from '../../../../../tests/helpers/temporary-directory.js'
 
 const wallet = '+201212345678'
 const instapay = '+201512345678'
 const settingsInput = { storeName: 'Quote fixture', storePhone: '+201012345678', whatsappPhone: '+201112345678',
   walletEgNumber: wallet, instaPayNumber: instapay, socialLinks: {} }
-const realSettingsEnabled = localDatabaseTestsEnabled() && process.env.ORD_REAL_SETTINGS_TESTS === '1'
-
 describe('orders checkout quote with live owner services', {
-  skip: !realSettingsEnabled && 'Requires the isolated SET composition and disposable MySQL',
+  skip: !localDatabaseTestsEnabled() && 'Requires disposable MySQL',
 }, () => {
   let fixture, database, quoteService, sessions, settings, catalog, admin, carts, categoryId, brandId
   let customers = 0
   let images = 0
 
   before(async () => {
-    // The authorized development composition supplies these exact SET modules only for this suite.
-    const [{ createSettingsService }, { createSettingsRepository }] = await Promise.all([
-      import('../../settings/services/settings.js'),
-      import('../../settings/repositories/settings.js'),
-    ])
     const migrations = await loadMigrations()
     assert.ok(migrations.some(({ name }) => name === 'set_001_create_store_settings.sql'))
     fixture = await startDisposableMysql()
@@ -75,9 +71,20 @@ describe('orders checkout quote with live owner services', {
     return { customerId, productId, productInput, cart }
   }
 
-  async function mountQuote(t) {
-    const router = createCheckoutQuoteRouter({ database, config: { nodeEnv: 'test' }, quoteService })
-    const { origin, logs } = await startTestApp(t, { manifests: [{ id: 'checkout', path: '/checkout', router }] })
+  async function startQuoteServer(t) {
+    const logs = []
+    const server = await startServer({
+      config: { nodeEnv: 'test', port: 0 },
+      databaseConfig: fixture.config,
+      databaseFactory: () => database,
+      storageConfig: { root: await temporaryDirectory(t) },
+      logger: createLogger({ environment: 'test', sink: (line) => logs.push(JSON.parse(line)) }),
+    })
+    t.after(async () => {
+      server.closeAllConnections()
+      await new Promise((resolve, reject) => server.close((error) => error ? reject(error) : resolve()))
+    })
+    const origin = `http://127.0.0.1:${server.address().port}`
     return {
       logs,
       async request(body, { cookie, path = '/api/v1/checkout/quote', headers = {} } = {}) {
@@ -103,7 +110,7 @@ describe('orders checkout quote with live owner services', {
     assert.match(cash.pickup.cashCollectionNotice, /3–7 days/)
     await assert.rejects(quote(customerId, { ...input, paymentMethod: 'wallet_eg' }), { code: 'PAYMENT_SETTINGS_UNAVAILABLE' })
     const cookie = await sessionCookie(customerId)
-    const { request, logs } = await mountQuote(t)
+    const { request, logs } = await startQuoteServer(t)
     const missing = await request({ ...input, paymentMethod: 'wallet_eg' }, { cookie })
     assert.equal(missing.status, 409)
     assert.equal(missing.body.error.code, 'PAYMENT_SETTINGS_UNAVAILABLE')
@@ -174,7 +181,7 @@ describe('orders checkout quote with live owner services', {
     await database.query(`INSERT INTO admins (admin_id, phone, password_hash, created_at, updated_at)
       VALUES (1, '+201099999999', 'synthetic fixture hash', UTC_TIMESTAMP(6), UTC_TIMESTAMP(6))`)
     const adminCookie = await sessionCookie('1', 'admin')
-    const { request } = await mountQuote(t)
+    const { request } = await startQuoteServer(t)
     const input = { expectedCartVersion: cart.version, paymentMethod: 'cash' }
     const cases = [
       [input, {}, 401, 'AUTH_REQUIRED'],

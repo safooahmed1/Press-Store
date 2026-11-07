@@ -1394,3 +1394,18 @@ FND_DISPOSABLE_MYSQL_TESTS=1 ORD_REAL_SETTINGS_TESTS=1 node --test --test-isolat
 
 The manifest and test harness adaptation were confined to the disposable copy. No owner
 branch merge, application mounting on the work branch, or acceptance status change occurred.
+
+### 2026-11-07 — ORD-002 application mount on Back-end
+
+The local worktree from aa2ff39 discovers the ORD checkout manifest through the normal
+FND startup path. The focused command
+`FND_DISPOSABLE_MYSQL_TESTS=1 node --test --test-isolation=none server/src/features/orders/checkout/checkout-quote.integration.test.js`
+passed 4/4 on disposable MySQL. It exercised real AUTH sessions, all three payment methods,
+selected-only destinations, pricing changes, and request rejection. The application used
+the real CART, CAT, and SET services from the combined branch.
+
+The non-hidden mirror matched the application source byte for byte. `npm test` passed
+213/213, `FND_DISPOSABLE_MYSQL_TESTS=1 npm run test:integration` passed 160/160 with no
+skips, and `npm run build`, `npm run lint`, and `git diff --check` exited 0. No existing
+application database was used. Formal feature integration remains open.
+The original docs validator invocation exited 2 because the script was absent. Completion commit: None.

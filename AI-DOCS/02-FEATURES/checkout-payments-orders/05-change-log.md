@@ -43,3 +43,9 @@ results and the gates still open.
 Added the quote router and mounted it only in the disposable test app. It uses the
 published customer-session guard and existing Origin, JSON and error boundaries.
 Application mounting remains deferred under ORD-DEC-008.
+
+## 2026-11-07 — ORD-002 local application mount on Back-end
+
+ORD-DEC-010 records mounting the existing quote router using the real CART and SET services
+on the combined backend branch. Verification exercises FND discovery and customer-session
+requests through the normal server entry point. The formal integration and validator gates remain open.
