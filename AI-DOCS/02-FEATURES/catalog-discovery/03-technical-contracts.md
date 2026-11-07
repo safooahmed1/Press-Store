@@ -254,3 +254,15 @@ FND owns validated storageConfig and the one lifecycle database. Production read
 ## 2026-11-04 — Independent SET mount coexistence
 
 CAT-DEC-009 / FND-DEC-012 move the unchanged guard/Origin checks to owned /admin/products, /admin/categories and /admin/brands child routers. Other /admin paths fall through rather than traverse CAT authentication. SET owns /admin/settings and its own guard. Protected CAT behavior is unchanged and full regressions are recorded in SET-001 evidence. The CAT migration-upgrade fixture now seeds an ordered prefix before cat_004, avoiding accidental application of newer SET SQL before the pending CAT migration; FND ordering rules are unchanged.
+
+## 17. HOME-001 CAT read/command amendment — 2026-11-06
+
+CAT-DEC-011, approved with HOME-DEC-002, owns all added merchandising data work. createMerchandisingService({database,imageUrl}) is the named HOME consumer seam:
+
+- read(): {version,bestSellerProductIds,newArrivalProductIds,bestSellers,newArrivals,categories}. Numeric version is shared by both selection lists; selected IDs are canonical strings. Up to eight flags each, first 48 categories by ID. Product summaries match API-CAT-001 money/image/active-variant shape. Public purchase displays exclude deleted products and products without an available variant, while admin selection IDs retain temporarily unavailable choices.
+- replace(kind,{productIds,version}): atomic desired-set replacement, kind best-sellers/new-arrivals. Strict complete input, max eight unique canonical IDs, positive numeric current version. Invalid/duplicate IDs rejected, missing/deleted targets PRODUCT_NOT_FOUND, ninth CURATION_LIMIT_EXCEEDED, stale EDIT_CONFLICT. Returns {resourceId:kind,version:next}. Desired set order is not persisted; public ordering is fixed product ID, canonical facts remain Product flags.
+- Existing createAdminCatalogService.setFlags remains unchanged externally. Product create/update/delete/setFlags advances global list revision only when active membership changes, in the same curation-locked transaction. Replacing a list advances it and increments versions only on products whose flag changes. Product update/default/unavailable behavior otherwise unchanged.
+- The additive revision migration is cat_005_add_curation_revision.sql. It adds one positive revision column to existing coordination state, no duplicate selection model. Existing applied SQL files/checksums are unchanged. Explicit FND runner only, no application startup or existing DB migration in this task.
+- SQL remains in CAT repositories, validation/projection in CAT services. HOME does not import repositories or directly access tables. Existing CAT publicQuery validator and bounded multipart catalogBody are reused for internal CTA query syntax and data/images transport, without changing their existing behavior; HOME enforces one image per slide before file writes.
+
+Existing public/product/classification API contracts are unchanged. Full owner/FE fixture acknowledgement, load/production isolation/migration/consumer verification and ordinary integration baseline remain open; not a full CAT-006 pass.

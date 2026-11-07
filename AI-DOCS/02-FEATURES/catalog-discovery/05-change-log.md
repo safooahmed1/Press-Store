@@ -53,3 +53,7 @@ completion claim. Focused unit and real-MySQL locking/concurrency evidence is re
 ## 2026-11-04 — Approved SET-001 composition consumer amendment
 
 CAT-DEC-009 scopes existing admin middleware to the three CAT resources so SET can own /admin/settings independently. Adjusted only the integration fixture's initial ordered migration prefix for new later-feature migrations. No catalog data/API/business rules changed; full CAT checks are part of SET verification. Original CAT task counts/acceptance remain unchanged.
+
+## 2026-11-06 — Approved HOME consumer amendment
+
+CAT-DEC-011 adds bounded READ-CAT-002 projections and atomic globally versioned selection replacement under existing lock, with additive cat_005 revision and coordinated legacy flag writers. Reuses already approved CAT-DEC-009 route scoping/fixture prefix, extends migration discovery regression expectation. No HOME direct CAT writes, old SQL edits, dependencies, frontend or publication. Evidence is HOME-001 verification appendix; original CAT worktree/acceptance closeout remains separate and unchanged.

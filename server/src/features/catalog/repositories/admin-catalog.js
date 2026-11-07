@@ -1,4 +1,5 @@
 import { CatalogError } from '../services/catalog-input.js'
+import { lockCuration, advanceCuration } from './curation-state.js'
 
 const productColumns = `product_id, name, description, category_id, brand_id, price_minor,
   discount_percent, is_best_seller, is_new_arrival, version, updated_at`
@@ -6,10 +7,6 @@ const qualifiedColumns = productColumns.split(',').map((column) => `p.${column.t
 function kindOf(kind) {
   if (!['category', 'brand'].includes(kind)) throw new TypeError('Invalid classification kind')
   return { table: kind === 'category' ? 'categories' : 'brands', key: kind === 'category' ? 'category_id' : 'brand_id' }
-}
-async function lockCuration(tx) {
-  const [state] = await tx.query('SELECT state_id FROM catalog_curation_states WHERE state_id = 1 FOR UPDATE')
-  if (!state) throw new Error('Catalog coordination unavailable')
 }
 async function checkFlags(tx, input, excludeId = '0') {
   const [counts] = await tx.query(`SELECT COUNT(CASE WHEN is_best_seller = TRUE THEN 1 END) AS best,
@@ -69,13 +66,14 @@ export function createAdminCatalogRepository(database) {
         const [{ id }] = await tx.query('SELECT CAST(LAST_INSERT_ID() AS CHAR) AS id')
         for (const [slot, imagePath] of paths.entries()) await tx.query('INSERT INTO product_images (product_id, image_path, slot) VALUES (?, ?, ?)', [id, imagePath, slot])
         await setVariants(tx, id, input.variants)
+        if (input.bestSeller || input.newArrival) await advanceCuration(tx)
         return { ...await productResult(tx, id), obsoletePaths: [] }
       })
     },
     async updateProduct(productId, input, paths) {
       return database.transaction(async (tx) => {
         await lockCuration(tx)
-        const [current] = await tx.query('SELECT version FROM products WHERE product_id = ? AND deleted_at IS NULL FOR UPDATE', [productId])
+        const [current] = await tx.query('SELECT version, is_best_seller, is_new_arrival FROM products WHERE product_id = ? AND deleted_at IS NULL FOR UPDATE', [productId])
         if (!current) throw new CatalogError('PRODUCT_NOT_FOUND')
         if (current.version !== input.version) throw new CatalogError('EDIT_CONFLICT')
         await checkFlags(tx, input, productId)
@@ -105,30 +103,33 @@ export function createAdminCatalogRepository(database) {
         [input.name, input.description, input.categoryId, input.brandId, input.priceMinor, input.discountPercent,
           input.bestSeller, input.newArrival, productId])
         await setVariants(tx, productId, input.variants)
+        if (Boolean(current.is_best_seller) !== input.bestSeller || Boolean(current.is_new_arrival) !== input.newArrival) await advanceCuration(tx)
         return { ...await productResult(tx, productId), obsoletePaths }
       })
     },
     async setFlags(productId, input) {
       return database.transaction(async (tx) => {
         await lockCuration(tx)
-        const [current] = await tx.query('SELECT version FROM products WHERE product_id = ? AND deleted_at IS NULL FOR UPDATE', [productId])
+        const [current] = await tx.query('SELECT version, is_best_seller, is_new_arrival FROM products WHERE product_id = ? AND deleted_at IS NULL FOR UPDATE', [productId])
         if (!current) throw new CatalogError('PRODUCT_NOT_FOUND')
         if (current.version !== input.version) throw new CatalogError('EDIT_CONFLICT')
         await checkFlags(tx, input, productId)
         await tx.query(`UPDATE products SET is_best_seller = ?, is_new_arrival = ?, version = version + 1,
           updated_at = UTC_TIMESTAMP(6) WHERE product_id = ?`, [input.bestSeller, input.newArrival, productId])
+        if (Boolean(current.is_best_seller) !== input.bestSeller || Boolean(current.is_new_arrival) !== input.newArrival) await advanceCuration(tx)
         return productResult(tx, productId)
       })
     },
     async deleteProduct(productId, version) {
       return database.transaction(async (tx) => {
         await lockCuration(tx)
-        const [row] = await tx.query('SELECT version FROM products WHERE product_id = ? AND deleted_at IS NULL FOR UPDATE', [productId])
+        const [row] = await tx.query('SELECT version, is_best_seller, is_new_arrival FROM products WHERE product_id = ? AND deleted_at IS NULL FOR UPDATE', [productId])
         if (!row) throw new CatalogError('PRODUCT_NOT_FOUND')
         if (row.version !== version) throw new CatalogError('EDIT_CONFLICT')
         await tx.query(`UPDATE products SET deleted_at = UTC_TIMESTAMP(6), updated_at = UTC_TIMESTAMP(6),
           version = version + 1, is_best_seller = FALSE, is_new_arrival = FALSE WHERE product_id = ?`, [productId])
         await tx.query('UPDATE product_variants SET is_available = FALSE WHERE product_id = ?', [productId])
+        if (row.is_best_seller || row.is_new_arrival) await advanceCuration(tx)
         return { obsoletePaths: [] }
       })
     },

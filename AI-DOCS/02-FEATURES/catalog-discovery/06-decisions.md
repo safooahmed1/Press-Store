@@ -108,3 +108,13 @@
 - Move existing CAT admin guard/Origin middleware from its broad /admin router to its products/categories/brands child routers. All CAT resources retain the same session/Origin checks; unrelated /admin/settings falls through to its own independent authenticated SET mount.
 - Update only the CAT admin integration fixture's initial migration prefix as necessary: seed migrations strictly before cat_004, then upgrade with all later names. A new SET migration exposed that excluding only cat_004 while applying newer SET first violated FND global ordering. Preserve FND out-of-order rejection; no migration history/SQL modification or live-DB repair.
 - No CAT business/data/permission change or acceptance/feature-ready claim; normal full CAT regressions remain required and observed in SET-001 verification.
+
+
+## CAT-DEC-011 — HOME-001 read projections and atomic versioned flag lists
+
+- Status: user-approved owner/consumer amendment, 2026-11-06; HOME-DEC-002 records the explicit preflight approval.
+- Add READ-CAT-002 createMerchandisingService({database,imageUrl}).read() with bounded category/curated product projections and admin selection IDs/revision. Only CAT repositories query/write CAT tables. No HOME selection table or direct product write.
+- Extend CMD-CAT-001 additively with service.replace(kind,{productIds,version}), kind best-sellers/new-arrivals, at most eight unique canonical BIGINT-string IDs. Lock existing curation singleton, compare global numeric revision, validate all nondeleted target IDs, change the complete desired flag set and affected product versions atomically, then increment revision. Other flag untouched. New list endpoint returns resourceId and numeric version.
+- cat_005 adds curation_version to CAT singleton (default 1, positive unsigned integer). Existing CAT create/update/setFlags/delete writers hold the same lock and advance it whenever selection membership changes. Nonflag edits retain revision; accepted whole-list PUT advances it even for an unchanged set. Existing product-version/string contracts and single-product setFlags interface remain unchanged.
+- Global revision conservatively conflicts even when the other list changed. Product flag changes advance those product versions; stale product editors cannot overwrite a HOME choice. Deleted products cannot be selected; unavailable-but-existing selected products stay canonical selections but are omitted from purchasable public projections.
+- No prior migration edited, no dependency, no full CAT/FE/INT acceptance or publication/merge authority. cat_005 and all tests run only on newly created disposable databases. FND ordering/interruption recovery rules remain unchanged.

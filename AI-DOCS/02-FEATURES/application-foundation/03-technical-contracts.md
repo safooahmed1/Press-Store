@@ -270,3 +270,7 @@ The existing router-factory context additionally exposes storageConfig: frozen {
 ## 2026-11-04 — Nested resource mount amendment (FND-DEC-012)
 
 Server descriptors may mount canonical multi-segment lowercase kebab-case paths, including /admin/settings. Exact duplicates and invalid IDs are still rejected before factories/composition. Empty/traversal/encoded/parameter segments, trailing slash/whitespace and reserved /health namespace are rejected. Prefix overlap is allowed only with normal Express fall-through: a parent feature must guard/handle only its owned child resources and call next for unrelated paths. No mount sorting, contract aggregator, route injection, pool or config-interface change is introduced. SET consumes the existing shared frozen context.
+
+## 2026-11-06 — HOME reuses approved nested mount composition
+
+HOME-DEC-002 authorizes reusing the exact FND-DEC-012 loader/test changes and CAT-DEC-009 resource-scoped guards/fixture-prefix changes from the SET worktree. /admin/homepage is an independent nested mount; CAT falls through for it, retaining guards on CAT resources. No SET feature/migration/business implementation, new environment reader, pool or dependency is transferred. Original SET work remains separate/unmodified, and full owner integration remains open.
