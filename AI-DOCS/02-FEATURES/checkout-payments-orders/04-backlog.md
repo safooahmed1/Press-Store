@@ -10,7 +10,7 @@
 |---:|---|---|---|---|---|---|---|---|---|---|---|---|
 | 1 | ORD-001 | ORD/order-core | WS-ORD-BE | Add order/item schema, snapshots, payment/fulfillment states, idempotency records | REQ-PAY-009, REQ-PAY-010, REQ-PAY-012, REQ-ORD-002, REQ-ORD-013, REQ-ORD-015 | FND-002, AUTH schema | order core migrations/domain | migration/state tests | `done` | `work/ORD-backend` | ORD-DEC-006 acceptance; ORD-DEC-007 checkpoint subject `chore(ORD-001): checkpoint verified order schema and domain`. | 2026-11-07: accepted for task tracking. Local verification passed 15 focused unit, 8 focused MySQL, 194 full unit and 137 full mirror integration tests, lint and build. Activation and original docs validation remain open. |
 | 2 | ORD-002 | ORD/checkout-core | WS-ORD-BE | Implement server quote, pickup guidance, three methods, payment destination/input rules | REQ-PAY-001, REQ-PAY-003, REQ-PAY-004, REQ-PAY-005, REQ-PAY-006, REQ-PAY-007, REQ-PAY-008, REQ-PAY-011, REQ-SCOPE-010, REQ-SCOPE-013 | ORD-001, READ-CART-001, READ-CAT-001, READ-SET-001 | order checkout server paths | quote/payment matrix tests | `done` | `work/ORD-backend` | ORD-DEC-011 tracking acceptance; quote checkpoint `3ea83ff`; Back-end activation checkpoint `8a6b060`. Formal completion commit pending. | Accepted for backend tracking after verification on `Back-end` at `8a6b060`. See the verification matrix for results and open gates. |
-| 3 | ORD-003 | ORD/order-core | WS-ORD-BE | Implement idempotent atomic order creation, revalidation, snapshots, and cart clear | REQ-PAY-001, REQ-PAY-010, REQ-PAY-011, REQ-ORD-013, REQ-ORD-014 | ORD-002, CMD-CART-001 | order create services/routes | transaction/idempotency/race tests | `not-started` | `work/ORD-backend` | — | — |
+| 3 | ORD-003 | ORD/order-core | WS-ORD-BE | Implement idempotent atomic order creation, revalidation, snapshots, and cart clear | REQ-PAY-001, REQ-PAY-010, REQ-PAY-011, REQ-ORD-013, REQ-ORD-014 | ORD-002, CMD-CART-001 | order create services/routes | transaction/idempotency/race tests | `done` | `work/ORD-backend` | ORD-DEC-014 tracking acceptance and Back-end checkpoint `chore(ORD-003): checkpoint activated order creation`. | Accepted for backend tracking after normal activation and disposable verification on Back-end. See the verification matrix for results and open gates. |
 | 4 | ORD-004 | ORD/checkout-ui | WS-ORD-FE | Build responsive checkout review, conditional payment, guidance, and confirmation | REQ-PAY-001, REQ-PAY-002, REQ-PAY-003, REQ-PAY-004, REQ-PAY-005, REQ-PAY-006, REQ-PAY-007, REQ-PAY-008 | ORD-002, ORD-003, UI-003 | `src/features/orders/checkout/**` | component/a11y/E2E tests | `not-started` | `work/ORD-frontend` | — | — |
 | 5 | ORD-005 | ORD/customer-history | WS-ORD-INT | Integrate customer order list/detail API with responsive pages | REQ-ORD-001, REQ-ORD-002, REQ-ORD-003, REQ-ORD-005, REQ-SCOPE-017 | ORD-009, ORD-010 | `tests/integration/orders/customer-history/**` | live API/client isolation and UI checks | `not-started` | `feature/ORD-integration` | — | — |
 | 6 | ORD-006 | ORD/admin-api | WS-ORD-BE | Implement admin list/detail, manual payment, prepare/deliver, and WhatsApp contracts | REQ-PAY-009, REQ-PAY-010, REQ-ORD-007, REQ-ORD-008, REQ-ORD-009, REQ-ORD-011, REQ-ORD-012, REQ-ORD-015 | ORD-001, READ-SET-002, AUTH-AUTH-002 | order admin server paths | action/state/deep-link tests | `not-started` | `work/ORD-backend` | — | — |
@@ -39,14 +39,14 @@ The original ORD-005 mixed server/client scope is superseded by ORD-009/ORD-010;
 
 | Task ID | Blocker | Owner/Decision Needed | Next Action |
 |---|---|---|---|
-| ORD-001 integration | Normal migration discovery is deferred under ORD-DEC-005; the original docs validator is unavailable | CART/ORD owners for activation, project owner for validator | Resolve the upgrade-fixture ordering before activation and rerun required checks with the original validator available |
+| ORD-001 formal verification | Normal discovery and pre-ORD Back-end upgrade verified under ORD-DEC-013. Formal validation and hosting migration checks remain open | Dependency and tooling owners | Verify on the formal baseline with the original validator available |
 | ORD-002 formal verification | The formal CART, CAT, and SET integrations and original docs validation remain open after tracking acceptance | Dependency and tooling owners | Verify on the documented ORD integration baseline and restore the original validator |
-| ORD-008 | A-001 exact cash expiry cutoff | User | Confirm seven-day automatic cutoff or supply deterministic alternative |
+| ORD-003 formal verification | The creation router and ORD migrations are verified on Back-end. Tracking acceptance leaves the formal ORD baseline and original docs validation open | Dependency and tooling owners | Verify on the documented ORD integration baseline and run the original validator |
 
 ## Completion Summary
 
-- **Completed for tracking:** 2/11 by user acceptance (BE 2/6).
-- **Next planned BE task:** `ORD-003`, pending separate authorization and dependency preflight.
+- **Completed for tracking:** 3/11 by user acceptance (BE 3/6).
+- **Next planned BE task:** `ORD-006`, pending authorization and dependency preflight.
 - **Feature status:** `in-progress`
 
 ## 2026-11-06 — ORD-001 local preflight

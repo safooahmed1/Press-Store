@@ -1,5 +1,49 @@
 # Decisions — Checkout, Payments, and Orders
 
+## ORD-DEC-014 — User acceptance of ORD-003 for backend task tracking
+
+- **Status:** `approved by user`
+- **Date:** 2026-11-07
+- **Decision:** Record ORD-003 as `done` for backend tracking after verifying the normal
+  order creation route and migrations on `Back-end` under ORD-DEC-013.
+- **Checkpoint:** Preserve and publish the verified implementation, migration activation,
+  approved SET fixture adjustment, and tracking records on `Back-end`.
+  Planned subject: `chore(ORD-003): checkpoint activated order creation`.
+- **Scope:** Formal verification on `feature/ORD-integration` and original documentation
+  validation remain open. The checkpoint records the backend tracking acceptance.
+
+## ORD-DEC-013 — Activate local order creation on Back-end
+
+- **Status:** Local implementation
+- **Date:** 2026-11-07
+- **Decision:** The user confirmed databases built from the older CART-only branch were
+  disposable test fixtures. Verify fresh installation and forward upgrade from pre-ORD
+  `Back-end` on new disposable MySQL databases. That baseline already contains the
+  CAT, HOME, CART, and SET migrations in the required order.
+- **Activation:** Move the three existing ORD SQL files into the discovered directory with
+  their names and checksums intact. Mount `POST /api/v1/orders` through the ORD manifest.
+  This supersedes the local staging restriction in ORD-DEC-005. Its CART ownership
+  restriction still applies.
+- **SET fixture:** The user approved adjusting the SET integration fixture to start
+  at the migration prefix before SET. The fixture then applies SET and later migrations
+  in order and checks that a rerun has nothing to apply.
+- **Boundary:** The legacy CART-only history still triggers the existing out-of-order
+  safeguard. Formal ORD integration, original docs validation, and production verification
+  remain open.
+
+## ORD-DEC-012 — Local order creation baseline and confirmation contract
+
+- **Status:** `approved by user`
+- **Date:** 2026-11-07
+- **Decision:** Implement ORD-003 BE locally on combined `Back-end` at `d53f3fe`.
+  Use real CART, CAT, and SET owner services with the staged ORD schema applied explicitly
+  in disposable MySQL. Section 18 specifies the creation request and replay behavior.
+- **Policy:** Confirm A-001 at seven days from creation in UTC. Pass the quote's
+  `cartVersion` as `expectedCartVersion` at confirmation so ORD can use READ-CART-001.
+- **Boundary:** Scope covers local development and isolated API verification. Normal route
+  mounting awaits ORD migration activation. Formal integration and original documentation
+  validation remain required.
+
 ## ORD-DEC-011 — User acceptance of ORD-002 for backend task tracking
 
 - **Status:** `approved by user`

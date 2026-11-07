@@ -115,5 +115,4 @@ AUTH customer/admin guards and customer summary; CART locked read/clear; CAT cur
 
 ## 13. Assumptions and TODOs
 
-> **ASSUMPTION A-001:** unpaid Cash on Pickup auto-cancels exactly seven calendar days after creation, the maximum of the approved 3–7-day window.  
-> **TODO A-001:** confirm or replace the exact cutoff before ORD-008.
+> **A-001, confirmed under ORD-DEC-012:** unpaid Cash on Pickup expires seven days after creation in UTC. ORD-003 stores the deadline. ORD-011 owns automatic cancellation.

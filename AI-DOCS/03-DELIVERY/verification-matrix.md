@@ -1428,3 +1428,58 @@ HTTP server.
 The test suites reported zero failures and zero skips on the successful run. The user
 accepted ORD-002 for backend tracking under ORD-DEC-011. Formal verification on
 `feature/ORD-integration` and original documentation validation remain open.
+
+## 2026-11-07 — ORD-003 local order creation
+
+Ran the checks below in a disposable archive of `Back-end` at `d53f3fe` with the ORD-003
+changes. The creation fixture applies the existing staged ORD migrations explicitly
+after normal discovery and mounts the real router in an isolated FND app.
+
+| Check | Command | Result |
+|---|---|---|
+| Focused quote regression | `node --test --test-isolation=none server/src/features/orders/checkout/checkout-quote.test.js` | 6/6 passed |
+| Focused creation and quote APIs | `FND_DISPOSABLE_MYSQL_TESTS=1 node --test --test-isolation=none server/src/features/orders/checkout/order-create.integration.test.js server/src/features/orders/checkout/checkout-quote.integration.test.js` | 10/10 passed |
+| Full unit | `npm test` | 213/213 passed |
+| Full integration | `FND_DISPOSABLE_MYSQL_TESTS=1 npm run test:integration` | 166/166 passed |
+| Lint and build | `npm run lint` and `npm run build` | Both exited 0 |
+| Original docs validator | `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .` | Exit 2 because the script is missing |
+
+The integration tests covered all methods, exact stored amounts and expiry, stale
+versions, changed price or destination, unavailable variants, HTTP session and input
+guards, and rollback after clearing the cart. Simultaneous requests covered same-key
+replay, same-key payload conflicts, and different keys competing for one cart. Replaying
+a committed request preserved the later cart and returned its original snapshot.
+Normal migration discovery, application mounting, and formal integration remain open.
+
+## 2026-11-07 — ORD-003 Back-end activation and upgrade
+
+Moved the three staged ORD SQL files into normal discovery with identical names and
+contents. In disposable MySQL, verified a fresh install, an upgrade from pre-ORD
+`Back-end` at `d53f3fe` that preserved prior migration checksums and customer/cart data,
+and a rerun with no migrations applied. The discovered ORD manifest served the
+creation route through `startServer`. The database fixture used synthetic data.
+
+The first full run after activation exited 1 with 158 passed and 8 cancelled. The SET
+suite setup had applied later ORD files while skipping SET, so FND rejected the
+subsequent SET migration with `MIGRATION_OUT_OF_ORDER`. With user approval, the SET
+fixture now starts at the prefix before SET, applies the remaining migrations in
+order, and verifies a no-op rerun. The legacy CART-only history is outside this local
+upgrade scope. No migration runner or previously applied SQL was edited.
+
+| Check | Command | Result |
+|---|---|---|
+| Focused migrations and APIs | `FND_DISPOSABLE_MYSQL_TESTS=1 node --test --test-isolation=none server/src/features/orders/domain/orders-domain.integration.test.js server/src/features/orders/checkout/order-create.integration.test.js server/src/features/orders/checkout/checkout-quote.integration.test.js server/src/features/settings/routes/settings.integration.test.js` | 27/27 passed |
+| Full unit | `npm test` | 213/213 passed |
+| Full integration | `FND_DISPOSABLE_MYSQL_TESTS=1 npm run test:integration` | 166/166 passed |
+| Lint and build | `npm run lint` and `npm run build` | Both exited 0 |
+| Original docs validator | `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .` | Exit 2 because the script is missing |
+
+The successful runs had zero failures, cancellations, or skips. Formal verification on
+`feature/ORD-integration` and original documentation validation remain open.
+
+### 2026-11-07 — ORD-003 backend tracking acceptance
+
+The checkpoint source matched the tested activation snapshot. The 27 focused, 213 unit,
+and 166 integration results above are the evidence for ORD-DEC-014. Git diff whitespace
+checks passed. The original validator command still exited 2 because its script was
+missing. Formal integration and original documentation validation remain open.

@@ -48,7 +48,9 @@ describe('settings isolated MySQL admin/public/privacy APIs', {
     fixture = await startDisposableMysql()
     database = createDatabase(fixture.config)
     const migrations = await loadMigrations()
-    await runMigrations({ config: fixture.config, migrations: migrations.filter(({ name }) => !name.startsWith('set_')) })
+    const settingsStart = migrations.findIndex(({ name }) => name === 'set_001_create_store_settings.sql')
+    assert.ok(settingsStart > 0, 'The first SET migration must follow its dependencies')
+    await runMigrations({ config: fixture.config, migrations: migrations.slice(0, settingsStart) })
     const now = new Date()
     await database.query('INSERT INTO admins (admin_id, phone, password_hash, created_at, updated_at) VALUES (1, ?, ?, ?, ?)', ['+201012345678', 'synthetic hash', now, now])
     await database.query('INSERT INTO customers (first_name, last_name, phone, password_hash, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)',
@@ -58,8 +60,9 @@ describe('settings isolated MySQL admin/public/privacy APIs', {
     token = (await sessions.create({ actorType: 'admin', actorId: '1' })).token
     adminCookie = `press-admin=${token}`
     customerCookie = `press-customer=${(await sessions.create({ actorType: 'customer', actorId: customer.customer_id })).token}`
-    await runMigrations({ config: fixture.config, migrations })
-    await runMigrations({ config: fixture.config, migrations })
+    const upgraded = await runMigrations({ config: fixture.config, migrations })
+    assert.deepEqual(upgraded.applied, migrations.slice(settingsStart).map(({ name }) => name))
+    assert.deepEqual((await runMigrations({ config: fixture.config, migrations })).applied, [])
     await start()
   })
   after(async () => { try { await stop() } finally { try { await database?.close() } finally { await fixture?.stop() } } })

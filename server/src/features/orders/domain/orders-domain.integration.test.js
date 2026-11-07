@@ -1,5 +1,4 @@
 import assert from 'node:assert/strict'
-import { readFile, readdir } from 'node:fs/promises'
 import { before, after, describe, it } from 'node:test'
 import { localDatabaseTestsEnabled } from '../../../config/database-config.js'
 import { createDatabase } from '../../../platform/db/database.js'
@@ -18,11 +17,6 @@ const deadline = new Date('2026-11-07T10:00:00.000Z') // Synthetic test value; A
 const adminActor = { actorType: 'admin', actorId: '1' }
 const initial = (paymentMethod) => initialOrderState({ paymentMethod,
   ...(paymentMethod === 'cash' ? { cashExpiresAt: deadline } : {}) }, now)
-async function pendingMigrations() {
-  const directory = new URL('../migrations/pending/', import.meta.url)
-  return Promise.all((await readdir(directory)).filter((name) => name.endsWith('.sql')).sort()
-    .map(async (name) => ({ name, sql: await readFile(new URL(name, directory), 'utf8') })))
-}
 const stateColumns = { paymentMethod: 'payment_method', paymentStatus: 'payment_status', fulfillmentStatus: 'fulfillment_status',
   version: 'version', cashExpiresAt: 'cash_expires_at', paidAt: 'paid_at', verifiedByAdminId: 'verified_by_admin_id',
   preparedAt: 'prepared_at', preparedByAdminId: 'prepared_by_admin_id', deliveredAt: 'delivered_at',
@@ -40,9 +34,7 @@ describe('orders core schema and immutable snapshots on disposable MySQL', {
   before(async () => {
     fixture = await startDisposableMysql()
     database = createDatabase(fixture.config)
-    const baseline = await loadMigrations()
-    assert.ok(baseline.every(({ name }) => !name.startsWith('store-orders_')))
-    await runMigrations({ config: fixture.config, migrations: [...baseline, ...await pendingMigrations()] })
+    await runMigrations({ config: fixture.config, migrations: await loadMigrations() })
     await database.query(`INSERT INTO admins (admin_id, phone, password_hash, created_at, updated_at)
       VALUES (1, '+201012345678', 'synthetic fixture hash', ?, ?)`, [now, now])
     for (const phone of ['+201112345678', '+201212345678']) {
@@ -197,25 +189,30 @@ describe('orders core schema and immutable snapshots on disposable MySQL', {
   })
 })
 
-describe('orders staged schema upgrade', {
+describe('orders migration discovery and schema upgrade', {
   skip: !localDatabaseTestsEnabled() && 'Requires newly created disposable MySQL',
 }, () => {
-  it('upgrades the published baseline with staged SQL and reruns without changing old checksums/data', async () => {
+  it('upgrades pre-ORD Back-end and reruns without changing existing checksums or data', async () => {
     const fixture = await startDisposableMysql()
     const database = createDatabase(fixture.config)
     try {
-      const baseline = await loadMigrations()
+      const names = ['store-orders_001_create_orders.sql', 'store-orders_002_create_items_idempotency.sql',
+        'store-orders_003_protect_order_history.sql']
+      const migrations = (await loadMigrations()).filter(({ name }) => name <= names.at(-1))
+      assert.deepEqual(migrations.slice(-names.length).map(({ name }) => name), names)
+      const baseline = migrations.slice(0, -names.length)
       await runMigrations({ config: fixture.config, migrations: baseline })
-      await database.query(`INSERT INTO customers (first_name, last_name, phone, password_hash, created_at, updated_at)
+      const customer = await database.query(`INSERT INTO customers (first_name, last_name, phone, password_hash, created_at, updated_at)
         VALUES ('Upgrade', 'Fixture', '+201112345678', 'synthetic fixture hash', ?, ?)`, [now, now])
+      await database.query('INSERT INTO carts (customer_id, version, created_at, updated_at) VALUES (?, 4, ?, ?)',
+        [String(customer.insertId), now, now])
       const before = await database.query('SELECT migration_name, checksum FROM migration_records ORDER BY migration_name')
-      const migrations = [...baseline, ...await pendingMigrations()]
-      assert.deepEqual((await runMigrations({ config: fixture.config, migrations })).applied,
-        ['store-orders_001_create_orders.sql', 'store-orders_002_create_items_idempotency.sql', 'store-orders_003_protect_order_history.sql'])
+      assert.deepEqual((await runMigrations({ config: fixture.config, migrations })).applied, names)
       assert.deepEqual((await runMigrations({ config: fixture.config, migrations })).applied, [])
       const after = await database.query('SELECT migration_name, checksum FROM migration_records ORDER BY migration_name')
       assert.deepEqual(after.slice(0, before.length), before)
       assert.equal((await database.query('SELECT first_name FROM customers'))[0].first_name, 'Upgrade')
+      assert.equal((await database.query('SELECT version FROM carts WHERE customer_id = ?', [String(customer.insertId)]))[0].version, 4)
     } finally { try { await database.close() } finally { await fixture.stop() } }
   })
 })

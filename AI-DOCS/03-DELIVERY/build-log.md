@@ -651,3 +651,25 @@ validation, and the completion commit remain pending.
 
 The user authorized a documentation checkpoint and push to `origin/Back-end`.
 Planned subject: `docs(ORD-002): record backend tracking acceptance`.
+
+## 2026-11-07 — ORD-003 local creation verified
+
+Implemented and verified the transactional creation service and isolated router on the
+combined Back-end baseline under ORD-DEC-012. Passed 213 unit and 166 disposable integration
+tests, lint, and build. Normal ORD migration discovery, route mounting, formal integration,
+and original docs validation remain open. Completion commit remains pending.
+
+## 2026-11-07 — ORD-003 activation verified on Back-end
+
+ORD-DEC-013 records normal migration discovery, pre-ORD Back-end upgrade, and HTTP
+creation through normal startup. The approved SET fixture adjustment restored the full
+integration suite. Passed 27 focused, 213 unit, and 166 integration tests, lint, and build.
+Formal integration and original docs validation remain open. Completion commit remains pending.
+
+## 2026-11-07 — ORD-003 backend tracking acceptance and checkpoint
+
+ORD-DEC-014 accepts ORD-003 for backend tracking on the verified Back-end baseline.
+ORD is 3/11 accepted (BE 3/6). The checkpoint records the order creation code, normal
+migration discovery, the approved SET fixture adjustment, and observed test evidence.
+Planned subject: `chore(ORD-003): checkpoint activated order creation`.
+Formal integration and original documentation validation remain open.

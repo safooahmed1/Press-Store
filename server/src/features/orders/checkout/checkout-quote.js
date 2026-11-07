@@ -6,16 +6,21 @@ const methods = ['cash', 'wallet_eg', 'instapay']
 const preparationMinutes = Object.freeze({ min: 10, max: 60, typical: 30 })
 const cashCollectionNotice = 'Collect your order within 3–7 days or it will be cancelled.'
 
-async function readCartSnapshot(database, cartCheckout, customerId, expectedCartVersion) {
+export function checkoutPaymentMethod(value) {
+  if (!methods.includes(value)) throw new OrderError('VALIDATION_FAILED')
+  return value
+}
+
+export async function readCheckoutCart(cartCheckout, tx, customerId, expectedCartVersion) {
   try {
-    return await database.transaction((tx) => cartCheckout.readForCheckout(tx, { customerId, expectedCartVersion }))
+    return await cartCheckout.readForCheckout(tx, { customerId, expectedCartVersion })
   } catch (error) {
     if (error.code === 'CART_CONFLICT') throw new OrderError('QUOTE_CHANGED')
     throw error
   }
 }
 
-async function readDestination(paymentSettings, method) {
+export async function readCheckoutDestination(paymentSettings, method) {
   let payment
   try {
     payment = await paymentSettings.payment(method)
@@ -30,23 +35,30 @@ async function readDestination(paymentSettings, method) {
   return payment.number
 }
 
+export function checkoutQuoteVersion(customerId, cart, paymentMethod, paymentDestination, snapshot) {
+  return createHash('sha256').update(JSON.stringify([
+    'checkout-quote-v1', customerId, cart.cartId, cart.version, paymentMethod, paymentDestination, snapshot,
+  ])).digest('hex')
+}
+
+export function checkoutPickup(paymentMethod) {
+  return Object.freeze({ preparationMinutes, cashCollectionNotice: paymentMethod === 'cash' ? cashCollectionNotice : null })
+}
+
 export function createCheckoutQuoteService({ database, cartCheckout, paymentSettings }) {
   return Object.freeze({
     async quote(customerId, input) {
       identity(customerId)
       fields(input, ['paymentMethod', 'expectedCartVersion'])
       const { paymentMethod, expectedCartVersion } = input
-      if (!methods.includes(paymentMethod)) throw new OrderError('VALIDATION_FAILED')
+      checkoutPaymentMethod(paymentMethod)
       version(expectedCartVersion)
 
-      const cart = await readCartSnapshot(database, cartCheckout, customerId, expectedCartVersion)
+      const cart = await database.transaction((tx) => readCheckoutCart(cartCheckout, tx, customerId, expectedCartVersion))
       const snapshot = createOrderSnapshots(cart)
       // SET uses its own pool read. Release CART/CAT locks before requesting the destination.
-      const paymentDestination = await readDestination(paymentSettings, paymentMethod)
-      // Change detector only. Order creation must authenticate and recompute from fresh owner data.
-      const quoteVersion = createHash('sha256').update(JSON.stringify([
-        'checkout-quote-v1', customerId, cart.cartId, cart.version, paymentMethod, paymentDestination, snapshot,
-      ])).digest('hex')
+      const paymentDestination = await readCheckoutDestination(paymentSettings, paymentMethod)
+      const quoteVersion = checkoutQuoteVersion(customerId, cart, paymentMethod, paymentDestination, snapshot)
       return Object.freeze({
         ...snapshot,
         cartVersion: cart.version,
@@ -54,7 +66,7 @@ export function createCheckoutQuoteService({ database, cartCheckout, paymentSett
         paymentMethod,
         paymentDestination,
         walletSenderNumberRequired: paymentMethod === 'wallet_eg',
-        pickup: Object.freeze({ preparationMinutes, cashCollectionNotice: paymentMethod === 'cash' ? cashCollectionNotice : null }),
+        pickup: checkoutPickup(paymentMethod),
       })
     },
   })

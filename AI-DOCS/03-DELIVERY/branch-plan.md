@@ -237,3 +237,15 @@ remain required for runtime wiring.
 ORD-DEC-010 records local quote activation on the user-requested `Back-end` branch from
 merge commit aa2ff39. The named feature integration targets and acceptance gates remain
 required for formal completion.
+
+## 2026-11-07 — ORD-003 local development exception
+
+ORD-DEC-012 permits development on `Back-end` at `d53f3fe` with the staged ORD schema
+applied only in disposable verification. `work/ORD-backend` remains the assigned branch
+and `feature/ORD-integration` remains the formal integration target.
+
+## 2026-11-07 — ORD-003 activation on Back-end
+
+ORD-DEC-013 records normal ORD migration discovery and creation routing on local Back-end
+with fresh and forward-upgrade verification on disposable MySQL. Formal verification
+continues to target `feature/ORD-integration`.

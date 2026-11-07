@@ -59,7 +59,7 @@
 
 Request:
 ```json
-{"paymentMethod":"cash|wallet_eg|instapay","walletSenderNumber":"required-only-for-wallet","acceptedQuoteVersion":"opaque"}
+{"paymentMethod":"cash|wallet_eg|instapay","walletSenderNumber":"required-only-for-wallet","acceptedQuoteVersion":"opaque","expectedCartVersion":2}
 ```
 
 Success response:
@@ -155,7 +155,7 @@ Wallet EG/InstaPay verification occurs outside the app with no API. WhatsApp act
 
 ## 9. Configuration and Secrets
 
-`CASH_PICKUP_EXPIRY_DAYS=7` remains A-001 pending confirmation; pickup copy constants are 10/60/30 minutes and 3–7 days. No gateway secret exists.
+ORD-DEC-012 confirms the seven-day UTC cash expiry policy (A-001). Pickup copy constants are 10/60/30 minutes and 3–7 days. No gateway secret exists.
 
 ## 10. Error, Retry, and Recovery Behavior
 
@@ -171,7 +171,7 @@ Money, order snapshots, payment/fulfillment states, idempotency, expiry, or owne
 
 ## 13. Assumptions and TODOs
 
-A-001 remains pending and must be confirmed or explicitly accepted at ORD-008 preflight.
+A-001 is confirmed under ORD-DEC-012. ORD-008 still verifies the expiry behavior implemented by ORD-011.
 
 ## 14. CART-002 consumer coordination — ORD-DEC-003
 
@@ -192,10 +192,11 @@ domain/migration/test files and named documentation change; no ORD API/manifest 
 
 ### Storage and immutable facts
 
-Three forward-only SQL files are staged in `server/src/features/orders/migrations/pending/`.
-Tests append them explicitly to loadMigrations(); no startup or existing application DB use.
+ORD-001 originally staged three forward-only SQL files in
+`server/src/features/orders/migrations/pending/` and appended them explicitly in tests.
+Section 19 records the current discovery path on Back-end.
 The `store-orders` prefix sorts after the published persistent-cart baseline without changing
-the FND runner or old migration names/checksums. Activation remains a separate integration gate.
+the FND runner or old migration names/checksums.
 
 Orders store customer FK, unique bounded ASCII orderNumber, method/sender number, integer EGP
 subtotal/discount/total and coherent payment/fulfillment/audit state. Item snapshots retain product/
@@ -286,3 +287,42 @@ the published CART and SET owner services. Its contract and AUTH customer bounda
 same as section 16. The disposable integration suite now starts the real application and
 uses the standard FND MySQL test opt-in. This local composition is separate from formal
 feature integration and release acceptance.
+
+## 18. ORD-003 local order creation — ORD-DEC-012
+
+For `POST /api/v1/orders`, submit the selected method, `acceptedQuoteVersion` from
+`quoteVersion`, and `expectedCartVersion` from `cartVersion` in the ORD-002 quote.
+Wallet EG additionally requires an Egyptian mobile number in local `01xxxxxxxxx` or
+`+201xxxxxxxxx` form. Store its canonical `+20` form. Cash and InstaPay omit that field.
+The single customer-scoped `Idempotency-Key` header accepts 1–128 visible ASCII characters
+excluding commas. The response is HTTP 201 with the creation DTO in section 3, including
+on a replay. Order numbers use `PS-` followed by a random UUID.
+
+An existing key and the same normalized request return the original creation result from
+persisted order and item facts. A different normalized request returns
+`IDEMPOTENCY_CONFLICT`. Replay takes place before CART and SET reads. ORD stores hashes
+of the key and canonical request. A retry after a lost response can therefore return the
+committed order without consuming the customer's replacement cart.
+
+For a new order, read the selected SET destination before the write transaction using
+READ-SET-001, which has no transaction-bound interface. Within DB-FND-001, re-read the
+expected cart version with CART and CAT locks, compare the accepted quote fingerprint,
+insert the order, snapshots, and idempotency record, and clear the exact cart. Rollback
+covers all four writes. A competing submission checks for a durable replay after rollback.
+Cash starts unpaid with a deadline seven days after creation in UTC. Electronic methods
+start pending with no expiry.
+
+Existing quote requests and responses retain the ORD-002 contract. Section 19 records
+normal discovery and mounting under ORD-DEC-013.
+
+## 19. ORD-003 normal discovery on Back-end — ORD-DEC-013
+
+FND discovers the three ORD migrations directly under
+`server/src/features/orders/migrations/`. Their SQL, filenames, and checksums match the
+previously staged files. Apply them using the existing explicit migration command before
+serving order creation. The ORD manifest exposes `/orders` alongside `/checkout` using
+the existing lifecycle database and AUTH customer session boundary.
+
+The local upgrade baseline is pre-ORD `Back-end` at `d53f3fe`. The user identified the
+older CART-only databases as disposable fixtures. That older history still requires
+separate reconciliation if ever used for a retained database.

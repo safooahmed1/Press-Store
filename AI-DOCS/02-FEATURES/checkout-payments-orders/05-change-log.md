@@ -55,3 +55,22 @@ requests through the normal server entry point. The formal integration and valid
 ORD-DEC-011 records user acceptance of ORD-002 for backend tracking based on verification
 of `Back-end` at `8a6b060`. ORD BE is 2/6 accepted. The formal ORD integration baseline
 and original docs validator remain open.
+
+## 2026-11-07 — ORD-003 local order creation
+
+ORD-DEC-012 records the combined Back-end development baseline and seven-day cash deadline.
+Added the confirmation service, SQL persistence, and isolated customer router. The service
+revalidates the quote, stores immutable order facts and idempotency hashes, and clears the
+exact cart in one transaction. Normal route mounting awaits migration activation.
+
+## 2026-11-07 — ORD-003 activation on Back-end
+
+ORD-DEC-013 registers the existing ORD migrations without changing their content and
+mounts order creation through the normal server entry point. Fresh install and upgrade
+from pre-ORD Back-end were verified on disposable MySQL. Formal gates remain open.
+
+## 2026-11-07 — ORD-003 backend tracking acceptance
+
+ORD-DEC-014 records acceptance of the verified Back-end activation for task tracking.
+ORD BE is 3/6 accepted. Formal integration and original documentation validation
+remain open.
