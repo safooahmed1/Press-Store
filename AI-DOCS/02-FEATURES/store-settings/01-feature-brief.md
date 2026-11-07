@@ -6,7 +6,7 @@
 - **Kind:** `shared`
 - **Parent Feature:** `None`
 - **Owner:** `WS-SET-BE`, `WS-SET-FE`, `WS-SET-INT`
-- **Status:** `planned`
+- **Status:** `in-progress`
 
 ## 2. Summary
 
@@ -35,7 +35,7 @@ Singleton schema, validation, admin GET/PUT, public contact projection, internal
 
 ## 7. Out of Scope
 
-Secrets, payment verification, gateway credentials, theme/content management, arbitrary key-value settings, or required social networks not confirmed by A-004.
+Secrets, payment verification, gateway credentials, theme/content management, arbitrary key-value settings, or required social networks (none under approved SET-DEC-003 optional-link policy).
 
 ## 8. User Flows
 
@@ -75,5 +75,11 @@ FND DB/HTTP, AUTH admin guard, UI controls/admin layout.
 
 ## 13. Assumptions and TODOs
 
-> **ASSUMPTION A-004:** social links are optional and hidden when empty.  
-> **TODO A-004:** confirm required networks.
+> **A-004 confirmed:** social links are optional, empty links hidden, and Facebook/Instagram/TikTok are supported under SET-DEC-003. No network is required.
+
+SET-001 backend implementation and verification are recorded under SET-DEC-002/003; formal completion remains blocked on original mandatory documentation validation. A-004 optional network policy is approved; FE/INT acceptance remains separate.
+
+
+## 2026-11-06 — User-accepted SET backend closeout
+
+SET-DEC-004 supersedes earlier blocked task-accounting status for SET-001. SET backend is 1/1 accepted, feature 1/3. Original docs validation remains BLOCKED / NOT RUN; all feature acceptance criteria and FE/browser/consumer/privacy/hosting/recovery/integration gates remain open. Both feature Passed boxes stay unchecked and feature remains in-progress, not merge-ready or release-verified. Implementation/docs remain local and uncommitted; completion commit None. Documentation-only closeout, no new source/tests/packages, code checks, frontend, existing DB/env access, commit/push/merge/deploy or next task. Earlier observed verification/failure history and separate CAT/AUTH work remain preserved.

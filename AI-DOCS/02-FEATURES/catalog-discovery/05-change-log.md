@@ -49,3 +49,7 @@ CAT-DEC-013 approves bounded current locking reads on the caller transaction, pr
 variants, plus product/base/discount metadata for future order snapshots. Existing display reads
 and CAT HTTP/money/write behavior are preserved. No stock, new pool, migration or feature-
 completion claim. Focused unit and real-MySQL locking/concurrency evidence is recorded under CART-002.
+
+## 2026-11-04 — Approved SET-001 composition consumer amendment
+
+CAT-DEC-009 scopes existing admin middleware to the three CAT resources so SET can own /admin/settings independently. Adjusted only the integration fixture's initial ordered migration prefix for new later-feature migrations. No catalog data/API/business rules changed; full CAT checks are part of SET verification. Original CAT task counts/acceptance remain unchanged.

@@ -40,7 +40,7 @@ FND and UI are grandfathered existing feature branches. For AUTH and later featu
 | `work/CAT-backend` | backend | frozen CAT integration commit | WS-CAT-BE | CAT-001–CAT-003 | `feature/CAT-integration` | backend catalog suite; explicit merge | CAT-002 checkpoint 43ebb11; CAT-003 checkpoint/push authorized under CAT-DEC-008. No feature merge/release authorization; original docs validator blocked. |
 | `work/CAT-frontend` | frontend | same frozen CAT integration commit | WS-CAT-FE | CAT-004–CAT-005 | `feature/CAT-integration` | client/a11y/responsive/build; explicit merge | planned |
 | `feature/SET-integration` | integration | updated `main` after AUTH/UI/FND | WS-SET-INT | SET-003 | `main` | BE+FE ready; live privacy/consumer gate | planned |
-| `work/SET-backend` | backend | frozen SET integration commit | WS-SET-BE | SET-001 | `feature/SET-integration` | backend settings suite; explicit merge | planned |
+| `work/SET-backend` | backend | frozen SET integration commit | WS-SET-BE | SET-001 | `feature/SET-integration` | backend settings suite; explicit merge | SET-001 checkpoint/push explicitly authorized SET-DEC-005. SET-001 remains done by user acceptance SET-DEC-004, feature 1/3, BE 1/1 accepted. Original docs validation/full feature gates remain open; no merge/deploy authorization. |
 | `work/SET-frontend` | frontend | same frozen SET integration commit | WS-SET-FE | SET-002 | `feature/SET-integration` | form/a11y/build; explicit merge | planned |
 | `feature/HOME-integration` | integration | updated `main` after CAT/AUTH/UI | WS-HOME-INT | HOME-004 | `main` | BE+FE ready; live HOME gate | planned |
 | `work/HOME-backend` | backend | frozen HOME integration commit | WS-HOME-BE | HOME-001 | `feature/HOME-integration` | backend HOME suite; explicit merge | planned |
@@ -196,3 +196,19 @@ ORD-DEC-007 authorizes `chore(ORD-001): checkpoint verified order schema and dom
 non-force push of `work/ORD-backend` only. The remote head check found neither that branch
 nor `feature/ORD-integration` before publication. A future integration pull request requires
 the documented integration target. Report the resulting checkpoint hash and remote ref after Git verifies them.
+
+## 2026-11-04 — SET-001-only early baseline exception
+
+User approval SET-DEC-002 permits work/SET-backend in a separate worktree from published a6603ca5f2b5eb54b75e530906cee42821ec371e without the normally required frozen SET integration branch. FND/AUTH implementations are present; formal/hosting/validator gates are not waived. No merge/cherry-pick, frontend, remote write, release or next task. Original CAT/AUTH checkouts and stashes remain preserved; full normal owner/integration baseline and acceptance still required later.
+
+
+## 2026-11-06 — User-accepted SET backend closeout
+
+SET-DEC-004 supersedes earlier blocked task-accounting status for SET-001. SET backend is 1/1 accepted, feature 1/3. Original docs validation remains BLOCKED / NOT RUN; all feature acceptance criteria and FE/browser/consumer/privacy/hosting/recovery/integration gates remain open. Both feature Passed boxes stay unchecked and feature remains in-progress, not merge-ready or release-verified. Implementation/docs remain local and uncommitted; completion commit None. Documentation-only closeout, no new source/tests/packages, code checks, frontend, existing DB/env access, commit/push/merge/deploy or next task. Earlier observed verification/failure history and separate CAT/AUTH work remain preserved.
+
+
+## 2026-11-06 — User-authorized SET-001 checkpoint publication
+
+The user explicitly requested uploading SET and HOME to GitHub. SET-DEC-005 authorizes one preservation checkpoint for SET-001 and non-force push of work/SET-backend to origin, separately from the other worktree. Planned subject: `chore(SET-001): checkpoint verified store settings APIs`. SET-001 remains done by user acceptance SET-DEC-004, feature 1/3, BE 1/1 accepted. Original required docs validation remains BLOCKED / NOT RUN; all full feature/FE/INT/hosting/recovery/security/merge gates and unchecked acceptance boxes remain unchanged.
+
+Existing observed verification: 169 unit / 104 isolated integration, lint/build/diff passed, no failed/cancelled/skipped tests. No new code checks claimed during this docs/Git-only publication. Include only this task's source/tests/approved shared-owner amendments/docs. Preserve original CAT/AUTH and the other feature's work; no frontend, DB/env access, PR/merge/deployment or next task. The resulting checkpoint hash and observed push result are reported after execution rather than invented in a self-referencing follow-up commit. Earlier local/uncommitted/no-publication statements remain historical, superseded only for this authorized publication.

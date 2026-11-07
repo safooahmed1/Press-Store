@@ -13,7 +13,7 @@
 | UI | feature | in-progress | `feature/UI-design-system-app-shell` | 4/4 | 2026-10-28: UI-004 admin layout; UI/foundation/lint/build/audit/docs gates pass | FND must be present in main and shared visual acceptance matrix closed before merge |
 | AUTH | feature | in-progress | `feature/AUTH-identity-accounts` | 0/5 | 2026-11-02: AUTH-003 full rerun unit 140/140, actual-MySQL integration 71/71 (no skips), lint/build/diff and cleanup pass; verification-matrix §27 | AUTH-001/002/003 blocked on original validator; no commit authorized |
 | CAT | feature | planned | `feature/CAT-catalog-discovery` | 0/6 | Planning only; no implementation evidence | Dependencies not implemented |
-| SET | feature | planned | `feature/SET-store-settings` | 0/3 | Planning only; no implementation evidence | A-004 optional social scope |
+| SET | feature | in-progress | `work/SET-backend` (BE); integration branch planned | 1/3 accepted; BE 1/1 | SET-DEC-004 acceptance; prior 169 unit / 104 integration, lint/build/diff pass; local/uncommitted | Original docs validator BLOCKED / NOT RUN; full FE/INT/production gates open |
 | HOME | feature | planned | `feature/HOME-homepage-merchandising` | 0/4 | Planning only; no implementation evidence | Dependencies not implemented |
 | CART | feature | planned | `feature/CART-persistent-cart` | 0/4 | Planning only; no implementation evidence | Dependencies not implemented |
 | ORD | feature | planned | `feature/ORD-checkout-payments-orders` | 0/8 | Planning only; no implementation evidence | A-001 before ORD-008; dependencies not implemented |
@@ -52,7 +52,7 @@
 | UI | feature | planned | `feature/UI-design-system-app-shell` | 0/4 | Planning only; no implementation evidence | A-003/A-004 affect content; A-007 reference screenshot unavailable |
 | AUTH | feature | in-progress | `feature/AUTH-integration` | 0/5 | 2026-11-02: AUTH-003 full rerun unit 140/140, actual-MySQL integration 71/71 (no skips), lint/build/diff and cleanup pass; verification-matrix §27 | AUTH-001/002/003 blocked on original validator; no commit authorized |
 | CAT | feature | planned | `feature/CAT-integration` | 0/6 | DEC-008 splits BE/FE/INT; no implementation evidence | Dependencies not implemented |
-| SET | feature | planned | `feature/SET-integration` | 0/3 | DEC-008 splits BE/FE/INT; no implementation evidence | A-004 optional social scope |
+| SET | feature | in-progress | `work/SET-backend` (BE); integration branch planned | 1/3 accepted; BE 1/1 | SET-DEC-004 acceptance; prior 169 unit / 104 integration, lint/build/diff pass; local/uncommitted | Original docs validator BLOCKED / NOT RUN; full FE/INT/production gates open |
 | HOME | feature | planned | `feature/HOME-integration` | 0/4 | DEC-008 splits BE/FE/INT; no implementation evidence | Dependencies not implemented |
 | CART | feature | planned | `feature/CART-integration` | 0/4 | DEC-008 splits BE/FE/INT; no implementation evidence | Dependencies not implemented |
 | ORD | feature | planned | `feature/ORD-integration` | 0/11 | ORD-009/010/011 split mixed API/UI/job work; no implementation evidence | A-001 before ORD-011/008; dependencies not implemented |
@@ -583,3 +583,23 @@ is a non-force push of `work/ORD-backend`; actual hash and remote-ref verificati
 CART-DEC-008 authorizes the test-only fix on `work/CART-backend`. Focused upgrade
 passed 1/1 on the branch, and the disposable composition with SET and ORD migrations
 passed all 32 CART integration tests. Lint and diff checks passed. See the verification matrix.
+
+## 2026-11-04 — SET-001 backend implemented / formal completion blocked
+
+Created work/SET-backend at a6603ca in /home/tarek/projects/Press-Store-SET-backend under user-approved SET-DEC-002/003; no frozen integration baseline claimed. Added additive singleton schema, admin version-0 provision/versioned update, minimal public contact and private selected-payment/contact services, strict approved mobile/social validation and scoped authentication/Origin. FND-DEC-012 supports canonical nested mounts; CAT-DEC-009 scopes existing middleware to CAT-owned resources and corrects its migration-upgrade fixture's initial prefix. No AUTH policy, dependency, frontend or existing database/env changes.
+
+Observed final verification: focused SET/FND 37/37, full unit 169/169, full isolated-MySQL integration 104/104, all zero failed/cancelled/skipped; lint/build/diff passed. Initial full integration correctly rejected a CAT fixture's out-of-order migration (94 passed, 10 cancelled, exit 1); fixed test prefix only and reran on new fixtures without bypassing runner/history rules. Exact logs/commands and transaction/privacy/restart/provisioning evidence are in verification-matrix SET-001 appendix.
+
+Cleanup host inventory shows only unrelated system MySQL PID 1718 UID 124, no disposable fixture/image directories; published CAT worktree remains clean and original stashes preserved. Original docs validation BLOCKED / NOT RUN (missing script, exit 2), SET-001 remains blocked, SET 0/3, both feature acceptance checkboxes unchecked. No commit/push/merge/deploy or next task. Planned subject feat(SET-001): add store settings contracts; completion commit None. FE/INT/production acceptance remains separately owned.
+
+
+## 2026-11-06 — User-accepted SET backend closeout
+
+SET-DEC-004 supersedes earlier blocked task-accounting status for SET-001. SET backend is 1/1 accepted, feature 1/3. Original docs validation remains BLOCKED / NOT RUN; all feature acceptance criteria and FE/browser/consumer/privacy/hosting/recovery/integration gates remain open. Both feature Passed boxes stay unchecked and feature remains in-progress, not merge-ready or release-verified. Implementation/docs remain local and uncommitted; completion commit None. Documentation-only closeout, no new source/tests/packages, code checks, frontend, existing DB/env access, commit/push/merge/deploy or next task. Earlier observed verification/failure history and separate CAT/AUTH work remain preserved.
+
+
+## 2026-11-06 — User-authorized SET-001 checkpoint publication
+
+The user explicitly requested uploading SET and HOME to GitHub. SET-DEC-005 authorizes one preservation checkpoint for SET-001 and non-force push of work/SET-backend to origin, separately from the other worktree. Planned subject: `chore(SET-001): checkpoint verified store settings APIs`. SET-001 remains done by user acceptance SET-DEC-004, feature 1/3, BE 1/1 accepted. Original required docs validation remains BLOCKED / NOT RUN; all full feature/FE/INT/hosting/recovery/security/merge gates and unchecked acceptance boxes remain unchanged.
+
+Existing observed verification: 169 unit / 104 isolated integration, lint/build/diff passed, no failed/cancelled/skipped tests. No new code checks claimed during this docs/Git-only publication. Include only this task's source/tests/approved shared-owner amendments/docs. Preserve original CAT/AUTH and the other feature's work; no frontend, DB/env access, PR/merge/deployment or next task. The resulting checkpoint hash and observed push result are reported after execution rather than invented in a self-referencing follow-up commit. Earlier local/uncommitted/no-publication statements remain historical, superseded only for this authorized publication.
