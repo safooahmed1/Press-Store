@@ -1,5 +1,31 @@
 # Decisions — Checkout, Payments, and Orders
 
+## ORD-DEC-009 — ORD-002 checkpoint and local Back-end inclusion
+
+- **Status:** `approved by user`
+- **Date:** 2026-11-07
+- **Decision:** Preserve the verified local quote service, router, tests, and evidence on
+  `work/ORD-backend` in one checkpoint and include it on the local `Back-end` branch.
+  Planned subject: `chore(ORD-002): checkpoint verified checkout quote`.
+- **Boundary:** The checkpoint preserves the blocked task status. Application mounting,
+  dependency integration, and original documentation validation remain open under
+  ORD-DEC-008.
+
+## ORD-DEC-008 — Local checkout quote development before integration
+
+- **Status:** `approved by user`
+- **Date:** 2026-11-07
+- **Decision:** Start ORD-002 BE on `work/ORD-backend` at published ORD-001 checkpoint
+  `59861e6`. Use the real CART/CAT services on that baseline and the published SET
+  payment service in isolated verification. The user approved deferring the HTTP API
+  until the owner dependencies are integrated.
+- **Quote contract:** Supply the selected payment method and expected cart version.
+  Return server-calculated amounts and only the selected electronic destination.
+  Wallet requires a sender number at confirmation, so quote input excludes it.
+- **Boundary:** The approval permits local development and fixture composition only.
+  Formal CAT/CART/SET integration, ORD-001 migration activation, the original docs validator,
+  and completion gates stay open. No order creation, frontend, checkpoint, or push authorized.
+
 ## ORD-DEC-007 — ORD-001 checkpoint publication
 
 - **Status:** `approved by user`

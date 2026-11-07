@@ -1339,3 +1339,58 @@ Banner tests create both fixed slots, show active text, disable either to null, 
 The user explicitly requested uploading SET and HOME to GitHub. HOME-DEC-003 authorizes one preservation checkpoint for HOME-001 and non-force push of work/HOME-backend to origin, separately from the other worktree. Planned subject: `chore(HOME-001): checkpoint verified homepage APIs`. HOME-001 remains formally blocked, feature 0/4; this does not accept or close the task. Original required docs validation remains BLOCKED / NOT RUN; all full feature/FE/INT/hosting/recovery/security/merge gates and unchecked acceptance boxes remain unchanged.
 
 Existing observed verification: 168 unit / 105 isolated integration, lint/build/diff passed, no failed/cancelled/skipped tests. No new code checks claimed during this docs/Git-only publication. Include only this task's source/tests/approved shared-owner amendments/docs. Preserve original CAT/AUTH and the other feature's work; no frontend, DB/env access, PR/merge/deployment or next task. The resulting checkpoint hash and observed push result are reported after execution rather than invented in a self-referencing follow-up commit. Earlier local/uncommitted/no-publication statements remain historical, superseded only for this authorized publication.
+
+## 2026-11-07 — ORD-002 local quote service
+
+| Check | Exact command or procedure | Result |
+|---|---|---|
+| Quote unit matrix | `node --test --test-isolation=none server/src/features/orders/checkout/checkout-quote.test.js` | 6/6 passed |
+| Real owner composition | `FND_DISPOSABLE_MYSQL_TESTS=1 ORD_REAL_SETTINGS_TESTS=1 node --test --test-isolation=none server/src/features/orders/checkout/checkout-quote.integration.test.js` | 3/3 passed on disposable MySQL |
+| Full unit | `npm test` on the non-hidden ORD source mirror | 200/200 passed |
+| Full integration | `FND_DISPOSABLE_MYSQL_TESTS=1 npm run test:integration` on the non-hidden ORD source mirror with built assets | 137/137 executed tests passed. The opt-in quote suite skipped on this baseline because SET is absent. |
+| Lint and build | `npm run lint` and `npm run build` on the ORD source mirror | Both exited 0 |
+| Original docs validator | `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .` | Exit 2, original script absent |
+
+The live quote composition used published ORD checkpoint 59861e6, the exact new ORD-002
+files, SET owner modules from 0ac8db7, and the CART upgrade test from e5275d4. The test
+only used disposable data. It verified all payment methods, selected-only destination,
+settings provisioning and destination changes, CAT repricing at the same cart version,
+unavailable products, empty and stale carts, and quote reads leaving the cart unchanged.
+The checkout API, live feature integration, and ORD-003 confirmation are outside these results.
+
+### 2026-11-07 — ORD-002 isolated HTTP verification
+
+The final isolated suite ran with
+`FND_DISPOSABLE_MYSQL_TESTS=1 ORD_REAL_SETTINGS_TESTS=1 node --test --test-isolation=none server/src/features/orders/checkout/checkout-quote.integration.test.js`
+and passed 4/4. The temporary FND test app mounted the router with real AUTH sessions and
+CART, CAT, and SET services. It verified all payment methods, selected-only destinations,
+no-store headers, unchanged carts, safe logs, missing settings, session scope, Origin,
+JSON and input guards, empty carts, and stale cart versions. Runtime discovery was unchanged.
+
+The focused quote unit suite passed 6/6. On the non-hidden ORD baseline with the same checkout
+files, `npm test` passed 200/200, `FND_DISPOSABLE_MYSQL_TESTS=1 npm run test:integration`
+passed all 137 executed tests with the SET-dependent suite disabled, and `npm run build`
+passed. `npm run lint` and `git diff --check` passed. The original validator invocation again
+exited 2 because its script was missing. The task remains blocked on application mounting and
+the formal owner integrations. Completion commit: None.
+
+### 2026-11-07 — ORD-002 application discovery rehearsal
+
+The GitHub head check found no CAT, SET, CART, or ORD integration branch. The original
+documentation validator invocation exited 2 because its script was absent. Application
+mounting on the actual ORD branch remains deferred.
+
+In a disposable copy at `/tmp/press-ord002-discovery-Jln5Rj`, composed ORD checkpoint
+59861e6 and the local quote code with SET checkpoint 0ac8db7 (settings modules and its
+approved runtime support) and the CART upgrade fixture from e5275d4. The quote service
+and router matched the worktree byte for byte. A temporary ORD manifest used the actual
+server discovery path. The quote suite used `startServer` rather than a manually mounted test
+router. On disposable MySQL, the following command exited 0 with 36 passed, 0 failed,
+and 0 skipped, covering the four quote cases and all 32 CART cases in the same composition.
+
+```sh
+FND_DISPOSABLE_MYSQL_TESTS=1 ORD_REAL_SETTINGS_TESTS=1 node --test --test-isolation=none server/src/features/orders/checkout/checkout-quote.integration.test.js server/src/features/cart/routes/cart-catalog-live.integration.test.js server/src/features/cart/routes/cart-core.integration.test.js server/src/features/cart/services/cart-checkout.integration.test.js
+```
+
+The manifest and test harness adaptation were confined to the disposable copy. No owner
+branch merge, application mounting on the work branch, or acceptance status change occurred.

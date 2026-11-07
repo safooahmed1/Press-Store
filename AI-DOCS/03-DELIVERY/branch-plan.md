@@ -223,3 +223,11 @@ HOME-DEC-002 permits work/HOME-backend from published a6603ca5f2b5eb54b75e530906
 The user explicitly requested uploading SET and HOME to GitHub. HOME-DEC-003 authorizes one preservation checkpoint for HOME-001 and non-force push of work/HOME-backend to origin, separately from the other worktree. Planned subject: `chore(HOME-001): checkpoint verified homepage APIs`. HOME-001 remains formally blocked, feature 0/4; this does not accept or close the task. Original required docs validation remains BLOCKED / NOT RUN; all full feature/FE/INT/hosting/recovery/security/merge gates and unchecked acceptance boxes remain unchanged.
 
 Existing observed verification: 168 unit / 105 isolated integration, lint/build/diff passed, no failed/cancelled/skipped tests. No new code checks claimed during this docs/Git-only publication. Include only this task's source/tests/approved shared-owner amendments/docs. Preserve original CAT/AUTH and the other feature's work; no frontend, DB/env access, PR/merge/deployment or next task. The resulting checkpoint hash and observed push result are reported after execution rather than invented in a self-referencing follow-up commit. Earlier local/uncommitted/no-publication statements remain historical, superseded only for this authorized publication.
+
+## 2026-11-07 — ORD-002 local development exception
+
+ORD-DEC-008 authorizes quote service development on `work/ORD-backend` from published
+ORD-001 checkpoint 59861e6. The clean ORD worktree is separate from the local CART
+closeout changes. The SET owner modules and published CART test fix are used in an
+isolated test composition. The `feature/ORD-integration` baseline and its merge gates
+remain required for runtime wiring.

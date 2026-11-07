@@ -241,3 +241,39 @@ use UTC DATETIME(6). Errors are safe domain codes, without SQL or sensitive payl
 state decisions are not a production authorization boundary or a substitute for future AUTH guards.
 No order creation, request replay service, quote fingerprint, payment verification endpoint, job,
 external payment API, stock mutation, frontend or full-feature acceptance is implemented here.
+
+## 16. ORD-002 local quote service — ORD-DEC-008
+
+The combined API-ORD-001 request/response example in section 3 shows order confirmation.
+The quote service accepts the trusted session customer ID separately from the quote body
+`{paymentMethod, expectedCartVersion}`. Only `cash`, `wallet_eg`, and `instapay` are accepted.
+The cart version is the existing numeric CART version. Caller-supplied totals, customer IDs,
+sender numbers, and accepted quote versions are rejected in the quote body.
+
+The immutable result contains the ORD-001 item snapshots and minor-unit amounts
+`subtotalMinor`, `discountMinor`, and `totalMinor`. It also contains `cartVersion`,
+`quoteVersion`, `paymentMethod`, `paymentDestination`, `walletSenderNumberRequired`, and
+`pickup`. Cash has a null destination and the 3–7 day collection notice. Electronic methods
+return only the selected destination and a null cash notice. All methods give preparation
+minutes of minimum 10, maximum 60, and typical 30. The wallet boolean describes the later
+confirmation requirement. The service does not decide the cash expiry cutoff.
+
+READ-CART-001 revalidates the current CAT items and prices inside a read transaction.
+The service releases CART/CAT locks before calling READ-SET-001. A quote issues no writes.
+A stale cart maps to QUOTE_CHANGED and a missing or invalid selected destination maps to
+PAYMENT_SETTINGS_UNAVAILABLE. Existing empty, unavailable variant, and infrastructure errors
+retain their domain codes. The selected method cannot fall back to another destination.
+
+The opaque quote version detects changes to the owner, cart, selected item facts, method, or
+destination. It is a deterministic version marker. ORD-003 must reauthenticate and recompute
+from fresh owner data before writing an order. No create route or cart clear belongs to this work.
+
+### Isolated HTTP adapter
+
+ORD-002 owns a checkout router for `POST /api/v1/checkout/quote`. Only the isolated test app
+mounts it under `/checkout`. The standard HTTP-FND-001 success response is `{data:{quote}}`.
+The adapter uses AUTH-AUTH-001 for the customer identity and the existing AUTH Origin and
+JSON boundaries. It rejects query parameters and uses the framework's standard no-store
+session and error behavior. The named checkout conflicts use 409. Invalid input uses 422
+and catalog unavailability uses 503. There is no feature manifest or application mount until
+the dependency integration gate under ORD-DEC-008.

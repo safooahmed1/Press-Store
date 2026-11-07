@@ -618,3 +618,16 @@ Final host cleanup inventory: only unrelated system MySQL PID 1713 UID 124; no d
 The user explicitly requested uploading SET and HOME to GitHub. HOME-DEC-003 authorizes one preservation checkpoint for HOME-001 and non-force push of work/HOME-backend to origin, separately from the other worktree. Planned subject: `chore(HOME-001): checkpoint verified homepage APIs`. HOME-001 remains formally blocked, feature 0/4; this does not accept or close the task. Original required docs validation remains BLOCKED / NOT RUN; all full feature/FE/INT/hosting/recovery/security/merge gates and unchecked acceptance boxes remain unchanged.
 
 Existing observed verification: 168 unit / 105 isolated integration, lint/build/diff passed, no failed/cancelled/skipped tests. No new code checks claimed during this docs/Git-only publication. Include only this task's source/tests/approved shared-owner amendments/docs. Preserve original CAT/AUTH and the other feature's work; no frontend, DB/env access, PR/merge/deployment or next task. The resulting checkpoint hash and observed push result are reported after execution rather than invented in a self-referencing follow-up commit. Earlier local/uncommitted/no-publication statements remain historical, superseded only for this authorized publication.
+
+## 2026-11-07 — ORD-002 local quote
+
+ORD-DEC-008 approves the local BE quote with published CART, CAT and SET owner services
+in isolated verification. The implementation, co-located tests and ORD documentation are
+scoped to the quote. HTTP mounting and production composition await integrated dependencies.
+Planned subject: `feat(ORD-002): implement checkout quote`. Completion commit: None.
+
+## 2026-11-07 — ORD-002 isolated HTTP verification
+
+The local router is composed with real AUTH, CART, CAT and SET services in a disposable
+HTTP test app. The application mount awaits the owner integrations under ORD-DEC-008.
+See the verification matrix for the final run and remaining gates.

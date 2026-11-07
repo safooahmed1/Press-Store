@@ -30,3 +30,16 @@ awaits its named dependencies. The verified code is local.
 ORD-DEC-007 authorizes one checkpoint on `work/ORD-backend` and a non-force push.
 The code and existing test evidence are unchanged. Migration activation and the original
 docs validator remain open.
+
+## 2026-11-07 — ORD-002 local checkout quote
+
+ORD-DEC-008 permits local quote development. The service validates the method and CART
+version, uses current catalog amounts, and obtains only the selected SET destination.
+Wallet sender input remains part of confirmation. See the verification matrix for observed
+results and the gates still open.
+
+## 2026-11-07 — ORD-002 isolated quote HTTP adapter
+
+Added the quote router and mounted it only in the disposable test app. It uses the
+published customer-session guard and existing Origin, JSON and error boundaries.
+Application mounting remains deferred under ORD-DEC-008.
