@@ -273,3 +273,9 @@ at `7d76d00`. The assigned lane and formal integration target remain
 CUS-DEC-002 authorizes a separate `work/CUS-backend` from `Back-end` at `0a65139`
 for the local directory API and AUTH/ORD read projections. Formal verification
 continues to target `feature/CUS-integration`.
+
+## 2026-11-08 — ADM-004 local backend baseline
+
+ADM-DEC-002 authorizes `work/ADM-backend` from published `work/CUS-backend` at `a924554`
+for the dashboard API and approved CAT/ORD projections. Formal verification continues
+to target `feature/ADM-integration`.

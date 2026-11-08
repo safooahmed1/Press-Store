@@ -1596,3 +1596,29 @@ on `feature/CUS-integration` remains open.
 CUS-DEC-003 accepts CUS-001 for backend tracking based on the 5 focused, 213 unit,
 and 187 integration results above. Source matched the tested snapshot. Formal
 integration and original documentation validation remain open.
+
+## 2026-11-08 — ADM-004 dashboard API on work/ADM-backend
+
+Verified a disposable archive of `work/CUS-backend` at `a924554` with the ADM-004
+changes and approved CAT/ORD projections under ADM-DEC-002.
+
+| Check | Command | Result |
+|---|---|---|
+| Focused dashboard | `FND_DISPOSABLE_MYSQL_TESTS=1 node --test --test-isolation=none server/src/features/admin-dashboard/dashboard.integration.test.js` | 3/3 passed |
+| Full unit | `npm test` | 213/213 passed |
+| Full integration | `FND_DISPOSABLE_MYSQL_TESTS=1 npm run test:integration` | 190/190 passed |
+| Lint and build | `npm run lint` and `npm run build` | Both exited 0 |
+| Original docs validator | `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .` | Exit 2 because the script is missing |
+
+The live API covered real zero values, admin authorization, precise totals, two
+bounded order lists, and failures at each owner without partial data. The dashboard
+issued five projection queries. MySQL EXPLAIN confirmed the fulfillment index was
+available to both attention branches. The exact response shape and logs excluded
+private payment/customer data and analytics fields. The successful runs had zero
+failures, cancellations, or skips. Formal ADM integration remains open.
+
+### 2026-11-08 — ADM-004 backend tracking acceptance
+
+ADM-DEC-003 accepts ADM-004 for backend tracking based on the 3 focused, 213 unit,
+and 190 integration results above. Source matched the tested snapshot. Formal
+integration and original documentation validation remain open.

@@ -106,7 +106,9 @@ Success response:
 Lifecycle: product delete is soft/removal from public purchase; classification delete is rejected while referenced; unavailable variants remain addressable for historical snapshots but are not purchasable.  
 Concurrency/transaction rule: product plus images/variants commits atomically; file writes compensate on rollback; CMD-CAT-001 locks/counts before setting at most eight flags of each type.
 
-READ-CAT-003 returns one bounded count from the canonical Product store, with its active/admin interpretation named in the response contract and no product rows.
+READ-CAT-003 is `createAdminCatalogRepository(database).countProducts()` under ADM-DEC-002.
+It counts the same non-deleted products shown in the admin product list, including
+products without available variants. It returns one number and no product rows.
 
 ## 5. Events and Background Jobs
 

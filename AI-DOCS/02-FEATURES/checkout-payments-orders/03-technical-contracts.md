@@ -393,3 +393,17 @@ match the customer history index. It accepts an integer limit of 1 through 50 an
 nonnegative safe integer offset. Items contain the order ID and number, creation time,
 total in minor units, payment method and status, and fulfillment status. Both
 projections include cancelled orders as part of admin-visible history.
+
+## 24. READ-ORD-002 dashboard order projection — ADM-DEC-002
+
+`createOrderDashboardProjection(database).read({limit})` returns `totalOrders`,
+`recentOrders`, and `attentionOrders` in one read transaction. The limit is an integer
+from 1 through 10. Total and recent include all admin-visible history, including cancellations.
+
+Attention includes placed and prepared orders. Under the existing lifecycle, these are
+orders awaiting electronic verification or orders eligible for pickup actions. Delivered
+and cancelled orders are outside the attention list. Each fulfillment state is read with
+its own limit before combining the two sets. See A-020 for ordering.
+
+Each summary has `orderId`, `orderNumber`, `createdAt`, `paymentMethod`, `paymentStatus`,
+and `fulfillmentStatus`. Customer, wallet, and order financial fields stay outside this projection.

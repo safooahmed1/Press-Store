@@ -18,7 +18,7 @@ ADM-002 keeps its stable ID but becomes the live dashboard integration task. Its
 
 | Order | Task ID | Parent/Sub-feature | Workstream | Summary | Requirement IDs | Depends On | Owned Paths | Verification | Status | Branch | Commit Ref | Evidence |
 |---:|---|---|---|---|---|---|---|---|---|---|---|---|
-| 1a | ADM-004 | ADM/dashboard-api | WS-ADM-BE | Implement bounded owner-projected dashboard metrics API | REQ-ADM-002, REQ-ADM-003, REQ-SCOPE-011, REQ-SCOPE-021 | CAT-006, ORD-006, CUS-003 | `server/src/features/admin-dashboard/**` | projection/auth/scope tests | `not-started` | `work/ADM-backend` | — | — |
+| 1a | ADM-004 | ADM/dashboard-api | WS-ADM-BE | Implement bounded owner-projected dashboard metrics API | REQ-ADM-002, REQ-ADM-003, REQ-SCOPE-011, REQ-SCOPE-021 | CAT-006, ORD-006, CUS-003 | `server/src/features/admin-dashboard/**` and approved owner reads under ADM-DEC-002 | projection/auth/scope tests | `done` | `work/ADM-backend` | ADM-DEC-003 tracking acceptance. ADM-DEC-004 checkpoint `chore(ADM-004): checkpoint dashboard projections`. | Accepted for backend tracking after local verification under ADM-DEC-002. See the verification matrix. |
 | 1b | ADM-005 | ADM/dashboard-ui | WS-ADM-FE | Build responsive lightweight dashboard cards/lists and failure states | REQ-ADM-002, REQ-ADM-003, REQ-SCOPE-011, REQ-SCOPE-021 | Frozen API-ADM-001, UI-004 | `src/features/admin-dashboard/dashboard/**` | component/a11y/responsive tests with fixtures | `not-started` | `work/ADM-frontend` | — | — |
 
 | Lane | Workstream | Effective Tasks | Effective Branch | Integration Rule |
@@ -33,10 +33,11 @@ The original ADM-002 mixed implementation scope is superseded by ADM-004/ADM-005
 
 | Task ID | Blocker | Owner/Decision Needed | Next Action |
 |---|---|---|---|
-| ADM-002 | CAT/CUS count projection contracts are named but not yet implemented | CAT/CUS | Freeze in CAT-006 and CUS-003 |
+| ADM-002 | CAT/CUS count projections are implemented locally and await formal contract freeze | CAT/CUS | Freeze in CAT-006 and CUS-003 |
+| ADM-004 formal verification | Tracking acceptance leaves formal integration and original documentation validation open | Dependency and tooling owners | Verify on the documented ADM integration baseline and run the original validator |
 
 ## Completion Summary
 
-- **Completed:** 0/5
-- **Next ready task:** `ADM-001` after UI/AUTH and owner route manifests
-- **Feature status:** `planned`
+- **Completed for tracking:** 1/5 by user acceptance (BE 1/1).
+- **Next planned ADM BE task:** None. Formal verification remains blocked.
+- **Feature status:** `in-progress`

@@ -23,7 +23,7 @@ This is the Backend developer entry point, not a second specification. Canonical
 | 5 | CART | WS-CART-BE | CART-001–CART-002 | AUTH and CAT read contracts | `work/CART-backend` | `server/src/features/cart/**` | CART-001/CART-002 backend implementations verified: full unit 179/179, mirror integration 129/129, lint/build/cleanup pass. Formal task gates/docs validator remain blocked; no completion commits, FE or ORD implementation. |
 | 6 | ORD | WS-ORD-BE | ORD-001–ORD-003, ORD-006, ORD-009, ORD-011 | CART/CAT/SET/AUTH/FND contracts | `work/ORD-backend` | `server/src/features/orders/**` | All six ORD BE tasks accepted for tracking under the recorded decisions. ORD-011 and its FND runner are verified on Back-end. Formal integration, original docs validation, and production scheduling remain open. |
 | 7 | CUS | WS-CUS-BE | CUS-001 | AUTH and ORD read contracts | `work/CUS-backend` | `server/src/features/customers/**` plus CUS-DEC-002 owner reads | CUS-001 accepted for tracking (1/1) under CUS-DEC-003. Formal integration and original docs validation remain open. |
-| 8 | ADM | WS-ADM-BE | ADM-004 | CAT/ORD/CUS read projections | `work/ADM-backend` | `server/src/features/admin-dashboard/**` | planned |
+| 8 | ADM | WS-ADM-BE | ADM-004 | CAT/ORD/CUS read projections | `work/ADM-backend` | `server/src/features/admin-dashboard/**` plus ADM-DEC-002 owner reads | ADM-004 accepted for tracking (1/1) under ADM-DEC-003. Formal integration and original docs validation remain open. |
 
 FND remains on its existing legacy feature branch and is not retroactively repartitioned. UI is frontend-only and remains on its existing feature branch.
 

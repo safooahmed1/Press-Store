@@ -57,3 +57,8 @@ CAT-DEC-009 scopes existing admin middleware to the three CAT resources so SET c
 ## 2026-11-06 — Approved HOME consumer amendment
 
 CAT-DEC-011 adds bounded READ-CAT-002 projections and atomic globally versioned selection replacement under existing lock, with additive cat_005 revision and coordinated legacy flag writers. Reuses already approved CAT-DEC-009 route scoping/fixture prefix, extends migration discovery regression expectation. No HOME direct CAT writes, old SQL edits, dependencies, frontend or publication. Evidence is HOME-001 verification appendix; original CAT worktree/acceptance closeout remains separate and unchanged.
+
+## 2026-11-08 — READ-CAT-003 for the admin dashboard
+
+ADM-DEC-002 exposes the existing admin product count as a scalar owner projection.
+The dashboard counts non-deleted products under the same rule as the catalog admin list.

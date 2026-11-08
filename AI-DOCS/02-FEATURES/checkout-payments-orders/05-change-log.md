@@ -116,3 +116,8 @@ validation, and production scheduling remain open.
 
 CUS-DEC-002 adds an ORD-owned grouped count and paginated admin-visible order
 history to `work/CUS-backend`. Existing order endpoints keep their own visibility rules.
+
+## 2026-11-08 — READ-ORD-002 for the admin dashboard
+
+ADM-DEC-002 adds the ORD-owned total, recent orders, and attention projection to
+`work/ADM-backend`. It reads the existing states and indexes.

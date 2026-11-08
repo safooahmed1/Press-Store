@@ -737,3 +737,24 @@ CUS-DEC-004 records the user-authorized checkpoint and push to `origin/work/CUS-
 Planned subject: `chore(CUS-001): checkpoint customer directory API`.
 The code matches the verified snapshot. Formal integration and original documentation
 validation remain open.
+
+## 2026-11-08 — ADM-004 dashboard projections verified
+
+ADM-DEC-002 records the local branch baseline and coordinated CAT/ORD projections.
+Verified the protected route and owner reads on disposable MySQL. Passed 3 focused,
+213 full unit, and 190 full integration tests, lint, and build. Formal integration,
+the original validator, and the completion commit remain open.
+
+## 2026-11-08 — ADM-004 backend tracking acceptance
+
+ADM-DEC-003 records user acceptance of ADM-004 on local `work/ADM-backend`.
+ADM is 1/5 accepted (BE 1/1), and backend tracking across the combined
+branch history is 18/18. The observed evidence is in the verification matrix.
+Formal integration, original documentation validation, and the completion commit remain open.
+
+## 2026-11-08 — ADM-004 checkpoint publication
+
+ADM-DEC-004 records the user-authorized checkpoint and push to `origin/work/ADM-backend`.
+Planned subject: `chore(ADM-004): checkpoint dashboard projections`.
+The code matches the verified snapshot. Formal integration and original documentation
+validation remain open.

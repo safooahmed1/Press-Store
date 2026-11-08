@@ -1,5 +1,11 @@
 # Assumptions Register
 
+## A-020 — Dashboard order list bounds and sorting
+
+Active noncritical implementation assumption, 2026-11-08, ADM-004. Each dashboard
+order list returns at most 10 summaries. Recent orders follow descending order ID,
+matching the ORD admin list. Attention sorts by descending creation time and order ID.
+
 ## A-019 — Customer directory paging
 
 Active noncritical implementation assumption, 2026-11-08, CUS-001. Directory pages
