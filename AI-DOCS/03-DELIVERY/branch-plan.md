@@ -261,3 +261,9 @@ to target `feature/ORD-integration`.
 ORD-DEC-017 records customer order history implementation on combined `Back-end`
 at `4f117f9`. The assigned lane branch remains `work/ORD-backend` and formal
 integration continues to target `feature/ORD-integration`.
+
+## 2026-11-07 — ORD-011 local backend baseline
+
+ORD-DEC-019 records cash expiry and the approved JOB-FND-001 runner on `Back-end`
+at `7d76d00`. The assigned lane and formal integration target remain
+`work/ORD-backend` and `feature/ORD-integration`.

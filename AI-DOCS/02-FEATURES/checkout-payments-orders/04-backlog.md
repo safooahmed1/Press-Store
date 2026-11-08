@@ -25,7 +25,7 @@ ORD-005 and ORD-008 keep their stable IDs but become INT coordination/verificati
 |---:|---|---|---|---|---|---|---|---|---|---|---|---|
 | 4a | ORD-009 | ORD/customer-history-api | WS-ORD-BE | Implement customer-owned paginated order list/detail API | REQ-ORD-001, REQ-ORD-002, REQ-ORD-003, REQ-ORD-005, REQ-SCOPE-017 | ORD-001, AUTH-AUTH-001 | `server/src/features/orders/customer/**` | API isolation/pagination tests | `done` | `work/ORD-backend` | ORD-DEC-018 tracking acceptance and Back-end checkpoint `chore(ORD-009): checkpoint customer order history`. | Accepted for backend tracking after verification on Back-end. See the verification matrix for results and open gates. |
 | 4b | ORD-010 | ORD/customer-history-ui | WS-ORD-FE | Build responsive Your Orders list/detail capability | REQ-ORD-001, REQ-ORD-002, REQ-ORD-003, REQ-ORD-005, REQ-SCOPE-017 | Frozen API-ORD-002, UI-003 | `src/features/orders/customer/**` | component/a11y/responsive tests with contract fixtures | `not-started` | `work/ORD-frontend` | — | — |
-| 7a | ORD-011 | ORD/expiry-job | WS-ORD-BE | Implement rerunnable unpaid-cash expiry job with race-safe state guards | REQ-PAY-012, REQ-ORD-004, REQ-ORD-005, REQ-ORD-006 | ORD-003, A-001 confirmed/accepted, JOB-FND-001 | `server/src/features/orders/jobs/**` | clock/race/rerun tests | `not-started` | `work/ORD-backend` | — | — |
+| 7a | ORD-011 | ORD/expiry-job | WS-ORD-BE | Implement rerunnable unpaid-cash expiry job with race-safe state guards | REQ-PAY-012, REQ-ORD-004, REQ-ORD-005, REQ-ORD-006 | ORD-003, A-001 confirmed/accepted, JOB-FND-001 | `server/src/features/orders/jobs/**` and approved JOB-FND-001 runner under FND-DEC-013 | clock/race/rerun tests | `done` | `work/ORD-backend` | ORD-DEC-020 tracking acceptance and Back-end checkpoint `chore(ORD-011): checkpoint cash expiry job and runner`. | Accepted for backend tracking after verification on Back-end. See the verification matrix for results and open gates. |
 
 | Lane | Workstream | Effective Tasks | Effective Branch | Integration Rule |
 |---|---|---|---|---|
@@ -44,11 +44,12 @@ The original ORD-005 mixed server/client scope is superseded by ORD-009/ORD-010;
 | ORD-003 formal verification | The creation router and ORD migrations are verified on Back-end. Tracking acceptance leaves the formal ORD baseline and original docs validation open | Dependency and tooling owners | Verify on the documented ORD integration baseline and run the original validator |
 | ORD-006 formal verification | Admin order APIs are verified on Back-end. Tracking acceptance leaves formal ORD integration and original documentation validation open | Dependency and tooling owners | Verify on the documented ORD integration baseline and run the original validator |
 | ORD-009 formal verification | Customer order reads are verified on Back-end. Tracking acceptance leaves formal integration and original documentation validation open | Dependency and tooling owners | Verify on the documented ORD integration baseline and run the original validator |
+| ORD-011 formal verification | Expiry and the FND runner are verified on Back-end. Formal integration, original documentation validation, and production scheduling remain open | Dependency, tooling, and operations owners | Verify on the documented ORD integration baseline and configure the scheduler under deployment authorization |
 
 ## Completion Summary
 
-- **Completed for tracking:** 5/11 by user acceptance (BE 5/6).
-- **Next planned BE task:** `ORD-011`, pending authorization and dependency preflight.
+- **Completed for tracking:** 6/11 by user acceptance (BE 6/6).
+- **Next planned ORD BE task:** None. Formal verification remains blocked.
 - **Feature status:** `in-progress`
 
 ## 2026-11-06 — ORD-001 local preflight

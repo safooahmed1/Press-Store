@@ -364,3 +364,20 @@ Both reads require AUTH-AUTH-001, take the owner from the session, and serve `no
 The order lookup returns the same `ORDER_NOT_FOUND` for missing, foreign, and cancelled
 orders. It filters owner and cancellation in SQL before one bounded item query.
 The customer router shares the existing `/orders` mount with the creation route.
+
+## 22. ORD-011 cash expiry on Back-end — ORD-DEC-019
+
+Invoke the registered job with
+`node server/src/jobs/run-job.js orders.expire-unpaid-cash` using the existing explicit
+MySQL configuration. JOB-FND-001 supplies the UTC cutoff and owns invocation locking
+and run evidence.
+
+JOB-ORD-001 selects only placed or prepared unpaid cash orders whose stored deadline
+is at or before the cutoff. It applies bounded batches (A-018). Each write rechecks
+eligibility and the selected version, advances the version once, and records the
+cancellation and update timestamps. A competing delivery or a changed version
+is skipped. Each batch commits on its own, so a rerun resumes after failure.
+
+The job emits scanned, cancelled, and skipped counts through JOB-FND-001. Order
+and item history remain available for admin audit. The existing customer queries
+exclude cancelled orders. Production scheduling remains an operations step.

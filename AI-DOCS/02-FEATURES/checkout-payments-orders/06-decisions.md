@@ -1,5 +1,25 @@
 # Decisions — Checkout, Payments, and Orders
 
+## ORD-DEC-020 — User acceptance of ORD-011 for backend task tracking
+
+- **Status:** `approved by user`
+- **Date:** 2026-11-08
+- **Decision:** Record ORD-011 as `done` for backend tracking and publish the verified
+  cash expiry job and approved FND runner on `Back-end`.
+- **Checkpoint:** Planned subject `chore(ORD-011): checkpoint cash expiry job and runner`.
+- **Scope:** Formal ORD integration, original documentation validation, and
+  production scheduling remain open.
+
+## ORD-DEC-019 — Run cash order expiry on Back-end
+
+- **Status:** Local implementation with user-approved FND coordination.
+- **Date:** 2026-11-07
+- **Decision:** Implement JOB-ORD-001 on `Back-end` at `7d76d00` using JOB-FND-001
+  under FND-DEC-013, the existing ORD schema, and the confirmed A-001 cash deadline.
+- **Boundary:** Scope covers the reusable runner, the ORD job, and disposable
+  verification. Formal ORD integration, original documentation validation, and
+  production scheduling remain open.
+
 ## ORD-DEC-018 — User acceptance of ORD-009 for backend task tracking
 
 - **Status:** `approved by user`

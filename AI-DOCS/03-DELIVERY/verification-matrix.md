@@ -1540,3 +1540,32 @@ The checkpoint source matched the tested activation snapshot. The 18 focused,
 213 unit, and 178 integration results above are the evidence for ORD-DEC-018.
 Git diff whitespace checks passed. Formal integration and original documentation
 validation remain open.
+
+## 2026-11-07 — ORD-011 expiry and FND job runner on Back-end
+
+Verified a disposable archive of `Back-end` at `7d76d00` with the ORD-011 and FND-DEC-013
+changes. The real registered CLI and HTTP visibility checks used disposable MySQL.
+
+| Check | Command | Result |
+|---|---|---|
+| Focused state and expiry | `FND_DISPOSABLE_MYSQL_TESTS=1 node --test --test-isolation=none server/src/features/orders/jobs/expire-unpaid-cash.integration.test.js server/src/features/orders/domain/orders-state.test.js` | 14/14 passed, including 4 live expiry/runner cases |
+| Full unit | `npm test` | 213/213 passed |
+| Full integration | `FND_DISPOSABLE_MYSQL_TESTS=1 npm run test:integration` | 182/182 passed |
+| Lint and build | `npm run lint` and `npm run build` | Both exited 0 |
+| Original docs validator | `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .` | Exit 2 because the script is missing |
+
+Verified the exact deadline boundary, preserved paid and electronic orders, customer
+exclusion and admin visibility, and no-op reruns. The runner serialized competing
+invocations on one named lock. A delivery and a preparation committed between selection
+and update were skipped by the expiry write. An injected failure in a later batch left
+earlier batches committed and the next run resumed. Tests covered an initially
+disabled autocommit session and verified redaction of connection and job error details.
+The successful runs had zero failures, cancellations, or skips. Formal integration
+and production scheduling remain open.
+
+### 2026-11-08 — ORD-011 backend tracking acceptance
+
+The checkpoint source matched the tested snapshot. The 14 focused, 213 unit, and
+182 integration results above are the evidence for ORD-DEC-020. Git diff whitespace
+checks passed. Formal integration, original documentation validation, and production
+scheduling remain open.

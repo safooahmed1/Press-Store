@@ -702,3 +702,17 @@ ORD-DEC-018 records ORD-009 acceptance for backend tracking and publication to
 `origin/Back-end`. ORD is 5/11 accepted (BE 5/6).
 Planned subject: `chore(ORD-009): checkpoint customer order history`.
 Formal integration and original documentation validation remain open.
+
+## 2026-11-07 — ORD-011 expiry and JOB-FND-001 verified on Back-end
+
+Implemented the user-approved FND job runner and registered cash expiry under ORD-DEC-019.
+Passed 14 focused, 213 full unit, and 182 full integration tests, lint, and build.
+Formal integration, the original documentation validator, and production scheduling
+remain open.
+
+## 2026-11-08 — ORD-011 backend tracking acceptance and checkpoint
+
+ORD-DEC-020 records ORD-011 tracking acceptance and publication to `origin/Back-end`.
+ORD is 6/11 accepted (BE 6/6).
+Planned subject: `chore(ORD-011): checkpoint cash expiry job and runner`.
+Formal integration, original documentation validation, and production scheduling remain open.

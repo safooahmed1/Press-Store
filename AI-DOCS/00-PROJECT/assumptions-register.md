@@ -1,5 +1,11 @@
 # Assumptions Register
 
+## A-018 — Order expiry run bounds
+
+Active noncritical implementation assumption, 2026-11-07, ORD-011. Each run reads at most
+10 batches of 100 due orders. Later runs drain any remaining eligible orders using the
+same UTC deadline rule. The schedule interval is an operations decision.
+
 ## A-017 — Customer order history sort and paging
 
 Active noncritical implementation assumption, 2026-11-07, ORD-009. The customer's order

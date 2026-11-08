@@ -124,3 +124,12 @@
 - Source scope: server/src/app/feature-manifests.js and foundation-manifests.test.js only.
 - Permit multiple canonical lowercase kebab-case path segments (e.g. /admin/settings), retain exact-path/ID uniqueness and whole-registry validation before composition/factories. Reject empty, traversal, parameter, encoded, trailing slash/whitespace segments and the reserved health namespace.
 - A parent prefix may coexist with a nested independent resource; parent feature routers must fall through for paths they do not own. CAT-DEC-009 moves CAT guard/origin middleware to its own child resources without changing their policy. No shared admin aggregator, new lifecycle interface, pool or dependency.
+
+## FND-DEC-013 — Feature job runner for ORD-011
+
+- **Status:** User-approved coordinated amendment, 2026-11-07.
+- **Decision:** Implement the JOB-FND-001 CLI, manifest registry, named MySQL lock,
+  and run evidence under `server/src/jobs/`. ORD-DEC-019 records the consumer.
+- **Scope:** The runner executes one registered job per invocation. The connection
+  holding the lock also executes the job's queries. Production scheduling and
+  release verification remain separate.

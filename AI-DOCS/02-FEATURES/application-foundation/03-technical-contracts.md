@@ -113,6 +113,17 @@ FND-DEC-002 approves the following behavior for future FND-002 implementation; i
 |---|---|---|---|---|---|
 | JOB-FND-001 | feature job runner | FND | ORD | job name, started/finished time, counts, error summary | one named job lock; feature logic must be rerunnable |
 
+Under FND-DEC-013, `server/src/jobs/run-job.js` discovers a named job from the
+`jobs/manifest.js` files of server features. Each manifest exports `job` with a unique
+`name` and `run({query, cutoff})` function. The job receives one UTC cutoff and
+a prepared-query handle on a dedicated autocommit MySQL connection.
+
+The runner holds one named lock per database and job for that connection. If the
+lock is busy, the command exits successfully with `status: 'busy'`. On completion
+it emits a structured record with the job name, UTC start/finish, cutoff, and safe
+integer counters. Failure records contain a fixed error code and the CLI exits 1.
+Scheduling invokes this one-shot command outside HTTP startup.
+
 ## 6. Shared UI Contracts
 
 | Contract ID | Component | Props/Input | States | Consumers | Accessibility |

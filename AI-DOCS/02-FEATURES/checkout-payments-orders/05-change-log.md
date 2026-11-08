@@ -99,3 +99,15 @@ ORD-DEC-017 records the combined Back-end baseline and remaining formal gates.
 ORD-DEC-018 records acceptance of the verified Back-end customer history APIs
 for task tracking. ORD BE is 5/6 accepted. Formal integration and original
 documentation validation remain open.
+
+## 2026-11-07 — ORD-011 cash expiry job
+
+Added the registered cash expiry job and linked it to the FND runner under ORD-DEC-019.
+The job uses the stored seven-day deadline and guarded, rerunnable batches. Production
+scheduling and formal verification remain open.
+
+## 2026-11-08 — ORD-011 backend tracking acceptance
+
+ORD-DEC-020 records acceptance of the cash expiry job and FND runner for backend
+tracking. ORD BE is 6/6 accepted. Formal integration, original documentation
+validation, and production scheduling remain open.

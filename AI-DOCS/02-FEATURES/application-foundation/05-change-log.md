@@ -182,3 +182,9 @@ At initial log creation, no implementation activity had been recorded.
   Node ESLint script coverage. No other FND source, DB interface or runtime startup change.
 - Consumer implementation/evidence: AUTH-DEC-007/008 and verification-matrix §26.
 - Original validator remains BLOCKED / NOT RUN; failed sandbox fixture cleanup remains open.
+
+## 2026-11-07 — JOB-FND-001 runner for ORD-011
+
+FND-DEC-013 records the feature job registry and one-shot CLI with a per-database,
+per-job lock, a UTC cutoff, and redacted run evidence. See the ORD-011 verification
+entry for disposable MySQL lock, failure, and CLI results.
