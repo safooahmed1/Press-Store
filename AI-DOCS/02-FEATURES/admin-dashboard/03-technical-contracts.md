@@ -61,6 +61,11 @@ Success response:
 |---|---:|---|---|
 | `DASHBOARD_UNAVAILABLE` | 503 | Required owner projection fails | Show retry; do not invent partial totals |
 
+The route accepts no query parameters and serves `no-store` after AUTH-AUTH-002.
+The product count uses CAT's non-deleted admin product count. Customer count uses
+READ-CUS-001, and order data uses the bounded READ-ORD-002 summaries. The dashboard
+returns all five fields together, or `DASHBOARD_UNAVAILABLE` when a required read fails.
+
 ## 4. Data Contracts
 
 None. ADM owns no persistent entity and composes owner projections.
@@ -85,7 +90,7 @@ None.
 
 ## 9. Configuration and Secrets
 
-Bound recent and attention lists (for example 5–10 each); no secrets.
+Recent and attention lists each have a fixed limit of 10 under A-020. No secrets.
 
 ## 10. Error, Retry, and Recovery Behavior
 
@@ -101,4 +106,5 @@ New destinations/metrics require an approved requirement and owner read contract
 
 ## 13. Assumptions and TODOs
 
-`READ-CAT-003` and `READ-CUS-001` are read projection interfaces that their owners must freeze in CAT-006 and CUS-003 before ADM-002.
+`READ-CAT-003` and `READ-CUS-001` must be formally frozen in CAT-006 and CUS-003
+before ADM-002. ADM-DEC-002 records local implementation and verification only.

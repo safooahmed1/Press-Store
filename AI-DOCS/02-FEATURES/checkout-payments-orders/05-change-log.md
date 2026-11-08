@@ -111,3 +111,13 @@ scheduling and formal verification remain open.
 ORD-DEC-020 records acceptance of the cash expiry job and FND runner for backend
 tracking. ORD BE is 6/6 accepted. Formal integration, original documentation
 validation, and production scheduling remain open.
+
+## 2026-11-08 — READ-ORD-001 for the admin customer directory
+
+CUS-DEC-002 adds an ORD-owned grouped count and paginated admin-visible order
+history to `work/CUS-backend`. Existing order endpoints keep their own visibility rules.
+
+## 2026-11-08 — READ-ORD-002 for the admin dashboard
+
+ADM-DEC-002 adds the ORD-owned total, recent orders, and attention projection to
+`work/ADM-backend`. It reads the existing states and indexes.

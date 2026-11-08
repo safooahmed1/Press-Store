@@ -24,6 +24,8 @@
 | AUTH-AUTH-002 | service | Require admin | CAT, HOME, ORD, CUS, SET, ADM | §7 |
 | READ-AUTH-001 | service | Read safe customer summary by ID | ORD, CUS | §4 |
 
+CUS-DEC-002 extends READ-AUTH-001 with server-only customer paging and aggregate count.
+
 **Consumes**
 | Contract ID | Owner Feature | Used By | Required Version/Behavior |
 |---|---|---|---|
@@ -182,3 +184,12 @@ is idempotent and scoped. Rate limiting and reusable guards remain AUTH-005, not
 ## 2026-11-04 — CAT-003 fixed guard consumer handoff
 
 Under user-approved CAT-DEC-006, the existing AUTH-005 fixed-scope guard and its regression test are copied unchanged into the CAT development branch; original AUTH working files are untouched. createAuthGuards({sessions,cookies}) exposes requireAdmin/requireCustomer Express middleware. Matching scoped session is authoritative and wins when both valid cookies exist; an opposite-scope-only valid cookie is 403, no valid authentication is 401, storage errors fail closed. req.auth is a frozen actor derived only from the session. CAT also reuses the existing exported mutationBoundary from AUTH customer-routes for the unchanged Origin policy. No cookie/password/session policy or full AUTH-005 security/abuse gate is changed or newly claimed passed by this consumer handoff.
+
+## READ-AUTH-001 customer page and count — CUS-DEC-002
+
+The identity repository retains `readCustomerSummary(customerId)`. The server-only
+`readCustomerPage({limit, offset})` returns `{items,total}` in ascending customer ID
+order. It accepts an integer limit from 1 through 50 and a nonnegative safe integer
+offset. Items use the existing summary fields `customerId`, `firstName`, `lastName`,
+and `phone`. `countCustomers()` returns the aggregate count. Only the summary
+columns are selected for these reads.

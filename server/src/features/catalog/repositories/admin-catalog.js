@@ -31,18 +31,26 @@ async function productResult(tx, productId) {
   return row
 }
 
+async function countAdminProducts(database) {
+  const [{ total }] = await database.query('SELECT COUNT(*) AS total FROM products WHERE deleted_at IS NULL')
+  return total
+}
+
 export function createAdminCatalogRepository(database) {
   return Object.freeze({
+    async countProducts() {
+      return Number(await countAdminProducts(database))
+    },
     async listProducts(filters) {
       return database.transaction(async (tx) => {
-        const [count] = await tx.query('SELECT COUNT(*) AS total FROM products WHERE deleted_at IS NULL')
+        const total = await countAdminProducts(tx)
         const rows = await tx.query(`SELECT ${qualifiedColumns}, b.name AS brand_name, c.name AS category_name, i.image_path AS main_image_path
           FROM products p JOIN brands b ON b.brand_id = p.brand_id JOIN categories c ON c.category_id = p.category_id
           LEFT JOIN product_images i ON i.product_id = p.product_id AND i.slot = 0
           WHERE p.deleted_at IS NULL ORDER BY p.product_id LIMIT ? OFFSET ?`, [filters.pageSize, (filters.page - 1) * filters.pageSize])
         const variants = rows.length ? await tx.query(`SELECT product_id, variant_id, color, size FROM product_variants
           WHERE is_available = TRUE AND product_id IN (${rows.map(() => '?').join(',')}) ORDER BY variant_id`, rows.map((row) => row.product_id)) : []
-        return { rows, variants, total: count.total }
+        return { rows, variants, total }
       })
     },
     async readProduct(productId) {

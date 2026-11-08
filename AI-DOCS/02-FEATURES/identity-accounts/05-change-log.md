@@ -114,3 +114,8 @@ commands, logs and evidence: verification-matrix §27.
 ## 2026-11-04 — CAT-003 guard consumer handoff
 
 CAT-DEC-006 approves transfer of the existing unmodified fixed-scope AUTH guard/test into work/CAT-backend, with SHA-256 equality observed against original AUTH files. CAT consumes existing cookie/session factories and Origin boundary. No original AUTH checkout edit, auth policy change, task acceptance change or full AUTH-005 merge/security completion claim.
+
+## 2026-11-08 — Customer page and count consumer handoff
+
+CUS-DEC-002 adds bounded paging and an aggregate count to READ-AUTH-001 on
+`work/CUS-backend`. The customer summaries use the existing four identity fields.

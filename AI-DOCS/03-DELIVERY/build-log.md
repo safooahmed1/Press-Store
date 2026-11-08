@@ -716,3 +716,45 @@ ORD-DEC-020 records ORD-011 tracking acceptance and publication to `origin/Back-
 ORD is 6/11 accepted (BE 6/6).
 Planned subject: `chore(ORD-011): checkpoint cash expiry job and runner`.
 Formal integration, original documentation validation, and production scheduling remain open.
+
+## 2026-11-08 — CUS-001 customer directory verified
+
+CUS-DEC-002 records the local branch baseline and coordinated AUTH/ORD reads.
+Verified the admin directory and fixed query count on disposable MySQL. Passed
+5 focused, 213 full unit, and 187 full integration tests, lint, and build.
+Formal integration, the original validator, and the completion commit remain open.
+
+## 2026-11-08 — CUS-001 backend tracking acceptance
+
+CUS-DEC-003 records user acceptance of CUS-001 on local `work/CUS-backend`.
+CUS is 1/3 accepted (BE 1/1). The observed evidence is recorded in the verification
+matrix. Formal integration, original documentation validation, and the completion
+commit remain open.
+
+## 2026-11-08 — CUS-001 checkpoint publication
+
+CUS-DEC-004 records the user-authorized checkpoint and push to `origin/work/CUS-backend`.
+Planned subject: `chore(CUS-001): checkpoint customer directory API`.
+The code matches the verified snapshot. Formal integration and original documentation
+validation remain open.
+
+## 2026-11-08 — ADM-004 dashboard projections verified
+
+ADM-DEC-002 records the local branch baseline and coordinated CAT/ORD projections.
+Verified the protected route and owner reads on disposable MySQL. Passed 3 focused,
+213 full unit, and 190 full integration tests, lint, and build. Formal integration,
+the original validator, and the completion commit remain open.
+
+## 2026-11-08 — ADM-004 backend tracking acceptance
+
+ADM-DEC-003 records user acceptance of ADM-004 on local `work/ADM-backend`.
+ADM is 1/5 accepted (BE 1/1), and backend tracking across the combined
+branch history is 18/18. The observed evidence is in the verification matrix.
+Formal integration, original documentation validation, and the completion commit remain open.
+
+## 2026-11-08 — ADM-004 checkpoint publication
+
+ADM-DEC-004 records the user-authorized checkpoint and push to `origin/work/ADM-backend`.
+Planned subject: `chore(ADM-004): checkpoint dashboard projections`.
+The code matches the verified snapshot. Formal integration and original documentation
+validation remain open.

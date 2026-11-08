@@ -1569,3 +1569,56 @@ The checkpoint source matched the tested snapshot. The 14 focused, 213 unit, and
 182 integration results above are the evidence for ORD-DEC-020. Git diff whitespace
 checks passed. Formal integration, original documentation validation, and production
 scheduling remain open.
+
+## 2026-11-08 — CUS-001 admin directory on work/CUS-backend
+
+Verified a disposable archive of `Back-end` at `0a65139` with the CUS-001 changes and
+the AUTH/ORD owner reads approved under CUS-DEC-002.
+
+| Check | Command | Result |
+|---|---|---|
+| Focused directory | `FND_DISPOSABLE_MYSQL_TESTS=1 node --test --test-isolation=none server/src/features/customers/customer-directory.integration.test.js` | 5/5 passed |
+| Full unit | `npm test` | 213/213 passed |
+| Full integration | `FND_DISPOSABLE_MYSQL_TESTS=1 npm run test:integration` | 187/187 passed |
+| Lint and build | `npm run lint` and `npm run build` | Both exited 0 |
+| Original docs validator | `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .` | Exit 2 because the script is missing |
+
+The live API exercised admin authorization, paging, duplicate names, zero orders,
+cancelled orders in admin history, privacy, and safe dependency failures. The list
+used three projection queries at both tested page sizes. Detail used three, a missing
+customer used one, and READ-CUS-001 used one aggregate. MySQL EXPLAIN confirmed
+`orders_customer_history` was available to the grouped count and detail queries.
+The successful runs had zero failures, cancellations, or skips. Formal verification
+on `feature/CUS-integration` remains open.
+
+### 2026-11-08 — CUS-001 backend tracking acceptance
+
+CUS-DEC-003 accepts CUS-001 for backend tracking based on the 5 focused, 213 unit,
+and 187 integration results above. Source matched the tested snapshot. Formal
+integration and original documentation validation remain open.
+
+## 2026-11-08 — ADM-004 dashboard API on work/ADM-backend
+
+Verified a disposable archive of `work/CUS-backend` at `a924554` with the ADM-004
+changes and approved CAT/ORD projections under ADM-DEC-002.
+
+| Check | Command | Result |
+|---|---|---|
+| Focused dashboard | `FND_DISPOSABLE_MYSQL_TESTS=1 node --test --test-isolation=none server/src/features/admin-dashboard/dashboard.integration.test.js` | 3/3 passed |
+| Full unit | `npm test` | 213/213 passed |
+| Full integration | `FND_DISPOSABLE_MYSQL_TESTS=1 npm run test:integration` | 190/190 passed |
+| Lint and build | `npm run lint` and `npm run build` | Both exited 0 |
+| Original docs validator | `python3 /home/safooahmed/.codex/skills/prd-to-ai-project/scripts/validate_project_docs.py .` | Exit 2 because the script is missing |
+
+The live API covered real zero values, admin authorization, precise totals, two
+bounded order lists, and failures at each owner without partial data. The dashboard
+issued five projection queries. MySQL EXPLAIN confirmed the fulfillment index was
+available to both attention branches. The exact response shape and logs excluded
+private payment/customer data and analytics fields. The successful runs had zero
+failures, cancellations, or skips. Formal ADM integration remains open.
+
+### 2026-11-08 — ADM-004 backend tracking acceptance
+
+ADM-DEC-003 accepts ADM-004 for backend tracking based on the 3 focused, 213 unit,
+and 190 integration results above. Source matched the tested snapshot. Formal
+integration and original documentation validation remain open.

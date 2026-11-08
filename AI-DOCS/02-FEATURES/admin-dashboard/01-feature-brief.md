@@ -6,7 +6,7 @@
 - **Kind:** `business`
 - **Parent Feature:** `None`
 - **Owner:** `WS-ADM-BE`, `WS-ADM-FE`, `WS-ADM-INT`
-- **Status:** `planned`
+- **Status:** `in-progress`
 
 ## 2. Summary
 
@@ -74,4 +74,4 @@ AUTH admin session/logout; CAT product count; ORD order count/recent/attention; 
 
 ## 13. Assumptions and TODOs
 
-None.
+A-020 defines the order list bounds and ordering.

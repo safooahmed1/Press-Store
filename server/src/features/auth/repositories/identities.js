@@ -5,6 +5,11 @@ function customerSummary(row) {
     lastName: row.last_name, phone: row.phone } : null
 }
 
+async function countCustomers(database) {
+  const [{ total }] = await database.query('SELECT COUNT(*) AS total FROM customers')
+  return Number(total)
+}
+
 /** Credential methods are server-internal; only explicit summaries may become API DTOs. */
 export function createIdentityRepository(database) {
   return Object.freeze({
@@ -48,5 +53,17 @@ export function createIdentityRepository(database) {
         FROM customers WHERE customer_id = ?`, [customerId])
       return customerSummary(row)
     },
+    async readCustomerPage({ limit, offset }) {
+      if (!Number.isInteger(limit) || limit < 1 || limit > 50 || !Number.isSafeInteger(offset) || offset < 0) {
+        throw new TypeError('Invalid customer pagination')
+      }
+      return database.transaction(async (tx) => {
+        const total = await countCustomers(tx)
+        const rows = await tx.query(`SELECT customer_id, first_name, last_name, phone FROM customers
+          ORDER BY customer_id LIMIT ? OFFSET ?`, [limit, offset])
+        return { items: rows.map(customerSummary), total }
+      })
+    },
+    countCustomers: () => countCustomers(database),
   })
 }
