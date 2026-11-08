@@ -267,3 +267,9 @@ integration continues to target `feature/ORD-integration`.
 ORD-DEC-019 records cash expiry and the approved JOB-FND-001 runner on `Back-end`
 at `7d76d00`. The assigned lane and formal integration target remain
 `work/ORD-backend` and `feature/ORD-integration`.
+
+## 2026-11-08 — CUS-001 local backend baseline
+
+CUS-DEC-002 authorizes a separate `work/CUS-backend` from `Back-end` at `0a65139`
+for the local directory API and AUTH/ORD read projections. Formal verification
+continues to target `feature/CUS-integration`.

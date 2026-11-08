@@ -1,5 +1,12 @@
 # Assumptions Register
 
+## A-019 — Customer directory paging
+
+Active noncritical implementation assumption, 2026-11-08, CUS-001. Directory pages
+sort by customer ID ascending. A detail request pages the selected customer's
+orders by creation time and order ID descending. Both reads cap the page number at
+100,000 with the existing default and maximum page sizes of 20 and 50.
+
 ## A-018 — Order expiry run bounds
 
 Active noncritical implementation assumption, 2026-11-07, ORD-011. Each run reads at most

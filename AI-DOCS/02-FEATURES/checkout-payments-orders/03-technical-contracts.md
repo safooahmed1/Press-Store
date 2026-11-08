@@ -381,3 +381,15 @@ is skipped. Each batch commits on its own, so a rerun resumes after failure.
 The job emits scanned, cancelled, and skipped counts through JOB-FND-001. Order
 and item history remain available for admin audit. The existing customer queries
 exclude cancelled orders. Production scheduling remains an operations step.
+
+## 23. READ-ORD-001 admin customer order projection — CUS-DEC-002
+
+`createCustomerOrderProjection(database).countByCustomerIds(customerIds)` accepts up to
+50 distinct canonical customer IDs. One grouped query returns a map from customer IDs
+to order counts. Missing entries represent zero orders.
+
+`readCustomerOrders(customerId, {limit, offset})` returns `{items,total}` ordered to
+match the customer history index. It accepts an integer limit of 1 through 50 and a
+nonnegative safe integer offset. Items contain the order ID and number, creation time,
+total in minor units, payment method and status, and fulfillment status. Both
+projections include cancelled orders as part of admin-visible history.

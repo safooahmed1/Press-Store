@@ -60,9 +60,18 @@ Success response:
 | `CUSTOMER_NOT_FOUND` | 404 | Missing detail | Return to list |
 | `DEPENDENCY_UNAVAILABLE` | 503 | Canonical projection fails | Show retry, not partial count |
 
+Detail accepts the same `page` and `pageSize` parameters for the selected customer's
+orders. It returns `{data:{customer},meta:{page,pageSize,total}}`. The customer has
+the list fields plus `orders`, the bounded READ-ORD-001 summaries. Detail metadata
+counts that customer's orders, including cancellations visible to admins. List
+metadata counts customers. See A-019 for ordering and page limits.
+
 ## 4. Data Contracts
 
-None. CUS owns no persistent entity and composes read-only AUTH/ORD projections. READ-CUS-001 returns one current aggregate count without customer rows or duplicated storage.
+None. CUS owns no persistent entity and composes read-only AUTH/ORD projections.
+`createCustomerDirectory({identities, orderProjection}).countCustomers()` implements
+READ-CUS-001 with the AUTH count and returns one number. This server-only projection
+supplies no customer rows and has no public count endpoint.
 
 ## 5. Events and Background Jobs
 
@@ -98,4 +107,4 @@ New customer fields/actions require scope approval and the owning AUTH/ORD contr
 
 ## 13. Assumptions and TODOs
 
-None.
+A-019 specifies sort order and page limits. CUS-DEC-002 records the local backend baseline.

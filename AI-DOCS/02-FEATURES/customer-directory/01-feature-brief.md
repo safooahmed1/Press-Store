@@ -6,7 +6,7 @@
 - **Kind:** `business`
 - **Parent Feature:** `None`
 - **Owner:** `WS-CUS-BE`, `WS-CUS-FE`, `WS-CUS-INT`
-- **Status:** `planned`
+- **Status:** `in-progress`
 
 ## 2. Summary
 
@@ -74,4 +74,4 @@ AUTH admin guard and customer summary; ORD customer order projection; UI admin l
 
 ## 13. Assumptions and TODOs
 
-None.
+A-019 defines directory and detail pagination ordering and bounds.
